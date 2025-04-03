@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.5">
-<title>src API documentation</title>
-<meta name="description" content="">
+<title>src.cnformatter API documentation</title>
+<meta name="description" content="A dummy class to combine multiple argparse formatters">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -34,46 +34,63 @@ el.replaceWith(d);
 <main>
 <article id="content">
 <header>
-<h1 class="title">Namespace <code>src</code></h1>
+<h1 class="title">Module <code>src.cnformatter</code></h1>
 </header>
 <section id="section-intro">
+<p>A dummy class to combine multiple argparse formatters</p>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt><code class="name"><a title="src.cnformatter" href="cnformatter.html">src.cnformatter</a></code></dt>
+<dt id="src.cnformatter.CNFormatter"><code class="flex name class">
+<span>class <span class="ident">CNFormatter</span></span>
+<span>(</span><span>prog, indent_increment=2, max_help_position=24, width=None)</span>
+</code></dt>
 <dd>
-<div class="desc"><p>A dummy class to combine multiple argparse formatters</p></div>
-</dd>
-<dt><code class="name"><a title="src.cnfunctions" href="cnfunctions.html">src.cnfunctions</a></code></dt>
-<dd>
-<div class="desc"><p>A collection of common functions used by CN software …</p></div>
-</dd>
-<dt><code class="name"><a title="src.cninstall" href="cninstall.html">src.cninstall</a></code></dt>
-<dd>
-<div class="desc"><p>The class to use for installing/uninstalling</p></div>
-</dd>
-<dt><code class="name"><a title="src.cnpot" href="cnpot.html">src.cnpot</a></code></dt>
-<dd>
-<div class="desc"><p>Run GNU gettext tools to create i18n files for a project …</p></div>
-</dd>
-<dt><code class="name"><a title="src.cntree" href="cntree.html">src.cntree</a></code></dt>
-<dd>
-<div class="desc"><p>This module creates a tree of the specified directory, with paths being
-ignored by the filter list and names being formatted according to the
-…</p></div>
-</dd>
-<dt><code class="name"><a title="src.cnvenv" href="cnvenv.html">src.cnvenv</a></code></dt>
-<dd>
-<div class="desc"><p>A class to make handling of venv folders easier</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CNFormatter(
+    argparse.RawTextHelpFormatter, argparse.RawDescriptionHelpFormatter
+):
+    &#34;&#34;&#34;
+    A dummy class to combine multiple argparse formatters
+
+    Args:
+        RawTextHelpFormatter: Maintains whitespace for all sorts of help text,
+        including argument descriptions.
+        RawDescriptionHelpFormatter: Indicates that description and epilog are
+        already correctly formatted and should not be line-wrapped.
+
+    A dummy class to combine multiple argparse formatters.
+    &#34;&#34;&#34;</code></pre>
+</details>
+<div class="desc"><p>A dummy class to combine multiple argparse formatters</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>RawTextHelpFormatter</code></strong></dt>
+<dd>Maintains whitespace for all sorts of help text,</dd>
+<dt>including argument descriptions.</dt>
+<dt><strong><code>RawDescriptionHelpFormatter</code></strong></dt>
+<dd>Indicates that description and epilog are</dd>
+</dl>
+<p>already correctly formatted and should not be line-wrapped.
+A dummy class to combine multiple argparse formatters.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>argparse.RawTextHelpFormatter</li>
+<li>argparse.RawDescriptionHelpFormatter</li>
+<li>argparse.HelpFormatter</li>
+</ul>
 </dd>
 </dl>
-</section>
-<section>
-</section>
-<section>
-</section>
-<section>
 </section>
 </article>
 <nav id="sidebar">
@@ -91,14 +108,16 @@ Version 0.0.1
 <ul></ul>
 </div>
 <ul id="index">
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3>Super-module</h3>
 <ul>
-<li><code><a title="src.cnformatter" href="cnformatter.html">src.cnformatter</a></code></li>
-<li><code><a title="src.cnfunctions" href="cnfunctions.html">src.cnfunctions</a></code></li>
-<li><code><a title="src.cninstall" href="cninstall.html">src.cninstall</a></code></li>
-<li><code><a title="src.cnpot" href="cnpot.html">src.cnpot</a></code></li>
-<li><code><a title="src.cntree" href="cntree.html">src.cntree</a></code></li>
-<li><code><a title="src.cnvenv" href="cnvenv.html">src.cnvenv</a></code></li>
+<li><code><a title="src" href="index.html">src</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="src.cnformatter.CNFormatter" href="#src.cnformatter.CNFormatter">CNFormatter</a></code></h4>
+</li>
 </ul>
 </li>
 </ul>

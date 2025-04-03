@@ -3,7 +3,8 @@
       <img src="file:///.local/share/cnlib/pdoc3/cnlib.png">cnlib
    </a>
    <br/>
+   <!-- FIXME: tabs!!! -->
    <!-- __RM_VERSION__ -->
-Version 0.0.0
+Version 0.0.1
 <!-- __RM_VERSION__ -->
 </header>

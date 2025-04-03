@@ -1,28 +1,57 @@
-[] cnlib/
+[] CNLib/
    ├─ [] .vscode/
    │     ├─ [] launch.json
    │     └─ [] tasks.json
-   ├─ [] bin/
-   │     └─ [] cnlib.py
-   ├─ [] conf/
-   │     └─ [] ABOUT
    ├─ [] dist/
-   │     └─ [] ABOUT
+   │     ├─ [] cnlib_0-0-1/
+   │     │     ├─ [] docs/
+   │     │     │     └─ [] src/
+   │     │     │           ├─ [] cnformatter.html
+   │     │     │           ├─ [] cnfunctions.html
+   │     │     │           ├─ [] cninstall.html
+   │     │     │           ├─ [] cnpot.html
+   │     │     │           ├─ [] cntree.html
+   │     │     │           ├─ [] cnvenv.html
+   │     │     │           └─ [] index.html
+   │     │     ├─ [] src/
+   │     │     │     ├─ [] cnlib.egg-info/
+   │     │     │     │     ├─ [] dependency_links.txt
+   │     │     │     │     ├─ [] PKG-INFO
+   │     │     │     │     ├─ [] SOURCES.txt
+   │     │     │     │     └─ [] top_level.txt
+   │     │     │     ├─ [] cnformatter.py
+   │     │     │     ├─ [] cnfunctions.py
+   │     │     │     ├─ [] cninstall.py
+   │     │     │     ├─ [] cnpot.py
+   │     │     │     ├─ [] cntree.py
+   │     │     │     └─ [] cnvenv.py
+   │     │     ├─ [] LICENSE.txt
+   │     │     ├─ [] pyproject.toml
+   │     │     └─ [] README.md
+   │     └─ [] cnlib_0-0-1.tar.gz
    ├─ [] docs/
    │     └─ [] src/
-   │           ├─ [] cnlib.html
+   │           ├─ [] cnformatter.html
+   │           ├─ [] cnfunctions.html
+   │           ├─ [] cninstall.html
+   │           ├─ [] cnpot.html
+   │           ├─ [] cntree.html
+   │           ├─ [] cnvenv.html
    │           └─ [] index.html
    ├─ [] i18n/
    │     ├─ [] locale/
-   │     │     └─ [] en/
+   │     │     ├─ [] en/
+   │     │     │     └─ [] LC_MESSAGES/
+   │     │     │           ├─ [] ABOUT
+   │     │     │           └─ [] cnlib.mo
+   │     │     └─ [] es/
    │     │           └─ [] LC_MESSAGES/
-   │     │                 └─ [] ABOUT
+   │     │                 └─ [] cnlib.mo
    │     ├─ [] po/
    │     │     ├─ [] en.po
+   │     │     ├─ [] es.po
    │     │     └─ [] LINGUAS
    │     └─ [] cnlib.pot
-   ├─ [] install/
-   │     └─ [] install.py
    ├─ [] misc/
    │     ├─ [] checklists/
    │     │     ├─ [] checklist.html
@@ -38,6 +67,7 @@
    │     │     └─ [] i18n_tips.txt
    │     └─ [] tree.txt
    ├─ [] pdoc3/
+   │     ├─ [] cnlib.png
    │     ├─ [] head.mako
    │     └─ [] logo.mako
    ├─ [] pyplate/
@@ -47,15 +77,21 @@
    ├─ [] readme/
    │     └─ [] cnlib.png
    ├─ [] src/
-   │     ├─ [] ABOUT
-   │     └─ [] cnlib.py
+   │     ├─ [] cnlib.egg-info/
+   │     │     ├─ [] dependency_links.txt
+   │     │     ├─ [] PKG-INFO
+   │     │     ├─ [] SOURCES.txt
+   │     │     └─ [] top_level.txt
+   │     ├─ [] cnformatter.py
+   │     ├─ [] cnfunctions.py
+   │     ├─ [] cninstall.py
+   │     ├─ [] cnpot.py
+   │     ├─ [] cntree.py
+   │     └─ [] cnvenv.py
    ├─ [] tests/
-   │     ├─ [] ABOUT
    │     └─ [] cnlib_test.py
    ├─ [] todo/
    │     └─ [] ABOUT
-   ├─ [] uninstall/
-   │     └─ [] uninstall.py
    ├─ [] .gitignore
    ├─ [] LICENSE.txt
    ├─ [] pyproject.toml

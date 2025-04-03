@@ -1,0 +1,1089 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.5">
+<title>src.cnpot API documentation</title>
+<meta name="description" content="Run GNU gettext tools to create i18n files for a project …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+<style>.homelink{display:block;font-size:2em;font-weight:bold;color:#555;padding-bottom:.5em;border-bottom:1px solid silver}.homelink:hover{color:inherit}.homelink img{max-width:20%;max-height:5em;margin:auto;margin-bottom:.3em}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>src.cnpot</code></h1>
+</header>
+<section id="section-intro">
+<p>Run GNU gettext tools to create i18n files for a project</p>
+<p>This class converts all marked strings in source files to i18n versions using
+xgettext, and creates .pot files in the locale directory. It also uses msgfmt
+to convert .po files to .mo files.</p>
+<p>The class can handle all xgettext's supported file types by using each language
+name as the key for a list of file extensions in a dictionary.</p>
+<p>Note that the word "language" here can refer either to the computer language of
+the input file (ie. "Python", "Glade") or the written language of the output
+file (ie. "English", "Spanish"). I have tried to disambiguate this by using
+"clang(s)" to refer to the former, and "wlang(s)" to refer to the latter.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="src.cnpot.CNPotPy"><code class="flex name class">
+<span>class <span class="ident">CNPotPy</span></span>
+<span>(</span><span>str_appname,<br>str_version,<br>str_author,<br>str_email,<br>dir_prj,<br>dir_src,<br>dir_i18n,<br>str_tag=None,<br>dict_clangs=None,<br>dict_no_ext=None,<br>list_wlangs=None,<br>charset=None)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CNPotPy:
+    &#34;&#34;&#34;
+    A class to handle making the different I18N files needed for a Python
+    project
+
+    Methods:
+        main: Run the program and make or update the files
+        make_desktop: Localize the desktop file using all available wlangs
+
+    This class provides methods to create .pot, .po, .mo, and .desktop files
+    for internationalizing a Python or PyGObject project.
+    &#34;&#34;&#34;
+
+    # --------------------------------------------------------------------------
+    # Class constants
+    # --------------------------------------------------------------------------
+
+    # default encoding for .pot and .po files
+    S_DEF_CHARSET = &#34;UTF-8&#34;
+
+    # NB: DO NOT CHANGE THESE! i only put them here because they are strings
+    # default locale folder under i18n
+    S_DIR_LOCALE = &#34;locale&#34;
+    # default po folder under i18n
+    S_DIR_PO = &#34;po&#34;
+    # this is the default subdir for GNU
+    S_DIR_MESSAGES = &#34;LC_MESSAGES&#34;
+    # the file to store all wlangs for bulk operations
+    S_FILE_LINGUAS = &#34;LINGUAS&#34;
+    # default file extensions
+    S_POT_EXT = &#34;.pot&#34;
+    S_PO_EXT = &#34;.po&#34;
+    S_MO_EXT = &#34;.mo&#34;
+
+    # shell commands to make po/mo
+    # NB: params are po_file and pot_file
+    S_CMD_MERGE_POS = &#34;msgmerge --update {} {} --backup=none&#34;
+    # NB: params are mo_file and wlang_po
+    S_CMD_MAKE_MOS = &#34;msgfmt -o {} {}&#34;
+    # params are po dir, template file, final file
+    S_CMD_DSK = &#34;msgfmt --desktop -d {} --template={} -o {}&#34;
+
+    # error messages
+    S_ERR_NOT_ABS = &#34;path {} is not absolute&#34;
+    S_ERR_NOT_DIR = &#34;path {} is not a directory&#34;
+
+    # header regexes
+    R_TITLE_SCH = r&#34;# SOME DESCRIPTIVE TITLE.&#34;
+    R_TITLE_REP = r&#34;# {} translation template&#34;
+
+    R_COPY_SCH = (
+        r&#34;(# Copyright \(C\) )(YEAR)( )(THE PACKAGE&#39;S COPYRIGHT HOLDER)&#34;
+    )
+    R_COPY_REP = r&#34;\g&lt;1&gt;{}\g&lt;3&gt;{}&#34;
+
+    R_EMAIL_SCH = r&#34;(# FIRST AUTHOR )(&lt;EMAIL@ADDRESS&gt;)(, )(YEAR)&#34;
+    R_EMAIL_REP = r&#34;\g&lt;1&gt;{}\g&lt;3&gt;{}&#34;
+
+    R_CHAR_SCH = r&#34;(\&#34;Content-Type: text/plain; charset=)(CHARSET)(.*)&#34;
+    R_CHAR_REP = r&#34;\g&lt;1&gt;{}\g&lt;3&gt;&#34;
+
+    R_VER_SCH = r&#34;^(\&#34;Project-Id-Version: .*? )([^\n]*)(\\n\&#34;)$&#34;
+    R_VER_REP = r&#34;\g&lt;1&gt;{}\g&lt;3&gt;&#34;
+
+    # --------------------------------------------------------------------------
+    # Class methods
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # Initialize the new object
+    # --------------------------------------------------------------------------
+    def __init__(
+        self,
+        # header
+        str_appname, # prv
+        str_version, # pub
+        str_author, # prv
+        str_email, # prv
+        # base prj dir
+        dir_prj,
+        # in
+        dir_src,
+        # out
+        dir_i18n,
+        # optional in
+        str_tag=None,
+        dict_clangs=None,  # pub
+        dict_no_ext=None,  # pub
+        list_wlangs=None,  # pub
+        charset=None,  # pub
+    ):
+        &#34;&#34;&#34;
+        Initialize the new object
+
+        Args:
+
+            str_appname: Name to use in .pot/.po header
+            str_version: Version info to use in .pot/.po header
+            str_author: Author name to use in .pot/.po header
+            str_email: Email to use in .pot/.po header
+
+            dir_prj: Used for relative paths
+
+            dir_src: Where to start looking for input files
+
+            dir_pot: Directory to place master .pot file
+
+            dir_locale: Where to put output locale files (default:
+            dir_src/&#34;locale&#34;)
+            dir_po: Where to put new .po files that are waiting to be merged
+            (default: dir_src/dir_locale/&#34;po&#34;)
+            str_domain: The name of the domain (base name) for output files
+            (default: &#34;messages&#34;)
+                This creates files like &#34;&lt;str_domain&gt;.pot&#34;, &#34;&lt;str_domain&gt;.po&#34;,
+                and &#34;&lt;str_domain&gt;.mo&#34;, and is used in the .py scripts to bind a
+                domain to a locale folder
+
+            str_tag: Tag that starts a context comment (default: &#34;&#34;)
+                If this string is empty, all comments above an entry are
+                included as context
+            dict_clangs: The dictionary of file extensions to scan for each
+            clang
+            dict_no_ext: An optional dict mapping files with no extension
+            to their clang value
+            list_wlangs: A list of supported languages to ensure a complete
+            file structure in the project dir
+            charset: the charset to use as the default in the .pot file, and
+            any initial .po files created (default: UTF-8)
+
+        An example format for the dict_clangs arg is:
+
+        {
+            &#34;Python&#34;: [
+                &#34;.py&#34;,
+            ],
+            &#34;Glade&#34;: [
+                &#34;.ui&#34;,
+                &#34;.glade&#34;,
+            ],
+            &#34;Desktop&#34;: [
+                &#34;.desktop&#34;
+            ],
+        }
+
+        An example format for the dict_no_ext arg is:
+
+        {
+            &#34;Markdown&#34;: [
+                &#34;README&#34;,
+            ],
+            &#34;Text&#34;: [
+                &#34;INSTALL&#34;,
+                &#34;LICENSE&#34;,
+            ],
+        }
+
+        An example format for list_wlangs is:
+        [
+            &#34;en_US&#34;,
+            &#34;de_DE.ISO_88591&#34;,
+            &#34;es&#34;,
+        ]
+
+        Initializes a new instance of the class, setting the default values of
+        its properties, and any other code needed to create a new object.
+        &#34;&#34;&#34;
+
+        # set header info
+        self._str_appname = str_appname
+        self._str_version = str_version
+        self._str_author = str_author
+        self._str_email = str_email
+
+        # set base props
+        self._dir_prj = Path(dir_prj)
+        if not self._dir_prj.is_absolute():
+            raise OSError(self.S_ERR_NOT_ABS.format(self._dir_prj))
+        if not self._dir_prj.is_dir():
+            raise OSError(self.S_ERR_NOT_DIR.format(self._dir_prj))
+
+        # set in props
+        self._dir_src = Path(dir_src)
+        if not self._dir_src.is_absolute():
+            self._dir_src = self._dir_prj / dir_src
+
+        # set out props
+        self._dir_i18n = Path(dir_i18n)
+        if not self._dir_i18n.is_absolute():
+            self._dir_i18n = self._dir_prj / dir_i18n
+
+        # set optional in props
+
+        # set comment tag
+        if str_tag is None:
+            str_tag = &#34;&#34;
+        self._str_tag = str_tag
+
+        # fix up dict_clangs
+        if dict_clangs is None:
+            dict_clangs = {}
+        self._dict_clangs = dict_clangs
+
+        # set no ext
+        if dict_no_ext is None:
+            dict_no_ext = {}
+        self._dict_no_ext = dict_no_ext
+
+        # fix up list_wlangs
+        if list_wlangs is None:
+            list_wlangs = []
+        self._list_wlangs = list_wlangs
+
+        # fix up charset
+        if charset is None:
+            charset = self.S_DEF_CHARSET
+        self._charset = charset
+
+        # set up folder props
+        self._dir_locale = self._dir_i18n / self.S_DIR_LOCALE
+        self._dir_po = self._dir_i18n / self.S_DIR_PO
+
+    # --------------------------------------------------------------------------
+    # Public methods
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # Run the program and make or update the files
+    # --------------------------------------------------------------------------
+    def main(self):
+        &#34;&#34;&#34;
+        Run the program and make or update the files
+
+        Main method of the class, performing its steps.
+        &#34;&#34;&#34;
+
+        # ----------------------------------------------------------------------
+        # do the steps
+
+        self._make_pot()
+        self._merge_pos()
+        self._make_mos()
+
+    # --------------------------------------------------------------------------
+    # Localize the desktop file using all available wlangs
+    # --------------------------------------------------------------------------
+    def make_desktop(self, dt_template, dt_out):
+        &#34;&#34;&#34;
+        Localize the desktop file using all available wlangs
+
+        Args:
+            dt_template: File containing the default information to include in
+            the desktop file
+                This is the file that pymaker/pybaker modifies using metadata.
+            dt_out: Location of the i18n&#39;ed desktop file
+                This is the file that will be distributed with your app.
+
+        Takes a template desktop file and applies all i18n&#39;ed info from all .po
+        files in the po folder and creates a final .desktop file.
+        &#34;&#34;&#34;
+
+        # sanity check
+        dt_template = Path(dt_template)
+        if not dt_template.is_absolute():
+            dt_template = self._dir_prj / dt_template
+        dt_out = Path(dt_out)
+        if not dt_out.is_absolute():
+            dt_out = self._dir_prj / dt_out
+
+        # build the command as a string
+        cmd = self.S_CMD_DSK.format(self._dir_po, dt_template, dt_out)
+
+        # run the command
+        F.sh(cmd)
+
+    # --------------------------------------------------------------------------
+    # Private methods
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # Create a .pot file in the locale folder
+    # --------------------------------------------------------------------------
+    def _make_pot(self):
+        &#34;&#34;&#34;
+        Create a .pot file in the locale folder
+
+        Parses the files for each clang, creating a unified .pot file, which is
+        placed in &#34;&lt;dir_locale&gt;/&lt;str_domain&gt;.pot&#34;. This method can (and should)
+        be run, in Mayor Tweed&#39;s words, &#34;early and often&#34;. You should run it
+        every time a source file that contains i18n strings is added, edited,
+        or deleted. The ideal scenario is to run it just before the repo is
+        synced, so that the .pot file is synced.
+        &#34;&#34;&#34;
+
+        # ok so this is a tricky situation. here are the possible scenarios:
+        # 1. create a new, fresh .pot that has never existed before
+        # 2. add / edit / remove files to / from a .pot file we have already
+        #    created
+        # 3. add / edit / remove strings to / from a .pot file we have already
+        #    created
+        # 4. add / edit / remove clang types to / from a .pot file we have
+        #    already created
+        # 6. etc., etc., etc
+        # how do we do all this (at least in the context of a .pot file)?
+        # the simplest answer would seem to be:
+        # delete the .pot (if it exists) and start over fresh every time
+        # BUT! we need to use the -j (join) flag in order to allow multiple
+        # clangs to be combined into one .pot file
+        # the solution i have found is:
+        # delete the existing .pot file (if it exists)
+        # create a new, empty .pot file (if it does not exist, which it
+        # shouldn&#39;t, race conditions be damned... Python file operations are
+        # atomic, right? RIGHT???)
+        # run every clang through xgettext, joining it with the previous file
+        # until we have a .pot file that contains every string (and only the
+        # strings) in dict_clangs
+        # step 3: PROFIT! (hahaha that joke never gets old...)
+
+        # make sure all necessary dirs exist
+        self._make_wlang_dirs()
+
+        # get path to pot file
+        pot_file = self._dir_i18n / f&#34;{self._str_appname}{self.S_POT_EXT}&#34;
+
+        # delete the existing .pot file (if it exists)
+        Path.unlink(pot_file, missing_ok=True)
+
+        # create a new, empty .pot file if it does not exist
+        # NB: this allow us to use the -j flag without error (which would
+        # happen if the current file to join does not exist)
+        Path.touch(pot_file, exist_ok=True)
+
+        # get all files for all clangs
+        files_dict = self._get_paths_for_exts(self._dict_clangs)
+
+        # for each clang name / list of clang files
+        for clang_name, clang_files in files_dict.items():
+
+            # check if there are any files (avoids any unnecessary errors for
+            # empty lists)
+            if len(clang_files) == 0:
+                continue
+
+            # get initial cmd
+            cmd = (
+                f&#34;cd {self._dir_src}; &#34;
+                &#34;xgettext &#34;
+                # add any comments above string (or msgctxt in ui files)
+                # NB: check that all files have appropriate contexts/comments
+                # NB: also, no space after -c? weird right?
+                f&#34;-c{self._str_tag} &#34;
+                # fix some header values (the rest should be fixed in
+                # _fix_pot_header)
+                # copyright
+                # NB: if blank, file is public domain
+                # if not included, file is under same license as _str_appname
+                # &#34;--copyright-holder &#34;&#34; &#34;
+                # version
+                # | name | version | Project-Id-Version
+                # -----------------------------------
+                # |    0 |       0 | PACKAGE VERSION
+                # |    0 |       1 | PACKAGE VERSION
+                # |    1 |       0 | self._str_appname
+                # |    1 |       1 | self._str_appname self._str_version
+                f&#34;--package-name {self._str_appname} &#34;
+                f&#34;--package-version {self._str_version} &#34;
+                # author email
+                f&#34;--msgid-bugs-address {self._str_email} &#34;
+                # sort entries by file
+                &#34;-F &#34;
+                # don&#39;t add location info (hide path to source)
+                &#34;--no-location &#34;
+                # append existing file
+                # NB: this is the key to running xgettext once for each clang
+                # this allows us to set the -L option for different file types
+                # and still end up with one unified .pot file
+                &#34;-j &#34;
+                # final name of output file
+                # NB: note that you can fiddle with the -o, -d, and -p options
+                # here, but i find it&#39;s just better to use an abs path to the
+                # output file
+                f&#34;-o {pot_file} &#34;
+                # input clang
+                f&#34;-L {clang_name} &#34;
+            )
+
+            # add all input files
+            for item in clang_files:
+                cmd += f&#34;{item} &#34;
+
+            # do the final command
+            F.sh(cmd, shell=True)
+
+        # fix CHARSET in pot
+        self._fix_pot_header(pot_file)
+
+    # --------------------------------------------------------------------------
+    # Merge any .po files in the pos folder with existing .po files
+    # --------------------------------------------------------------------------
+    def _merge_pos(self):
+        &#34;&#34;&#34;
+        Merge any .po files in the pos folder with existing .po files
+
+        Whenever a new .pot file is generated using make_pot, it should be sent
+        to the translator for each wlang. Then when the translator sends back
+        the translated .po file, place it in the appropriate pos/&lt;wlang&gt;
+        folder. Then run pybaker to merge the new .po file with any existing
+        .po file, and then pybaker will create a new .mo file.
+        &#34;&#34;&#34;
+        # make sure all necessary dirs exist
+        self._make_wlang_dirs()
+
+        # get the pot file we made in the last step
+        pot_file = self._dir_i18n / f&#34;{self._str_appname}{self.S_POT_EXT}&#34;
+
+        # for each wlang in the po folder
+        for wlang in self._list_wlangs:
+
+            # create or update the .po file
+            po_file = self._dir_po / f&#34;{wlang}{self.S_PO_EXT}&#34;
+            if not po_file.exists():
+
+                # no po file, copy pot
+                shutil.copy(pot_file, po_file)
+            else:
+
+                # update existing po file using latest pot
+                cmd = self.S_CMD_MERGE_POS.format(po_file, pot_file)
+                F.sh(cmd)
+
+            # fix po version
+            with open(po_file, &#34;r&#34;, encoding=&#34;UTF-8&#34;) as a_file:
+                text = a_file.read()
+
+            rep = self.R_VER_REP.format(self._str_version)
+            text = re.sub(self.R_VER_SCH, rep, text, flags=re.M)
+
+            # write fixed text back to file
+            with open(po_file, &#34;w&#34;, encoding=&#34;UTF-8&#34;) as a_file:
+                a_file.write(text)
+
+    # --------------------------------------------------------------------------
+    # Create .mo files for all .po files in the locale folder
+    # --------------------------------------------------------------------------
+    def _make_mos(self):
+        &#34;&#34;&#34;
+        Create .mo files for all .po files in the locale folder
+
+        Makes all the required .mo files for all the .po files in the locale
+        dir
+        &#34;&#34;&#34;
+
+        # make sure all necessary dirs exist
+        self._make_wlang_dirs()
+
+        # get all wlangs to output
+        wlangs_pos = list(self._dir_po.glob(f&#34;*{self.S_PO_EXT}&#34;))
+
+        # for each wlang
+        for wlang_po in wlangs_pos:
+
+            # get wlang name
+            wlang_name = wlang_po.stem  # en, etc
+
+            # get .mo file (output)
+            mo_dir = self._dir_locale / wlang_name / self.S_DIR_MESSAGES
+            mo_file = mo_dir / f&#34;{self._str_appname}{self.S_MO_EXT}&#34;
+
+            # do the command
+            cmd = self.S_CMD_MAKE_MOS.format(mo_file, wlang_po)
+            F.sh(cmd)
+
+    # --------------------------------------------------------------------------
+    # Scan the source dir for files with certain extensions
+    # --------------------------------------------------------------------------
+    def _get_paths_for_exts(self, dict_clangs):
+        &#34;&#34;&#34;
+        Scan the source dir for files with certain extensions
+
+        Args:
+            dict_clangs: The dictionary of clang names / clang extensions to
+            scan for
+
+        Returns:
+            A dictionary containing file paths to source files
+
+        This method converts the dict_clangs dictionary:
+            {
+                &#34;Python&#34;: [&#34;.py&#34;],
+                &#34;Glade&#34;: [&#34;.ui&#34;, &#34;.glade&#34;],
+                &#34;Desktop&#34;: [&#34;.desktop&#34;],
+            }
+        into a dictionary of file paths for each clang:
+            {
+                &#34;Python&#34;: [&lt;Path&gt;, ...],
+                &#34;Glade&#34;: [&lt;Path&gt;, ...],
+                &#34;Desktop&#34;: [&lt;Path&gt;, ...],
+            }
+        so they can be passed to xgettext.
+        &#34;&#34;&#34;
+
+        # get default result
+        dict_res = {}
+
+        # get all paths to all files in source dir, recursively
+        # NB: very important to convert generator to list here
+        # this is because generators use yield to return every result
+        # individually, while lists are monolithic (and rglob is a generator)
+        # you cannot iterate over a generator&#39;s yield result, because it is
+        # generally only one item, while a list contains all results
+        # calling list() on a generator causes the generator to give ALL it&#39;s
+        # generated results to the final list
+        paths = list(self._dir_src.rglob(&#34;*&#34;))
+
+        # for each clang name / list of exts
+        for clang, ext_list in dict_clangs.items():
+
+            # sanity check to add dots for exts that don&#39;t start with dot
+            # (dots needed for path.suffix matching)
+            exts = [
+                f&#34;.{item}&#34; if not item.startswith(&#34;.&#34;) else item
+                for item in ext_list
+            ]
+
+            # get all paths that match file ext
+            files = [f for f in paths if f.suffix in exts]
+
+            # make sure the key exists
+            if not clang in dict_res:
+                dict_res[clang] = []
+
+            # add results to langs that have extensions
+            dict_res[clang].extend(files)
+
+        # now time to handle files with no ext
+        for clang, name_list in self._dict_no_ext.items():
+
+            # get all paths that match file ext
+            # NB: the is_file() check here is to make sure we only add files
+            # that have no ext, not dirs (which have no ext, obvs)
+            files = [f for f in paths if f.name in name_list if f.is_file()]
+
+            # make sure the key exists
+            if not clang in dict_res:
+                dict_res[clang] = []
+
+            # add results to langs that have extensions
+            dict_res[clang].extend(files)
+
+        # return result
+        return dict_res
+
+    # --------------------------------------------------------------------------
+    # Make a list of all supported written language directories
+    # --------------------------------------------------------------------------
+    def _get_wlang_names(self):
+        &#34;&#34;&#34;
+        Make a list of all supported written language directories
+
+        Finds all known written languages just before calling a function.
+
+        The idea is to get all *existing* languages on disk, then
+        add all the languages passed in to the constructor.
+
+        This method is used to get a list of all languages installed, which is
+        in turn used to write the LINGUAS file. That file is in turn used to do
+        i18n on the .desktop file. The logic here is a little fuzzy, so try to
+        keep the removal of languages in sync between disk and the list passed
+        to the constructor. Adding languages should be as easy as adding a
+        wlang identifier to pyplate/project.json.
+        &#34;&#34;&#34;
+
+        # make sure there is a locale dir
+        Path.mkdir(self._dir_locale, parents=True, exist_ok=True)
+
+        # make sure there is a po dir
+        Path.mkdir(self._dir_po, parents=True, exist_ok=True)
+
+        # sweep locale dir for wlangs and reduce to ISO name
+        locale_wlangs_glob = self._dir_locale.glob(&#34;*&#34;)
+        # convert generator to list
+        locale_wlangs = list(locale_wlangs_glob)
+        # only dirs
+        locale_wlangs = [item for item in locale_wlangs if item.is_dir()]
+        # only names (last path component)
+        locale_wlangs = [item.stem for item in locale_wlangs]
+
+        # sweep po folder for wlangs and reduce to ISO name
+        po_wlangs_glob = self._dir_po.glob(f&#34;*{self.S_PO_EXT}&#34;)
+        # convert generator to list
+        po_wlangs = list(po_wlangs_glob)
+        # only dirs
+        po_wlangs = [item for item in po_wlangs if item.is_file()]
+        # only names (last path component)
+        po_wlangs = [item.stem for item in po_wlangs]
+
+        # combine locale and po wlangs (whatever we found on disk)
+        list_on_disk = locale_wlangs + po_wlangs
+        # remove duplicates
+        set_on_disk = set(list_on_disk)
+        # convert back to list
+        list_on_disk.extend(set_on_disk)
+
+        # add any names passed in via list_wlangs (should be ISO names)
+        list_comb = list_on_disk + self._list_wlangs
+        # remove duplicates
+        set_comb = set(list_comb)
+        # convert back to list
+        list_comb = list(set_comb)
+
+        # assign all found/new langs
+        self._list_wlangs = list_comb
+
+    # --------------------------------------------------------------------------
+    # Make a list of all supported written language directories
+    # --------------------------------------------------------------------------
+    def _make_wlang_dirs(self):
+        &#34;&#34;&#34;
+        Make a list of all supported written language directories
+
+        This writes the LINGUAS file, which is used for i18n&#39;ing a .desktop
+        file. 
+        &#34;&#34;&#34;
+
+        # get names of all wlangs present in po/locale/property
+        self._get_wlang_names()
+
+        # empty linguas contents
+        linguas = &#34;&#34;
+
+        # make the po dir where we will put updated files to be merged
+        Path.mkdir(self._dir_po, parents=True, exist_ok=True)
+
+        # go through the wlang list
+        for wlang in self._list_wlangs:
+
+            # make the locale/lang/LC_MESSAGES dir
+            d = self._dir_locale / wlang / self.S_DIR_MESSAGES
+            Path.mkdir(d, parents=True, exist_ok=True)
+
+            # add each wlang to LINGUAS file
+            linguas += wlang + &#34; &#34;
+
+        # write the LINGUAS file
+        linguas_path = self._dir_po / self.S_FILE_LINGUAS
+        with open(linguas_path, &#34;w&#34;, encoding=&#34;UTF8&#34;) as f:
+            f.write(linguas)
+
+    # --------------------------------------------------------------------------
+    # Set the charset for the pot which will carry over to each po
+    # --------------------------------------------------------------------------
+    def _fix_pot_header(self, file_pot):
+        &#34;&#34;&#34;
+        Set the charset for the pot which will carry over to each po
+
+        Args:
+            file_pot: the path object representing the pot file to fix
+
+        Fix the charset in the pot file to a known value so that msgfmt does
+        not complain. The charset for an individual file can be set by the
+        translator. This is just to keep the compiler from complaining, and
+        also aids in testing when no editing is done.
+        &#34;&#34;&#34;
+
+        # open file and get contents
+        with open(file_pot, &#34;r&#34;, encoding=&#34;UTF-8&#34;) as a_file:
+            text = a_file.read()
+
+        # replace short description
+        str_pattern = self.R_TITLE_SCH
+        str_rep = self.R_TITLE_REP.format(self._str_appname)
+        text = re.sub(str_pattern, str_rep, text)
+
+        # replace copyright
+        str_pattern = self.R_COPY_SCH
+        year = date.today().year
+        str_rep = self.R_COPY_REP.format(year, self._str_author)
+        text = re.sub(str_pattern, str_rep, text)
+
+        # replace author&#39;s email
+        str_pattern = self.R_EMAIL_SCH
+        email = self._str_email
+        year = date.today().year
+        str_rep = self.R_EMAIL_REP.format(email, year)
+        text = re.sub(str_pattern, str_rep, text)
+
+        # NB: if the specific phrase &#34;CHARSET&#34; is not found, nothing will be
+        # changed
+        str_pattern = self.R_CHAR_SCH
+        str_rep = self.R_CHAR_REP.format(self._charset)
+        text = re.sub(str_pattern, str_rep, text, flags=re.M)
+
+        # save file
+        with open(file_pot, &#34;w&#34;, encoding=&#34;UTF-8&#34;) as a_file:
+            a_file.write(text)</code></pre>
+</details>
+<div class="desc"><p>A class to handle making the different I18N files needed for a Python
+project</p>
+<h2 id="methods">Methods</h2>
+<p>main: Run the program and make or update the files
+make_desktop: Localize the desktop file using all available wlangs</p>
+<p>This class provides methods to create .pot, .po, .mo, and .desktop files
+for internationalizing a Python or PyGObject project.</p>
+<p>Initialize the new object</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>str_appname</code></strong></dt>
+<dd>Name to use in .pot/.po header</dd>
+<dt><strong><code>str_version</code></strong></dt>
+<dd>Version info to use in .pot/.po header</dd>
+<dt><strong><code>str_author</code></strong></dt>
+<dd>Author name to use in .pot/.po header</dd>
+<dt><strong><code>str_email</code></strong></dt>
+<dd>Email to use in .pot/.po header</dd>
+<dt><strong><code>dir_prj</code></strong></dt>
+<dd>Used for relative paths</dd>
+<dt><strong><code>dir_src</code></strong></dt>
+<dd>Where to start looking for input files</dd>
+<dt><strong><code>dir_pot</code></strong></dt>
+<dd>Directory to place master .pot file</dd>
+<dt><strong><code>dir_locale</code></strong></dt>
+<dd>Where to put output locale files (default:</dd>
+<dt>dir_src/"locale")</dt>
+<dt><strong><code>dir_po</code></strong></dt>
+<dd>Where to put new .po files that are waiting to be merged</dd>
+<dt>(default: dir_src/dir_locale/"po")</dt>
+<dt><strong><code>str_domain</code></strong></dt>
+<dd>The name of the domain (base name) for output files</dd>
+</dl>
+<p>(default: "messages")
+This creates files like "<str_domain>.pot", "<str_domain>.po",
+and "<str_domain>.mo", and is used in the .py scripts to bind a
+domain to a locale folder</p>
+<dl>
+<dt><strong><code>str_tag</code></strong></dt>
+<dd>Tag that starts a context comment (default: "")
+If this string is empty, all comments above an entry are
+included as context</dd>
+<dt><strong><code>dict_clangs</code></strong></dt>
+<dd>The dictionary of file extensions to scan for each</dd>
+<dt>clang</dt>
+<dt><strong><code>dict_no_ext</code></strong></dt>
+<dd>An optional dict mapping files with no extension</dd>
+<dt>to their clang value</dt>
+<dt><strong><code>list_wlangs</code></strong></dt>
+<dd>A list of supported languages to ensure a complete</dd>
+<dt>file structure in the project dir</dt>
+<dt><strong><code>charset</code></strong></dt>
+<dd>the charset to use as the default in the .pot file, and</dd>
+</dl>
+<p>any initial .po files created (default: UTF-8)
+An example format for the dict_clangs arg is:</p>
+<p>{
+"Python": [
+".py",
+],
+"Glade": [
+".ui",
+".glade",
+],
+"Desktop": [
+".desktop"
+],
+}</p>
+<p>An example format for the dict_no_ext arg is:</p>
+<p>{
+"Markdown": [
+"README",
+],
+"Text": [
+"INSTALL",
+"LICENSE",
+],
+}</p>
+<p>An example format for list_wlangs is:
+[
+"en_US",
+"de_DE.ISO_88591",
+"es",
+]</p>
+<p>Initializes a new instance of the class, setting the default values of
+its properties, and any other code needed to create a new object.</p></div>
+<h3>Class variables</h3>
+<dl>
+<dt id="src.cnpot.CNPotPy.R_CHAR_REP"><code class="name">var <span class="ident">R_CHAR_REP</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.R_CHAR_SCH"><code class="name">var <span class="ident">R_CHAR_SCH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.R_COPY_REP"><code class="name">var <span class="ident">R_COPY_REP</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.R_COPY_SCH"><code class="name">var <span class="ident">R_COPY_SCH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.R_EMAIL_REP"><code class="name">var <span class="ident">R_EMAIL_REP</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.R_EMAIL_SCH"><code class="name">var <span class="ident">R_EMAIL_SCH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.R_TITLE_REP"><code class="name">var <span class="ident">R_TITLE_REP</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.R_TITLE_SCH"><code class="name">var <span class="ident">R_TITLE_SCH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.R_VER_REP"><code class="name">var <span class="ident">R_VER_REP</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.R_VER_SCH"><code class="name">var <span class="ident">R_VER_SCH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.S_CMD_DSK"><code class="name">var <span class="ident">S_CMD_DSK</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.S_CMD_MAKE_MOS"><code class="name">var <span class="ident">S_CMD_MAKE_MOS</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.S_CMD_MERGE_POS"><code class="name">var <span class="ident">S_CMD_MERGE_POS</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.S_DEF_CHARSET"><code class="name">var <span class="ident">S_DEF_CHARSET</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.S_DIR_LOCALE"><code class="name">var <span class="ident">S_DIR_LOCALE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.S_DIR_MESSAGES"><code class="name">var <span class="ident">S_DIR_MESSAGES</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.S_DIR_PO"><code class="name">var <span class="ident">S_DIR_PO</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.S_ERR_NOT_ABS"><code class="name">var <span class="ident">S_ERR_NOT_ABS</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.S_ERR_NOT_DIR"><code class="name">var <span class="ident">S_ERR_NOT_DIR</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.S_FILE_LINGUAS"><code class="name">var <span class="ident">S_FILE_LINGUAS</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.S_MO_EXT"><code class="name">var <span class="ident">S_MO_EXT</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.S_POT_EXT"><code class="name">var <span class="ident">S_POT_EXT</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.S_PO_EXT"><code class="name">var <span class="ident">S_PO_EXT</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="src.cnpot.CNPotPy.main"><code class="name flex">
+<span>def <span class="ident">main</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def main(self):
+    &#34;&#34;&#34;
+    Run the program and make or update the files
+
+    Main method of the class, performing its steps.
+    &#34;&#34;&#34;
+
+    # ----------------------------------------------------------------------
+    # do the steps
+
+    self._make_pot()
+    self._merge_pos()
+    self._make_mos()</code></pre>
+</details>
+<div class="desc"><p>Run the program and make or update the files</p>
+<p>Main method of the class, performing its steps.</p></div>
+</dd>
+<dt id="src.cnpot.CNPotPy.make_desktop"><code class="name flex">
+<span>def <span class="ident">make_desktop</span></span>(<span>self, dt_template, dt_out)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def make_desktop(self, dt_template, dt_out):
+    &#34;&#34;&#34;
+    Localize the desktop file using all available wlangs
+
+    Args:
+        dt_template: File containing the default information to include in
+        the desktop file
+            This is the file that pymaker/pybaker modifies using metadata.
+        dt_out: Location of the i18n&#39;ed desktop file
+            This is the file that will be distributed with your app.
+
+    Takes a template desktop file and applies all i18n&#39;ed info from all .po
+    files in the po folder and creates a final .desktop file.
+    &#34;&#34;&#34;
+
+    # sanity check
+    dt_template = Path(dt_template)
+    if not dt_template.is_absolute():
+        dt_template = self._dir_prj / dt_template
+    dt_out = Path(dt_out)
+    if not dt_out.is_absolute():
+        dt_out = self._dir_prj / dt_out
+
+    # build the command as a string
+    cmd = self.S_CMD_DSK.format(self._dir_po, dt_template, dt_out)
+
+    # run the command
+    F.sh(cmd)</code></pre>
+</details>
+<div class="desc"><p>Localize the desktop file using all available wlangs</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dt_template</code></strong></dt>
+<dd>File containing the default information to include in</dd>
+<dt>the desktop file</dt>
+<dt>This is the file that pymaker/pybaker modifies using metadata.</dt>
+<dt><strong><code>dt_out</code></strong></dt>
+<dd>Location of the i18n'ed desktop file
+This is the file that will be distributed with your app.</dd>
+</dl>
+<p>Takes a template desktop file and applies all i18n'ed info from all .po
+files in the po folder and creates a final .desktop file.</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<header>
+<a class="homelink" rel="home" title="cnlib on GitHub" href="https://github.com/cyclopticnerve/cnlib">
+<img src="file:///.local/share/cnlib/pdoc3/cnlib.png">cnlib
+</a>
+<br/>
+<!-- FIXME: tabs!!! -->
+<!-- __RM_VERSION__ -->
+Version 0.0.1
+<!-- __RM_VERSION__ -->
+</header>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="src" href="index.html">src</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="src.cnpot.CNPotPy" href="#src.cnpot.CNPotPy">CNPotPy</a></code></h4>
+<ul class="two-column">
+<li><code><a title="src.cnpot.CNPotPy.R_CHAR_REP" href="#src.cnpot.CNPotPy.R_CHAR_REP">R_CHAR_REP</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.R_CHAR_SCH" href="#src.cnpot.CNPotPy.R_CHAR_SCH">R_CHAR_SCH</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.R_COPY_REP" href="#src.cnpot.CNPotPy.R_COPY_REP">R_COPY_REP</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.R_COPY_SCH" href="#src.cnpot.CNPotPy.R_COPY_SCH">R_COPY_SCH</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.R_EMAIL_REP" href="#src.cnpot.CNPotPy.R_EMAIL_REP">R_EMAIL_REP</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.R_EMAIL_SCH" href="#src.cnpot.CNPotPy.R_EMAIL_SCH">R_EMAIL_SCH</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.R_TITLE_REP" href="#src.cnpot.CNPotPy.R_TITLE_REP">R_TITLE_REP</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.R_TITLE_SCH" href="#src.cnpot.CNPotPy.R_TITLE_SCH">R_TITLE_SCH</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.R_VER_REP" href="#src.cnpot.CNPotPy.R_VER_REP">R_VER_REP</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.R_VER_SCH" href="#src.cnpot.CNPotPy.R_VER_SCH">R_VER_SCH</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.S_CMD_DSK" href="#src.cnpot.CNPotPy.S_CMD_DSK">S_CMD_DSK</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.S_CMD_MAKE_MOS" href="#src.cnpot.CNPotPy.S_CMD_MAKE_MOS">S_CMD_MAKE_MOS</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.S_CMD_MERGE_POS" href="#src.cnpot.CNPotPy.S_CMD_MERGE_POS">S_CMD_MERGE_POS</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.S_DEF_CHARSET" href="#src.cnpot.CNPotPy.S_DEF_CHARSET">S_DEF_CHARSET</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.S_DIR_LOCALE" href="#src.cnpot.CNPotPy.S_DIR_LOCALE">S_DIR_LOCALE</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.S_DIR_MESSAGES" href="#src.cnpot.CNPotPy.S_DIR_MESSAGES">S_DIR_MESSAGES</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.S_DIR_PO" href="#src.cnpot.CNPotPy.S_DIR_PO">S_DIR_PO</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.S_ERR_NOT_ABS" href="#src.cnpot.CNPotPy.S_ERR_NOT_ABS">S_ERR_NOT_ABS</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.S_ERR_NOT_DIR" href="#src.cnpot.CNPotPy.S_ERR_NOT_DIR">S_ERR_NOT_DIR</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.S_FILE_LINGUAS" href="#src.cnpot.CNPotPy.S_FILE_LINGUAS">S_FILE_LINGUAS</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.S_MO_EXT" href="#src.cnpot.CNPotPy.S_MO_EXT">S_MO_EXT</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.S_POT_EXT" href="#src.cnpot.CNPotPy.S_POT_EXT">S_POT_EXT</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.S_PO_EXT" href="#src.cnpot.CNPotPy.S_PO_EXT">S_PO_EXT</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.main" href="#src.cnpot.CNPotPy.main">main</a></code></li>
+<li><code><a title="src.cnpot.CNPotPy.make_desktop" href="#src.cnpot.CNPotPy.make_desktop">make_desktop</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.5</a>.</p>
+</footer>
+</body>
+</html>

@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.5">
-<title>src.cnlib API documentation</title>
-<meta name="description" content="docstring">
+<title>src.cnformatter API documentation</title>
+<meta name="description" content="A dummy class to combine multiple argparse formatters">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -34,62 +34,63 @@ el.replaceWith(d);
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>src.cnlib</code></h1>
+<h1 class="title">Module <code>src.cnformatter</code></h1>
 </header>
 <section id="section-intro">
-<p>docstring</p>
+<p>A dummy class to combine multiple argparse formatters</p>
 </section>
 <section>
 </section>
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-functions">Functions</h2>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="src.cnlib.func"><code class="name flex">
-<span>def <span class="ident">func</span></span>(<span>)</span>
+<dt id="src.cnformatter.CNFormatter"><code class="flex name class">
+<span>class <span class="ident">CNFormatter</span></span>
+<span>(</span><span>prog, indent_increment=2, max_help_position=24, width=None)</span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def func():
+<pre><code class="python">class CNFormatter(
+    argparse.RawTextHelpFormatter, argparse.RawDescriptionHelpFormatter
+):
     &#34;&#34;&#34;
-    Short description
+    A dummy class to combine multiple argparse formatters
 
     Args:
-        var_name: Description
+        RawTextHelpFormatter: Maintains whitespace for all sorts of help text,
+        including argument descriptions.
+        RawDescriptionHelpFormatter: Indicates that description and epilog are
+        already correctly formatted and should not be line-wrapped.
 
-    Returns:
-        Description
-
-    Raises:
-        exception_type(vars): Description
-
-    Long description (including HTML).
-    &#34;&#34;&#34;
-
-    # do the thing
-    pub = &#34;this is func&#34;
-    prv = _func()
-    return f&#34;{pub}\n{prv}&#34;</code></pre>
+    A dummy class to combine multiple argparse formatters.
+    &#34;&#34;&#34;</code></pre>
 </details>
-<div class="desc"><p>Short description</p>
+<div class="desc"><p>A dummy class to combine multiple argparse formatters</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>var_name</code></strong></dt>
-<dd>Description</dd>
+<dt><strong><code>RawTextHelpFormatter</code></strong></dt>
+<dd>Maintains whitespace for all sorts of help text,</dd>
+<dt>including argument descriptions.</dt>
+<dt><strong><code>RawDescriptionHelpFormatter</code></strong></dt>
+<dd>Indicates that description and epilog are</dd>
 </dl>
-<h2 id="returns">Returns</h2>
-<p>Description</p>
-<h2 id="raises">Raises</h2>
-<p>exception_type(vars): Description
-Long description (including HTML).</p></div>
+<p>already correctly formatted and should not be line-wrapped.
+A dummy class to combine multiple argparse formatters.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>argparse.RawTextHelpFormatter</li>
+<li>argparse.RawDescriptionHelpFormatter</li>
+<li>argparse.HelpFormatter</li>
+</ul>
 </dd>
 </dl>
-</section>
-<section>
 </section>
 </article>
 <nav id="sidebar">
@@ -98,8 +99,9 @@ Long description (including HTML).</p></div>
 <img src="file:///.local/share/cnlib/pdoc3/cnlib.png">cnlib
 </a>
 <br/>
+<!-- FIXME: tabs!!! -->
 <!-- __RM_VERSION__ -->
-Version 0.0.0
+Version 0.0.1
 <!-- __RM_VERSION__ -->
 </header>
 <div class="toc">
@@ -111,9 +113,11 @@ Version 0.0.0
 <li><code><a title="src" href="index.html">src</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="">
-<li><code><a title="src.cnlib.func" href="#src.cnlib.func">func</a></code></li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="src.cnformatter.CNFormatter" href="#src.cnformatter.CNFormatter">CNFormatter</a></code></h4>
+</li>
 </ul>
 </li>
 </ul>
