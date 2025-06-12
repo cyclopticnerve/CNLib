@@ -1,0 +1,71 @@
+[] CNLib/
+   ├─ [] .vscode/
+   │     ├─ [] launch.json
+   │     └─ [] tasks.json
+   ├─ [] bin/
+   │     └─ [] cnlib.py
+   ├─ [] conf/
+   │     └─ [] cnlib.json
+   ├─ [] dist/
+   │     └─ [] ABOUT
+   ├─ [] docs/
+   │     └─ [] ABOUT
+   ├─ [] i18n/
+   │     ├─ [] locale/
+   │     │     └─ [] en/
+   │     │           └─ [] LC_MESSAGES/
+   │     │                 └─ [] ABOUT
+   │     ├─ [] po/
+   │     │     ├─ [] en/
+   │     │     │     └─ [] cnlib.po
+   │     │     └─ [] LINGUAS
+   │     └─ [] pot/
+   │           └─ [] cnlib.pot
+   ├─ [] images/
+   │     └─ [] cnlib.png
+   ├─ [] install/
+   │     └─ [] install.py
+   ├─ [] misc/
+   │     ├─ [] checklists/
+   │     │     ├─ [] checklist.html
+   │     │     ├─ [] checklist.txt
+   │     │     └─ [] style.txt
+   │     ├─ [] default_files/
+   │     │     ├─ [] class.py
+   │     │     ├─ [] default.html
+   │     │     ├─ [] default.md
+   │     │     ├─ [] module.py
+   │     │     └─ [] window.py
+   │     ├─ [] how_to/
+   │     │     └─ [] i18n_tips.txt
+   │     └─ [] tree.txt
+   ├─ [] pdoc3/
+   │     ├─ [] head.mako
+   │     └─ [] logo.mako
+   ├─ [] pyplate/
+   │     ├─ [] .private/
+   │     │     ├─ [] ABOUT
+   │     │     └─ [] private.json
+   │     └─ [] project.json
+   ├─ [] readme/
+   │     └─ [] ABOUT
+   ├─ [] src/
+   │     ├─ [] CNLib.egg-info/
+   │     │     ├─ [] dependency_links.txt
+   │     │     ├─ [] PKG-INFO
+   │     │     ├─ [] SOURCES.txt
+   │     │     └─ [] top_level.txt
+   │     ├─ [] ABOUT
+   │     └─ [] cnlib.py
+   ├─ [] tests/
+   │     ├─ [] ABOUT
+   │     └─ [] cnlib_test.py
+   ├─ [] todo/
+   │     └─ [] ABOUT
+   ├─ [] uninstall/
+   │     └─ [] uninstall.py
+   ├─ [] .gitignore
+   ├─ [] LICENSE.txt
+   ├─ [] pyproject.toml
+   ├─ [] README.md
+   └─ [] requirements.txt

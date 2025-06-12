@@ -1,0 +1,89 @@
+{
+    "PUB_BL": {
+        "SKIP_ALL": [
+            ".git",
+            "**/.venv*",
+            ".VSCodeCounter",
+            "dist",
+            "docs",
+            "i18n",
+            "lib",
+            "misc",
+            "LICENSE.txt",
+            "requirements.txt",
+            "**/__pycache__"
+        ],
+        "SKIP_CONTENTS": [
+            "**/*.png",
+            "**/*.jpg",
+            "**/*.jpeg"
+        ],
+        "SKIP_HEADER": [],
+        "SKIP_CODE": [
+            "MANIFEST.in",
+            ".gitignore",
+            ".desktop"
+        ],
+        "SKIP_PATH": [],
+        "SKIP_TREE": [
+            ".git",
+            "**/.venv*",
+            ".VSCodeCounter",
+            "**/__pycache__"
+        ]
+    },
+    "PUB_DBG": {
+        "DBG_GIT": true,
+        "DBG_VENV": true,
+        "DBG_I18N": true,
+        "DBG_DOCS": false,
+        "DBG_INST": true,
+        "DBG_TREE": true,
+        "DBG_DIST": true
+    },
+    "PUB_DIST": {
+        "images": "",
+        "readme": "",
+        "src": "",
+        "LICENSE.txt": "",
+        "README.md": "",
+        "docs": "",
+        "pyproject.toml": ""
+    },
+    "PUB_I18N": {
+        "DOMAIN": "cnlib",
+        "SOURCES": [
+            "src"
+        ],
+        "CLANGS": {
+            "Python": [
+                "py"
+            ],
+            "Glade": [
+                ".ui",
+                ".glade"
+            ],
+            "Desktop": [
+                ".desktop"
+            ]
+        },
+        "NO_EXT": {
+            "Python": [
+                "cnlib"
+            ]
+        },
+        "WLANGS": [
+            "en"
+        ],
+        "CHARSET": "UTF-8"
+    },
+    "PUB_META": {
+        "META_VERSION": "0.0.0",
+        "META_SHORT_DESC": "Short description",
+        "META_KEYWORDS": [],
+        "META_DEPS": {
+            "Python 3.10+": "https://python.org"
+        },
+        "META_CATS": []
+    }
+}
