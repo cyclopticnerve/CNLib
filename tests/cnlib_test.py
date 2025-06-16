@@ -36,8 +36,22 @@ command
 # Imports
 # ------------------------------------------------------------------------------
 
-# lib imports
-import cnfunctions as F
+# system imports
+from pathlib import Path
+import sys
+
+# local imports
+PATH_PRJ = Path(__file__).parents[1].resolve()
+PATH_SRC = PATH_PRJ / "src"
+sys.path.append(str(PATH_SRC))
+
+# pylint: disable=import-error
+# pylint: disable=wrong-import-position
+
+import cnlib.cnfunctions as F
+
+# pylint: enable=import-error
+# pylint: enable=wrong-import-position
 
 # ------------------------------------------------------------------------------
 # Code to run when called from command line

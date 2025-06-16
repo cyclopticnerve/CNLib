@@ -78,7 +78,7 @@
         "CHARSET": "UTF-8"
     },
     "PUB_META": {
-        "META_VERSION": "0.0.0",
+        "META_VERSION": "0.0.1",
         "META_SHORT_DESC": "Short description",
         "META_KEYWORDS": [],
         "META_DEPS": {

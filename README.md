@@ -18,7 +18,7 @@ Short description
 <!-- __RM_SHORT_DESC__ -->
 
 <!-- __RM_VERSION__ -->
-Version 0.0.0+20250612.1
+Version 0.0.1+20250615.2
 <!-- __RM_VERSION__ -->
 
 <!-- ![alt-text](readme/screenshot.png) -->
@@ -40,22 +40,22 @@ Version 0.0.0+20250612.1
 First, download the [latest release](https://github.com/cyclopticnerve/CNLib/releases/latest).
 Download the 'tar.gz' file.
 
-Then install it:
+Then install it in a venv:
 ```bash
-foo@bar:~$ cd ~/Downloads/CNLib-<version>/dist
-foo@bar:~/Downloads$ python -m pip install CNLib-<version>.tar.gz
+foo@bar:~/Documents/Projects/Python/MyProject: python -m venv .venv
+foo@bar:~/Documents/Projects/Python/MyProject: . .venv/bin/activate
+(.venv) foo@bar:~/Documents/Projects/Python/MyProject: python -m pip install /home/foo/Downloads/CNLib-<version>.tar.gz
 ```
 Or you can clone the git repo to get the latest (and often broken) code:
 ```bash
 foo@bar:~$ cd ~/Downloads
 foo@bar:~/Downloads$ git clone https://github.com/cyclopticnerve/CNLib
-foo@bar:~/Downloads$ cd CNLib-<version>
 ```
-Then build and install it:
+Then install it in a venv:
 ```bash
-foo@bar:~/Downloads/CNLib-<version>$ python -m pip install build
-foo@bar:~/Downloads/CNLib-<version>$ python -m build
-foo@bar:~/Downloads/CNLib-<version>$ python -m pip install ./dist/cnlib-<version>.tar.gz
+foo@bar:~/Documents/Projects/Python/MyProject$$ python -m venv .venv
+foo@bar:~/Documents/Projects/Python/MyProject$ . .venv/bin/activate
+(.venv) foo@bar:~/Documents/Projects/Python/MyProject$ python -m pip install /home/foo/Downloads/CNLib-<version>.tar.gz
 ```
 <!-- __RM_PKG__ -->
 
@@ -65,7 +65,8 @@ blah blah blah
 ## Uninstalling
 <!-- __RM_PKG__ -->
 ```bash
-foo@bar:~$ python -m pip uninstall cnlib
+foo@bar:~/Documents/Projects/Python/MyProject$ . .venv/bin/activate
+foo@bar:~/Documents/Projects/Python/MyProject$ python -m pip uninstall cnlib
 ```
 <!-- __RM_PKG__ -->
 

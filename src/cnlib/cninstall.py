@@ -128,7 +128,7 @@ class CNInstall:
     # NB: format param is dir_venv
     S_CMD_CREATE = "python -Xfrozen_modules=off -m venv {}"
     # NB: format params are path to prj, path to venv, and path to reqs file
-    S_CMD_INSTALL = "cd {};. ./{}/bin/activate;python -m pip install -r {}"
+    S_CMD_INSTALL = "cd {};. {}/bin/activate;python -m pip install -r {}"
     # NB: format params are path to prj, path to venv
     S_CMD_VENV_ACTIVATE = "cd {};. {}/bin/activate"
     # NB: format param is name of lib
