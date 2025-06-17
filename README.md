@@ -25,6 +25,7 @@ Version 0.0.1
 
 ## Table of Contents
 - [Requirements](#requirements)
+- [Downloading](#downloading)
 - [Installing](#installing)
 - [Uninstalling](#uninstalling)
 - [Usage](#usage)
@@ -35,38 +36,65 @@ Version 0.0.1
 [Python 3.10+](https://python.org)
 <!-- __RM_DEPS__ -->
 
+## Downloading
+
+There are two ways to get the package:
+
+1. Download the [latest
+release](https://github.com/cyclopticnerve/CNLib/releases/latest) (the
+**'Source code (zip)'**
+file should work an all platforms).
+
+
+2. Or you can clone the git repo to get the latest (and often broken) code from
+   the main branch:
+```bash
+$ git clone https://github.com/cyclopticnerve/CNLib
+```
+
 ## Installing
 <!-- __RM_PKG__ -->
-First, download the [latest release](https://github.com/cyclopticnerve/CNLib/releases/latest).
-Download the 'tar.gz' file.
+There are also two ways to get CNLib into your project:
 
-Then install it in a venv:
+### Manually
+
+First make sure you have a venv and it is active:
 ```bash
-foo@bar:~/Documents/Projects/Python/MyProject: python -m venv .venv
-foo@bar:~/Documents/Projects/Python/MyProject: . .venv/bin/activate
-(.venv) foo@bar:~/Documents/Projects/Python/MyProject: python -m pip install /home/foo/Downloads/CNLib-<version>.tar.gz
+$  python -m venv .venv
+$ . .venv/bin/activate
 ```
-Or you can clone the git repo to get the latest (and often broken) code:
+
+Then, if you downloaded the zip:
 ```bash
-foo@bar:~$ cd ~/Downloads
-foo@bar:~/Downloads$ git clone https://github.com/cyclopticnerve/CNLib
+$ python -m pip install /path/to//CNLib-<version>.zip
 ```
-Then install it in a venv:
+
+If you cloned the repo or unzipped the file:
 ```bash
-foo@bar:~/Documents/Projects/Python/MyProject$$ python -m venv .venv
-foo@bar:~/Documents/Projects/Python/MyProject$ . .venv/bin/activate
-(.venv) foo@bar:~/Documents/Projects/Python/MyProject$ python -m pip install /home/foo/Downloads/CNLib-<version>.tar.gz
+$ python -m pip install /path/to/CNLib
 ```
+
+### Automagically
+Add this line to your 'requirements.txt" file:
+```bash
+CNLib @ git+https://github.com/cyclopticnerve/CNLib@releases/latest
+```
+Then run:
+```
+$ python -m pi install -r requirements.txt
+```
+
 <!-- __RM_PKG__ -->
 
 ## Usage
-See the [documentation](docs).
+HTML documentation can be found in the CNLib-\<version\>/docs folder.
 
 ## Uninstalling
 <!-- __RM_PKG__ -->
+In your project folder:
 ```bash
-foo@bar:~/Documents/Projects/Python/MyProject$ . .venv/bin/activate
-foo@bar:~/Documents/Projects/Python/MyProject$ python -m pip uninstall cnlib
+$ . .venv/bin/activate
+$ python -m pip uninstall cnlib
 ```
 <!-- __RM_PKG__ -->
 
