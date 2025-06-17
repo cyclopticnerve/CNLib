@@ -14,11 +14,11 @@
 [![License: WTFPLv2](https://img.shields.io/badge/License-WTFPL-brightgreen.svg)](http://www.wtfpl.net)
 
 <!-- __RM_SHORT_DESC__ -->
-Short description
+A library to support PyPlate and PyPlate projects
 <!-- __RM_SHORT_DESC__ -->
 
 <!-- __RM_VERSION__ -->
-Version 0.0.1+20250615.2
+Version 0.0.1
 <!-- __RM_VERSION__ -->
 
 <!-- ![alt-text](readme/screenshot.png) -->
@@ -60,7 +60,7 @@ foo@bar:~/Documents/Projects/Python/MyProject$ . .venv/bin/activate
 <!-- __RM_PKG__ -->
 
 ## Usage
-blah blah blah
+See the [documentation](docs).
 
 ## Uninstalling
 <!-- __RM_PKG__ -->
@@ -71,7 +71,7 @@ foo@bar:~/Documents/Projects/Python/MyProject$ python -m pip uninstall cnlib
 <!-- __RM_PKG__ -->
 
 ## Notes
-blah blah blah
+10/10, no notes.
 
 -)
 <!-- -) -->

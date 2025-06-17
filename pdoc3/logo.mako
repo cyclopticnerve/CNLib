@@ -1,10 +1,10 @@
 <header>
    <a class="homelink" rel="home" href="https://github.com/cyclopticnerve/CNLib">
       <!-- image will get fixed into local img -->
-      <img src=""/>CNLib
+      <img src="../../images/cnlib.png"/>CNLib
    </a>
    <br/>
    <!-- __RM_VERSION__ -->
-   Version 0.0.1+20250615.2
+   Version 0.0.1
    <!-- __RM_VERSION__ -->
 </header>

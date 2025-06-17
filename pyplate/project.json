@@ -79,8 +79,17 @@
     },
     "PUB_META": {
         "META_VERSION": "0.0.1",
-        "META_SHORT_DESC": "Short description",
-        "META_KEYWORDS": [],
+        "META_SHORT_DESC": "A library to support PyPlate and PyPlate projects",
+        "META_KEYWORDS": [
+            "python",
+            "Python",
+            "pyplate",
+            "PyPlate",
+            "pymaker",
+            "PyMaker",
+            "pybaker",
+            "PyBaker"
+        ],
         "META_DEPS": {
             "Python 3.10+": "https://python.org"
         },
