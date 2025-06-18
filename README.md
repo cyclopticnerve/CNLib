@@ -14,7 +14,7 @@
 [![License: WTFPLv2](https://img.shields.io/badge/License-WTFPL-brightgreen.svg)](http://www.wtfpl.net)
 
 <!-- __RM_SHORT_DESC__ -->
-A library to support PyPlate and PyPlate projects
+A Python library containing useful functions and classes
 <!-- __RM_SHORT_DESC__ -->
 
 <!-- __RM_VERSION__ -->
@@ -53,10 +53,10 @@ $ git clone https://github.com/cyclopticnerve/CNLib
 ```
 
 ## Installing
-<!-- __RM_PKG__ -->
-There are also two ways to get CNLib into your project:
 
-### Manually
+<!-- __RM_PKG__ -->
+There are also two ways to get CNLib into your project.
+Run these commands from your project directory.
 
 First make sure you have a venv and it is active:
 ```bash
@@ -64,32 +64,37 @@ $  python -m venv .venv
 $ . .venv/bin/activate
 ```
 
-Then, if you downloaded the zip:
+### Manually
+
+If you downloaded the zip:
 ```bash
 $ python -m pip install /path/to//CNLib-<version>.zip
 ```
 
-If you cloned the repo or unzipped the file:
+Or if you cloned the repo:
 ```bash
 $ python -m pip install /path/to/CNLib
 ```
 
 ### Automagically
-Add this line to your 'requirements.txt" file:
+Add this line to your project's 'requirements.txt' file:
 ```bash
-CNLib @ git+https://github.com/cyclopticnerve/CNLib@releases/latest
+CNLib @ git+https://github.com/cyclopticnerve/CNLib@<tag>
 ```
+where \<tag\> is the tag you want, such as 'v0.0.1', etc.
+
 Then run:
 ```
-$ python -m pi install -r requirements.txt
+$ python -m pip install -r requirements.txt
 ```
 
 <!-- __RM_PKG__ -->
 
 ## Usage
-HTML documentation can be found in the CNLib-\<version\>/docs folder.
+Read the [documentation](https://cyclopticnerve.github.io/CNLib/).
 
 ## Uninstalling
+
 <!-- __RM_PKG__ -->
 In your project folder:
 ```bash

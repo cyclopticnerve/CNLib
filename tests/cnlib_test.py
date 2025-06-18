@@ -8,28 +8,7 @@
 # ------------------------------------------------------------------------------
 
 """
-A simple script to test a package
-
-Note that you will need to activate the project's venv to use this script.
-If you are working in VSCode, you should:
-1. Deactivate the current venv in the Terminal tab using the "deactivate"
-command
-2. Make sure you have the correct interpreter selected for the project (check
-the status bar)
-3. Switch to the "Run and Debug" tab, and select the "Pkg Test" option
-4. Press the "Run" button to run the script. This will activate the project's
-venv for you
-
-If you are working in an external terminal, you should:
-1. Deactivate the current venv in the Terminal tab using the "deactivate"
-command
-2. cd to the project directory
-3*. Activate the project's venv using:
-"(source | .) .venv-cnlib/bin/activate"
-4. Run the script using:
-"./tests/cnlib_test.py"
-
-* some shells accept the "source" command, while others accept the "." command.
+A simple script to test a package from within the project itself
 """
 
 # ------------------------------------------------------------------------------
@@ -42,13 +21,14 @@ import sys
 
 # local imports
 PATH_PRJ = Path(__file__).parents[1].resolve()
-PATH_SRC = PATH_PRJ / "src"
+PATH_SRC = PATH_PRJ / "cnlib"
 sys.path.append(str(PATH_SRC))
 
+# NB: i know this looks bad, but it WILL work
 # pylint: disable=import-error
 # pylint: disable=wrong-import-position
 
-import cnlib.cnfunctions as F
+import cnfunctions as F  # type: ignore
 
 # pylint: enable=import-error
 # pylint: enable=wrong-import-position
@@ -63,7 +43,6 @@ if __name__ == "__main__":
     # invoked from the command line.
 
     # run main function
-    RES = F.pascal_case("foo_bar")
-    print(RES)
+    print(F.pascal_case("foo_bar"))
 
 # -)

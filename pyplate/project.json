@@ -2,16 +2,14 @@
     "PUB_BL": {
         "SKIP_ALL": [
             ".git",
-            "**/.venv*",
             ".VSCodeCounter",
-            "dist",
+            "**/__pycache__",
+            "*.egg-info",
+            "build",
             "docs",
-            "i18n",
-            "lib",
             "misc",
-            "LICENSE.txt",
-            "requirements.txt",
-            "**/__pycache__"
+            "todo",
+            "LICENSE.txt"
         ],
         "SKIP_CONTENTS": [
             "**/*.png",
@@ -20,16 +18,16 @@
         ],
         "SKIP_HEADER": [],
         "SKIP_CODE": [
-            "MANIFEST.in",
-            ".gitignore",
-            ".desktop"
+            ".gitignore"
         ],
         "SKIP_PATH": [],
         "SKIP_TREE": [
             ".git",
-            "**/.venv*",
             ".VSCodeCounter",
-            "**/__pycache__"
+            "**/__pycache__",
+            "*.egg-info",
+            "build"
+
         ]
     },
     "PUB_DBG": {
@@ -41,45 +39,11 @@
         "DBG_TREE": true,
         "DBG_DIST": true
     },
-    "PUB_DIST": {
-        "images": "",
-        "readme": "",
-        "src": "",
-        "LICENSE.txt": "",
-        "README.md": "",
-        "docs": "",
-        "pyproject.toml": ""
-    },
-    "PUB_I18N": {
-        "DOMAIN": "cnlib",
-        "SOURCES": [
-            "src"
-        ],
-        "CLANGS": {
-            "Python": [
-                "py"
-            ],
-            "Glade": [
-                ".ui",
-                ".glade"
-            ],
-            "Desktop": [
-                ".desktop"
-            ]
-        },
-        "NO_EXT": {
-            "Python": [
-                "cnlib"
-            ]
-        },
-        "WLANGS": [
-            "en"
-        ],
-        "CHARSET": "UTF-8"
-    },
+    "PUB_DIST": {},
+    "PUB_I18N": {},
     "PUB_META": {
         "META_VERSION": "0.0.1",
-        "META_SHORT_DESC": "A library to support PyPlate and PyPlate projects",
+        "META_SHORT_DESC": "A Python library containing useful functions and classes",
         "META_KEYWORDS": [
             "python",
             "Python",
