@@ -27,8 +27,8 @@ Version 0.0.1
 - [Requirements](#requirements)
 - [Downloading](#downloading)
 - [Installing](#installing)
-- [Uninstalling](#uninstalling)
 - [Usage](#usage)
+- [Uninstalling](#uninstalling)
 - [Notes](#notes)
 
 ## Requirements
@@ -38,13 +38,11 @@ Version 0.0.1
 
 ## Downloading
 
-There are two ways to get the package:
+There are two ways to get the code:
 
 1. Download the [latest
 release](https://github.com/cyclopticnerve/CNLib/releases/latest) (the
-**'Source code (zip)'**
-file should work an all platforms).
-
+**'Source code (zip)'** file should work an all platforms).
 
 2. Or you can clone the git repo to get the latest (and often broken) code from
    the main branch:
@@ -53,7 +51,6 @@ $ git clone https://github.com/cyclopticnerve/CNLib
 ```
 
 ## Installing
-
 <!-- __RM_PKG__ -->
 There are also two ways to get CNLib into your project.
 Run these commands from your project directory.
@@ -66,10 +63,11 @@ $ . .venv/bin/activate
 
 ### Manually
 
-If you downloaded the zip:
+If you downloaded the zip file:
 ```bash
 $ python -m pip install /path/to//CNLib-<version>.zip
 ```
+where \<version\> is the version number included in the file name.
 
 Or if you cloned the repo:
 ```bash
@@ -87,14 +85,12 @@ Then run:
 ```
 $ python -m pip install -r requirements.txt
 ```
-
 <!-- __RM_PKG__ -->
 
 ## Usage
 Read the [documentation](https://cyclopticnerve.github.io/CNLib/).
 
 ## Uninstalling
-
 <!-- __RM_PKG__ -->
 In your project folder:
 ```bash
