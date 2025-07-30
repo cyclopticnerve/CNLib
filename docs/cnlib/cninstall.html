@@ -1,0 +1,1415 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>CNLib.cnlib.cninstall API documentation</title>
+<meta name="description" content="The class to use for installing/uninstalling">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+<style>.homelink{display:block;font-size:2em;font-weight:bold;color:#555;padding-bottom:.5em;border-bottom:1px solid silver}.homelink:hover{color:inherit}.homelink img{max-width:20%;max-height:5em;margin:auto;margin-bottom:.3em;margin-right:.5em}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>CNLib.cnlib.cninstall</code></h1>
+</header>
+<section id="section-intro">
+<p>The class to use for installing/uninstalling</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="CNLib.cnlib.cninstall.CNInstall"><code class="flex name class">
+<span>class <span class="ident">CNInstall</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CNInstall:
+    &#34;&#34;&#34;
+    The class to use for installing/uninstalling
+
+    Methods:
+        make_install_cfg: Make a valid install config file
+        make_uninstall_cfg: Make a valid uninstall config file
+        fix_desktop_file: Fix .desktop file, for paths and such
+        install: Install the program
+        uninstall: Uninstall the program
+
+    This class provides functions to create install/uninstall config files, and
+    performs the install and uninstall operations.
+    &#34;&#34;&#34;
+
+    # --------------------------------------------------------------------------
+    # Class constants
+    # --------------------------------------------------------------------------
+
+    # keys
+    S_KEY_NAME = &#34;NAME&#34;
+    S_KEY_VERSION = &#34;VERSION&#34;
+    S_KEY_DICT_INSTALL = &#34;INSTALL&#34;
+    S_KEY_LIST_UNINST = &#34;UNINSTALL&#34;
+
+    # --------------------------------------------------------------------------
+
+    # messages
+    # NB: format params are prog_name and prog_version
+    S_MSG_INST_START = &#34;Installing {} Version {}&#34;
+    # NB: format param is prog_name
+    S_MSG_INST_END = &#34;{} installed&#34;
+    # NB: format param is prog_name
+    S_MSG_UNINST_START = &#34;Uninstalling {}&#34;
+    # NB: format param is prog_name
+    S_MSG_UNINST_END = &#34;{} uninstalled&#34;
+    S_MSG_DONE = &#34;Done&#34;
+    S_MSG_FAIL = &#34;Fail&#34;
+
+    # strings for system requirements
+
+    S_MSG_COPY_START = &#34;Copying files... &#34;
+    S_MSG_DEL_START = &#34;Deleting files... &#34;
+    S_MSG_VENV_START = &#34;Making venv folder... &#34;
+    S_MSG_REQS_START = &#34;Installing requirements... &#34;
+    S_MSG_LIBS_START = &#34;Installing libs... &#34;
+    S_MSG_DSK_START = &#34;Fixing .desktop file... &#34;
+    S_ASK_VER_SAME = (
+        &#34;The current version of this program is already installed. Do you&#34;
+        &#34; want to overwrite? [y/N] &#34;
+    )
+    S_MSG_VER_ABORT = &#34;Installation aborted&#34;
+
+    # errors
+    # NB: format param is file path
+    S_ERR_NOT_FOUND = &#34;File {} not found&#34;
+    # NB: format param is file path
+    S_ERR_NOT_JSON = &#34;File {} is not a JSON file&#34;
+    S_ERR_NO_SUDO = &#34;Could not get sudo permission&#34;
+    S_ERR_VERSION = &#34;One or both version numbers are invalid&#34;
+    # NB: format param is source path
+    S_ERR_SRC_PATH = &#34;src can not be {}&#34;
+    # NB: format param is dest path
+    S_ERR_DST_PATH = &#34;dst can not be {}&#34;
+
+    # debug option strings
+    S_DRY_OPTION = &#34;-d&#34;
+    S_DRY_ACTION = &#34;store_true&#34;
+    S_DRY_DEST = &#34;DBG_DEST&#34;
+    S_DRY_HELP = &#34;do a dry run, printing file info instead of modifying it&#34;
+    S_ASK_VER_OLDER = &#34;A newer version of this program is currently installed. \
+        Do you want to overwrite? [y/N] &#34;
+    S_ASK_CONFIRM = &#34;y&#34;
+
+    # --------------------------------------------------------------------------
+
+    # NB: format param is path to icon
+    S_DRY_DESK_ICON = &#34;desktop_icon: {}&#34;
+
+    # commands
+    # NB: format param is dir_venv
+    S_CMD_CREATE = &#34;python -Xfrozen_modules=off -m venv {}&#34;
+    # NB: format params are path to prj, path to venv, and path to reqs file
+    S_CMD_INSTALL = &#34;cd {};. {}/bin/activate;python -m pip install -r {}&#34;
+    # NB: format params are path to prj, path to venv
+    S_CMD_VENV_ACTIVATE = &#34;cd {};. {}/bin/activate&#34;
+    # NB: format param is name of lib
+    S_CMD_INST_LIB = &#34;python -m pip install {}&#34;
+
+    # regex to compare version numbers
+    R_VERSION = r&#34;(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(.*)$&#34;
+    R_VERSION_GROUP_MAJ = 1
+    R_VERSION_GROUP_MIN = 2
+    R_VERSION_GROUP_REV = 3
+
+    # regex for adding user&#39;s home to icon path
+    R_ICON_SCH = r&#34;^(Icon=)(.*)$&#34;
+    R_ICON_REP = r&#34;\g&lt;1&gt;{}&#34;  # Icon=&lt;home/__PP_IMG_DESK__&gt;
+
+    # --------------------------------------------------------------------------
+    # Class methods
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # Initialize the class
+    # --------------------------------------------------------------------------
+    def __init__(self):
+        &#34;&#34;&#34;
+        Initialize the class
+
+        Creates a new instance of the object and initializes its properties.
+        &#34;&#34;&#34;
+
+        # set properties
+        self._dry = False
+        self._dict_cfg = {}
+
+    # --------------------------------------------------------------------------
+    # Public methods
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # Make a valid install config file
+    # --------------------------------------------------------------------------
+    def make_install_cfg(self, name, version, dict_install):
+        &#34;&#34;&#34;
+        Make a valid install config file
+
+        Args:
+            name: Program name
+            version: New version number to compare to any installed version
+            dict_install: Dict of assets to install
+
+        Returns:
+            A properly formatted install config dict to save to a file
+
+        This method creates a config file for use by install.py. The dict
+        format can be found below.
+        &#34;&#34;&#34;
+
+        # create the dict using args
+        dict_use = {
+            self.S_KEY_NAME: name,
+            self.S_KEY_VERSION: version,
+            self.S_KEY_DICT_INSTALL: dict_install,
+        }
+
+        # return the formatted dict
+        return dict_use
+
+    # --------------------------------------------------------------------------
+    # Make a valid uninstall config file
+    # --------------------------------------------------------------------------
+    def make_uninstall_cfg(self, name, version, list_uninst):
+        &#34;&#34;&#34;
+        Make a valid uninstall config file
+
+        Args:
+            name: Program name
+            version: Initial program version from pyplate.py
+            list_uninstall: List of assets to uninstall
+
+        Returns:
+            A properly formatted uninstall config dict to save to a file
+
+        This method creates a config file for use by uninstall.py. The dict
+        format can be found below.
+        &#34;&#34;&#34;
+
+        # create the dict using args
+        dict_use = {
+            self.S_KEY_NAME: name,
+            self.S_KEY_VERSION: version,
+            self.S_KEY_LIST_UNINST: list_uninst,
+        }
+
+        # return the formatted dict
+        return dict_use
+
+    # --------------------------------------------------------------------------
+    # Fix .desktop file, for paths and such
+    # --------------------------------------------------------------------------
+    def fix_desktop_file(self, desk_file, path_icon, dry=False):
+        &#34;&#34;&#34;
+        Fix .desktop file, for paths and such
+
+        Args:
+            desk_file: The path to the desktop file to be modified
+            path_icon: The path to the program&#39;s icon, relative to user home
+            dry: If True, do not copy files, ony print the action (default:
+            False)
+
+        Fixes entries in the .desktop file (absolute paths, etc.)
+        Currently only fixes absolute path to icon.
+        &#34;&#34;&#34;
+
+        # sanity check
+        # NB: in a cli or pkg, this file will not exist
+        if not desk_file.exists():
+            return
+
+        # print info
+        print(self.S_MSG_DSK_START, end=&#34;&#34;, flush=True)
+
+        # open file
+        text = &#34;&#34;
+        with open(desk_file, &#34;r&#34;, encoding=&#34;UTF-8&#34;) as a_file:
+            text = a_file.read()
+
+        # find icon line and fix
+        res = re.search(self.R_ICON_SCH, text, flags=re.M)
+        if res:
+
+            # get user&#39;s home and path to icon rel to prj
+            path_icon = Path.home() / path_icon
+
+            # fix abs path to icon
+            r_icon_rep = self.R_ICON_REP.format(path_icon)
+            text = re.sub(self.R_ICON_SCH, r_icon_rep, text, flags=re.M)
+
+            # ----------------------------------------------------------------------
+
+            # don&#39;t mess with file
+            if dry:
+                print(self.S_DRY_DESK_ICON.format(path_icon))
+                return
+
+            # write fixed text back to file
+            with open(desk_file, &#34;w&#34;, encoding=&#34;UTF-8&#34;) as a_file:
+                a_file.write(text)
+
+    # --------------------------------------------------------------------------
+    # Install the program
+    # --------------------------------------------------------------------------
+    def install(
+        self,
+        dir_assets,
+        path_lib,
+        path_cfg_inst,
+        path_cfg_uninst,
+        dir_usr_inst,
+        dir_venv,
+        path_reqs,
+        dry=False,
+    ):
+        &#34;&#34;&#34;
+        Install the program
+
+        Args:
+            dir_assets: Path to the assets folder where all of the program
+            files are put in dist. This is the base source path to use when
+            copying files to the user&#39;s computer
+            path_lib: Path to the dist&#39;s lib folder, ie. &#34;assets/lib&#34;
+            path_cfg_inst: Path to the file that contains the current install
+            dict info
+            path_cfg_uninst: Path to the currently installed program&#39;s
+            uninstall dict info
+            dir_usr_inst: The program&#39;s install folder in which to make a venv
+            dir_venv: The path to the venv folder to create
+            path_reqs: Path to the requirements.txt file to add requirements to
+            the venv
+            dry: If True, do not copy files, ony print the action (default:
+            False)
+
+        Runs the install operation.
+        &#34;&#34;&#34;
+
+        # set properties
+        self._dry = dry
+
+        # get install dict
+        self._dict_cfg = self._get_dict_from_file(path_cfg_inst)
+
+        # get prg name/version
+        prog_name = self._dict_cfg[self.S_KEY_NAME]
+        prog_version = self._dict_cfg[self.S_KEY_VERSION]
+
+        # print start msg
+        print()
+        print(self.S_MSG_INST_START.format(prog_name, prog_version))
+
+        # ----------------------------------------------------------------------
+        # check for existing/old version
+
+        # if we did pass an old conf, it must exist (if it doesn&#39;t, this could
+        # be the first install but we will want to check on later updates)
+        if path_cfg_uninst and Path(path_cfg_uninst).exists():
+            dict_cfg_old = self._get_dict_from_file(path_cfg_uninst)
+
+            # check versions
+            ver_old = dict_cfg_old[self.S_KEY_VERSION]
+            ver_new = self._dict_cfg[self.S_KEY_VERSION]
+            res = self._do_compare_versions(ver_old, ver_new)
+
+            # same version is installed
+            if res == 0:
+
+                # ask to install same version
+                str_ask = input(self.S_ASK_VER_SAME)
+
+                # user hit enter or typed anything else except &#34;y&#34;
+                if (
+                    len(str_ask) == 0
+                    or str_ask.lower()[0] != self.S_ASK_CONFIRM
+                ):
+                    print(self.S_MSG_VER_ABORT)
+                    sys.exit()
+
+            # newer version is installed
+            elif res == -1:
+
+                # ask to install old version over newer
+                str_ask = input(self.S_ASK_VER_OLDER)
+
+                # user hit enter or typed anything else except &#34;y&#34;
+                if (
+                    len(str_ask) == 0
+                    or str_ask.lower()[0] != self.S_ASK_CONFIRM
+                ):
+                    print(self.S_MSG_VER_ABORT)
+                    sys.exit()
+
+        # ----------------------------------------------------------------------
+        # draw the rest of the owl
+
+        # make the venv on the user&#39;s comp
+        self._make_venv(dir_usr_inst, dir_venv)
+
+        # install reqs
+        self._install_reqs(dir_usr_inst, dir_venv, path_reqs)
+
+        # install libs
+        self._install_libs(dir_usr_inst, dir_venv, path_lib)
+
+        # move content
+        self._do_install_content(dir_assets)
+
+        print(self.S_MSG_INST_END.format(prog_name))
+
+    # --------------------------------------------------------------------------
+    # Uninstall the program
+    # --------------------------------------------------------------------------
+    def uninstall(self, path_cfg, dry=False):
+        &#34;&#34;&#34;
+        Uninstall the program
+
+        Args:
+            path_cfg: Path to the file that contains the uninstall dict info
+            dry: If True, do not remove files, ony print the action (default:
+            False)
+
+        Runs the uninstall operation.
+        &#34;&#34;&#34;
+
+        # set properties
+        self._dry = dry
+
+        # get dict from file
+        self._dict_cfg = self._get_dict_from_file(path_cfg)
+
+        # get prg name
+        prog_name = self._dict_cfg[self.S_KEY_NAME]
+
+        # print
+        print()
+        print(self.S_MSG_UNINST_START.format(prog_name))
+
+        # uninstall
+        self._do_uninstall_content()
+        print(self.S_MSG_UNINST_END.format(prog_name))
+
+    # --------------------------------------------------------------------------
+    # Private methods
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # Make venv for this program on user&#39;s computer
+    # --------------------------------------------------------------------------
+    def _make_venv(self, dir_usr_inst, dir_venv):
+        &#34;&#34;&#34;
+        Make venv for this program on user&#39;s computer
+
+        Args:
+            dir_usr_inst: The program&#39;s install folder in which to make a venv
+            folder.
+            dir_venv: The path to the venv folder to create.
+
+        Raises:
+            subprocess.CalledProcessError if the venv creation fails
+
+        Makes a .venv-XXX folder on the user&#39;s computer.
+        &#34;&#34;&#34;
+
+        # show progress
+        print(self.S_MSG_VENV_START, flush=True, end=&#34;&#34;)
+
+        # sanity check
+        dir_venv = Path(dir_venv)
+        if not dir_venv.is_absolute():
+            dir_venv = Path(dir_usr_inst) / dir_venv
+
+        # the command to create a venv
+        cmd = self.S_CMD_CREATE.format(dir_venv)
+
+        # if it&#39;s a dry run, don&#39;t make venv
+        if self._dry:
+            print(&#34;\nvenv cmd:&#34;, cmd)
+            print(self.S_MSG_DONE, &#34;\n&#34;)
+            return
+
+        # the cmd to create the venv
+        try:
+            F.sh(cmd, shell=True)
+            print(self.S_MSG_DONE)
+        except Exception as e:
+            print(self.S_MSG_FAIL)
+            raise e
+
+    # --------------------------------------------------------------------------
+    # Install requirements.txt
+    # --------------------------------------------------------------------------
+    def _install_reqs(self, dir_usr_inst, dir_venv, path_reqs):
+        &#34;&#34;&#34;
+        Install requirements.txt
+
+        Args:
+            dir_usr_inst: The program&#39;s install folder in which the venv
+            resides
+            dir_venv: The path tp the venv folder to create
+            path_reqs: Path to the requirements.txt file to add requirements to
+            the venv
+
+        Raises:
+            subprocess.CalledProcessError if the reqs install fails
+
+        Installs the contents of a requirements.txt file into the program&#39;s
+        venv.
+        &#34;&#34;&#34;
+
+        # show progress
+        print(self.S_MSG_REQS_START, end=&#34;&#34;, flush=True)
+
+        # sanity check
+        dir_venv = Path(dir_venv)
+        if not dir_venv.is_absolute():
+            dir_venv = Path(dir_usr_inst) / dir_venv
+
+        # if param is not abs, make abs rel to prj dir
+        path_reqs = Path(path_reqs)
+        if not path_reqs.is_absolute():
+            path_reqs = Path(dir_usr_inst) / path_reqs
+
+        # the command to install packages to venv from reqs
+        cmd = self.S_CMD_INSTALL.format(
+            dir_venv.parent, dir_venv.name, path_reqs
+        )
+
+        # if it&#39;s a dry run, don&#39;t install
+        if self._dry:
+            print(&#34;\nreqs cmd:&#34;, cmd)
+            print(self.S_MSG_DONE, &#34;\n&#34;)
+            return
+
+        # the cmd to install the reqs
+        try:
+            F.sh(cmd, shell=True)
+            print(self.S_MSG_DONE)
+        except Exception as e:
+            print(self.S_MSG_FAIL)
+            raise e
+
+    # --------------------------------------------------------------------------
+    # Install libs to program&#39;s venv
+    # --------------------------------------------------------------------------
+    def _install_libs(self, dir_usr_inst, dir_venv, dir_lib):
+        &#34;&#34;&#34;
+        Install libs to program&#39;s venv
+
+        Args:
+            dir_usr_inst: The program&#39;s install folder in which the venv
+            resides
+            dir_venv: The path tp the venv folder to create
+            dir_lib: The path to the folder where the libs reside
+
+        Raises:
+            subprocess.CalledProcessError if the libs install fails
+
+        Installs the contents of a lib folder in the program&#39;s venv.
+        &#34;&#34;&#34;
+
+        # show some info
+        print(self.S_MSG_LIBS_START, end=&#34;&#34;, flush=True)
+
+        # sanity check
+        dir_venv = Path(dir_venv)
+        if not dir_venv.is_absolute():
+            dir_venv = Path(dir_usr_inst) / dir_venv
+
+        # sanity check
+        dir_lib = Path(dir_lib)
+        if not dir_lib.is_absolute():
+            dir_lib = Path(dir_usr_inst) / dir_lib
+
+        # start the full command
+        cmd = self.S_CMD_VENV_ACTIVATE.format(dir_usr_inst, dir_venv)
+
+        # get list of libs for this prj type
+        val = [dir_lib / f for f in dir_lib.iterdir() if f.is_dir()]
+
+        # copy libs to command
+        for item in val:
+
+            # add lib
+            add_str = self.S_CMD_INST_LIB.format(str(item))
+            cmd += &#34;;&#34; + add_str
+
+        # if it&#39;s a dry run, don&#39;t install
+        if self._dry:
+            print(&#34;\nlibs cmd:&#34;, cmd)
+            print(self.S_MSG_DONE, &#34;\n&#34;)
+            return
+
+        # the command to install libs
+        try:
+            F.sh(cmd, shell=True)
+            print(self.S_MSG_DONE)
+        except Exception as e:
+            print(self.S_MSG_FAIL)
+            raise e
+
+    # --------------------------------------------------------------------------
+    # Open a json file and return the dict inside
+    # --------------------------------------------------------------------------
+    def _get_dict_from_file(self, path_cfg):
+        &#34;&#34;&#34;
+        Open a json file and return the dict inside
+
+        Args:
+            path_cfg: Path to the file containing the dict
+
+        Returns:
+            The dict contained in the file
+
+        Opens the specified file and returns the config dict found in it.
+        &#34;&#34;&#34;
+
+        # set conf dict
+        try:
+            with open(path_cfg, &#34;r&#34;, encoding=&#34;UTF-8&#34;) as a_file:
+                return json.load(a_file)
+
+        # file not found
+        except FileNotFoundError as e:
+            raise OSError(self.S_ERR_NOT_FOUND.format(path_cfg)) from e
+
+        # not valid json in file
+        except json.JSONDecodeError as e:
+            raise OSError(self.S_ERR_NOT_JSON.format(path_cfg)) from e
+
+    # --------------------------------------------------------------------------
+    # Copy source files/folders
+    # --------------------------------------------------------------------------
+    def _do_install_content(self, dir_assets):
+        &#34;&#34;&#34;
+        Copy source files/folders
+
+        Args:
+            dir_assets: The base dir from which to find install files
+
+        This method copies files and folders from the assets folder of the
+        source to their final locations in the user&#39;s folder structure.
+        &#34;&#34;&#34;
+
+        # show some info
+        print(self.S_MSG_COPY_START, flush=True, end=&#34;&#34;)
+
+        # add an extra line break
+        if self._dry:
+            print()
+
+        # content list from dict
+        content = self._dict_cfg.get(self.S_KEY_DICT_INSTALL, {})
+
+        # for each key, value
+        for k, v in content.items():
+
+            # get full paths of source / destination
+            src = dir_assets / k
+            dst = Path.home() / v / src.name
+
+            if k in (&#34;&#34;, &#34;.&#34;, &#34;..&#34;, None):
+                print(self.S_ERR_SRC_PATH.format(k))
+                sys.exit()
+
+            if v in (&#34;&#34;, &#34;.&#34;, &#34;..&#34;) or src.name in (&#34;&#34;, &#34;.&#34;, &#34;..&#34;):
+                print(self.S_ERR_DST_PATH.format(v))
+                sys.exit()
+
+            # debug may omit certain assets
+            if not src.exists():
+                continue
+
+            if self._dry:
+                print(f&#34;copy\n{src}\nto\n{dst}\n&#34;)
+            else:
+                # if the source is a dir
+                if src.is_dir():
+                    shutil.copytree(src, dst, dirs_exist_ok=True)
+                else:
+                    shutil.copy(src, dst)
+
+        # show some info
+        print(self.S_MSG_DONE)
+
+    # --------------------------------------------------------------------------
+    # Remove source files/folders
+    # --------------------------------------------------------------------------
+    def _do_uninstall_content(self):
+        &#34;&#34;&#34;
+        Remove source files/folders
+
+        This method removes files and folders from various locations in the
+        user&#39;s computer.
+        &#34;&#34;&#34;
+
+        # show some info
+        print(self.S_MSG_DEL_START, flush=True, end=&#34;&#34;)
+
+        # make pretty
+        if self._dry:
+            print()
+
+        # content list from dict
+        content = self._dict_cfg.get(self.S_KEY_LIST_UNINST, [])
+
+        # for each key, value
+        for item in content:
+
+            # weed out relative paths
+            if item in (&#34;&#34;, &#34;.&#34;, &#34;..&#34;):
+                print(self.S_ERR_DST_PATH.format(item))
+                sys.exit()
+
+            # get full path of destination
+            src = Path.home() / item
+
+            # debug may omit certain assets
+            if not src.exists():
+                continue
+
+            # (maybe) do delete
+            if self._dry:
+                print(f&#34;remove\n{item}\n&#34;)
+            else:
+
+                # if the source is a dir
+                if src.is_dir():
+                    # remove dir
+                    shutil.rmtree(src)
+
+                # if the source is a file
+                else:
+                    # copy file
+                    src.unlink()
+
+        # show some info
+        print(self.S_MSG_DONE)
+
+    # --------------------------------------------------------------------------
+    # Compare two version strings for relativity
+    # --------------------------------------------------------------------------
+    def _do_compare_versions(self, ver_old, ver_new):
+        &#34;&#34;&#34;
+        Compare two version strings for relativity
+
+        Args:
+            ver_old: Old version string
+            ver_new: New version string
+
+        Returns:
+            An integer representing the relativity of the two version strings.
+            0 means the two versions are equal,
+            1 means new_ver is newer than old_ver (or there is no old_ver), and
+            -1 means new_ver is older than old_ver.
+
+        This method compares two version strings and determines which is older,
+        which is newer, or if they are equal. Note that this method converts
+        only the first three parts of a semantic version string
+        (https://semver.org/).
+        &#34;&#34;&#34;
+
+        # test for new install (don&#39;t try to regex)
+        if ver_old == &#34;&#34;:
+            return 1
+
+        # test for equal (just save some cpu cycles)
+        if ver_old == ver_new:
+            return 0
+
+        # compare version string parts (only x.x.x)
+        res_old = re.search(self.R_VERSION, ver_old)
+        res_new = re.search(self.R_VERSION, ver_new)
+
+        # if both version strings are valid
+        if res_old and res_new:
+
+            # make a list of groups to check
+            lst_groups = [
+                self.R_VERSION_GROUP_MAJ,
+                self.R_VERSION_GROUP_MIN,
+                self.R_VERSION_GROUP_REV,
+            ]
+
+            # for each part as int
+            for group in lst_groups:
+                old_val = int(res_old.group(group))
+                new_val = int(res_new.group(group))
+
+                # slide out at the first difference
+                if old_val &lt; new_val:
+                    return 1
+                elif old_val &gt; new_val:
+                    return -1
+                else:
+                    continue
+        else:
+            raise OSError(self.S_ERR_VERSION)
+
+        # return 0 if equal
+        return 0</code></pre>
+</details>
+<div class="desc"><p>The class to use for installing/uninstalling</p>
+<h2 id="methods">Methods</h2>
+<p>make_install_cfg: Make a valid install config file
+make_uninstall_cfg: Make a valid uninstall config file
+fix_desktop_file: Fix .desktop file, for paths and such
+install: Install the program
+uninstall: Uninstall the program</p>
+<p>This class provides functions to create install/uninstall config files, and
+performs the install and uninstall operations.</p>
+<p>Initialize the class</p>
+<p>Creates a new instance of the object and initializes its properties.</p></div>
+<h3>Class variables</h3>
+<dl>
+<dt id="CNLib.cnlib.cninstall.CNInstall.R_ICON_REP"><code class="name">var <span class="ident">R_ICON_REP</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.R_ICON_SCH"><code class="name">var <span class="ident">R_ICON_SCH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.R_VERSION"><code class="name">var <span class="ident">R_VERSION</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_MAJ"><code class="name">var <span class="ident">R_VERSION_GROUP_MAJ</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_MIN"><code class="name">var <span class="ident">R_VERSION_GROUP_MIN</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_REV"><code class="name">var <span class="ident">R_VERSION_GROUP_REV</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_ASK_CONFIRM"><code class="name">var <span class="ident">S_ASK_CONFIRM</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_ASK_VER_OLDER"><code class="name">var <span class="ident">S_ASK_VER_OLDER</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_ASK_VER_SAME"><code class="name">var <span class="ident">S_ASK_VER_SAME</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_CMD_CREATE"><code class="name">var <span class="ident">S_CMD_CREATE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_CMD_INSTALL"><code class="name">var <span class="ident">S_CMD_INSTALL</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_CMD_INST_LIB"><code class="name">var <span class="ident">S_CMD_INST_LIB</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_CMD_VENV_ACTIVATE"><code class="name">var <span class="ident">S_CMD_VENV_ACTIVATE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_DRY_ACTION"><code class="name">var <span class="ident">S_DRY_ACTION</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_DRY_DESK_ICON"><code class="name">var <span class="ident">S_DRY_DESK_ICON</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_DRY_DEST"><code class="name">var <span class="ident">S_DRY_DEST</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_DRY_HELP"><code class="name">var <span class="ident">S_DRY_HELP</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_DRY_OPTION"><code class="name">var <span class="ident">S_DRY_OPTION</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_ERR_DST_PATH"><code class="name">var <span class="ident">S_ERR_DST_PATH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_ERR_NOT_FOUND"><code class="name">var <span class="ident">S_ERR_NOT_FOUND</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_ERR_NOT_JSON"><code class="name">var <span class="ident">S_ERR_NOT_JSON</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_ERR_NO_SUDO"><code class="name">var <span class="ident">S_ERR_NO_SUDO</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_ERR_SRC_PATH"><code class="name">var <span class="ident">S_ERR_SRC_PATH</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_ERR_VERSION"><code class="name">var <span class="ident">S_ERR_VERSION</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_KEY_DICT_INSTALL"><code class="name">var <span class="ident">S_KEY_DICT_INSTALL</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_KEY_LIST_UNINST"><code class="name">var <span class="ident">S_KEY_LIST_UNINST</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_KEY_NAME"><code class="name">var <span class="ident">S_KEY_NAME</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_KEY_VERSION"><code class="name">var <span class="ident">S_KEY_VERSION</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_MSG_COPY_START"><code class="name">var <span class="ident">S_MSG_COPY_START</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_MSG_DEL_START"><code class="name">var <span class="ident">S_MSG_DEL_START</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_MSG_DONE"><code class="name">var <span class="ident">S_MSG_DONE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_MSG_DSK_START"><code class="name">var <span class="ident">S_MSG_DSK_START</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_MSG_FAIL"><code class="name">var <span class="ident">S_MSG_FAIL</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_MSG_INST_END"><code class="name">var <span class="ident">S_MSG_INST_END</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_MSG_INST_START"><code class="name">var <span class="ident">S_MSG_INST_START</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_MSG_LIBS_START"><code class="name">var <span class="ident">S_MSG_LIBS_START</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_MSG_REQS_START"><code class="name">var <span class="ident">S_MSG_REQS_START</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_MSG_UNINST_END"><code class="name">var <span class="ident">S_MSG_UNINST_END</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_MSG_UNINST_START"><code class="name">var <span class="ident">S_MSG_UNINST_START</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_MSG_VENV_START"><code class="name">var <span class="ident">S_MSG_VENV_START</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_MSG_VER_ABORT"><code class="name">var <span class="ident">S_MSG_VER_ABORT</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="CNLib.cnlib.cninstall.CNInstall.fix_desktop_file"><code class="name flex">
+<span>def <span class="ident">fix_desktop_file</span></span>(<span>self, desk_file, path_icon, dry=False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fix_desktop_file(self, desk_file, path_icon, dry=False):
+    &#34;&#34;&#34;
+    Fix .desktop file, for paths and such
+
+    Args:
+        desk_file: The path to the desktop file to be modified
+        path_icon: The path to the program&#39;s icon, relative to user home
+        dry: If True, do not copy files, ony print the action (default:
+        False)
+
+    Fixes entries in the .desktop file (absolute paths, etc.)
+    Currently only fixes absolute path to icon.
+    &#34;&#34;&#34;
+
+    # sanity check
+    # NB: in a cli or pkg, this file will not exist
+    if not desk_file.exists():
+        return
+
+    # print info
+    print(self.S_MSG_DSK_START, end=&#34;&#34;, flush=True)
+
+    # open file
+    text = &#34;&#34;
+    with open(desk_file, &#34;r&#34;, encoding=&#34;UTF-8&#34;) as a_file:
+        text = a_file.read()
+
+    # find icon line and fix
+    res = re.search(self.R_ICON_SCH, text, flags=re.M)
+    if res:
+
+        # get user&#39;s home and path to icon rel to prj
+        path_icon = Path.home() / path_icon
+
+        # fix abs path to icon
+        r_icon_rep = self.R_ICON_REP.format(path_icon)
+        text = re.sub(self.R_ICON_SCH, r_icon_rep, text, flags=re.M)
+
+        # ----------------------------------------------------------------------
+
+        # don&#39;t mess with file
+        if dry:
+            print(self.S_DRY_DESK_ICON.format(path_icon))
+            return
+
+        # write fixed text back to file
+        with open(desk_file, &#34;w&#34;, encoding=&#34;UTF-8&#34;) as a_file:
+            a_file.write(text)</code></pre>
+</details>
+<div class="desc"><p>Fix .desktop file, for paths and such</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>desk_file</code></strong></dt>
+<dd>The path to the desktop file to be modified</dd>
+<dt><strong><code>path_icon</code></strong></dt>
+<dd>The path to the program's icon, relative to user home</dd>
+<dt><strong><code>dry</code></strong></dt>
+<dd>If True, do not copy files, ony print the action (default:</dd>
+</dl>
+<p>False)
+Fixes entries in the .desktop file (absolute paths, etc.)
+Currently only fixes absolute path to icon.</p></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.install"><code class="name flex">
+<span>def <span class="ident">install</span></span>(<span>self,<br>dir_assets,<br>path_lib,<br>path_cfg_inst,<br>path_cfg_uninst,<br>dir_usr_inst,<br>dir_venv,<br>path_reqs,<br>dry=False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def install(
+    self,
+    dir_assets,
+    path_lib,
+    path_cfg_inst,
+    path_cfg_uninst,
+    dir_usr_inst,
+    dir_venv,
+    path_reqs,
+    dry=False,
+):
+    &#34;&#34;&#34;
+    Install the program
+
+    Args:
+        dir_assets: Path to the assets folder where all of the program
+        files are put in dist. This is the base source path to use when
+        copying files to the user&#39;s computer
+        path_lib: Path to the dist&#39;s lib folder, ie. &#34;assets/lib&#34;
+        path_cfg_inst: Path to the file that contains the current install
+        dict info
+        path_cfg_uninst: Path to the currently installed program&#39;s
+        uninstall dict info
+        dir_usr_inst: The program&#39;s install folder in which to make a venv
+        dir_venv: The path to the venv folder to create
+        path_reqs: Path to the requirements.txt file to add requirements to
+        the venv
+        dry: If True, do not copy files, ony print the action (default:
+        False)
+
+    Runs the install operation.
+    &#34;&#34;&#34;
+
+    # set properties
+    self._dry = dry
+
+    # get install dict
+    self._dict_cfg = self._get_dict_from_file(path_cfg_inst)
+
+    # get prg name/version
+    prog_name = self._dict_cfg[self.S_KEY_NAME]
+    prog_version = self._dict_cfg[self.S_KEY_VERSION]
+
+    # print start msg
+    print()
+    print(self.S_MSG_INST_START.format(prog_name, prog_version))
+
+    # ----------------------------------------------------------------------
+    # check for existing/old version
+
+    # if we did pass an old conf, it must exist (if it doesn&#39;t, this could
+    # be the first install but we will want to check on later updates)
+    if path_cfg_uninst and Path(path_cfg_uninst).exists():
+        dict_cfg_old = self._get_dict_from_file(path_cfg_uninst)
+
+        # check versions
+        ver_old = dict_cfg_old[self.S_KEY_VERSION]
+        ver_new = self._dict_cfg[self.S_KEY_VERSION]
+        res = self._do_compare_versions(ver_old, ver_new)
+
+        # same version is installed
+        if res == 0:
+
+            # ask to install same version
+            str_ask = input(self.S_ASK_VER_SAME)
+
+            # user hit enter or typed anything else except &#34;y&#34;
+            if (
+                len(str_ask) == 0
+                or str_ask.lower()[0] != self.S_ASK_CONFIRM
+            ):
+                print(self.S_MSG_VER_ABORT)
+                sys.exit()
+
+        # newer version is installed
+        elif res == -1:
+
+            # ask to install old version over newer
+            str_ask = input(self.S_ASK_VER_OLDER)
+
+            # user hit enter or typed anything else except &#34;y&#34;
+            if (
+                len(str_ask) == 0
+                or str_ask.lower()[0] != self.S_ASK_CONFIRM
+            ):
+                print(self.S_MSG_VER_ABORT)
+                sys.exit()
+
+    # ----------------------------------------------------------------------
+    # draw the rest of the owl
+
+    # make the venv on the user&#39;s comp
+    self._make_venv(dir_usr_inst, dir_venv)
+
+    # install reqs
+    self._install_reqs(dir_usr_inst, dir_venv, path_reqs)
+
+    # install libs
+    self._install_libs(dir_usr_inst, dir_venv, path_lib)
+
+    # move content
+    self._do_install_content(dir_assets)
+
+    print(self.S_MSG_INST_END.format(prog_name))</code></pre>
+</details>
+<div class="desc"><p>Install the program</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dir_assets</code></strong></dt>
+<dd>Path to the assets folder where all of the program</dd>
+<dt>files are put in dist. This is the base source path to use when</dt>
+<dt>copying files to the user's computer</dt>
+<dt><strong><code>path_lib</code></strong></dt>
+<dd>Path to the dist's lib folder, ie. "assets/lib"</dd>
+<dt><strong><code>path_cfg_inst</code></strong></dt>
+<dd>Path to the file that contains the current install</dd>
+<dt>dict info</dt>
+<dt><strong><code>path_cfg_uninst</code></strong></dt>
+<dd>Path to the currently installed program's</dd>
+<dt>uninstall dict info</dt>
+<dt><strong><code>dir_usr_inst</code></strong></dt>
+<dd>The program's install folder in which to make a venv</dd>
+<dt><strong><code>dir_venv</code></strong></dt>
+<dd>The path to the venv folder to create</dd>
+<dt><strong><code>path_reqs</code></strong></dt>
+<dd>Path to the requirements.txt file to add requirements to</dd>
+<dt>the venv</dt>
+<dt><strong><code>dry</code></strong></dt>
+<dd>If True, do not copy files, ony print the action (default:</dd>
+</dl>
+<p>False)
+Runs the install operation.</p></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.make_install_cfg"><code class="name flex">
+<span>def <span class="ident">make_install_cfg</span></span>(<span>self, name, version, dict_install)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def make_install_cfg(self, name, version, dict_install):
+    &#34;&#34;&#34;
+    Make a valid install config file
+
+    Args:
+        name: Program name
+        version: New version number to compare to any installed version
+        dict_install: Dict of assets to install
+
+    Returns:
+        A properly formatted install config dict to save to a file
+
+    This method creates a config file for use by install.py. The dict
+    format can be found below.
+    &#34;&#34;&#34;
+
+    # create the dict using args
+    dict_use = {
+        self.S_KEY_NAME: name,
+        self.S_KEY_VERSION: version,
+        self.S_KEY_DICT_INSTALL: dict_install,
+    }
+
+    # return the formatted dict
+    return dict_use</code></pre>
+</details>
+<div class="desc"><p>Make a valid install config file</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>Program name</dd>
+<dt><strong><code>version</code></strong></dt>
+<dd>New version number to compare to any installed version</dd>
+<dt><strong><code>dict_install</code></strong></dt>
+<dd>Dict of assets to install</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A properly formatted install config dict to save to a file
+This method creates a config file for use by install.py. The dict
+format can be found below.</p></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.make_uninstall_cfg"><code class="name flex">
+<span>def <span class="ident">make_uninstall_cfg</span></span>(<span>self, name, version, list_uninst)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def make_uninstall_cfg(self, name, version, list_uninst):
+    &#34;&#34;&#34;
+    Make a valid uninstall config file
+
+    Args:
+        name: Program name
+        version: Initial program version from pyplate.py
+        list_uninstall: List of assets to uninstall
+
+    Returns:
+        A properly formatted uninstall config dict to save to a file
+
+    This method creates a config file for use by uninstall.py. The dict
+    format can be found below.
+    &#34;&#34;&#34;
+
+    # create the dict using args
+    dict_use = {
+        self.S_KEY_NAME: name,
+        self.S_KEY_VERSION: version,
+        self.S_KEY_LIST_UNINST: list_uninst,
+    }
+
+    # return the formatted dict
+    return dict_use</code></pre>
+</details>
+<div class="desc"><p>Make a valid uninstall config file</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>Program name</dd>
+<dt><strong><code>version</code></strong></dt>
+<dd>Initial program version from pyplate.py</dd>
+<dt><strong><code>list_uninstall</code></strong></dt>
+<dd>List of assets to uninstall</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A properly formatted uninstall config dict to save to a file
+This method creates a config file for use by uninstall.py. The dict
+format can be found below.</p></div>
+</dd>
+<dt id="CNLib.cnlib.cninstall.CNInstall.uninstall"><code class="name flex">
+<span>def <span class="ident">uninstall</span></span>(<span>self, path_cfg, dry=False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def uninstall(self, path_cfg, dry=False):
+    &#34;&#34;&#34;
+    Uninstall the program
+
+    Args:
+        path_cfg: Path to the file that contains the uninstall dict info
+        dry: If True, do not remove files, ony print the action (default:
+        False)
+
+    Runs the uninstall operation.
+    &#34;&#34;&#34;
+
+    # set properties
+    self._dry = dry
+
+    # get dict from file
+    self._dict_cfg = self._get_dict_from_file(path_cfg)
+
+    # get prg name
+    prog_name = self._dict_cfg[self.S_KEY_NAME]
+
+    # print
+    print()
+    print(self.S_MSG_UNINST_START.format(prog_name))
+
+    # uninstall
+    self._do_uninstall_content()
+    print(self.S_MSG_UNINST_END.format(prog_name))</code></pre>
+</details>
+<div class="desc"><p>Uninstall the program</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>path_cfg</code></strong></dt>
+<dd>Path to the file that contains the uninstall dict info</dd>
+<dt><strong><code>dry</code></strong></dt>
+<dd>If True, do not remove files, ony print the action (default:</dd>
+</dl>
+<p>False)
+Runs the uninstall operation.</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<header>
+<a class="homelink" rel="home" href="https://github.com/cyclopticnerve/CNLib">
+<!-- image will get fixed into local img -->
+<img src="../img/cnlib.png"/>CNLib
+</a>
+<br/>
+<!-- __RM_VERSION__ -->
+Version 0.0.2
+<!-- __RM_VERSION__ -->
+</header>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="CNLib.cnlib" href="index.html">CNLib.cnlib</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="CNLib.cnlib.cninstall.CNInstall" href="#CNLib.cnlib.cninstall.CNInstall">CNInstall</a></code></h4>
+<ul class="two-column">
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.R_ICON_REP" href="#CNLib.cnlib.cninstall.CNInstall.R_ICON_REP">R_ICON_REP</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.R_ICON_SCH" href="#CNLib.cnlib.cninstall.CNInstall.R_ICON_SCH">R_ICON_SCH</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.R_VERSION" href="#CNLib.cnlib.cninstall.CNInstall.R_VERSION">R_VERSION</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_MAJ" href="#CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_MAJ">R_VERSION_GROUP_MAJ</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_MIN" href="#CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_MIN">R_VERSION_GROUP_MIN</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_REV" href="#CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_REV">R_VERSION_GROUP_REV</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ASK_CONFIRM" href="#CNLib.cnlib.cninstall.CNInstall.S_ASK_CONFIRM">S_ASK_CONFIRM</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ASK_VER_OLDER" href="#CNLib.cnlib.cninstall.CNInstall.S_ASK_VER_OLDER">S_ASK_VER_OLDER</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ASK_VER_SAME" href="#CNLib.cnlib.cninstall.CNInstall.S_ASK_VER_SAME">S_ASK_VER_SAME</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_CMD_CREATE" href="#CNLib.cnlib.cninstall.CNInstall.S_CMD_CREATE">S_CMD_CREATE</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_CMD_INSTALL" href="#CNLib.cnlib.cninstall.CNInstall.S_CMD_INSTALL">S_CMD_INSTALL</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_CMD_INST_LIB" href="#CNLib.cnlib.cninstall.CNInstall.S_CMD_INST_LIB">S_CMD_INST_LIB</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_CMD_VENV_ACTIVATE" href="#CNLib.cnlib.cninstall.CNInstall.S_CMD_VENV_ACTIVATE">S_CMD_VENV_ACTIVATE</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_DRY_ACTION" href="#CNLib.cnlib.cninstall.CNInstall.S_DRY_ACTION">S_DRY_ACTION</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_DRY_DESK_ICON" href="#CNLib.cnlib.cninstall.CNInstall.S_DRY_DESK_ICON">S_DRY_DESK_ICON</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_DRY_DEST" href="#CNLib.cnlib.cninstall.CNInstall.S_DRY_DEST">S_DRY_DEST</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_DRY_HELP" href="#CNLib.cnlib.cninstall.CNInstall.S_DRY_HELP">S_DRY_HELP</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_DRY_OPTION" href="#CNLib.cnlib.cninstall.CNInstall.S_DRY_OPTION">S_DRY_OPTION</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ERR_DST_PATH" href="#CNLib.cnlib.cninstall.CNInstall.S_ERR_DST_PATH">S_ERR_DST_PATH</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ERR_NOT_FOUND" href="#CNLib.cnlib.cninstall.CNInstall.S_ERR_NOT_FOUND">S_ERR_NOT_FOUND</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ERR_NOT_JSON" href="#CNLib.cnlib.cninstall.CNInstall.S_ERR_NOT_JSON">S_ERR_NOT_JSON</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ERR_NO_SUDO" href="#CNLib.cnlib.cninstall.CNInstall.S_ERR_NO_SUDO">S_ERR_NO_SUDO</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ERR_SRC_PATH" href="#CNLib.cnlib.cninstall.CNInstall.S_ERR_SRC_PATH">S_ERR_SRC_PATH</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ERR_VERSION" href="#CNLib.cnlib.cninstall.CNInstall.S_ERR_VERSION">S_ERR_VERSION</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_KEY_DICT_INSTALL" href="#CNLib.cnlib.cninstall.CNInstall.S_KEY_DICT_INSTALL">S_KEY_DICT_INSTALL</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_KEY_LIST_UNINST" href="#CNLib.cnlib.cninstall.CNInstall.S_KEY_LIST_UNINST">S_KEY_LIST_UNINST</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_KEY_NAME" href="#CNLib.cnlib.cninstall.CNInstall.S_KEY_NAME">S_KEY_NAME</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_KEY_VERSION" href="#CNLib.cnlib.cninstall.CNInstall.S_KEY_VERSION">S_KEY_VERSION</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_MSG_COPY_START" href="#CNLib.cnlib.cninstall.CNInstall.S_MSG_COPY_START">S_MSG_COPY_START</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_MSG_DEL_START" href="#CNLib.cnlib.cninstall.CNInstall.S_MSG_DEL_START">S_MSG_DEL_START</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_MSG_DONE" href="#CNLib.cnlib.cninstall.CNInstall.S_MSG_DONE">S_MSG_DONE</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_MSG_DSK_START" href="#CNLib.cnlib.cninstall.CNInstall.S_MSG_DSK_START">S_MSG_DSK_START</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_MSG_FAIL" href="#CNLib.cnlib.cninstall.CNInstall.S_MSG_FAIL">S_MSG_FAIL</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_MSG_INST_END" href="#CNLib.cnlib.cninstall.CNInstall.S_MSG_INST_END">S_MSG_INST_END</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_MSG_INST_START" href="#CNLib.cnlib.cninstall.CNInstall.S_MSG_INST_START">S_MSG_INST_START</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_MSG_LIBS_START" href="#CNLib.cnlib.cninstall.CNInstall.S_MSG_LIBS_START">S_MSG_LIBS_START</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_MSG_REQS_START" href="#CNLib.cnlib.cninstall.CNInstall.S_MSG_REQS_START">S_MSG_REQS_START</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_MSG_UNINST_END" href="#CNLib.cnlib.cninstall.CNInstall.S_MSG_UNINST_END">S_MSG_UNINST_END</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_MSG_UNINST_START" href="#CNLib.cnlib.cninstall.CNInstall.S_MSG_UNINST_START">S_MSG_UNINST_START</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_MSG_VENV_START" href="#CNLib.cnlib.cninstall.CNInstall.S_MSG_VENV_START">S_MSG_VENV_START</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_MSG_VER_ABORT" href="#CNLib.cnlib.cninstall.CNInstall.S_MSG_VER_ABORT">S_MSG_VER_ABORT</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.fix_desktop_file" href="#CNLib.cnlib.cninstall.CNInstall.fix_desktop_file">fix_desktop_file</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.install" href="#CNLib.cnlib.cninstall.CNInstall.install">install</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.make_install_cfg" href="#CNLib.cnlib.cninstall.CNInstall.make_install_cfg">make_install_cfg</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.make_uninstall_cfg" href="#CNLib.cnlib.cninstall.CNInstall.make_uninstall_cfg">make_uninstall_cfg</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.uninstall" href="#CNLib.cnlib.cninstall.CNInstall.uninstall">uninstall</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

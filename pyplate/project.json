@@ -2,14 +2,17 @@
     "PUB_BL": {
         "SKIP_ALL": [
             ".git",
+            "**/.venv*",
             ".VSCodeCounter",
-            "**/__pycache__",
-            "*.egg-info",
-            "build",
+            "dist",
             "docs",
+            "i18n",
             "misc",
+            "LICENSE.txt",
+            "requirements.txt",
             "todo",
-            "LICENSE.txt"
+            "**/__pycache__",
+            "site"
         ],
         "SKIP_CONTENTS": [
             "**/*.png",
@@ -18,31 +21,68 @@
         ],
         "SKIP_HEADER": [],
         "SKIP_CODE": [
-            ".gitignore"
+            ".gitignore",
+            ".desktop"
         ],
         "SKIP_PATH": [],
         "SKIP_TREE": [
             ".git",
+            "**/.venv*",
             ".VSCodeCounter",
-            "**/__pycache__",
-            "*.egg-info",
-            "build"
-
+            "**/__pycache__"
         ]
     },
     "PUB_DBG": {
         "DBG_GIT": true,
         "DBG_VENV": true,
         "DBG_I18N": true,
-        "DBG_DOCS": false,
+        "DBG_DOCS": true,
         "DBG_INST": true,
         "DBG_TREE": true,
         "DBG_DIST": true
     },
-    "PUB_DIST": {},
-    "PUB_I18N": {},
+    "PUB_DIST": {
+        "img": "",
+        "readme": "",
+        "pkg_test": "",
+        "LICENSE.txt": "",
+        "README.md": "",
+        "docs": "",
+        "pyproject.toml": ""
+    },
+    "PUB_DOCS": {
+        "DOCS_TOOL": "pdoc3",
+        "DOCS_THEME": ""
+    },
+    "PUB_I18N": {
+        "DOMAIN": "pkg_test",
+        "SOURCES": [
+            "src"
+        ],
+        "CLANGS": {
+            "Python": [
+                "py"
+            ],
+            "Glade": [
+                ".ui",
+                ".glade"
+            ],
+            "Desktop": [
+                ".desktop"
+            ]
+        },
+        "NO_EXT": {
+            "Python": [
+                ""
+            ]
+        },
+        "WLANGS": [
+            "en"
+        ],
+        "CHARSET": "UTF-8"
+    },
     "PUB_META": {
-        "META_VERSION": "0.0.1",
+        "META_VERSION": "0.0.2",
         "META_SHORT_DESC": "A Python library containing useful functions and classes",
         "META_KEYWORDS": [
             "python",

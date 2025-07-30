@@ -24,7 +24,20 @@ import sys
 # ------------------------------------------------------------------------------
 # local imports
 
-import cnfunctions as F
+
+# pylint: disable=import-error
+# pylint: disable=wrong-import-position
+
+# add assets lib to path
+P_DIR_LIB = Path(__file__).parent.resolve()
+sys.path.append(str(P_DIR_LIB))
+
+# local imports
+import cnfunctions as F  # type: ignore
+
+# pylint: enable=import-error
+# pylint: enable=wrong-import-position
+
 
 # ------------------------------------------------------------------------------
 # Classes
