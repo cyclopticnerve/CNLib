@@ -94,10 +94,6 @@ class CNInstall:
     S_MSG_REQS_START = "Installing requirements... "
     S_MSG_LIBS_START = "Installing libs... "
     S_MSG_DSK_START = "Fixing .desktop file... "
-    S_ASK_VER_SAME = (
-        "The current version of this program is already installed. Do you"
-        " want to overwrite? [y/N] "
-    )
     S_MSG_VER_ABORT = "Installation aborted"
 
     # errors
@@ -106,7 +102,6 @@ class CNInstall:
     # NB: format param is file path
     S_ERR_NOT_JSON = "File {} is not a JSON file"
     S_ERR_NO_SUDO = "Could not get sudo permission"
-    S_ERR_VERSION = "One or both version numbers are invalid"
     # NB: format param is source path
     S_ERR_SRC_PATH = "src can not be {}"
     # NB: format param is dest path
@@ -117,9 +112,12 @@ class CNInstall:
     S_DRY_ACTION = "store_true"
     S_DRY_DEST = "DBG_DEST"
     S_DRY_HELP = "do a dry run, printing file info instead of modifying it"
-    S_ASK_VER_OLDER = "A newer version of this program is currently installed. \
-        Do you want to overwrite? [y/N] "
-    S_ASK_CONFIRM = "y"
+
+    # questions
+    S_ASK_VER_SAME = "The current version of this program is already \
+                        installed. Do you  want to overwrite?"
+    S_ASK_VER_OLDER = "A newer version of this program is currently \
+                          installed. Do you want to overwrite?"
 
     # --------------------------------------------------------------------------
 
@@ -135,12 +133,6 @@ class CNInstall:
     S_CMD_VENV_ACTIVATE = "cd {};. {}/bin/activate"
     # NB: format param is name of lib
     S_CMD_INST_LIB = "python -m pip install {}"
-
-    # regex to compare version numbers
-    R_VERSION = r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(.*)$"
-    R_VERSION_GROUP_MAJ = 1
-    R_VERSION_GROUP_MIN = 2
-    R_VERSION_GROUP_REV = 3
 
     # regex for adding user's home to icon path
     R_ICON_SCH = r"^(Icon=)(.*)$"
@@ -339,33 +331,35 @@ class CNInstall:
             # check versions
             ver_old = dict_cfg_old[self.S_KEY_VERSION]
             ver_new = self._dict_cfg[self.S_KEY_VERSION]
-            res = self._do_compare_versions(ver_old, ver_new)
+            res = F.check_ver(ver_old, ver_new)
 
             # same version is installed
-            if res == 0:
+            if res == F.S_VER_SAME:
 
                 # ask to install same version
-                str_ask = input(self.S_ASK_VER_SAME)
+                str_ask = F.dialog(
+                    self.S_ASK_VER_SAME,
+                    [F.S_ASK_YES, F.S_ASK_NO],
+                    F.S_ASK_NO,
+                )
 
-                # user hit enter or typed anything else except "y"
-                if (
-                    len(str_ask) == 0
-                    or str_ask.lower()[0] != self.S_ASK_CONFIRM
-                ):
+                # user hit enter or typed "n/N"
+                if str_ask == F.S_ASK_NO:
                     print(self.S_MSG_VER_ABORT)
                     sys.exit()
 
             # newer version is installed
-            elif res == -1:
+            elif res == F.S_VER_OLDER:
 
                 # ask to install old version over newer
-                str_ask = input(self.S_ASK_VER_OLDER)
+                str_ask = F.dialog(
+                    self.S_ASK_VER_OLDER,
+                    [F.S_ASK_YES, F.S_ASK_NO],
+                    F.S_ASK_NO,
+                )
 
-                # user hit enter or typed anything else except "y"
-                if (
-                    len(str_ask) == 0
-                    or str_ask.lower()[0] != self.S_ASK_CONFIRM
-                ):
+                # user hit enter or typed "n/N"
+                if str_ask == F.S_ASK_NO:
                     print(self.S_MSG_VER_ABORT)
                     sys.exit()
 
@@ -714,69 +708,5 @@ class CNInstall:
 
         # show some info
         print(self.S_MSG_DONE)
-
-    # --------------------------------------------------------------------------
-    # Compare two version strings for relativity
-    # --------------------------------------------------------------------------
-    def _do_compare_versions(self, ver_old, ver_new):
-        """
-        Compare two version strings for relativity
-
-        Args:
-            ver_old: Old version string
-            ver_new: New version string
-
-        Returns:
-            An integer representing the relativity of the two version strings.
-            0 means the two versions are equal,
-            1 means new_ver is newer than old_ver (or there is no old_ver), and
-            -1 means new_ver is older than old_ver.
-
-        This method compares two version strings and determines which is older,
-        which is newer, or if they are equal. Note that this method converts
-        only the first three parts of a semantic version string
-        (https://semver.org/).
-        """
-
-        # test for new install (don't try to regex)
-        if ver_old == "":
-            return 1
-
-        # test for equal (just save some cpu cycles)
-        if ver_old == ver_new:
-            return 0
-
-        # compare version string parts (only x.x.x)
-        res_old = re.search(self.R_VERSION, ver_old)
-        res_new = re.search(self.R_VERSION, ver_new)
-
-        # if both version strings are valid
-        if res_old and res_new:
-
-            # make a list of groups to check
-            lst_groups = [
-                self.R_VERSION_GROUP_MAJ,
-                self.R_VERSION_GROUP_MIN,
-                self.R_VERSION_GROUP_REV,
-            ]
-
-            # for each part as int
-            for group in lst_groups:
-                old_val = int(res_old.group(group))
-                new_val = int(res_new.group(group))
-
-                # slide out at the first difference
-                if old_val < new_val:
-                    return 1
-                elif old_val > new_val:
-                    return -1
-                else:
-                    continue
-        else:
-            raise OSError(self.S_ERR_VERSION)
-
-        # return 0 if equal
-        return 0
-
 
 # -)

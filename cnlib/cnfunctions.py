@@ -28,6 +28,7 @@ Functions:
 # system imports
 import json
 from pathlib import Path
+import re
 import shlex
 import subprocess
 
@@ -45,6 +46,22 @@ S_ERR_NOT_EXIST = "dict file '{}' does not exist"
 S_ERR_NOT_VALID = "dict file '{}' is not a valid JSON file"
 # NB: format param is dict file path
 S_ERR_NOT_CREATE = "dict file '{}' could not be created"
+S_ERR_VERSION = "One or both version numbers are invalid"
+
+# questions
+S_ASK_YES = "y"
+S_ASK_NO = "n"
+
+# version check results
+S_VER_OLDER = -1
+S_VER_SAME = 0
+S_VER_NEWER = 1
+
+# regex to compare version numbers
+R_VERSION = r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(.*)$"
+R_VERSION_GROUP_MAJ = 1
+R_VERSION_GROUP_MIN = 2
+R_VERSION_GROUP_REV = 3
 
 # if it is in this list, it is True, else false
 # NB: strings here should be all lowercase
@@ -589,19 +606,24 @@ def dialog(message, buttons, default="", btn_sep="/", msg_fmt="{} [{}]: "):
     Args:
         message: The message to display
         buttons: List of single char answers to the question
-        default: The button item to return when the user presses Enter at the question (default: "")
-        btn_sep: Char to use to seperate button items
+        default: The button item to return when the user presses Enter at the 
+            question (default: "")
+        btn_sep: Char to use to separate button items
         msg_fmt: Format string to present message/buttons to the user
 
     Returns:
-        String that matches button (or empty string if entered option is not in button list)
+        A lowercased string that matches a button (or an empty string if the \
+            entered option is not in the button list)
 
     This method returns the string entered on the command line in response to a
     question. If the entered option does not match any of the buttons, a blank
     string is returned. If you set a default and the option entered is just the
     Return key, the default string will be returned. If no default is present,
     the entered string must match one of the buttons array values. All returned
-    values are lowercased.
+    values are lowercased. The question will be repeatedly printed to the 
+    screen until a valid entry is made.
+
+    Note that if default == "", pressing Enter is not considered a valid entry.
     """
 
     # make all params lowercase
@@ -628,24 +650,87 @@ def dialog(message, buttons, default="", btn_sep="/", msg_fmt="{} [{}]: "):
     btns_all = btn_sep.join(buttons)
     str_fmt = msg_fmt.format(message, btns_all)
 
-    # ask the question, get the result
-    inp = input(str_fmt)
+    # lower everything again for compare
+    buttons = [item.lower() for item in buttons]
 
     # --------------------------------------------------------------------------
 
-    # lower everything again for compare
-    buttons = [item.lower() for item in buttons]
-    inp = inp.lower()
+    while True:
 
-    # # no input (empty)
-    if inp == "" and default != "":
-        return default
+        # ask the question, get the result
+        inp = input(str_fmt)
+        inp = inp.lower()
 
-    # input a button
-    if inp in buttons:
-        return inp
+        # # no input (empty)
+        if inp == "" and default != "":
+            return default
 
-    # not blank, not a button
-    return ""
+        # input a button
+        if inp in buttons:
+            return inp
+
+# --------------------------------------------------------------------------
+# Compare two version strings for relativity
+# --------------------------------------------------------------------------
+def check_ver(ver_old, ver_new):
+    """
+    Compare two version strings for relativity
+
+    Args:
+        ver_old: Old version string
+        ver_new: New version string
+
+    Returns:
+        An integer representing the relativity of the two version strings.
+        0 means the two versions are equal,
+        1 means new_ver is newer than old_ver (or there is no old_ver), and
+        -1 means new_ver is older than old_ver.
+
+    This method compares two version strings and determines which is older,
+    which is newer, or if they are equal. Note that this method converts
+    only the first three parts of a semantic version string
+    (https://semver.org/).
+    """
+
+    # test for new install (don't try to regex)
+    if ver_old == "":
+        return S_VER_NEWER
+
+    # test for equal (just save some cpu cycles)
+    if ver_old == ver_new:
+        return S_VER_SAME
+
+    # compare version string parts (only x.x.x)
+    res_old = re.search(R_VERSION, ver_old)
+    res_new = re.search(R_VERSION, ver_new)
+
+    # if both version strings are valid
+    if res_old and res_new:
+
+        # make a list of groups to check
+        lst_groups = [
+            R_VERSION_GROUP_MAJ,
+            R_VERSION_GROUP_MIN,
+            R_VERSION_GROUP_REV,
+        ]
+
+        # for each part as int
+        for group in lst_groups:
+            old_val = int(res_old.group(group))
+            new_val = int(res_new.group(group))
+
+            # slide out at the first difference
+            if old_val < new_val:
+                return S_VER_NEWER
+            elif old_val > new_val:
+                return S_VER_OLDER
+            else:
+                continue
+    else:
+        raise OSError(S_ERR_VERSION)
+
+    # return 0 if equal
+    return 0
+
 
 # -)
