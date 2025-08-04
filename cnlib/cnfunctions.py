@@ -47,6 +47,10 @@ S_ERR_NOT_VALID = "dict file '{}' is not a valid JSON file"
 # NB: format param is dict file path
 S_ERR_NOT_CREATE = "dict file '{}' could not be created"
 S_ERR_VERSION = "One or both version numbers are invalid"
+# NB: format param is file path
+S_ERR_NOT_FOUND = "File {} not found"
+# NB: format param is file path
+S_ERR_NOT_JSON = "File {} is not a JSON file"
 
 # questions
 S_ASK_YES = "y"
@@ -596,6 +600,7 @@ def save_dict(a_dict, paths):
         except OSError as e:
             raise OSError(S_ERR_NOT_CREATE.format(path)) from e
 
+
 # ------------------------------------------------------------------------------
 # Create a dialog-like question and return the result
 # ------------------------------------------------------------------------------
@@ -669,10 +674,11 @@ def dialog(message, buttons, default="", btn_sep="/", msg_fmt="{} [{}]: "):
         if inp in buttons:
             return inp
 
-# --------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
 # Compare two version strings for relativity
-# --------------------------------------------------------------------------
-def check_ver(ver_old, ver_new):
+# ------------------------------------------------------------------------------
+def compare_versions(ver_old, ver_new):
     """
     Compare two version strings for relativity
 
@@ -682,9 +688,9 @@ def check_ver(ver_old, ver_new):
 
     Returns:
         An integer representing the relativity of the two version strings.
-        0 means the two versions are equal,
-        1 means new_ver is newer than old_ver (or there is no old_ver), and
-        -1 means new_ver is older than old_ver.
+        S_VER_SAME means the two versions are equal,
+        S_VER_NEWER means new_ver is newer than old_ver (or there is no old_ver), and
+        S_VER_OLDER means new_ver is older than old_ver.
 
     This method compares two version strings and determines which is older,
     which is newer, or if they are equal. Note that this method converts
@@ -693,7 +699,7 @@ def check_ver(ver_old, ver_new):
     """
 
     # test for new install (don't try to regex)
-    if ver_old == "":
+    if not ver_old or ver_old == "":
         return S_VER_NEWER
 
     # test for equal (just save some cpu cycles)
@@ -724,13 +730,43 @@ def check_ver(ver_old, ver_new):
                 return S_VER_NEWER
             elif old_val > new_val:
                 return S_VER_OLDER
+            # parts are equal, go to the next one
             else:
                 continue
     else:
         raise OSError(S_ERR_VERSION)
 
-    # return 0 if equal
-    return 0
+    # return same if all parts equal
+    return S_VER_SAME
+
+# --------------------------------------------------------------------------
+# Open a json file and return the dict inside
+# --------------------------------------------------------------------------
+def get_dict_from_file(path_cfg):
+    """
+    Open a json file and return the dict inside
+
+    Args:
+        path_cfg: Path to the file containing the dict
+
+    Returns:
+        The dict contained in the file
+
+    Opens the specified file and returns the config dict found in it.
+    """
+
+    # set conf dict
+    try:
+        with open(path_cfg, "r", encoding="UTF-8") as a_file:
+            return json.load(a_file)
+
+    # file not found
+    except FileNotFoundError as e:
+        raise OSError(S_ERR_NOT_FOUND.format(path_cfg)) from e
+
+    # not valid json in file
+    except json.JSONDecodeError as e:
+        raise OSError(S_ERR_NOT_JSON.format(path_cfg)) from e
 
 
 # -)

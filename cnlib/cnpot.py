@@ -33,7 +33,7 @@ import re
 import shutil
 
 # my imports
-import cnfunctions as F
+import cnlib.cnfunctions as F
 
 # ------------------------------------------------------------------------------
 # Classes

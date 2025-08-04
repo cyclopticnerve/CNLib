@@ -18,7 +18,7 @@ A class to make handling of venv folders easier
 from pathlib import Path
 
 # cnlib imports
-import cnfunctions as F
+import cnlib.cnfunctions as F
 
 # ------------------------------------------------------------------------------
 # Public classes

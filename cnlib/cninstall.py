@@ -15,7 +15,6 @@ The class to use for installing/uninstalling
 # ------------------------------------------------------------------------------
 
 # system imports
-import json
 from pathlib import Path
 import re
 import shutil
@@ -67,10 +66,10 @@ class CNInstall:
     # --------------------------------------------------------------------------
 
     # keys
-    S_KEY_NAME = "NAME"
-    S_KEY_VERSION = "VERSION"
-    S_KEY_DICT_INSTALL = "INSTALL"
-    S_KEY_LIST_UNINST = "UNINSTALL"
+    S_KEY_INST_NAME = "INST_NAME"
+    S_KEY_INST_VER = "INST_VER"
+    S_KEY_INST_DESK = "INST_DESK"
+    S_KEY_INST_CONT = "INST_CONT"
 
     # --------------------------------------------------------------------------
 
@@ -97,10 +96,6 @@ class CNInstall:
     S_MSG_VER_ABORT = "Installation aborted"
 
     # errors
-    # NB: format param is file path
-    S_ERR_NOT_FOUND = "File {} not found"
-    # NB: format param is file path
-    S_ERR_NOT_JSON = "File {} is not a JSON file"
     S_ERR_NO_SUDO = "Could not get sudo permission"
     # NB: format param is source path
     S_ERR_SRC_PATH = "src can not be {}"
@@ -163,7 +158,7 @@ class CNInstall:
     # --------------------------------------------------------------------------
     # Make a valid install config file
     # --------------------------------------------------------------------------
-    def make_install_cfg(self, name, version, dict_install):
+    def make_install_cfg(self, name, version, dict_install, desk=False):
         """
         Make a valid install config file
 
@@ -171,6 +166,7 @@ class CNInstall:
             name: Program name
             version: New version number to compare to any installed version
             dict_install: Dict of assets to install
+            desk:Whether to make a .desktop file for the program
 
         Returns:
             A properly formatted install config dict to save to a file
@@ -181,9 +177,10 @@ class CNInstall:
 
         # create the dict using args
         dict_use = {
-            self.S_KEY_NAME: name,
-            self.S_KEY_VERSION: version,
-            self.S_KEY_DICT_INSTALL: dict_install,
+            self.S_KEY_INST_NAME: name,
+            self.S_KEY_INST_VER: version,
+            self.S_KEY_INST_DESK: desk,
+            self.S_KEY_INST_CONT: dict_install,
         }
 
         # return the formatted dict
@@ -192,7 +189,7 @@ class CNInstall:
     # --------------------------------------------------------------------------
     # Make a valid uninstall config file
     # --------------------------------------------------------------------------
-    def make_uninstall_cfg(self, name, version, list_uninst):
+    def make_uninstall_cfg(self, name, version, list_uninst, desk=False):
         """
         Make a valid uninstall config file
 
@@ -200,6 +197,7 @@ class CNInstall:
             name: Program name
             version: Initial program version from pyplate.py
             list_uninstall: List of assets to uninstall
+            desk: Whether to delete a .desktop file for the program
 
         Returns:
             A properly formatted uninstall config dict to save to a file
@@ -210,9 +208,10 @@ class CNInstall:
 
         # create the dict using args
         dict_use = {
-            self.S_KEY_NAME: name,
-            self.S_KEY_VERSION: version,
-            self.S_KEY_LIST_UNINST: list_uninst,
+            self.S_KEY_INST_NAME: name,
+            self.S_KEY_INST_VER: version,
+            self.S_KEY_INST_DESK: desk,
+            self.S_KEY_INST_CONT: list_uninst,
         }
 
         # return the formatted dict
@@ -310,61 +309,20 @@ class CNInstall:
         self._dry = dry
 
         # get install dict
-        self._dict_cfg = self._get_dict_from_file(path_cfg_inst)
+        self._dict_cfg = F.get_dict_from_file(path_cfg_inst)
 
         # get prg name/version
-        prog_name = self._dict_cfg[self.S_KEY_NAME]
-        prog_version = self._dict_cfg[self.S_KEY_VERSION]
+        prog_name = self._dict_cfg[self.S_KEY_INST_NAME]
+        prog_version = self._dict_cfg[self.S_KEY_INST_VER]
 
         # print start msg
         print()
         print(self.S_MSG_INST_START.format(prog_name, prog_version))
 
         # ----------------------------------------------------------------------
-        # check for existing/old version
-
-        # if we did pass an old conf, it must exist (if it doesn't, this could
-        # be the first install but we will want to check on later updates)
-        if path_cfg_uninst and Path(path_cfg_uninst).exists():
-            dict_cfg_old = self._get_dict_from_file(path_cfg_uninst)
-
-            # check versions
-            ver_old = dict_cfg_old[self.S_KEY_VERSION]
-            ver_new = self._dict_cfg[self.S_KEY_VERSION]
-            res = F.check_ver(ver_old, ver_new)
-
-            # same version is installed
-            if res == F.S_VER_SAME:
-
-                # ask to install same version
-                str_ask = F.dialog(
-                    self.S_ASK_VER_SAME,
-                    [F.S_ASK_YES, F.S_ASK_NO],
-                    F.S_ASK_NO,
-                )
-
-                # user hit enter or typed "n/N"
-                if str_ask == F.S_ASK_NO:
-                    print(self.S_MSG_VER_ABORT)
-                    sys.exit()
-
-            # newer version is installed
-            elif res == F.S_VER_OLDER:
-
-                # ask to install old version over newer
-                str_ask = F.dialog(
-                    self.S_ASK_VER_OLDER,
-                    [F.S_ASK_YES, F.S_ASK_NO],
-                    F.S_ASK_NO,
-                )
-
-                # user hit enter or typed "n/N"
-                if str_ask == F.S_ASK_NO:
-                    print(self.S_MSG_VER_ABORT)
-                    sys.exit()
-
-        # ----------------------------------------------------------------------
         # draw the rest of the owl
+
+        self._check_version(path_cfg_uninst)
 
         # make the venv on the user's comp
         self._make_venv(dir_usr_inst, dir_venv)
@@ -399,10 +357,10 @@ class CNInstall:
         self._dry = dry
 
         # get dict from file
-        self._dict_cfg = self._get_dict_from_file(path_cfg)
+        self._dict_cfg = F.get_dict_from_file(path_cfg)
 
         # get prg name
-        prog_name = self._dict_cfg[self.S_KEY_NAME]
+        prog_name = self._dict_cfg[self.S_KEY_INST_NAME]
 
         # print
         print()
@@ -415,6 +373,57 @@ class CNInstall:
     # --------------------------------------------------------------------------
     # Private methods
     # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # Check the version installed vs version to be installed
+    # --------------------------------------------------------------------------
+    def _check_version(self, path_cfg_uninst):
+        """
+        Check the version installed vs version to be installed
+        """
+
+        # ----------------------------------------------------------------------
+        # check for existing/old version
+
+        # if we did pass an old conf, it must exist (if it doesn't, this could
+        # be the first install but we will want to check on later updates)
+        if path_cfg_uninst and Path(path_cfg_uninst).exists():
+            dict_cfg_old = F.get_dict_from_file(path_cfg_uninst)
+
+            # check versions
+            ver_old = dict_cfg_old[self.S_KEY_INST_VER]
+            ver_new = self._dict_cfg[self.S_KEY_INST_VER]
+            res = F.compare_versions(ver_old, ver_new)
+
+            # same version is installed
+            if res == F.S_VER_SAME:
+
+                # ask to install same version
+                str_ask = F.dialog(
+                    self.S_ASK_VER_SAME,
+                    [F.S_ASK_YES, F.S_ASK_NO],
+                    F.S_ASK_NO,
+                )
+
+                # user hit enter or typed "n/N"
+                if str_ask == F.S_ASK_NO:
+                    print(self.S_MSG_VER_ABORT)
+                    sys.exit()
+
+            # newer version is installed
+            elif res == F.S_VER_OLDER:
+
+                # ask to install old version over newer
+                str_ask = F.dialog(
+                    self.S_ASK_VER_OLDER,
+                    [F.S_ASK_YES, F.S_ASK_NO],
+                    F.S_ASK_NO,
+                )
+
+                # user hit enter or typed "n/N"
+                if str_ask == F.S_ASK_NO:
+                    print(self.S_MSG_VER_ABORT)
+                    sys.exit()
 
     # --------------------------------------------------------------------------
     # Make venv for this program on user's computer
@@ -572,35 +581,6 @@ class CNInstall:
             raise e
 
     # --------------------------------------------------------------------------
-    # Open a json file and return the dict inside
-    # --------------------------------------------------------------------------
-    def _get_dict_from_file(self, path_cfg):
-        """
-        Open a json file and return the dict inside
-
-        Args:
-            path_cfg: Path to the file containing the dict
-
-        Returns:
-            The dict contained in the file
-
-        Opens the specified file and returns the config dict found in it.
-        """
-
-        # set conf dict
-        try:
-            with open(path_cfg, "r", encoding="UTF-8") as a_file:
-                return json.load(a_file)
-
-        # file not found
-        except FileNotFoundError as e:
-            raise OSError(self.S_ERR_NOT_FOUND.format(path_cfg)) from e
-
-        # not valid json in file
-        except json.JSONDecodeError as e:
-            raise OSError(self.S_ERR_NOT_JSON.format(path_cfg)) from e
-
-    # --------------------------------------------------------------------------
     # Copy source files/folders
     # --------------------------------------------------------------------------
     def _do_install_content(self, dir_assets):
@@ -622,7 +602,7 @@ class CNInstall:
             print()
 
         # content list from dict
-        content = self._dict_cfg.get(self.S_KEY_DICT_INSTALL, {})
+        content = self._dict_cfg.get(self.S_KEY_INST_CONT, {})
 
         # for each key, value
         for k, v in content.items():
@@ -674,7 +654,7 @@ class CNInstall:
             print()
 
         # content list from dict
-        content = self._dict_cfg.get(self.S_KEY_LIST_UNINST, [])
+        content = self._dict_cfg.get(self.S_KEY_INST_CONT, [])
 
         # for each key, value
         for item in content:
