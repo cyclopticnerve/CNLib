@@ -76,10 +76,10 @@ el.replaceWith(d);
     # --------------------------------------------------------------------------
 
     # keys
-    S_KEY_NAME = &#34;NAME&#34;
-    S_KEY_VERSION = &#34;VERSION&#34;
-    S_KEY_DICT_INSTALL = &#34;INSTALL&#34;
-    S_KEY_LIST_UNINST = &#34;UNINSTALL&#34;
+    S_KEY_INST_NAME = &#34;INST_NAME&#34;
+    S_KEY_INST_VER = &#34;INST_VER&#34;
+    S_KEY_INST_DESK = &#34;INST_DESK&#34;
+    S_KEY_INST_CONT = &#34;INST_CONT&#34;
 
     # --------------------------------------------------------------------------
 
@@ -103,19 +103,10 @@ el.replaceWith(d);
     S_MSG_REQS_START = &#34;Installing requirements... &#34;
     S_MSG_LIBS_START = &#34;Installing libs... &#34;
     S_MSG_DSK_START = &#34;Fixing .desktop file... &#34;
-    S_ASK_VER_SAME = (
-        &#34;The current version of this program is already installed. Do you&#34;
-        &#34; want to overwrite? [y/N] &#34;
-    )
     S_MSG_VER_ABORT = &#34;Installation aborted&#34;
 
     # errors
-    # NB: format param is file path
-    S_ERR_NOT_FOUND = &#34;File {} not found&#34;
-    # NB: format param is file path
-    S_ERR_NOT_JSON = &#34;File {} is not a JSON file&#34;
     S_ERR_NO_SUDO = &#34;Could not get sudo permission&#34;
-    S_ERR_VERSION = &#34;One or both version numbers are invalid&#34;
     # NB: format param is source path
     S_ERR_SRC_PATH = &#34;src can not be {}&#34;
     # NB: format param is dest path
@@ -126,9 +117,12 @@ el.replaceWith(d);
     S_DRY_ACTION = &#34;store_true&#34;
     S_DRY_DEST = &#34;DBG_DEST&#34;
     S_DRY_HELP = &#34;do a dry run, printing file info instead of modifying it&#34;
-    S_ASK_VER_OLDER = &#34;A newer version of this program is currently installed. \
-        Do you want to overwrite? [y/N] &#34;
-    S_ASK_CONFIRM = &#34;y&#34;
+
+    # questions
+    S_ASK_VER_SAME = &#34;The current version of this program is already \
+     installed. Do you  want to overwrite?&#34;
+    S_ASK_VER_OLDER = &#34;A newer version of this program is currently \
+    installed. Do you want to overwrite?&#34;
 
     # --------------------------------------------------------------------------
 
@@ -144,12 +138,6 @@ el.replaceWith(d);
     S_CMD_VENV_ACTIVATE = &#34;cd {};. {}/bin/activate&#34;
     # NB: format param is name of lib
     S_CMD_INST_LIB = &#34;python -m pip install {}&#34;
-
-    # regex to compare version numbers
-    R_VERSION = r&#34;(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(.*)$&#34;
-    R_VERSION_GROUP_MAJ = 1
-    R_VERSION_GROUP_MIN = 2
-    R_VERSION_GROUP_REV = 3
 
     # regex for adding user&#39;s home to icon path
     R_ICON_SCH = r&#34;^(Icon=)(.*)$&#34;
@@ -180,7 +168,7 @@ el.replaceWith(d);
     # --------------------------------------------------------------------------
     # Make a valid install config file
     # --------------------------------------------------------------------------
-    def make_install_cfg(self, name, version, dict_install):
+    def make_install_cfg(self, name, version, dict_install, desk=False):
         &#34;&#34;&#34;
         Make a valid install config file
 
@@ -188,6 +176,7 @@ el.replaceWith(d);
             name: Program name
             version: New version number to compare to any installed version
             dict_install: Dict of assets to install
+            desk:Whether to make a .desktop file for the program
 
         Returns:
             A properly formatted install config dict to save to a file
@@ -198,9 +187,10 @@ el.replaceWith(d);
 
         # create the dict using args
         dict_use = {
-            self.S_KEY_NAME: name,
-            self.S_KEY_VERSION: version,
-            self.S_KEY_DICT_INSTALL: dict_install,
+            self.S_KEY_INST_NAME: name,
+            self.S_KEY_INST_VER: version,
+            self.S_KEY_INST_DESK: desk,
+            self.S_KEY_INST_CONT: dict_install,
         }
 
         # return the formatted dict
@@ -209,7 +199,7 @@ el.replaceWith(d);
     # --------------------------------------------------------------------------
     # Make a valid uninstall config file
     # --------------------------------------------------------------------------
-    def make_uninstall_cfg(self, name, version, list_uninst):
+    def make_uninstall_cfg(self, name, version, list_uninst, desk=False):
         &#34;&#34;&#34;
         Make a valid uninstall config file
 
@@ -217,6 +207,7 @@ el.replaceWith(d);
             name: Program name
             version: Initial program version from pyplate.py
             list_uninstall: List of assets to uninstall
+            desk: Whether to delete a .desktop file for the program
 
         Returns:
             A properly formatted uninstall config dict to save to a file
@@ -227,9 +218,10 @@ el.replaceWith(d);
 
         # create the dict using args
         dict_use = {
-            self.S_KEY_NAME: name,
-            self.S_KEY_VERSION: version,
-            self.S_KEY_LIST_UNINST: list_uninst,
+            self.S_KEY_INST_NAME: name,
+            self.S_KEY_INST_VER: version,
+            self.S_KEY_INST_DESK: desk,
+            self.S_KEY_INST_CONT: list_uninst,
         }
 
         # return the formatted dict
@@ -327,59 +319,20 @@ el.replaceWith(d);
         self._dry = dry
 
         # get install dict
-        self._dict_cfg = self._get_dict_from_file(path_cfg_inst)
+        self._dict_cfg = F.get_dict_from_file(path_cfg_inst)
 
         # get prg name/version
-        prog_name = self._dict_cfg[self.S_KEY_NAME]
-        prog_version = self._dict_cfg[self.S_KEY_VERSION]
+        prog_name = self._dict_cfg[self.S_KEY_INST_NAME]
+        prog_version = self._dict_cfg[self.S_KEY_INST_VER]
 
         # print start msg
         print()
         print(self.S_MSG_INST_START.format(prog_name, prog_version))
 
         # ----------------------------------------------------------------------
-        # check for existing/old version
-
-        # if we did pass an old conf, it must exist (if it doesn&#39;t, this could
-        # be the first install but we will want to check on later updates)
-        if path_cfg_uninst and Path(path_cfg_uninst).exists():
-            dict_cfg_old = self._get_dict_from_file(path_cfg_uninst)
-
-            # check versions
-            ver_old = dict_cfg_old[self.S_KEY_VERSION]
-            ver_new = self._dict_cfg[self.S_KEY_VERSION]
-            res = self._do_compare_versions(ver_old, ver_new)
-
-            # same version is installed
-            if res == 0:
-
-                # ask to install same version
-                str_ask = input(self.S_ASK_VER_SAME)
-
-                # user hit enter or typed anything else except &#34;y&#34;
-                if (
-                    len(str_ask) == 0
-                    or str_ask.lower()[0] != self.S_ASK_CONFIRM
-                ):
-                    print(self.S_MSG_VER_ABORT)
-                    sys.exit()
-
-            # newer version is installed
-            elif res == -1:
-
-                # ask to install old version over newer
-                str_ask = input(self.S_ASK_VER_OLDER)
-
-                # user hit enter or typed anything else except &#34;y&#34;
-                if (
-                    len(str_ask) == 0
-                    or str_ask.lower()[0] != self.S_ASK_CONFIRM
-                ):
-                    print(self.S_MSG_VER_ABORT)
-                    sys.exit()
-
-        # ----------------------------------------------------------------------
         # draw the rest of the owl
+
+        self._check_version(path_cfg_uninst)
 
         # make the venv on the user&#39;s comp
         self._make_venv(dir_usr_inst, dir_venv)
@@ -414,10 +367,10 @@ el.replaceWith(d);
         self._dry = dry
 
         # get dict from file
-        self._dict_cfg = self._get_dict_from_file(path_cfg)
+        self._dict_cfg = F.get_dict_from_file(path_cfg)
 
         # get prg name
-        prog_name = self._dict_cfg[self.S_KEY_NAME]
+        prog_name = self._dict_cfg[self.S_KEY_INST_NAME]
 
         # print
         print()
@@ -430,6 +383,57 @@ el.replaceWith(d);
     # --------------------------------------------------------------------------
     # Private methods
     # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # Check the version installed vs version to be installed
+    # --------------------------------------------------------------------------
+    def _check_version(self, path_cfg_uninst):
+        &#34;&#34;&#34;
+        Check the version installed vs version to be installed
+        &#34;&#34;&#34;
+
+        # ----------------------------------------------------------------------
+        # check for existing/old version
+
+        # if we did pass an old conf, it must exist (if it doesn&#39;t, this could
+        # be the first install but we will want to check on later updates)
+        if path_cfg_uninst and Path(path_cfg_uninst).exists():
+            dict_cfg_old = F.get_dict_from_file(path_cfg_uninst)
+
+            # check versions
+            ver_old = dict_cfg_old[self.S_KEY_INST_VER]
+            ver_new = self._dict_cfg[self.S_KEY_INST_VER]
+            res = F.compare_versions(ver_old, ver_new)
+
+            # same version is installed
+            if res == F.S_VER_SAME:
+
+                # ask to install same version
+                str_ask = F.dialog(
+                    self.S_ASK_VER_SAME,
+                    [F.S_ASK_YES, F.S_ASK_NO],
+                    F.S_ASK_NO,
+                )
+
+                # user hit enter or typed &#34;n/N&#34;
+                if str_ask == F.S_ASK_NO:
+                    print(self.S_MSG_VER_ABORT)
+                    sys.exit()
+
+            # newer version is installed
+            elif res == F.S_VER_OLDER:
+
+                # ask to install old version over newer
+                str_ask = F.dialog(
+                    self.S_ASK_VER_OLDER,
+                    [F.S_ASK_YES, F.S_ASK_NO],
+                    F.S_ASK_NO,
+                )
+
+                # user hit enter or typed &#34;n/N&#34;
+                if str_ask == F.S_ASK_NO:
+                    print(self.S_MSG_VER_ABORT)
+                    sys.exit()
 
     # --------------------------------------------------------------------------
     # Make venv for this program on user&#39;s computer
@@ -587,35 +591,6 @@ el.replaceWith(d);
             raise e
 
     # --------------------------------------------------------------------------
-    # Open a json file and return the dict inside
-    # --------------------------------------------------------------------------
-    def _get_dict_from_file(self, path_cfg):
-        &#34;&#34;&#34;
-        Open a json file and return the dict inside
-
-        Args:
-            path_cfg: Path to the file containing the dict
-
-        Returns:
-            The dict contained in the file
-
-        Opens the specified file and returns the config dict found in it.
-        &#34;&#34;&#34;
-
-        # set conf dict
-        try:
-            with open(path_cfg, &#34;r&#34;, encoding=&#34;UTF-8&#34;) as a_file:
-                return json.load(a_file)
-
-        # file not found
-        except FileNotFoundError as e:
-            raise OSError(self.S_ERR_NOT_FOUND.format(path_cfg)) from e
-
-        # not valid json in file
-        except json.JSONDecodeError as e:
-            raise OSError(self.S_ERR_NOT_JSON.format(path_cfg)) from e
-
-    # --------------------------------------------------------------------------
     # Copy source files/folders
     # --------------------------------------------------------------------------
     def _do_install_content(self, dir_assets):
@@ -637,7 +612,7 @@ el.replaceWith(d);
             print()
 
         # content list from dict
-        content = self._dict_cfg.get(self.S_KEY_DICT_INSTALL, {})
+        content = self._dict_cfg.get(self.S_KEY_INST_CONT, {})
 
         # for each key, value
         for k, v in content.items():
@@ -689,7 +664,7 @@ el.replaceWith(d);
             print()
 
         # content list from dict
-        content = self._dict_cfg.get(self.S_KEY_LIST_UNINST, [])
+        content = self._dict_cfg.get(self.S_KEY_INST_CONT, [])
 
         # for each key, value
         for item in content:
@@ -722,70 +697,7 @@ el.replaceWith(d);
                     src.unlink()
 
         # show some info
-        print(self.S_MSG_DONE)
-
-    # --------------------------------------------------------------------------
-    # Compare two version strings for relativity
-    # --------------------------------------------------------------------------
-    def _do_compare_versions(self, ver_old, ver_new):
-        &#34;&#34;&#34;
-        Compare two version strings for relativity
-
-        Args:
-            ver_old: Old version string
-            ver_new: New version string
-
-        Returns:
-            An integer representing the relativity of the two version strings.
-            0 means the two versions are equal,
-            1 means new_ver is newer than old_ver (or there is no old_ver), and
-            -1 means new_ver is older than old_ver.
-
-        This method compares two version strings and determines which is older,
-        which is newer, or if they are equal. Note that this method converts
-        only the first three parts of a semantic version string
-        (https://semver.org/).
-        &#34;&#34;&#34;
-
-        # test for new install (don&#39;t try to regex)
-        if ver_old == &#34;&#34;:
-            return 1
-
-        # test for equal (just save some cpu cycles)
-        if ver_old == ver_new:
-            return 0
-
-        # compare version string parts (only x.x.x)
-        res_old = re.search(self.R_VERSION, ver_old)
-        res_new = re.search(self.R_VERSION, ver_new)
-
-        # if both version strings are valid
-        if res_old and res_new:
-
-            # make a list of groups to check
-            lst_groups = [
-                self.R_VERSION_GROUP_MAJ,
-                self.R_VERSION_GROUP_MIN,
-                self.R_VERSION_GROUP_REV,
-            ]
-
-            # for each part as int
-            for group in lst_groups:
-                old_val = int(res_old.group(group))
-                new_val = int(res_new.group(group))
-
-                # slide out at the first difference
-                if old_val &lt; new_val:
-                    return 1
-                elif old_val &gt; new_val:
-                    return -1
-                else:
-                    continue
-        else:
-            raise OSError(self.S_ERR_VERSION)
-
-        # return 0 if equal
-        return 0</code></pre>
+        print(self.S_MSG_DONE)</code></pre>
 </details>
 <div class="desc"><p>The class to use for installing/uninstalling</p>
 <h2 id="methods">Methods</h2>
@@ -805,26 +717,6 @@ performs the install and uninstall operations.</p>
 <div class="desc"></div>
 </dd>
 <dt id="CNLib.cnlib.cninstall.CNInstall.R_ICON_SCH"><code class="name">var <span class="ident">R_ICON_SCH</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="CNLib.cnlib.cninstall.CNInstall.R_VERSION"><code class="name">var <span class="ident">R_VERSION</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_MAJ"><code class="name">var <span class="ident">R_VERSION_GROUP_MAJ</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_MIN"><code class="name">var <span class="ident">R_VERSION_GROUP_MIN</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_REV"><code class="name">var <span class="ident">R_VERSION_GROUP_REV</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="CNLib.cnlib.cninstall.CNInstall.S_ASK_CONFIRM"><code class="name">var <span class="ident">S_ASK_CONFIRM</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -876,14 +768,6 @@ performs the install and uninstall operations.</p>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="CNLib.cnlib.cninstall.CNInstall.S_ERR_NOT_FOUND"><code class="name">var <span class="ident">S_ERR_NOT_FOUND</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="CNLib.cnlib.cninstall.CNInstall.S_ERR_NOT_JSON"><code class="name">var <span class="ident">S_ERR_NOT_JSON</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
 <dt id="CNLib.cnlib.cninstall.CNInstall.S_ERR_NO_SUDO"><code class="name">var <span class="ident">S_ERR_NO_SUDO</span></code></dt>
 <dd>
 <div class="desc"></div>
@@ -892,23 +776,19 @@ performs the install and uninstall operations.</p>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="CNLib.cnlib.cninstall.CNInstall.S_ERR_VERSION"><code class="name">var <span class="ident">S_ERR_VERSION</span></code></dt>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_KEY_INST_CONT"><code class="name">var <span class="ident">S_KEY_INST_CONT</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="CNLib.cnlib.cninstall.CNInstall.S_KEY_DICT_INSTALL"><code class="name">var <span class="ident">S_KEY_DICT_INSTALL</span></code></dt>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_KEY_INST_DESK"><code class="name">var <span class="ident">S_KEY_INST_DESK</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="CNLib.cnlib.cninstall.CNInstall.S_KEY_LIST_UNINST"><code class="name">var <span class="ident">S_KEY_LIST_UNINST</span></code></dt>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_KEY_INST_NAME"><code class="name">var <span class="ident">S_KEY_INST_NAME</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="CNLib.cnlib.cninstall.CNInstall.S_KEY_NAME"><code class="name">var <span class="ident">S_KEY_NAME</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="CNLib.cnlib.cninstall.CNInstall.S_KEY_VERSION"><code class="name">var <span class="ident">S_KEY_VERSION</span></code></dt>
+<dt id="CNLib.cnlib.cninstall.CNInstall.S_KEY_INST_VER"><code class="name">var <span class="ident">S_KEY_INST_VER</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -1083,59 +963,20 @@ Currently only fixes absolute path to icon.</p></div>
     self._dry = dry
 
     # get install dict
-    self._dict_cfg = self._get_dict_from_file(path_cfg_inst)
+    self._dict_cfg = F.get_dict_from_file(path_cfg_inst)
 
     # get prg name/version
-    prog_name = self._dict_cfg[self.S_KEY_NAME]
-    prog_version = self._dict_cfg[self.S_KEY_VERSION]
+    prog_name = self._dict_cfg[self.S_KEY_INST_NAME]
+    prog_version = self._dict_cfg[self.S_KEY_INST_VER]
 
     # print start msg
     print()
     print(self.S_MSG_INST_START.format(prog_name, prog_version))
 
     # ----------------------------------------------------------------------
-    # check for existing/old version
-
-    # if we did pass an old conf, it must exist (if it doesn&#39;t, this could
-    # be the first install but we will want to check on later updates)
-    if path_cfg_uninst and Path(path_cfg_uninst).exists():
-        dict_cfg_old = self._get_dict_from_file(path_cfg_uninst)
-
-        # check versions
-        ver_old = dict_cfg_old[self.S_KEY_VERSION]
-        ver_new = self._dict_cfg[self.S_KEY_VERSION]
-        res = self._do_compare_versions(ver_old, ver_new)
-
-        # same version is installed
-        if res == 0:
-
-            # ask to install same version
-            str_ask = input(self.S_ASK_VER_SAME)
-
-            # user hit enter or typed anything else except &#34;y&#34;
-            if (
-                len(str_ask) == 0
-                or str_ask.lower()[0] != self.S_ASK_CONFIRM
-            ):
-                print(self.S_MSG_VER_ABORT)
-                sys.exit()
-
-        # newer version is installed
-        elif res == -1:
-
-            # ask to install old version over newer
-            str_ask = input(self.S_ASK_VER_OLDER)
-
-            # user hit enter or typed anything else except &#34;y&#34;
-            if (
-                len(str_ask) == 0
-                or str_ask.lower()[0] != self.S_ASK_CONFIRM
-            ):
-                print(self.S_MSG_VER_ABORT)
-                sys.exit()
-
-    # ----------------------------------------------------------------------
     # draw the rest of the owl
+
+    self._check_version(path_cfg_uninst)
 
     # make the venv on the user&#39;s comp
     self._make_venv(dir_usr_inst, dir_venv)
@@ -1180,14 +1021,14 @@ Currently only fixes absolute path to icon.</p></div>
 Runs the install operation.</p></div>
 </dd>
 <dt id="CNLib.cnlib.cninstall.CNInstall.make_install_cfg"><code class="name flex">
-<span>def <span class="ident">make_install_cfg</span></span>(<span>self, name, version, dict_install)</span>
+<span>def <span class="ident">make_install_cfg</span></span>(<span>self, name, version, dict_install, desk=False)</span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def make_install_cfg(self, name, version, dict_install):
+<pre><code class="python">def make_install_cfg(self, name, version, dict_install, desk=False):
     &#34;&#34;&#34;
     Make a valid install config file
 
@@ -1195,6 +1036,7 @@ Runs the install operation.</p></div>
         name: Program name
         version: New version number to compare to any installed version
         dict_install: Dict of assets to install
+        desk:Whether to make a .desktop file for the program
 
     Returns:
         A properly formatted install config dict to save to a file
@@ -1205,9 +1047,10 @@ Runs the install operation.</p></div>
 
     # create the dict using args
     dict_use = {
-        self.S_KEY_NAME: name,
-        self.S_KEY_VERSION: version,
-        self.S_KEY_DICT_INSTALL: dict_install,
+        self.S_KEY_INST_NAME: name,
+        self.S_KEY_INST_VER: version,
+        self.S_KEY_INST_DESK: desk,
+        self.S_KEY_INST_CONT: dict_install,
     }
 
     # return the formatted dict
@@ -1223,20 +1066,21 @@ Runs the install operation.</p></div>
 <dt><strong><code>dict_install</code></strong></dt>
 <dd>Dict of assets to install</dd>
 </dl>
+<p>desk:Whether to make a .desktop file for the program</p>
 <h2 id="returns">Returns</h2>
 <p>A properly formatted install config dict to save to a file
 This method creates a config file for use by install.py. The dict
 format can be found below.</p></div>
 </dd>
 <dt id="CNLib.cnlib.cninstall.CNInstall.make_uninstall_cfg"><code class="name flex">
-<span>def <span class="ident">make_uninstall_cfg</span></span>(<span>self, name, version, list_uninst)</span>
+<span>def <span class="ident">make_uninstall_cfg</span></span>(<span>self, name, version, list_uninst, desk=False)</span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def make_uninstall_cfg(self, name, version, list_uninst):
+<pre><code class="python">def make_uninstall_cfg(self, name, version, list_uninst, desk=False):
     &#34;&#34;&#34;
     Make a valid uninstall config file
 
@@ -1244,6 +1088,7 @@ format can be found below.</p></div>
         name: Program name
         version: Initial program version from pyplate.py
         list_uninstall: List of assets to uninstall
+        desk: Whether to delete a .desktop file for the program
 
     Returns:
         A properly formatted uninstall config dict to save to a file
@@ -1254,9 +1099,10 @@ format can be found below.</p></div>
 
     # create the dict using args
     dict_use = {
-        self.S_KEY_NAME: name,
-        self.S_KEY_VERSION: version,
-        self.S_KEY_LIST_UNINST: list_uninst,
+        self.S_KEY_INST_NAME: name,
+        self.S_KEY_INST_VER: version,
+        self.S_KEY_INST_DESK: desk,
+        self.S_KEY_INST_CONT: list_uninst,
     }
 
     # return the formatted dict
@@ -1271,6 +1117,8 @@ format can be found below.</p></div>
 <dd>Initial program version from pyplate.py</dd>
 <dt><strong><code>list_uninstall</code></strong></dt>
 <dd>List of assets to uninstall</dd>
+<dt><strong><code>desk</code></strong></dt>
+<dd>Whether to delete a .desktop file for the program</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>A properly formatted uninstall config dict to save to a file
@@ -1301,10 +1149,10 @@ format can be found below.</p></div>
     self._dry = dry
 
     # get dict from file
-    self._dict_cfg = self._get_dict_from_file(path_cfg)
+    self._dict_cfg = F.get_dict_from_file(path_cfg)
 
     # get prg name
-    prog_name = self._dict_cfg[self.S_KEY_NAME]
+    prog_name = self._dict_cfg[self.S_KEY_INST_NAME]
 
     # print
     print()
@@ -1338,7 +1186,7 @@ Runs the uninstall operation.</p></div>
 </a>
 <br/>
 <!-- __RM_VERSION__ -->
-Version 0.0.2
+Version 0.0.3
 <!-- __RM_VERSION__ -->
 </header>
 <div class="toc">
@@ -1357,11 +1205,6 @@ Version 0.0.2
 <ul class="two-column">
 <li><code><a title="CNLib.cnlib.cninstall.CNInstall.R_ICON_REP" href="#CNLib.cnlib.cninstall.CNInstall.R_ICON_REP">R_ICON_REP</a></code></li>
 <li><code><a title="CNLib.cnlib.cninstall.CNInstall.R_ICON_SCH" href="#CNLib.cnlib.cninstall.CNInstall.R_ICON_SCH">R_ICON_SCH</a></code></li>
-<li><code><a title="CNLib.cnlib.cninstall.CNInstall.R_VERSION" href="#CNLib.cnlib.cninstall.CNInstall.R_VERSION">R_VERSION</a></code></li>
-<li><code><a title="CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_MAJ" href="#CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_MAJ">R_VERSION_GROUP_MAJ</a></code></li>
-<li><code><a title="CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_MIN" href="#CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_MIN">R_VERSION_GROUP_MIN</a></code></li>
-<li><code><a title="CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_REV" href="#CNLib.cnlib.cninstall.CNInstall.R_VERSION_GROUP_REV">R_VERSION_GROUP_REV</a></code></li>
-<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ASK_CONFIRM" href="#CNLib.cnlib.cninstall.CNInstall.S_ASK_CONFIRM">S_ASK_CONFIRM</a></code></li>
 <li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ASK_VER_OLDER" href="#CNLib.cnlib.cninstall.CNInstall.S_ASK_VER_OLDER">S_ASK_VER_OLDER</a></code></li>
 <li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ASK_VER_SAME" href="#CNLib.cnlib.cninstall.CNInstall.S_ASK_VER_SAME">S_ASK_VER_SAME</a></code></li>
 <li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_CMD_CREATE" href="#CNLib.cnlib.cninstall.CNInstall.S_CMD_CREATE">S_CMD_CREATE</a></code></li>
@@ -1374,15 +1217,12 @@ Version 0.0.2
 <li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_DRY_HELP" href="#CNLib.cnlib.cninstall.CNInstall.S_DRY_HELP">S_DRY_HELP</a></code></li>
 <li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_DRY_OPTION" href="#CNLib.cnlib.cninstall.CNInstall.S_DRY_OPTION">S_DRY_OPTION</a></code></li>
 <li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ERR_DST_PATH" href="#CNLib.cnlib.cninstall.CNInstall.S_ERR_DST_PATH">S_ERR_DST_PATH</a></code></li>
-<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ERR_NOT_FOUND" href="#CNLib.cnlib.cninstall.CNInstall.S_ERR_NOT_FOUND">S_ERR_NOT_FOUND</a></code></li>
-<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ERR_NOT_JSON" href="#CNLib.cnlib.cninstall.CNInstall.S_ERR_NOT_JSON">S_ERR_NOT_JSON</a></code></li>
 <li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ERR_NO_SUDO" href="#CNLib.cnlib.cninstall.CNInstall.S_ERR_NO_SUDO">S_ERR_NO_SUDO</a></code></li>
 <li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ERR_SRC_PATH" href="#CNLib.cnlib.cninstall.CNInstall.S_ERR_SRC_PATH">S_ERR_SRC_PATH</a></code></li>
-<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_ERR_VERSION" href="#CNLib.cnlib.cninstall.CNInstall.S_ERR_VERSION">S_ERR_VERSION</a></code></li>
-<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_KEY_DICT_INSTALL" href="#CNLib.cnlib.cninstall.CNInstall.S_KEY_DICT_INSTALL">S_KEY_DICT_INSTALL</a></code></li>
-<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_KEY_LIST_UNINST" href="#CNLib.cnlib.cninstall.CNInstall.S_KEY_LIST_UNINST">S_KEY_LIST_UNINST</a></code></li>
-<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_KEY_NAME" href="#CNLib.cnlib.cninstall.CNInstall.S_KEY_NAME">S_KEY_NAME</a></code></li>
-<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_KEY_VERSION" href="#CNLib.cnlib.cninstall.CNInstall.S_KEY_VERSION">S_KEY_VERSION</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_KEY_INST_CONT" href="#CNLib.cnlib.cninstall.CNInstall.S_KEY_INST_CONT">S_KEY_INST_CONT</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_KEY_INST_DESK" href="#CNLib.cnlib.cninstall.CNInstall.S_KEY_INST_DESK">S_KEY_INST_DESK</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_KEY_INST_NAME" href="#CNLib.cnlib.cninstall.CNInstall.S_KEY_INST_NAME">S_KEY_INST_NAME</a></code></li>
+<li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_KEY_INST_VER" href="#CNLib.cnlib.cninstall.CNInstall.S_KEY_INST_VER">S_KEY_INST_VER</a></code></li>
 <li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_MSG_COPY_START" href="#CNLib.cnlib.cninstall.CNInstall.S_MSG_COPY_START">S_MSG_COPY_START</a></code></li>
 <li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_MSG_DEL_START" href="#CNLib.cnlib.cninstall.CNInstall.S_MSG_DEL_START">S_MSG_DEL_START</a></code></li>
 <li><code><a title="CNLib.cnlib.cninstall.CNInstall.S_MSG_DONE" href="#CNLib.cnlib.cninstall.CNInstall.S_MSG_DONE">S_MSG_DONE</a></code></li>

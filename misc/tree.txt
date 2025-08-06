@@ -9,6 +9,13 @@
    │     ├─ [] cnpot.py
    │     ├─ [] cntree.py
    │     └─ [] cnvenv.py
+   ├─ [] CNLib.egg-info/
+   │     ├─ [] dependency_links.txt
+   │     ├─ [] PKG-INFO
+   │     ├─ [] SOURCES.txt
+   │     └─ [] top_level.txt
+   ├─ [] dist/
+   │     └─ [] cnlib-0.0.2.tar.gz
    ├─ [] docs/
    │     ├─ [] cnlib/
    │     │     ├─ [] cnformatter.html
@@ -19,6 +26,7 @@
    │     │     ├─ [] cnvenv.html
    │     │     └─ [] index.html
    │     ├─ [] img/
+   │     │     └─ [] cnlib.png
    │     ├─ [] tests/
    │     │     ├─ [] cnlib_test.html
    │     │     └─ [] index.html

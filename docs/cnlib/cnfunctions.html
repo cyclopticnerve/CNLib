@@ -141,6 +141,93 @@ adds/overwrites these keys and values in dict_old, preserving any values
 that are blank or None in dict_new. It is also recursive, so a dict or list
 as a value will be handled correctly.</p></div>
 </dd>
+<dt id="CNLib.cnlib.cnfunctions.compare_versions"><code class="name flex">
+<span>def <span class="ident">compare_versions</span></span>(<span>ver_old, ver_new)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def compare_versions(ver_old, ver_new):
+    &#34;&#34;&#34;
+    Compare two version strings for relativity
+
+    Args:
+        ver_old: Old version string
+        ver_new: New version string
+
+    Returns:
+        An integer representing the relativity of the two version strings.
+        S_VER_SAME means the two versions are equal,
+        S_VER_NEWER means new_ver is newer than old_ver (or there is no old_ver), and
+        S_VER_OLDER means new_ver is older than old_ver.
+
+    This method compares two version strings and determines which is older,
+    which is newer, or if they are equal. Note that this method converts
+    only the first three parts of a semantic version string
+    (https://semver.org/).
+    &#34;&#34;&#34;
+
+    # test for new install (don&#39;t try to regex)
+    if not ver_old or ver_old == &#34;&#34;:
+        return S_VER_NEWER
+
+    # test for equal (just save some cpu cycles)
+    if ver_old == ver_new:
+        return S_VER_SAME
+
+    # compare version string parts (only x.x.x)
+    res_old = re.search(R_VERSION, ver_old)
+    res_new = re.search(R_VERSION, ver_new)
+
+    # if both version strings are valid
+    if res_old and res_new:
+
+        # make a list of groups to check
+        lst_groups = [
+            R_VERSION_GROUP_MAJ,
+            R_VERSION_GROUP_MIN,
+            R_VERSION_GROUP_REV,
+        ]
+
+        # for each part as int
+        for group in lst_groups:
+            old_val = int(res_old.group(group))
+            new_val = int(res_new.group(group))
+
+            # slide out at the first difference
+            if old_val &lt; new_val:
+                return S_VER_NEWER
+            elif old_val &gt; new_val:
+                return S_VER_OLDER
+            # parts are equal, go to the next one
+            else:
+                continue
+    else:
+        raise OSError(S_ERR_VERSION)
+
+    # return same if all parts equal
+    return S_VER_SAME</code></pre>
+</details>
+<div class="desc"><p>Compare two version strings for relativity</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ver_old</code></strong></dt>
+<dd>Old version string</dd>
+<dt><strong><code>ver_new</code></strong></dt>
+<dd>New version string</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>An integer representing the relativity of the two version strings.
+S_VER_SAME means the two versions are equal,
+S_VER_NEWER means new_ver is newer than old_ver (or there is no old_ver), and
+S_VER_OLDER means new_ver is older than old_ver.
+This method compares two version strings and determines which is older,
+which is newer, or if they are equal. Note that this method converts
+only the first three parts of a semantic version string
+(<a href="https://semver.org/">https://semver.org/</a>).</p></div>
+</dd>
 <dt id="CNLib.cnlib.cnfunctions.dialog"><code class="name flex">
 <span>def <span class="ident">dialog</span></span>(<span>message, buttons, default='', btn_sep='/', msg_fmt='{} [{}]: ')</span>
 </code></dt>
@@ -156,19 +243,24 @@ as a value will be handled correctly.</p></div>
     Args:
         message: The message to display
         buttons: List of single char answers to the question
-        default: The button item to return when the user presses Enter at the question (default: &#34;&#34;)
-        btn_sep: Char to use to seperate button items
+        default: The button item to return when the user presses Enter at the 
+            question (default: &#34;&#34;)
+        btn_sep: Char to use to separate button items
         msg_fmt: Format string to present message/buttons to the user
 
     Returns:
-        String that matches button (or empty string if entered option is not in button list)
+        A lowercased string that matches a button (or an empty string if the \
+            entered option is not in the button list)
 
     This method returns the string entered on the command line in response to a
     question. If the entered option does not match any of the buttons, a blank
     string is returned. If you set a default and the option entered is just the
     Return key, the default string will be returned. If no default is present,
     the entered string must match one of the buttons array values. All returned
-    values are lowercased.
+    values are lowercased. The question will be repeatedly printed to the 
+    screen until a valid entry is made.
+
+    Note that if default == &#34;&#34;, pressing Enter is not considered a valid entry.
     &#34;&#34;&#34;
 
     # make all params lowercase
@@ -195,25 +287,24 @@ as a value will be handled correctly.</p></div>
     btns_all = btn_sep.join(buttons)
     str_fmt = msg_fmt.format(message, btns_all)
 
-    # ask the question, get the result
-    inp = input(str_fmt)
+    # lower everything again for compare
+    buttons = [item.lower() for item in buttons]
 
     # --------------------------------------------------------------------------
 
-    # lower everything again for compare
-    buttons = [item.lower() for item in buttons]
-    inp = inp.lower()
+    while True:
 
-    # # no input (empty)
-    if inp == &#34;&#34; and default != &#34;&#34;:
-        return default
+        # ask the question, get the result
+        inp = input(str_fmt)
+        inp = inp.lower()
 
-    # input a button
-    if inp in buttons:
-        return inp
+        # # no input (empty)
+        if inp == &#34;&#34; and default != &#34;&#34;:
+            return default
 
-    # not blank, not a button
-    return &#34;&#34;</code></pre>
+        # input a button
+        if inp in buttons:
+            return inp</code></pre>
 </details>
 <div class="desc"><p>Create a dialog-like question and return the result</p>
 <h2 id="args">Args</h2>
@@ -223,20 +314,24 @@ as a value will be handled correctly.</p></div>
 <dt><strong><code>buttons</code></strong></dt>
 <dd>List of single char answers to the question</dd>
 <dt><strong><code>default</code></strong></dt>
-<dd>The button item to return when the user presses Enter at the question (default: "")</dd>
+<dd>The button item to return when the user presses Enter at the
+question (default: "")</dd>
 <dt><strong><code>btn_sep</code></strong></dt>
-<dd>Char to use to seperate button items</dd>
+<dd>Char to use to separate button items</dd>
 <dt><strong><code>msg_fmt</code></strong></dt>
 <dd>Format string to present message/buttons to the user</dd>
 </dl>
 <h2 id="returns">Returns</h2>
-<p>String that matches button (or empty string if entered option is not in button list)
+<p>A lowercased string that matches a button (or an empty string if the
+entered option is not in the button list)
 This method returns the string entered on the command line in response to a
 question. If the entered option does not match any of the buttons, a blank
 string is returned. If you set a default and the option entered is just the
 Return key, the default string will be returned. If no default is present,
 the entered string must match one of the buttons array values. All returned
-values are lowercased.</p></div>
+values are lowercased. The question will be repeatedly printed to the
+screen until a valid entry is made.</p>
+<p>Note that if default == "", pressing Enter is not considered a valid entry.</p></div>
 </dd>
 <dt id="CNLib.cnlib.cnfunctions.do_bool"><code class="name flex">
 <span>def <span class="ident">do_bool</span></span>(<span>val)</span>
@@ -400,6 +495,50 @@ Converts integers and strings to boolean values based on the rules.</p></div>
 <h2 id="raises">Raises</h2>
 <p>OSError if the first param is not a dict
 Formats a dictionary nicely so it can be printed to the console.</p></div>
+</dd>
+<dt id="CNLib.cnlib.cnfunctions.get_dict_from_file"><code class="name flex">
+<span>def <span class="ident">get_dict_from_file</span></span>(<span>path_cfg)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_dict_from_file(path_cfg):
+    &#34;&#34;&#34;
+    Open a json file and return the dict inside
+
+    Args:
+        path_cfg: Path to the file containing the dict
+
+    Returns:
+        The dict contained in the file
+
+    Opens the specified file and returns the config dict found in it.
+    &#34;&#34;&#34;
+
+    # set conf dict
+    try:
+        with open(path_cfg, &#34;r&#34;, encoding=&#34;UTF-8&#34;) as a_file:
+            return json.load(a_file)
+
+    # file not found
+    except FileNotFoundError as e:
+        raise OSError(S_ERR_NOT_FOUND.format(path_cfg)) from e
+
+    # not valid json in file
+    except json.JSONDecodeError as e:
+        raise OSError(S_ERR_NOT_JSON.format(path_cfg)) from e</code></pre>
+</details>
+<div class="desc"><p>Open a json file and return the dict inside</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>path_cfg</code></strong></dt>
+<dd>Path to the file containing the dict</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The dict contained in the file
+Opens the specified file and returns the config dict found in it.</p></div>
 </dd>
 <dt id="CNLib.cnlib.cnfunctions.load_dicts"><code class="name flex">
 <span>def <span class="ident">load_dicts</span></span>(<span>paths, start_dict=None)</span>
@@ -870,7 +1009,7 @@ need to run a shell command.</p></div>
 </a>
 <br/>
 <!-- __RM_VERSION__ -->
-Version 0.0.2
+Version 0.0.3
 <!-- __RM_VERSION__ -->
 </header>
 <div class="toc">
@@ -885,9 +1024,11 @@ Version 0.0.2
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="two-column">
 <li><code><a title="CNLib.cnlib.cnfunctions.combine_dicts" href="#CNLib.cnlib.cnfunctions.combine_dicts">combine_dicts</a></code></li>
+<li><code><a title="CNLib.cnlib.cnfunctions.compare_versions" href="#CNLib.cnlib.cnfunctions.compare_versions">compare_versions</a></code></li>
 <li><code><a title="CNLib.cnlib.cnfunctions.dialog" href="#CNLib.cnlib.cnfunctions.dialog">dialog</a></code></li>
 <li><code><a title="CNLib.cnlib.cnfunctions.do_bool" href="#CNLib.cnlib.cnfunctions.do_bool">do_bool</a></code></li>
 <li><code><a title="CNLib.cnlib.cnfunctions.dpretty" href="#CNLib.cnlib.cnfunctions.dpretty">dpretty</a></code></li>
+<li><code><a title="CNLib.cnlib.cnfunctions.get_dict_from_file" href="#CNLib.cnlib.cnfunctions.get_dict_from_file">get_dict_from_file</a></code></li>
 <li><code><a title="CNLib.cnlib.cnfunctions.load_dicts" href="#CNLib.cnlib.cnfunctions.load_dicts">load_dicts</a></code></li>
 <li><code><a title="CNLib.cnlib.cnfunctions.lpretty" href="#CNLib.cnlib.cnfunctions.lpretty">lpretty</a></code></li>
 <li><code><a title="CNLib.cnlib.cnfunctions.pascal_case" href="#CNLib.cnlib.cnfunctions.pascal_case">pascal_case</a></code></li>
