@@ -110,9 +110,9 @@ class CNInstall:
 
     # questions
     S_ASK_VER_SAME = "The current version of this program is already \
-                        installed. Do you  want to overwrite?"
+     installed. Do you  want to overwrite?"
     S_ASK_VER_OLDER = "A newer version of this program is currently \
-                          installed. Do you want to overwrite?"
+    installed. Do you want to overwrite?"
 
     # --------------------------------------------------------------------------
 
