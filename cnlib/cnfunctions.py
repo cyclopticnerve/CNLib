@@ -769,4 +769,66 @@ def get_dict_from_file(path_cfg):
         raise OSError(S_ERR_NOT_JSON.format(path_cfg)) from e
 
 
+# ------------------------------------------------------------------------------
+# Convert items in blacklist to absolute Path objects
+# ------------------------------------------------------------------------------
+def fix_globs(dir_start, dict_in):
+    """
+    Convert items in blacklist to absolute Path objects
+
+    Args:
+        dict_in: the dictionary with glob strings
+
+    Returns:
+        A dictionary of Path objects representing the globs
+
+    Get absolute paths for all entries in the blacklist.
+    """
+
+    # the un-globbed dict to return
+    result = {}
+    dir_start = Path(dir_start)
+
+    # make a copy and remove path separators in one shot
+    # NB: this is mostly for glob support, as globs cannot end in path
+    # separators
+    for key, val in dict_in.items():
+        dict_in[key] = [item.rstrip("/") for item in val]
+
+    # support for absolute/relative/glob
+    # NB: adapted from cntree.py
+
+    # for each section of blacklist
+    for key, val in dict_in.items():
+
+        # convert all items in list to Path objects
+        paths = [Path(item) for item in val]
+
+        # move absolute paths to one list
+        abs_paths = [item for item in paths if item.is_absolute()]
+
+        # move relative/glob paths to another list
+        other_paths = [item for item in paths if not item.is_absolute()]
+
+        # convert relative/glob paths back to strings
+        other_strings = [str(item) for item in other_paths]
+
+        # get glob results as generators
+        glob_results = [dir_start.glob(item) for item in other_strings]
+
+        # start with absolutes
+        new_val = abs_paths
+
+        # for each generator
+        for item in glob_results:
+            # add results as whole shebang
+            new_val += list(item)
+
+        # set the list as the result list
+        result[key] = new_val
+
+    # return the un-globbed dict
+    return result
+
+
 # -)
