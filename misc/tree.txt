@@ -15,7 +15,7 @@
    │     ├─ [] SOURCES.txt
    │     └─ [] top_level.txt
    ├─ [] dist/
-   │     └─ [] cnlib-0.0.2.tar.gz
+   │     └─ [] cnlib-0.0.3.tar.gz
    ├─ [] docs/
    │     ├─ [] cnlib/
    │     │     ├─ [] cnformatter.html

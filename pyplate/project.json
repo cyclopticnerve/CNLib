@@ -12,7 +12,8 @@
             "requirements.txt",
             "todo",
             "**/__pycache__",
-            "site"
+            "site",
+            "pyplate"
         ],
         "SKIP_CONTENTS": [
             "**/*.png",
@@ -82,7 +83,7 @@
         "CHARSET": "UTF-8"
     },
     "PUB_META": {
-        "META_VERSION": "0.0.3",
+        "META_VERSION": "0.0.4",
         "META_SHORT_DESC": "A Python library containing useful functions and classes",
         "META_KEYWORDS": [
             "python",

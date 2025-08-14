@@ -496,6 +496,82 @@ Converts integers and strings to boolean values based on the rules.</p></div>
 <p>OSError if the first param is not a dict
 Formats a dictionary nicely so it can be printed to the console.</p></div>
 </dd>
+<dt id="CNLib.cnlib.cnfunctions.fix_globs"><code class="name flex">
+<span>def <span class="ident">fix_globs</span></span>(<span>dir_start, dict_in)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fix_globs(dir_start, dict_in):
+    &#34;&#34;&#34;
+    Convert items in blacklist to absolute Path objects
+
+    Args:
+        dict_in: the dictionary with glob strings
+
+    Returns:
+        A dictionary of Path objects representing the globs
+
+    Get absolute paths for all entries in the blacklist.
+    &#34;&#34;&#34;
+
+    # the un-globbed dict to return
+    result = {}
+    dir_start = Path(dir_start)
+
+    # make a copy and remove path separators in one shot
+    # NB: this is mostly for glob support, as globs cannot end in path
+    # separators
+    for key, val in dict_in.items():
+        dict_in[key] = [item.rstrip(&#34;/&#34;) for item in val]
+
+    # support for absolute/relative/glob
+    # NB: adapted from cntree.py
+
+    # for each section of blacklist
+    for key, val in dict_in.items():
+
+        # convert all items in list to Path objects
+        paths = [Path(item) for item in val]
+
+        # move absolute paths to one list
+        abs_paths = [item for item in paths if item.is_absolute()]
+
+        # move relative/glob paths to another list
+        other_paths = [item for item in paths if not item.is_absolute()]
+
+        # convert relative/glob paths back to strings
+        other_strings = [str(item) for item in other_paths]
+
+        # get glob results as generators
+        glob_results = [dir_start.glob(item) for item in other_strings]
+
+        # start with absolutes
+        new_val = abs_paths
+
+        # for each generator
+        for item in glob_results:
+            # add results as whole shebang
+            new_val += list(item)
+
+        # set the list as the result list
+        result[key] = new_val
+
+    # return the un-globbed dict
+    return result</code></pre>
+</details>
+<div class="desc"><p>Convert items in blacklist to absolute Path objects</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dict_in</code></strong></dt>
+<dd>the dictionary with glob strings</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A dictionary of Path objects representing the globs
+Get absolute paths for all entries in the blacklist.</p></div>
+</dd>
 <dt id="CNLib.cnlib.cnfunctions.get_dict_from_file"><code class="name flex">
 <span>def <span class="ident">get_dict_from_file</span></span>(<span>path_cfg)</span>
 </code></dt>
@@ -1009,7 +1085,7 @@ need to run a shell command.</p></div>
 </a>
 <br/>
 <!-- __RM_VERSION__ -->
-Version 0.0.3
+Version 0.0.4
 <!-- __RM_VERSION__ -->
 </header>
 <div class="toc">
@@ -1028,6 +1104,7 @@ Version 0.0.3
 <li><code><a title="CNLib.cnlib.cnfunctions.dialog" href="#CNLib.cnlib.cnfunctions.dialog">dialog</a></code></li>
 <li><code><a title="CNLib.cnlib.cnfunctions.do_bool" href="#CNLib.cnlib.cnfunctions.do_bool">do_bool</a></code></li>
 <li><code><a title="CNLib.cnlib.cnfunctions.dpretty" href="#CNLib.cnlib.cnfunctions.dpretty">dpretty</a></code></li>
+<li><code><a title="CNLib.cnlib.cnfunctions.fix_globs" href="#CNLib.cnlib.cnfunctions.fix_globs">fix_globs</a></code></li>
 <li><code><a title="CNLib.cnlib.cnfunctions.get_dict_from_file" href="#CNLib.cnlib.cnfunctions.get_dict_from_file">get_dict_from_file</a></code></li>
 <li><code><a title="CNLib.cnlib.cnfunctions.load_dicts" href="#CNLib.cnlib.cnfunctions.load_dicts">load_dicts</a></code></li>
 <li><code><a title="CNLib.cnlib.cnfunctions.lpretty" href="#CNLib.cnlib.cnfunctions.lpretty">lpretty</a></code></li>

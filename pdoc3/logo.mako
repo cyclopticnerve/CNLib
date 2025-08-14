@@ -5,6 +5,6 @@
    </a>
    <br/>
    <!-- __RM_VERSION__ -->
-Version 0.0.3
+Version 0.0.4
 <!-- __RM_VERSION__ -->
 </header>
