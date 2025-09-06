@@ -112,12 +112,18 @@ class CNVenv:
         """
         Creates a new venv given the __init__ params
 
+        Raises:
+            cnlib.cnfunctions.CNRunError if the create fails
+
         Creates a new venv folder with the parameters provided at create time.
         """
 
         # the command to create a venv
         cmd = self.S_CMD_CREATE.format(self._dir_venv)
-        F.sh(cmd, shell=True)
+        try:
+            F.run(cmd, shell=True)
+        except F.CNRunError as e:
+            raise e
 
     # --------------------------------------------------------------------------
     # Install packages to venv from the reqs_file property
@@ -128,6 +134,9 @@ class CNVenv:
 
         Args:
             file_reqs: File to load requirements
+
+        Raises:
+            cnlib.cnfunctions.CNRunError if the reqs install fails
 
         This method takes requirements in the reqs_file property and installs
         them in the dir_venv property.
@@ -142,7 +151,10 @@ class CNVenv:
         cmd = self.S_CMD_INSTALL.format(
             self._dir_venv.parent, self._dir_venv.name, file_reqs
         )
-        F.sh(cmd, shell=True)
+        try:
+            F.run(cmd, shell=True)
+        except F.CNRunError as e:
+            raise e
 
     # --------------------------------------------------------------------------
     # Freeze packages in the venv folder to the file_reqs property
@@ -153,6 +165,9 @@ class CNVenv:
 
         Args:
             file_reqs: File to save requirements
+
+        Raises:
+            cnlib.cnfunctions.CNRunError if the freeze fails
 
         Freezes current packages in the venv dir into a file for easy
         installation.
@@ -167,7 +182,10 @@ class CNVenv:
         cmd = self.S_CMD_FREEZE.format(
             self._dir_venv.parent, self._dir_venv.name, file_reqs
         )
-        F.sh(cmd, shell=True)
+        try:
+            F.run(cmd, shell=True)
+        except F.CNRunError as e:
+            raise e
 
 
 # -)

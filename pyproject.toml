@@ -12,8 +12,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "CNLib"
-version = "0.0.4"
-description = "A Python library containing useful functions and classes"
+version = "0.0.6"
+description = "A Python library containing useful functions and classes "
 authors = [{ name = "cyclopticnerve", email = "cyclopticnerve@gmail.com" }]
 readme = "README.md"
 license = { file = "LICENSE.txt" }
@@ -23,7 +23,7 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
 ]
-keywords = ["python", "Python", "pyplate", "PyPlate", "pymaker", "PyMaker", "pybaker", "PyBaker"]
+keywords = ["python", "pyplate", "pymaker", "pybaker"]
 dependencies = []
 requires-python = ">=3.10"
 

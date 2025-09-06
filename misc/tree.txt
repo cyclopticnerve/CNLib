@@ -15,22 +15,9 @@
    │     ├─ [] SOURCES.txt
    │     └─ [] top_level.txt
    ├─ [] dist/
-   │     └─ [] cnlib-0.0.3.tar.gz
+   │     └─ [] cnlib-0.0.6.tar.gz
    ├─ [] docs/
-   │     ├─ [] cnlib/
-   │     │     ├─ [] cnformatter.html
-   │     │     ├─ [] cnfunctions.html
-   │     │     ├─ [] cninstall.html
-   │     │     ├─ [] cnpot.html
-   │     │     ├─ [] cntree.html
-   │     │     ├─ [] cnvenv.html
-   │     │     └─ [] index.html
-   │     ├─ [] img/
-   │     │     └─ [] cnlib.png
-   │     ├─ [] tests/
-   │     │     ├─ [] cnlib_test.html
-   │     │     └─ [] index.html
-   │     └─ [] index.html
+   │     └─ [] index.md
    ├─ [] i18n/
    │     ├─ [] locale/
    │     │     └─ [] en/
@@ -45,18 +32,45 @@
    │     └─ [] cnlib.png
    ├─ [] misc/
    │     └─ [] tree.txt
-   ├─ [] pdoc3/
-   │     ├─ [] head.mako
-   │     └─ [] logo.mako
    ├─ [] pyplate/
    │     ├─ [] private/
+   │     │     ├─ [] ABOUT
    │     │     └─ [] private.json
    │     └─ [] project.json
+   ├─ [] site/
+   │     ├─ [] css/
+   │     │     ├─ [] base.css
+   │     │     ├─ [] bootstrap.min.css
+   │     │     └─ [] font-awesome.min.css
+   │     ├─ [] fonts/
+   │     │     ├─ [] FontAwesome.otf
+   │     │     ├─ [] fontawesome-webfont.eot
+   │     │     ├─ [] fontawesome-webfont.svg
+   │     │     ├─ [] fontawesome-webfont.ttf
+   │     │     ├─ [] fontawesome-webfont.woff
+   │     │     └─ [] fontawesome-webfont.woff2
+   │     ├─ [] img/
+   │     │     ├─ [] favicon.ico
+   │     │     └─ [] grid.png
+   │     ├─ [] js/
+   │     │     ├─ [] base.js
+   │     │     ├─ [] bootstrap.min.js
+   │     │     └─ [] jquery-1.10.2.min.js
+   │     ├─ [] search/
+   │     │     ├─ [] lunr.js
+   │     │     ├─ [] main.js
+   │     │     ├─ [] search_index.json
+   │     │     └─ [] worker.js
+   │     ├─ [] 404.html
+   │     ├─ [] index.html
+   │     ├─ [] sitemap.xml
+   │     └─ [] sitemap.xml.gz
    ├─ [] tests/
    │     └─ [] cnlib_test.py
    ├─ [] todo/
    │     └─ [] ABOUT
    ├─ [] .gitignore
    ├─ [] LICENSE.txt
+   ├─ [] mkdocs.yml
    ├─ [] pyproject.toml
    └─ [] README.md

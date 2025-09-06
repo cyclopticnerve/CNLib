@@ -213,10 +213,6 @@ class CNPotPy:
 
         # set base props
         self._dir_prj = Path(dir_prj)
-        if not self._dir_prj.is_absolute():
-            raise OSError(self.S_ERR_NOT_ABS.format(self._dir_prj))
-        if not self._dir_prj.is_dir():
-            raise OSError(self.S_ERR_NOT_DIR.format(self._dir_prj))
 
         # fix up in props
         if list_src is None:
@@ -278,6 +274,9 @@ class CNPotPy:
         """
         Run the program and make or update the files
 
+        Raises:
+            cnlib.cnfunctions.CNRunError if anything fails
+
         Main method of the class, performing its steps. This method can (and
         should) be run, in Mayor Tweed's words, "early and often". You should
         run it every time a source file that contains i18n strings is added,
@@ -288,9 +287,12 @@ class CNPotPy:
         # ----------------------------------------------------------------------
         # do the steps
 
-        self._make_pot()
-        self._make_pos()
-        self._make_mos()
+        try:
+            self._make_pot()
+            self._make_pos()
+            self._make_mos()
+        except F.CNRunError as e:
+            raise e
 
     # --------------------------------------------------------------------------
     # Localize the desktop file using all available wlangs
@@ -305,6 +307,9 @@ class CNPotPy:
                 This is the file that pymaker/pybaker modifies using metadata.
             dt_out: Location of the i18n'ed desktop file
                 This is the file that will be distributed with your app.
+
+        Raises:
+            cnlib.cnfunctions.CNRunError if the make fails
 
         Takes a template desktop file and applies all i18n'ed info from all .po
         files in the po folder and creates a final .desktop file.
@@ -325,7 +330,10 @@ class CNPotPy:
             cmd = self.S_CMD_DSK.format(self._dir_po, dt_template, dt_out)
 
             # run the command
-            F.sh(cmd)
+            try:
+                F.run(cmd)
+            except F.CNRunError as e:
+                raise e
 
     # --------------------------------------------------------------------------
     # Private methods
@@ -337,6 +345,9 @@ class CNPotPy:
     def _make_pot(self):
         """
         Create a .pot file in the pot folder
+
+        Raises:
+            cnlib.cnfunctions.CNRunError if the make fails
 
         Parses the files for each clang, creating a unified .pot file, which is
         placed in "<dir_pot>/<str_domain>.pot".
@@ -442,7 +453,10 @@ class CNPotPy:
             cmd += j_paths
 
             # do the final command
-            F.sh(cmd, shell=True)
+            try:
+                F.run(cmd, shell=True)
+            except F.CNRunError as e:
+                raise e
 
             # fix CHARSET in pot
             self._fix_pot_header(file_pot)
@@ -454,6 +468,9 @@ class CNPotPy:
         """
         Create .po files in the po folder or merge any updated .pot files with
         existing .po files
+
+        Raises:
+            cnlib.cnfunctions.CNRunError if the make fails
 
         Whenever a new .pot file is generated using make_pot, this method will
         produce a new .po file for each wlang that contains the difference
@@ -484,7 +501,10 @@ class CNPotPy:
 
             # update existing po file using latest pot
             cmd = self.S_CMD_MERGE_POS.format(file_po, file_pot)
-            F.sh(cmd)
+            try:
+                F.run(cmd)
+            except F.CNRunError as e:
+                raise e
 
     # --------------------------------------------------------------------------
     # Create .mo files for all .po files in the locale folder
@@ -492,6 +512,9 @@ class CNPotPy:
     def _make_mos(self):
         """
         Create .mo files for all .po files in the locale folder
+
+        Raises:
+            cnlib.cnfunctions.CNRunError if the make fails
 
         Makes all the required .mo files for all the .po files in the locale
         dir
@@ -513,7 +536,10 @@ class CNPotPy:
 
             # do the command
             cmd = self.S_CMD_MAKE_MOS.format(mo_file, file_po)
-            F.sh(cmd)
+            try:
+                F.run(cmd)
+            except F.CNRunError as e:
+                raise e
 
     # --------------------------------------------------------------------------
     # Make a list of all supported written language directories
@@ -701,3 +727,12 @@ class CNPotPy:
 
 
 # -)
+
+# yes, or no and why
+# has a different meaning than
+# yes or no, and why
+#
+# the first one is equivalent to
+# yes | (no & why)
+# vs
+# (yes | no) & why

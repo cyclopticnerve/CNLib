@@ -6,6 +6,8 @@
 # License : WTFPLv2                                                \          /
 # ------------------------------------------------------------------------------
 
+# pylint: disable=too-many-lines
+
 """
 A collection of common functions used by CN software
 
@@ -60,12 +62,26 @@ S_ASK_NO = "n"
 S_VER_OLDER = -1
 S_VER_SAME = 0
 S_VER_NEWER = 1
+S_VER_ERROR = -2
 
 # regex to compare version numbers
-R_VERSION = r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(.*)$"
+R_VERSION_VALID = (
+    r"^"
+    r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)"
+    r"(?:-("
+    r"(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)"
+    r"(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*"
+    r"))?"
+    r"(?:\+("
+    r"[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*"
+    r"))?"
+    r"$"
+)
 R_VERSION_GROUP_MAJ = 1
 R_VERSION_GROUP_MIN = 2
 R_VERSION_GROUP_REV = 3
+R_VERSION_GROUP_PRE = 4
+R_VERSION_GROUP_META = 5
 
 # if it is in this list, it is True, else false
 # NB: strings here should be all lowercase
@@ -75,6 +91,57 @@ L_RULES_TRUE = [
     "yes",
     "y",
 ]
+
+# ------------------------------------------------------------------------------
+# Public classes
+# ------------------------------------------------------------------------------
+
+
+# ------------------------------------------------------------------------------
+# A class to encapsulate subprocess.run() exceptions
+# ------------------------------------------------------------------------------
+class CNRunError(Exception):
+    """
+    A class to encapsulate run exceptions
+    """
+
+    # --------------------------------------------------------------------------
+    # Initialize the class
+    # --------------------------------------------------------------------------
+    def __init__(self, cmd, returncode, stdout, stderr, output):
+        """
+        Docstring for __init__
+
+        :param self: Description
+        :param cmd: Description
+        :param returncode: Description
+        :param stdout: Description
+        :param stderr: Description
+        :param output: Description
+        """
+
+        # call super __init__
+        super().__init__()
+
+        # set properties from params
+        self.cmd = cmd
+        self.returncode = returncode
+        self.stdout = stdout
+        self.stderr = stderr
+        self.output = output
+
+    # --------------------------------------------------------------------------
+    # Return a string representation of an instance of the class
+    # --------------------------------------------------------------------------
+    def __str__(self):
+        return (
+            f"cmd: {self.cmd}, "
+            f"returncode: {self.returncode}, "
+            f"stdout: {self.stdout}, "
+            f"stderr: {self.stderr}, "
+            f"output: {self.output}"
+        )
+
 
 # ------------------------------------------------------------------------------
 # Public methods
@@ -437,14 +504,14 @@ def combine_dicts(dicts_new, dict_old=None):
 
 
 # ------------------------------------------------------------------------------
-# Run a program or command string in the shell
+# Run a program or shell command string
 # ------------------------------------------------------------------------------
-def sh(cmd, shell=False):
+def run(cmd, shell=False):
     """
-    Run a program or command string in the shell
+    Run a program or shell command string
 
     Args:
-        cmd: The command line to run
+        cmd: The command to run
         shell: If False (the default), run the cmd as one long string. If True,
         split the cmd into separate arguments
 
@@ -452,45 +519,74 @@ def sh(cmd, shell=False):
         The result of running the command line, as a
         subprocess.CompletedProcess object
 
+    Raises:
+        CNRunError if the command is invalid or the process fails
+
     This is just a dumb convenience method to use subprocess with a string
-    instead of having to convert a string to an array with shlex every time I
-    need to run a shell command.
+    instead of having to convert a string to an array with shlex every time. It
+    also combines FileNotFoundError and CalledProcessError into one CNRunError.
     """
 
-    # make sure it's a string (sometime pass path object)
+    # sanity check to make sure cmd is a string
     cmd = str(cmd)
 
-    # split the string using shell syntax (smart split/quote)
-    # NB: only split if running a file - if running a shell cmd, don't split
+    # if not shell, split into bin/cli options
+    # NB: if shell, we only want the stuff after ["sh", "-c"], which is what
+    # would be typed at the command prompt (i.e. all one long command string)
     if not shell:
         cmd = shlex.split(cmd)
 
     # get result of running the shell command or bubble up an error
     try:
-        res = subprocess.run(
-            # the array of commands produced by shlex.split
+        cp = subprocess.run(
+            # the cmd or array of commands
             cmd,
             # if check is True, an exception will be raised if the return code
             # is not 0
-            # if check is False, no exception is raised but res will be None,
+            # if check is False, no exception is raised but cp will be None,
             # meaning you have to test for it in the calling function
             # but that also means you have no information on WHY it failed
+            # because stderr comes from the CalledProcessError IF
+            # capture_output=True
             check=True,
-            # convert stdout/stderr from bytes to text
-            text=True,
-            # put stdout/stderr into res
+            # put stdout/stderr into cp/cpe
             capture_output=True,
+            # convert stdout/stderr from bytes to text
+            encoding="utf-8",
+            text=True,
             # whether the call is a file w/ params (False) or a direct shell
             # input (True)
             shell=shell,
         )
 
-    # check if it failed
-    except subprocess.CalledProcessError as e:
-        raise OSError(S_ERR_SHELL) from e
+        # return the result
+        return cp
 
-    # return the result
-    return res
+    # the first item in the list is not a bin
+    # NB: try these:
+    # cmd = "cd /", shell = False: fail
+    # cmd = "cd /", shell = True: pass
+    # cmd = "ls -l", shell = False: pass
+    # cmd = "ls -l", shell = True: pass
+
+    # check if first item is bin, if shell false
+    except FileNotFoundError as fnfe:
+        # NB: fnfe already has a nice __str__, so use that in the stderr
+        # also output = stdout, which is kinda pointless for this error
+        # NB: print(exc) gives ALL properties
+        # print(exc.stderr) give concise output
+        exc = CNRunError(
+            cmd, fnfe.errno, fnfe.filename, f"{fnfe}", fnfe.filename
+        )
+        raise exc from fnfe
+
+    # cmd ran but failed
+    except subprocess.CalledProcessError as cpe:
+        # NB: here we use the regular stderr as concise output
+        exc = CNRunError(
+            cpe.cmd, cpe.returncode, cpe.stdout, cpe.stderr, cpe.output
+        )
+        raise exc from cpe
 
 
 # ------------------------------------------------------------------------------
@@ -501,16 +597,15 @@ def load_dicts(paths, start_dict=None):
     Combines dictionaries from all found paths
 
     Args:
-        paths: The file path or list of file paths to load
-        start_dict: The starting dict and final dict after combining (default:
-        None)
+        paths: The file path or list of file paths to load start_dict: The
+        starting dict and final dict after combining (default: None)
 
     Returns:
         The final combined dictionary
 
     Raises:
-        FileNotFoundError: If the file does not exist
-        json.JSONDecodeError: If the file is not a valid JSON file
+        OSError: If the file does not exist or the file is not a valid JSON
+        file
 
     Load the dictionaries from all files and use combine_dicts to combine them.
     """
@@ -545,9 +640,13 @@ def load_dicts(paths, start_dict=None):
                 # combine new dict with previous
                 start_dict = combine_dicts([new_dict], start_dict)
 
-        # file not JSON
+        # file not found
+        except FileNotFoundError as e:
+            raise OSError(S_ERR_NOT_FOUND.format(path)) from e
+
+        # not valid json in file
         except json.JSONDecodeError as e:
-            raise OSError(S_ERR_NOT_VALID.format(path)) from e
+            raise OSError(S_ERR_NOT_JSON.format(path)) from e
 
     # return the final dict
     return start_dict
@@ -604,50 +703,39 @@ def save_dict(a_dict, paths):
 # ------------------------------------------------------------------------------
 # Create a dialog-like question and return the result
 # ------------------------------------------------------------------------------
-def dialog(message, buttons, default="", btn_sep="/", msg_fmt="{} [{}]: "):
+def dialog(
+    message, buttons, default="", loop=False, btn_sep="/", msg_fmt="{} [{}]: "
+):
     """
     Create a dialog-like question and return the result
-    
+
     Args:
         message: The message to display
         buttons: List of single char answers to the question
-        default: The button item to return when the user presses Enter at the 
+        default: The button item to return when the user presses Enter at the
             question (default: "")
+        loop: If True and the user enters an invalid response, keep asking the
+        question. If False, return an empty string for an invalid response
+        (default: False)
         btn_sep: Char to use to separate button items
         msg_fmt: Format string to present message/buttons to the user
 
     Returns:
-        A lowercased string that matches a button (or an empty string if the \
-            entered option is not in the button list)
+        A lowercased string that matches a button, or an empty string under
+        certain conditions
 
     This method returns the string entered on the command line in response to a
-    question. If the entered option does not match any of the buttons, a blank
-    string is returned. If you set a default and the option entered is just the
-    Return key, the default string will be returned. If no default is present,
-    the entered string must match one of the buttons array values. All returned
-    values are lowercased. The question will be repeatedly printed to the 
-    screen until a valid entry is made.
+    question. If the entered option does not match any of the buttons, the
+    question is asked again. If you set a default and the option entered is
+    just the Return key, the default string will be returned. If no default is
+    present, the entered string must match one of the buttons array values. All
+    returned values are lowercased. The question will be repeatedly printed to
+    the screen until a valid entry is made.
 
     Note that if default == "", pressing Enter is not considered a valid entry.
+    So if the default is empty and loop is True, the user MUST enter a valid
+    response or the dialog will loop forever.
     """
-
-    # make all params lowercase
-    buttons = [item.lower() for item in buttons]
-    default = default.lower()
-
-    # --------------------------------------------------------------------------
-
-    # if we passes a default
-    if default != "":
-
-        # find the default
-        if not default in buttons:
-
-            # not found, add at end of buttons
-            buttons.append(default)
-
-        # upper case it
-        buttons[buttons.index(default)] = default.upper()
 
     # --------------------------------------------------------------------------
 
@@ -655,89 +743,33 @@ def dialog(message, buttons, default="", btn_sep="/", msg_fmt="{} [{}]: "):
     btns_all = btn_sep.join(buttons)
     str_fmt = msg_fmt.format(message, btns_all)
 
-    # lower everything again for compare
-    buttons = [item.lower() for item in buttons]
-
     # --------------------------------------------------------------------------
 
+    # assume loop == True
     while True:
 
-        # ask the question, get the result
+        # ask the question, get the result (first char only/empty)
         inp = input(str_fmt)
-        inp = inp.lower()
+        if len(inp) > 0:
+            inp = inp[0]
 
-        # # no input (empty)
-        if inp == "" and default != "":
-            return default
-
-        # input a button
+        # ----------------------------------------------------------------------
+        # button correct, done
         if inp in buttons:
             return inp
 
+        # ----------------------------------------------------------------------
+        # wrong answer
 
-# ------------------------------------------------------------------------------
-# Compare two version strings for relativity
-# ------------------------------------------------------------------------------
-def compare_versions(ver_old, ver_new):
-    """
-    Compare two version strings for relativity
+        # default set
+        if default != "":
 
-    Args:
-        ver_old: Old version string
-        ver_new: New version string
+            if inp == "":
+                return default
 
-    Returns:
-        An integer representing the relativity of the two version strings.
-        S_VER_SAME means the two versions are equal,
-        S_VER_NEWER means new_ver is newer than old_ver (or there is no old_ver), and
-        S_VER_OLDER means new_ver is older than old_ver.
-
-    This method compares two version strings and determines which is older,
-    which is newer, or if they are equal. Note that this method converts
-    only the first three parts of a semantic version string
-    (https://semver.org/).
-    """
-
-    # test for new install (don't try to regex)
-    if not ver_old or ver_old == "":
-        return S_VER_NEWER
-
-    # test for equal (just save some cpu cycles)
-    if ver_old == ver_new:
-        return S_VER_SAME
-
-    # compare version string parts (only x.x.x)
-    res_old = re.search(R_VERSION, ver_old)
-    res_new = re.search(R_VERSION, ver_new)
-
-    # if both version strings are valid
-    if res_old and res_new:
-
-        # make a list of groups to check
-        lst_groups = [
-            R_VERSION_GROUP_MAJ,
-            R_VERSION_GROUP_MIN,
-            R_VERSION_GROUP_REV,
-        ]
-
-        # for each part as int
-        for group in lst_groups:
-            old_val = int(res_old.group(group))
-            new_val = int(res_new.group(group))
-
-            # slide out at the first difference
-            if old_val < new_val:
-                return S_VER_NEWER
-            elif old_val > new_val:
-                return S_VER_OLDER
-            # parts are equal, go to the next one
-            else:
-                continue
-    else:
-        raise OSError(S_ERR_VERSION)
-
-    # return same if all parts equal
-    return S_VER_SAME
+        # no loop, return blank
+        if not loop:
+            return ""
 
 # --------------------------------------------------------------------------
 # Open a json file and return the dict inside
@@ -751,6 +783,9 @@ def get_dict_from_file(path_cfg):
 
     Returns:
         The dict contained in the file
+
+    Raises:
+        OSError: If the file cannot be found or the file is not valid JSON
 
     Opens the specified file and returns the config dict found in it.
     """
@@ -830,5 +865,142 @@ def fix_globs(dir_start, dict_in):
     # return the un-globbed dict
     return result
 
+
+# ------------------------------------------------------------------------------
+# Compare two semantic versions
+# ------------------------------------------------------------------------------
+def comp_sem_ver(ver_old, ver_new):
+    """
+    Compare two semantic versions
+
+    Args:
+        ver_old: The old version to compare
+        ver_new: The new version to compare
+
+    Returns:
+        An integer showing the relationship between the two version
+
+    Compare two semantic versions
+    """
+
+    # sanity checks
+    if not ver_old or ver_old == "":
+        return S_VER_ERROR
+    if not ver_new or ver_new == "":
+        return S_VER_ERROR
+    if ver_old == ver_new:
+        return S_VER_SAME
+
+    # --------------------------------------------------------------------------
+
+    # compare version string parts (only x.x.x)
+    res_old = re.search(R_VERSION_VALID, ver_old)
+    res_new = re.search(R_VERSION_VALID, ver_new)
+
+    # if either version string is None
+    if not res_old or not res_new:
+        return S_VER_ERROR
+
+    # make a list of groups to check
+    lst_groups = [
+        R_VERSION_GROUP_MAJ,
+        R_VERSION_GROUP_MIN,
+        R_VERSION_GROUP_REV,
+    ]
+
+    # for each part as int
+    for group in lst_groups:
+        old_val = int(res_old.group(group))
+        new_val = int(res_new.group(group))
+
+        # slide out at the first difference
+        if old_val < new_val:
+            return S_VER_NEWER
+        if old_val > new_val:
+            return S_VER_OLDER
+
+    # --------------------------------------------------------------------------
+
+    # still going, check pre
+    pre_old = res_old.group(R_VERSION_GROUP_PRE)
+    pre_new = res_new.group(R_VERSION_GROUP_PRE)
+
+    # simple pre rule compare
+    if not pre_old and pre_new:
+        return S_VER_OLDER
+    if pre_old and not pre_new:
+        return S_VER_NEWER
+    if not pre_old and not pre_new:
+        return S_VER_SAME
+
+    # --------------------------------------------------------------------------
+
+    # if pre_old and pre_new:
+
+    # split pre on dots
+    lst_pre_old = pre_old.split(".")
+    lst_pre_new = pre_new.split(".")
+
+    # get number of parts
+    len_pre_old = len(lst_pre_old)
+    len_pre_new = len(lst_pre_new)
+
+    # get shorter of two
+    shortest = len_pre_old if len_pre_old <= len_pre_new else len_pre_new
+
+    # for each part in shortest
+    for index in range(shortest):
+
+        # get each value at position
+        old_val = lst_pre_old[index]
+        new_val = lst_pre_new[index]
+
+        # 1. both numbers
+        if old_val.isdigit() and new_val.isdigit():
+            tmp_old_val = int(old_val)
+            tmp_new_val = int(new_val)
+
+            # slide out at the first difference
+            if tmp_old_val > tmp_new_val:
+                return S_VER_OLDER
+            if tmp_old_val < tmp_new_val:
+                return S_VER_NEWER
+
+        # 2. both alphanumeric
+        if not old_val.isdigit() and not new_val.isdigit():
+            lst_alpha = [old_val, new_val]
+            lst_alpha.sort()
+
+            idx_old = lst_alpha.index(old_val)
+            idx_new = lst_alpha.index(new_val)
+
+            if idx_old > idx_new:
+                return S_VER_OLDER
+            if idx_old < idx_new:
+                return S_VER_NEWER
+
+        # 3 num vs alphanumeric
+        if old_val.isdigit() and not new_val.isdigit():
+            return S_VER_OLDER
+        if not old_val.isdigit() and new_val.isdigit():
+            return S_VER_NEWER
+
+        # 4 len
+        if len_pre_old > len_pre_new:
+            return S_VER_OLDER
+        if len_pre_new > len_pre_old:
+            return S_VER_NEWER
+
+    # --------------------------------------------------------------------------
+
+    # error in one or both versions
+    return S_VER_SAME
+
+
+def dget(dict_in, key, default=None):
+    """ docstring """
+    if not key in dict_in:
+        print(f"Key {key} missing, using default: {default}")
+    return dict_in.get(key, default)
 
 # -)

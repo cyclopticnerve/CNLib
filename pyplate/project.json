@@ -45,18 +45,19 @@
     "PUB_DIST": {
         "img": "",
         "readme": "",
-        "pkg_test": "",
+        "cnlib": "",
         "LICENSE.txt": "",
         "README.md": "",
         "docs": "",
         "pyproject.toml": ""
     },
     "PUB_DOCS": {
-        "DOCS_TOOL": "pdoc3",
-        "DOCS_THEME": ""
+        "DOCS_THEME": "",
+        "DOCS_USE_RM": true,
+        "DOCS_MAKE_API": true
     },
     "PUB_I18N": {
-        "DOMAIN": "pkg_test",
+        "DOMAIN": "cnlib",
         "SOURCES": [
             "src"
         ],
@@ -74,7 +75,7 @@
         },
         "NO_EXT": {
             "Python": [
-                ""
+                "cnlib"
             ]
         },
         "WLANGS": [
@@ -83,17 +84,13 @@
         "CHARSET": "UTF-8"
     },
     "PUB_META": {
-        "META_VERSION": "0.0.4",
-        "META_SHORT_DESC": "A Python library containing useful functions and classes",
+        "META_SHORT_DESC": "A Python library containing useful functions and classes ",
+        "META_VERSION": "0.0.6",
         "META_KEYWORDS": [
             "python",
-            "Python",
             "pyplate",
-            "PyPlate",
             "pymaker",
-            "PyMaker",
-            "pybaker",
-            "PyBaker"
+            "pybaker"
         ],
         "META_DEPS": {
             "Python 3.10+": "https://python.org"

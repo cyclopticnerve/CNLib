@@ -109,6 +109,8 @@ class CNInstall:
     S_DRY_HELP = "do a dry run, printing file info instead of modifying it"
 
     # questions
+    S_ASK_YES = "y"
+    S_ASK_NO = "N"
     S_ASK_VER_SAME = "The current version of this program is already \
      installed. Do you  want to overwrite?"
     S_ASK_VER_OLDER = "A newer version of this program is currently \
@@ -393,7 +395,7 @@ class CNInstall:
             # check versions
             ver_old = dict_cfg_old[self.S_KEY_INST_VER]
             ver_new = self._dict_cfg[self.S_KEY_INST_VER]
-            res = F.compare_versions(ver_old, ver_new)
+            res = F.comp_sem_ver(ver_old, ver_new)
 
             # same version is installed
             if res == F.S_VER_SAME:
@@ -401,12 +403,12 @@ class CNInstall:
                 # ask to install same version
                 str_ask = F.dialog(
                     self.S_ASK_VER_SAME,
-                    [F.S_ASK_YES, F.S_ASK_NO],
-                    F.S_ASK_NO,
+                    [self.S_ASK_YES, self.S_ASK_NO],
+                    self.S_ASK_NO,
                 )
 
                 # user hit enter or typed "n/N"
-                if str_ask == F.S_ASK_NO:
+                if str_ask == self.S_ASK_NO:
                     print(self.S_MSG_VER_ABORT)
                     sys.exit()
 
@@ -416,8 +418,8 @@ class CNInstall:
                 # ask to install old version over newer
                 str_ask = F.dialog(
                     self.S_ASK_VER_OLDER,
-                    [F.S_ASK_YES, F.S_ASK_NO],
-                    F.S_ASK_NO,
+                    [self.S_ASK_YES, self.S_ASK_NO],
+                    self.S_ASK_NO,
                 )
 
                 # user hit enter or typed "n/N"
@@ -438,7 +440,7 @@ class CNInstall:
             dir_venv: The path to the venv folder to create.
 
         Raises:
-            subprocess.CalledProcessError if the venv creation fails
+            cnlib.cnfunctions.CNRunError if the venv creation fails
 
         Makes a .venv-XXX folder on the user's computer.
         """
@@ -462,9 +464,9 @@ class CNInstall:
 
         # the cmd to create the venv
         try:
-            F.sh(cmd, shell=True)
+            F.run(cmd, shell=True)
             print(self.S_MSG_DONE)
-        except Exception as e:
+        except F.CNRunError as e:
             print(self.S_MSG_FAIL)
             raise e
 
@@ -483,7 +485,7 @@ class CNInstall:
             the venv
 
         Raises:
-            subprocess.CalledProcessError if the reqs install fails
+            cnlib.cnfunctions.CNRunError if the reqs install fails
 
         Installs the contents of a requirements.txt file into the program's
         venv.
@@ -515,9 +517,9 @@ class CNInstall:
 
         # the cmd to install the reqs
         try:
-            F.sh(cmd, shell=True)
+            F.run(cmd, shell=True)
             print(self.S_MSG_DONE)
-        except Exception as e:
+        except F.CNRunError as e:
             print(self.S_MSG_FAIL)
             raise e
 
@@ -535,7 +537,7 @@ class CNInstall:
             dir_lib: The path to the folder where the libs reside
 
         Raises:
-            subprocess.CalledProcessError if the libs install fails
+            cnlib.cnfunctions.CNRunError if the libs install fails
 
         Installs the contents of a lib folder in the program's venv.
         """
@@ -574,9 +576,9 @@ class CNInstall:
 
         # the command to install libs
         try:
-            F.sh(cmd, shell=True)
+            F.run(cmd, shell=True)
             print(self.S_MSG_DONE)
-        except Exception as e:
+        except F.CNRunError as e:
             print(self.S_MSG_FAIL)
             raise e
 
@@ -688,5 +690,6 @@ class CNInstall:
 
         # show some info
         print(self.S_MSG_DONE)
+
 
 # -)
