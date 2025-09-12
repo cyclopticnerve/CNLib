@@ -31,7 +31,7 @@ sys.path.append(str(PATH_SRC))
 # pylint: disable=import-error
 # pylint: disable=wrong-import-position
 
-import cnfunctions as F  # type: ignore
+from cnmkdocs import CNMkDocs  # type: ignore
 
 # pylint: enable=import-error
 # pylint: enable=wrong-import-position
@@ -45,18 +45,14 @@ if __name__ == "__main__":
     # This is the top level code of the program, called when the Python file is
     # invoked from the command line.
 
-    # run main function
-    # print(F.dialog("do it?", ["y", "N"], default="", loop=False))
-    print(F.comp_sem_ver("0.0.1", "0.0.1"))
-
-# NB: i just saw this in my terminal and thought it was funny
-#  ________________________________________________________________
-# < <Diziet> Fuck, I can't compile the damn thing and I wrote it ! >
-#  ----------------------------------------------------------------
-#         \   ^__^
-#          \  (oo)\_______
-#             (__)\       )\/\
-#                 ||----w |
-#                 ||     ||
+    C = CNMkDocs()
+    C.make_docs(
+        "/home/dana/Projects/Python/CNLib/tests/Test_Project",
+        dir_img="img",
+        use_rm=False,
+        file_rm="readme.md",
+        use_api=True,
+        dir_api="API"
+    )
 
 # -)

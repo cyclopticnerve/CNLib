@@ -20,23 +20,8 @@ import re
 import shutil
 import sys
 
-# ------------------------------------------------------------------------------
 # local imports
-
-
-# pylint: disable=import-error
-# pylint: disable=wrong-import-position
-
-# add assets lib to path
-P_DIR_LIB = Path(__file__).parent.resolve()
-sys.path.append(str(P_DIR_LIB))
-
-# local imports
-import cnfunctions as F  # type: ignore
-
-# pylint: enable=import-error
-# pylint: enable=wrong-import-position
-
+import cnlib.cnfunctions as F  # type: ignore
 
 # ------------------------------------------------------------------------------
 # Classes
@@ -410,7 +395,7 @@ class CNInstall:
                 # user hit enter or typed "n/N"
                 if str_ask == self.S_ASK_NO:
                     print(self.S_MSG_VER_ABORT)
-                    sys.exit()
+                    sys.exit(-1)
 
             # newer version is installed
             elif res == F.S_VER_OLDER:
@@ -425,7 +410,7 @@ class CNInstall:
                 # user hit enter or typed "n/N"
                 if str_ask == F.S_ASK_NO:
                     print(self.S_MSG_VER_ABORT)
-                    sys.exit()
+                    sys.exit(-1)
 
     # --------------------------------------------------------------------------
     # Make venv for this program on user's computer
@@ -615,11 +600,11 @@ class CNInstall:
 
             if k in ("", ".", "..", None):
                 print(self.S_ERR_SRC_PATH.format(k))
-                sys.exit()
+                sys.exit(-1)
 
             if v in ("", ".", "..") or src.name in ("", ".", ".."):
                 print(self.S_ERR_DST_PATH.format(v))
-                sys.exit()
+                sys.exit(-1)
 
             # debug may omit certain assets
             if not src.exists():
@@ -664,7 +649,7 @@ class CNInstall:
             # weed out relative paths
             if item in ("", ".", ".."):
                 print(self.S_ERR_DST_PATH.format(item))
-                sys.exit()
+                sys.exit(-1)
 
             # get full path of destination
             src = Path.home() / item

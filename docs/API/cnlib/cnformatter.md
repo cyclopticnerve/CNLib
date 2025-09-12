@@ -1,2 +1,0 @@
-# cnformatter.py
-::: cnlib.cnformatter

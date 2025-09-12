@@ -17,6 +17,18 @@
    ├─ [] dist/
    │     └─ [] cnlib-0.0.6.tar.gz
    ├─ [] docs/
+   │     ├─ [] API/
+   │     │     ├─ [] cnlib/
+   │     │     │     ├─ [] cnformatter.md
+   │     │     │     ├─ [] cnfunctions.md
+   │     │     │     ├─ [] cninstall.md
+   │     │     │     ├─ [] cnpot.md
+   │     │     │     ├─ [] cntree.md
+   │     │     │     └─ [] cnvenv.md
+   │     │     └─ [] tests/
+   │     │           └─ [] cnlib_test.md
+   │     ├─ [] img/
+   │     │     └─ [] cnlib.png
    │     └─ [] index.md
    ├─ [] i18n/
    │     ├─ [] locale/
@@ -38,29 +50,54 @@
    │     │     └─ [] private.json
    │     └─ [] project.json
    ├─ [] site/
+   │     ├─ [] API/
+   │     │     ├─ [] cnlib/
+   │     │     │     ├─ [] cnformatter/
+   │     │     │     │     └─ [] index.html
+   │     │     │     ├─ [] cnfunctions/
+   │     │     │     │     └─ [] index.html
+   │     │     │     ├─ [] cninstall/
+   │     │     │     │     └─ [] index.html
+   │     │     │     ├─ [] cnpot/
+   │     │     │     │     └─ [] index.html
+   │     │     │     ├─ [] cntree/
+   │     │     │     │     └─ [] index.html
+   │     │     │     └─ [] cnvenv/
+   │     │     │           └─ [] index.html
+   │     │     └─ [] tests/
+   │     │           └─ [] cnlib_test/
+   │     │                 └─ [] index.html
    │     ├─ [] css/
    │     │     ├─ [] base.css
    │     │     ├─ [] bootstrap.min.css
-   │     │     └─ [] font-awesome.min.css
-   │     ├─ [] fonts/
-   │     │     ├─ [] FontAwesome.otf
-   │     │     ├─ [] fontawesome-webfont.eot
-   │     │     ├─ [] fontawesome-webfont.svg
-   │     │     ├─ [] fontawesome-webfont.ttf
-   │     │     ├─ [] fontawesome-webfont.woff
-   │     │     └─ [] fontawesome-webfont.woff2
+   │     │     ├─ [] bootstrap.min.css.map
+   │     │     ├─ [] brands.min.css
+   │     │     ├─ [] fontawesome.min.css
+   │     │     ├─ [] solid.min.css
+   │     │     └─ [] v4-font-face.min.css
    │     ├─ [] img/
+   │     │     ├─ [] cnlib.png
    │     │     ├─ [] favicon.ico
    │     │     └─ [] grid.png
    │     ├─ [] js/
    │     │     ├─ [] base.js
-   │     │     ├─ [] bootstrap.min.js
-   │     │     └─ [] jquery-1.10.2.min.js
+   │     │     ├─ [] bootstrap.bundle.min.js
+   │     │     ├─ [] bootstrap.bundle.min.js.map
+   │     │     └─ [] darkmode.js
    │     ├─ [] search/
    │     │     ├─ [] lunr.js
    │     │     ├─ [] main.js
    │     │     ├─ [] search_index.json
    │     │     └─ [] worker.js
+   │     ├─ [] webfonts/
+   │     │     ├─ [] fa-brands-400.ttf
+   │     │     ├─ [] fa-brands-400.woff2
+   │     │     ├─ [] fa-regular-400.ttf
+   │     │     ├─ [] fa-regular-400.woff2
+   │     │     ├─ [] fa-solid-900.ttf
+   │     │     ├─ [] fa-solid-900.woff2
+   │     │     ├─ [] fa-v4compatibility.ttf
+   │     │     └─ [] fa-v4compatibility.woff2
    │     ├─ [] 404.html
    │     ├─ [] index.html
    │     ├─ [] sitemap.xml
