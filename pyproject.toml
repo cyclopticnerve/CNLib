@@ -30,7 +30,4 @@ requires-python = ">=3.10"
 [project.urls]
 homepage = "https://github.com/cyclopticnerve/CNLib"
 
-[tool.setuptools]
-packages = ["cnlib"]
-
 # -)
