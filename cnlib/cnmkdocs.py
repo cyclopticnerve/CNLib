@@ -25,7 +25,7 @@ from pathlib import Path
 import shutil
 
 # local imports
-from cnlib import cnfunctions as F
+import cnlib.cnfunctions as F
 
 # ------------------------------------------------------------------------------
 # Classes
@@ -157,8 +157,9 @@ class CNMkDocs:
         if dir_img:
             # make new img dir or combine
             dir_img_src = Path(dir_prj) / dir_img
-            dir_img_dst = dir_docs / self.S_DIR_IMG
-            shutil.copytree(dir_img_src, dir_img_dst, dirs_exist_ok=True)
+            if dir_img_src.exists():
+                dir_img_dst = dir_docs / self.S_DIR_IMG
+                shutil.copytree(dir_img_src, dir_img_dst, dirs_exist_ok=True)
 
     # --------------------------------------------------------------------------
     # Bake docs using mkdocs

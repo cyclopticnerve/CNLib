@@ -25,13 +25,13 @@ import sys
 
 # local imports
 PATH_PRJ = Path(__file__).parents[1].resolve()
-PATH_SRC = PATH_PRJ / "cnlib"
+PATH_SRC = PATH_PRJ
 sys.path.append(str(PATH_SRC))
 
 # pylint: disable=import-error
 # pylint: disable=wrong-import-position
 
-from cnmkdocs import CNMkDocs  # type: ignore
+from cnlib.cnmkdocs import CNMkDocs  # type: ignore
 
 # pylint: enable=import-error
 # pylint: enable=wrong-import-position
