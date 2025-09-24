@@ -61,6 +61,7 @@ class CNMkDocs:
 
     # name used by mkdocs (DO NOT CHANGE!!!)
     S_DIR_DOCS = "docs"
+    S_DIR_SITE = "site"
     S_INDEX_NAME = "index.md"
     S_DIR_IMG = "img"
 
@@ -110,11 +111,13 @@ class CNMkDocs:
     # --------------------------------------------------------------------------
     def make_docs(
         self,
+        #
         dir_prj,
         use_rm=False,
         use_api=False,
+        lst_api_in=None,
         file_rm=None,
-        dir_api=None,
+        dir_api_out=None,
         dir_img=None,
     ):
         """
@@ -125,6 +128,12 @@ class CNMkDocs:
 
         Make the documents structure using the specified properties.
         """
+
+        # NB: mutable lists are only set once, passing an empty list does
+        # NUSSING!!!
+        # so we pass None to make sure the internal list gets reset
+        if not lst_api_in:
+            lst_api_in = []
 
         # ----------------------------------------------------------------------
         # check docs dir for exist
@@ -142,13 +151,13 @@ class CNMkDocs:
         # make index
 
         # make empty or from readme or don't touch
-        self._make_index(dir_prj, use_rm, file_rm, dir_img)
+        self._make_index(dir_prj, use_rm, file_rm)
 
         # ----------------------------------------------------------------------
         # make api
 
         # make new api or delete old
-        self._make_api(dir_prj, use_api, dir_api)
+        self._make_api(dir_prj, use_api, lst_api_in, dir_api_out)
 
         # ----------------------------------------------------------------------
         # make img dir
@@ -166,13 +175,17 @@ class CNMkDocs:
     # --------------------------------------------------------------------------
     def bake_docs(
         self,
+        #
         p_dir_pp,
         p_dir_pp_venv,
+        #
         dir_prj,
         use_rm=False,
         use_api=False,
+        lst_api_in=None,
         file_rm=None,
-        dir_api=None,
+        dir_api_out=None,
+        dir_img=None,
     ):
         """
         Bake docs using mkdocs
@@ -185,7 +198,9 @@ class CNMkDocs:
 
         # ----------------------------------------------------------------------
         # do all the build stuff
-        self.make_docs(dir_prj, use_rm, use_api, file_rm, dir_api)
+        self.make_docs(
+            dir_prj, use_rm, use_api, lst_api_in, file_rm, dir_api_out, dir_img
+        )
 
         # ----------------------------------------------------------------------
         # deploy docs
@@ -210,7 +225,7 @@ class CNMkDocs:
     # --------------------------------------------------------------------------
     # Make the home file (index.md)
     # --------------------------------------------------------------------------
-    def _make_index(self, dir_prj, use_rm, file_rm, _path_img):
+    def _make_index(self, dir_prj, use_rm, file_rm):
         """
         Make the home file (index.md)
 
@@ -257,7 +272,7 @@ class CNMkDocs:
     # --------------------------------------------------------------------------
     # Make the api files
     # --------------------------------------------------------------------------
-    def _make_api(self, dir_prj, use_api, dir_api):
+    def _make_api(self, dir_prj, use_api, lst_api_in, dir_api_out):
         """
         Make the api files
 
@@ -265,44 +280,52 @@ class CNMkDocs:
         """
 
         # sanity check
-        if not dir_api:
+        if not dir_api_out:
             return
 
         # find api dir
         dir_prj = Path(dir_prj)
         dir_docs_out = dir_prj / self.S_DIR_DOCS
-        dir_api = dir_docs_out / dir_api
+        dir_api_out = dir_docs_out / dir_api_out
 
         # nuke it if it exists and we changed out mind
-        if not use_api and dir_api.exists():
-            shutil.rmtree(dir_api)
+        if not use_api and dir_api_out.exists():
+            shutil.rmtree(dir_api_out)
             return
 
-        # --------------------------------------------------------------------------
+        # ----------------------------------------------------------------------
 
         # gather list of full paths to .py files
         files_out = []
 
-        # NB: root is a full path, dirs and files are relative to root
-        for root, _root_dirs, root_files in dir_prj.walk():
+        for item in lst_api_in:
 
-            # convert files into Paths
-            files = [root / f for f in root_files]
-            files = [f for f in files if f.suffix.lower() == self.S_EXT_IN.lower()]
+            dir_api = dir_prj / item
 
-            # for each file item
-            for item in files:
-                files_out.append(item)
+            # NB: root is a full path, dirs and files are relative to root
+            for root, _root_dirs, root_files in dir_api.walk():
 
-        # --------------------------------------------------------------------------
+                # convert files into Paths
+                files = [root / f for f in root_files]
+                files = [
+                    f
+                    for f in files
+                    if f.suffix.lower() == self.S_EXT_IN.lower()
+                ]
+
+                # for each file item
+                for item in files:
+                    files_out.append(item)
+
+        # ----------------------------------------------------------------------
         # make structure
 
         # nuke / remake the api folder
-        if dir_api.exists():
+        if dir_api_out.exists():
 
             # delete and recreate dir
-            shutil.rmtree(dir_api)
-            dir_api.mkdir(parents=True)
+            shutil.rmtree(dir_api_out)
+            dir_api_out.mkdir(parents=True)
 
         # for each py file
         for f in files_out:
@@ -313,7 +336,7 @@ class CNMkDocs:
             # then we make a folder with the same relative path, but rel to docs
             # dir
             path_rel = f.relative_to(dir_prj)
-            path_doc = dir_api / path_rel.parent
+            path_doc = dir_api_out / path_rel.parent
             path_doc.mkdir(parents=True, exist_ok=True)
 
             # create a default file

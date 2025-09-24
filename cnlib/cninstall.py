@@ -135,7 +135,7 @@ class CNInstall:
         """
 
         # set properties
-        self._dry = False
+        self._dry_run = False
         self._dict_cfg = {}
 
     # --------------------------------------------------------------------------
@@ -176,7 +176,7 @@ class CNInstall:
     # --------------------------------------------------------------------------
     # Make a valid uninstall config file
     # --------------------------------------------------------------------------
-    def make_uninstall_cfg(self, name, version, list_uninst, desk=False):
+    def make_uninstall_cfg(self, name, version, list_uninst):
         """
         Make a valid uninstall config file
 
@@ -197,7 +197,6 @@ class CNInstall:
         dict_use = {
             self.S_KEY_INST_NAME: name,
             self.S_KEY_INST_VER: version,
-            self.S_KEY_INST_DESK: desk,
             self.S_KEY_INST_CONT: list_uninst,
         }
 
@@ -262,13 +261,14 @@ class CNInstall:
     def install(
         self,
         dir_assets,
-        path_lib,
+        dir_usr_inst,
         path_cfg_inst,
         path_cfg_uninst,
-        dir_usr_inst,
         dir_venv,
         path_reqs,
-        dry=False,
+        file_desk=None,
+        file_desk_icon=None,
+        dry_run=False,
     ):
         """
         Install the program
@@ -293,7 +293,7 @@ class CNInstall:
         """
 
         # set properties
-        self._dry = dry
+        self._dry_run = dry_run
 
         # get install dict
         self._dict_cfg = F.get_dict_from_file(path_cfg_inst)
@@ -317,18 +317,18 @@ class CNInstall:
         # install reqs
         self._install_reqs(dir_usr_inst, dir_venv, path_reqs)
 
-        # install libs
-        self._install_libs(dir_usr_inst, dir_venv, path_lib)
+        # fix desktop file if present
+        self._fix_desktop_file(file_desk, file_desk_icon)
 
         # move content
-        self._do_install_content(dir_assets)
+        self._install_content(dir_assets)
 
         print(self.S_MSG_INST_END.format(prog_name))
 
     # --------------------------------------------------------------------------
     # Uninstall the program
     # --------------------------------------------------------------------------
-    def uninstall(self, path_cfg, dry=False):
+    def uninstall(self, path_cfg, dry_run=False):
         """
         Uninstall the program
 
@@ -341,7 +341,7 @@ class CNInstall:
         """
 
         # set properties
-        self._dry = dry
+        self._dry_run = dry_run
 
         # get dict from file
         self._dict_cfg = F.get_dict_from_file(path_cfg)
@@ -442,7 +442,7 @@ class CNInstall:
         cmd = self.S_CMD_CREATE.format(dir_venv)
 
         # if it's a dry run, don't make venv
-        if self._dry:
+        if self._dry_run:
             print("\nvenv cmd:", cmd)
             print(self.S_MSG_DONE, "\n")
             return
@@ -495,7 +495,7 @@ class CNInstall:
         )
 
         # if it's a dry run, don't install
-        if self._dry:
+        if self._dry_run:
             print("\nreqs cmd:", cmd)
             print(self.S_MSG_DONE, "\n")
             return
@@ -509,68 +509,67 @@ class CNInstall:
             raise e
 
     # --------------------------------------------------------------------------
-    # Install libs to program's venv
+    # Fix .desktop file, for paths and such
     # --------------------------------------------------------------------------
-    def _install_libs(self, dir_usr_inst, dir_venv, dir_lib):
+    def _fix_desktop_file(self, file_desk, file_desk_icon):
         """
-        Install libs to program's venv
-
-        Args:
-            dir_usr_inst: The program's install folder in which the venv
-            resides
-            dir_venv: The path tp the venv folder to create
-            dir_lib: The path to the folder where the libs reside
+        Fix .desktop file, for paths and such
 
         Raises:
-            cnlib.cnfunctions.CNRunError if the libs install fails
+            OSError if one of both of the files does not exist
 
-        Installs the contents of a lib folder in the program's venv.
+        Fixes entries in the .desktop file (absolute paths, etc.)
+        Currently only fixes absolute path to icon.
         """
 
-        # show some info
-        print(self.S_MSG_LIBS_START, end="", flush=True)
-
-        # sanity check
-        dir_venv = Path(dir_venv)
-        if not dir_venv.is_absolute():
-            dir_venv = Path(dir_usr_inst) / dir_venv
-
-        # sanity check
-        dir_lib = Path(dir_lib)
-        if not dir_lib.is_absolute():
-            dir_lib = Path(dir_usr_inst) / dir_lib
-
-        # start the full command
-        cmd = self.S_CMD_VENV_ACTIVATE.format(dir_usr_inst, dir_venv)
-
-        # get list of libs for this prj type
-        val = [dir_lib / f for f in dir_lib.iterdir() if f.is_dir()]
-
-        # copy libs to command
-        for item in val:
-
-            # add lib
-            add_str = self.S_CMD_INST_LIB.format(str(item))
-            cmd += ";" + add_str
-
-        # if it's a dry run, don't install
-        if self._dry:
-            print("\nlibs cmd:", cmd)
-            print(self.S_MSG_DONE, "\n")
+        # make sure we even care about desktop
+        use_desk = self._dict_cfg.get(self.S_KEY_INST_DESK, False)
+        if not use_desk:
             return
 
-        # the command to install libs
-        try:
-            F.run(cmd, shell=True)
+        # print info
+        print(self.S_MSG_DSK_START, end="", flush=True)
+
+        # don't mess with file
+        if self._dry_run:
+            print(self.S_DRY_DESK_ICON.format(file_desk_icon))
             print(self.S_MSG_DONE)
-        except F.CNRunError as e:
-            print(self.S_MSG_FAIL)
-            raise e
+            return
+
+        # sanity check (params to main might be None)
+        if not file_desk or not file_desk_icon:
+            print("no desktop files present")
+            return
+
+        # open file
+        text = ""
+        with open(file_desk, "r", encoding="UTF-8") as a_file:
+            text = a_file.read()
+
+        # find icon line and fix
+        res = re.search(self.R_ICON_SCH, text, flags=re.M)
+        if res:
+
+            # get user's home and path to icon rel to prj
+            path_icon = Path.home() / file_desk_icon
+
+            # fix abs path to icon
+            r_icon_rep = self.R_ICON_REP.format(path_icon)
+            text = re.sub(self.R_ICON_SCH, r_icon_rep, text, flags=re.M)
+
+            # ------------------------------------------------------------------
+
+            # write fixed text back to file
+            with open(file_desk, "w", encoding="UTF-8") as a_file:
+                a_file.write(text)
+
+        # show some info
+        print(self.S_MSG_DONE)
 
     # --------------------------------------------------------------------------
     # Copy source files/folders
     # --------------------------------------------------------------------------
-    def _do_install_content(self, dir_assets):
+    def _install_content(self, dir_assets):
         """
         Copy source files/folders
 
@@ -585,7 +584,7 @@ class CNInstall:
         print(self.S_MSG_COPY_START, flush=True, end="")
 
         # add an extra line break
-        if self._dry:
+        if self._dry_run:
             print()
 
         # content list from dict
@@ -610,7 +609,7 @@ class CNInstall:
             if not src.exists():
                 continue
 
-            if self._dry:
+            if self._dry_run:
                 print(f"copy\n{src}\nto\n{dst}\n")
             else:
                 # if the source is a dir
@@ -637,7 +636,7 @@ class CNInstall:
         print(self.S_MSG_DEL_START, flush=True, end="")
 
         # make pretty
-        if self._dry:
+        if self._dry_run:
             print()
 
         # content list from dict
@@ -659,7 +658,7 @@ class CNInstall:
                 continue
 
             # (maybe) do delete
-            if self._dry:
+            if self._dry_run:
                 print(f"remove\n{item}\n")
             else:
 

@@ -1,0 +1,2 @@
+# cninstall.py
+::: cnlib.cninstall

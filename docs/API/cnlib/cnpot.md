@@ -1,0 +1,2 @@
+# cnpot.py
+::: cnlib.cnpot
