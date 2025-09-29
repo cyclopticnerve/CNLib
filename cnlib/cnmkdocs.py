@@ -111,8 +111,8 @@ class CNMkDocs:
     # --------------------------------------------------------------------------
     def make_docs(
         self,
-        #
         dir_prj,
+        #
         use_rm=False,
         use_api=False,
         lst_api_in=None,
@@ -175,17 +175,10 @@ class CNMkDocs:
     # --------------------------------------------------------------------------
     def bake_docs(
         self,
+        dir_prj,
         #
         p_dir_pp,
         p_dir_pp_venv,
-        #
-        dir_prj,
-        use_rm=False,
-        use_api=False,
-        lst_api_in=None,
-        file_rm=None,
-        dir_api_out=None,
-        dir_img=None,
     ):
         """
         Bake docs using mkdocs
@@ -196,11 +189,11 @@ class CNMkDocs:
         Updates and deploys docs using mkdocs.
         """
 
-        # ----------------------------------------------------------------------
-        # do all the build stuff
-        self.make_docs(
-            dir_prj, use_rm, use_api, lst_api_in, file_rm, dir_api_out, dir_img
-        )
+        # # ----------------------------------------------------------------------
+        # # do all the build stuff
+        # self.make_docs(
+        #     dir_prj, use_rm, use_api, lst_api_in, file_rm, dir_api_out, dir_img
+        # )
 
         # ----------------------------------------------------------------------
         # deploy docs

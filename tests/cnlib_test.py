@@ -15,27 +15,8 @@ A simple script to test a package from within the project itself
 # Imports
 # ------------------------------------------------------------------------------
 
-# system imports
-# from pathlib import Path
-# import sys
-
-# NB: i know this looks ugly, but it *WILL* work
-# NB: its basically me being lazy so i dont have to create a venv in the
-# package just to install the library in itself
-
 # local imports
-# PATH_PRJ = Path(__file__).parents[1].resolve()
-# PATH_SRC = PATH_PRJ
-# sys.path.append(str(PATH_SRC))
-
-# pylint: disable=import-error
-# pylint: disable=wrong-import-position
-
-from cnlib.cnmkdocs import CNMkDocs
 from cnlib import cnfunctions as F
-
-# pylint: enable=import-error
-# pylint: enable=wrong-import-position
 
 # ------------------------------------------------------------------------------
 # Code to run when called from command line

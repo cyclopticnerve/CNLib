@@ -996,11 +996,34 @@ def comp_sem_ver(ver_old, ver_new):
     # error in one or both versions
     return S_VER_SAME
 
+# ------------------------------------------------------------------------------
+# Print in color
+# ------------------------------------------------------------------------------
+def printc(*values, color="0", **kwargs):
+    """
+    Print in color
 
-def dget(dict_in, key, default=None):
-    """ docstring """
-    if not key in dict_in:
-        print(f"Key {key} missing, using default: {default}")
-    return dict_in.get(key, default)
+    Args:
+        values: An array of strings to join together
+        color: The color to use (see ???)
+        kwargs: The args for print()
+
+    Prints a string to the console in the specified color
+    """
+    # join the string args
+    sep = kwargs.get("sep", " ")
+    value = sep.join(values)
+
+    # format it for color and add color value
+    value = f"\033[{color}m{value}\033[0m"
+
+    # do the real print
+    print(
+        value,
+        end=kwargs.get("end", None),
+        file=kwargs.get("file", None),
+        flush=kwargs.get("flush", False),
+    )
+
 
 # -)

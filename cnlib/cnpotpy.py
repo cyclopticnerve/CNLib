@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------
 # Project : CNLib                                                  /          \
-# Filename: cnpot.py                                              |     ()     |
+# Filename: cnpotpy.py                                            |     ()     |
 # Date    : 03/14/2024                                            |            |
 # Author  : cyclopticnerve                                        |   \____/   |
 # License : WTFPLv2                                                \          /
@@ -78,7 +78,7 @@ class CNPotPy:
     # NB: format params are mo_file and wlang_po
     S_CMD_MAKE_MOS = "msgfmt -o {} {}"
     # NB: format params are po dir, template file, and output file
-    S_CMD_DSK = "msgfmt --desktop -d {} --template={} -o {} "
+    S_CMD_DESK = "msgfmt --desktop -d {} --template={} -o {} "
 
     # NB: format param is dir_prj
     S_ERR_NOT_ABS = "path {} is not absolute"
@@ -327,7 +327,7 @@ class CNPotPy:
         if dt_template.exists():
 
             # build the command as a string
-            cmd = self.S_CMD_DSK.format(self._dir_po, dt_template, dt_out)
+            cmd = self.S_CMD_DESK.format(self._dir_po, dt_template, dt_out)
 
             # run the command
             try:

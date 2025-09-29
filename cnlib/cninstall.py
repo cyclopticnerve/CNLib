@@ -452,6 +452,8 @@ class CNInstall:
             F.run(cmd, shell=True)
             print(self.S_MSG_DONE)
         except F.CNRunError as e:
+            # TODO: color/printd
+            # TODO: raise where?
             print(self.S_MSG_FAIL)
             raise e
 
@@ -505,6 +507,8 @@ class CNInstall:
             F.run(cmd, shell=True)
             print(self.S_MSG_DONE)
         except F.CNRunError as e:
+            # TODO: color/printd
+            # TODO: raise where?
             print(self.S_MSG_FAIL)
             raise e
 
