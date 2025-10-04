@@ -59,10 +59,10 @@ S_ASK_YES = "y"
 S_ASK_NO = "n"
 
 # version check results
-S_VER_OLDER = -1
-S_VER_SAME = 0
-S_VER_NEWER = 1
-S_VER_ERROR = -2
+I_VER_OLDER = -1
+I_VER_SAME = 0
+I_VER_NEWER = 1
+I_VER_ERROR = -2
 
 # regex to compare version numbers
 R_VERSION_VALID = (
@@ -91,6 +91,29 @@ L_RULES_TRUE = [
     "yes",
     "y",
 ]
+
+# ------------------------------------------------------------------------------
+# colors
+
+C_FG_NONE = 0
+C_FG_BLACK = 30
+C_FG_RED = 31
+C_FG_GREEN = 32
+C_FG_YELLOW = 33
+C_FG_BLUE = 34
+C_FG_MAGENTA = 35
+C_FG_CYAN = 36
+C_FG_WHITE = 37
+
+C_BG_NONE = 0
+C_BG_BLACK = 40
+C_BG_RED = 41
+C_BG_GREEN = 42
+C_BG_YELLOW = 43
+C_BG_BLUE = 44
+C_BG_MAGENTA = 45
+C_BG_CYAN = 46
+C_BG_WHITE = 47
 
 # ------------------------------------------------------------------------------
 # Public classes
@@ -771,6 +794,7 @@ def dialog(
         if not loop:
             return ""
 
+
 # --------------------------------------------------------------------------
 # Open a json file and return the dict inside
 # --------------------------------------------------------------------------
@@ -885,11 +909,11 @@ def comp_sem_ver(ver_old, ver_new):
 
     # sanity checks
     if not ver_old or ver_old == "":
-        return S_VER_ERROR
+        return I_VER_ERROR
     if not ver_new or ver_new == "":
-        return S_VER_ERROR
+        return I_VER_ERROR
     if ver_old == ver_new:
-        return S_VER_SAME
+        return I_VER_SAME
 
     # --------------------------------------------------------------------------
 
@@ -899,7 +923,7 @@ def comp_sem_ver(ver_old, ver_new):
 
     # if either version string is None
     if not res_old or not res_new:
-        return S_VER_ERROR
+        return I_VER_ERROR
 
     # make a list of groups to check
     lst_groups = [
@@ -915,9 +939,9 @@ def comp_sem_ver(ver_old, ver_new):
 
         # slide out at the first difference
         if old_val < new_val:
-            return S_VER_NEWER
+            return I_VER_NEWER
         if old_val > new_val:
-            return S_VER_OLDER
+            return I_VER_OLDER
 
     # --------------------------------------------------------------------------
 
@@ -927,11 +951,11 @@ def comp_sem_ver(ver_old, ver_new):
 
     # simple pre rule compare
     if not pre_old and pre_new:
-        return S_VER_OLDER
+        return I_VER_OLDER
     if pre_old and not pre_new:
-        return S_VER_NEWER
+        return I_VER_NEWER
     if not pre_old and not pre_new:
-        return S_VER_SAME
+        return I_VER_SAME
 
     # --------------------------------------------------------------------------
 
@@ -962,9 +986,9 @@ def comp_sem_ver(ver_old, ver_new):
 
             # slide out at the first difference
             if tmp_old_val > tmp_new_val:
-                return S_VER_OLDER
+                return I_VER_OLDER
             if tmp_old_val < tmp_new_val:
-                return S_VER_NEWER
+                return I_VER_NEWER
 
         # 2. both alphanumeric
         if not old_val.isdigit() and not new_val.isdigit():
@@ -975,55 +999,148 @@ def comp_sem_ver(ver_old, ver_new):
             idx_new = lst_alpha.index(new_val)
 
             if idx_old > idx_new:
-                return S_VER_OLDER
+                return I_VER_OLDER
             if idx_old < idx_new:
-                return S_VER_NEWER
+                return I_VER_NEWER
 
         # 3 num vs alphanumeric
         if old_val.isdigit() and not new_val.isdigit():
-            return S_VER_OLDER
+            return I_VER_OLDER
         if not old_val.isdigit() and new_val.isdigit():
-            return S_VER_NEWER
+            return I_VER_NEWER
 
         # 4 len
         if len_pre_old > len_pre_new:
-            return S_VER_OLDER
+            return I_VER_OLDER
         if len_pre_new > len_pre_old:
-            return S_VER_NEWER
+            return I_VER_NEWER
 
     # --------------------------------------------------------------------------
 
     # error in one or both versions
-    return S_VER_SAME
+    return I_VER_SAME
 
 # ------------------------------------------------------------------------------
-# Print in color
+# Print a string in color
 # ------------------------------------------------------------------------------
-def printc(*values, color="0", **kwargs):
+def printc(
+    *values, sep=" ", end="\n", file=None, flush=False, fg=0, bg=0, bold=False
+):
     """
-    Print in color
+    Print a string in color
 
     Args:
-        values: An array of strings to join together
-        color: The color to use (see ???)
-        kwargs: The args for print()
+        *values: A variable number of string arguments
+        sep: The string used to join *values (default: ' ')
+        end: The character(s) to print after the *values (default:'\n')
+        file: The file object to print to or, if None, print to stdout
+        (default: None)
+        flush: Whether to force the output buffer to write immediately, rather
+        than waiting for it to fill
+        fg: The foreground color of the text as a C_FG_XXX value (see below).
+        If 0, use default terminal color (default: 0)
+        bg: The background color of the text as a C_FG_XXX value (see below).
+        If 0, use default terminal color (default: 0)
+        bold: Whether the text is bold (duh) (default:False)
 
-    Prints a string to the console in the specified color
+    This function prints something to the console, just like print(), but with
+    COLOR! and BOLD! The first five parameters are EXACTLY the same as print()
+    and the last three are as follows:
+    fg: The foreground color of the text to print. This can be one of the
+    following values:
+
+    C_FG_NONE (use the terminal default)
+    C_FG_BLACK
+    C_FG_RED
+    C_FG_GREEN
+    C_FG_YELLOW
+    C_FG_BLUE
+    C_FG_MAGENTA
+    C_FG_CYAN
+    C_FG_WHITE
+
+    bg: The background (or highlight) color of the text to print. This can
+    be one of the following values:
+
+    C_BG_NONE (use the terminal default)
+    C_BG_BLACK
+    C_BG_RED
+    C_BG_GREEN
+    C_BG_YELLOW
+    C_BG_BLUE
+    C_BG_MAGENTA
+    C_BG_CYAN
+    C_BG_WHITE
+
+    A note about the background color:\n
+    Setting the background color will (almost?) always set the foreground color
+    to white. So no cyan text on a magenta background.\n
+    *sad beeping noises*
+    'my eyes, they bleed...'
+    'DO IT TO JULIAAAAA!!!!!!!!'
     """
-    # join the string args
-    sep = kwargs.get("sep", " ")
+
+    # NB: every option has a unique value and order does not matter
+    # the default array of text options
+    arr_opt = []
+
+    # maybe set fg
+    if fg != 0:
+        arr_opt.append(str(fg))
+
+    # maybe set bg
+    if bg != 0:
+        arr_opt.append(str(bg))
+
+    # maybe set bold
+    if bold:
+        arr_opt.append("1")
+
+    # put arr_opt together
+    color_val = ";".join(arr_opt) # '32;42;1', '42'
+
+    # get open sequence
+    color_start = f"\033[{color_val}m"
+
+    # get the string
     value = sep.join(values)
 
-    # format it for color and add color value
-    value = f"\033[{color}m{value}\033[0m"
+    # get the close sequence (reset fg/bg/bold)
+    color_end = "\033[0m"
 
-    # do the real print
-    print(
-        value,
-        end=kwargs.get("end", None),
-        file=kwargs.get("file", None),
-        flush=kwargs.get("flush", False),
-    )
+    # build the final string
+    string = color_start + value + color_end
+
+    # call 'super' (real print) with final string and params
+    # NB: minus sep since we already did the work -)
+    print(string, end=end, file=file, flush=flush)
+
+
+# ------------------------------------------------------------------------------
+# Print a string if the debug param is True
+# ------------------------------------------------------------------------------
+def printd(*values, sep=" ", end="\n", file=None, flush=False, debug=False):
+    """
+    Print a string if the debug param is True
+
+    Args:
+        *values: A variable number of string arguments
+        sep: The string used to join *values (default: ' ')
+        end: The character(s) to print after the *values (default:'\n')
+        file: The file object to print to or, if None, print to stdout
+        (default: None)
+        flush: Whether to force the output buffer to write immediately, rather
+        than waiting for it to fill
+        debug: Whether to print debug statements or not (use a global debug in
+        your code)
+
+
+    This function is really handy for me when I run a program in debug mode. It
+    just lets me wrap prints in context-aware statements
+    """
+
+    if debug:
+        print(*values, sep=sep, end=end, file=file, flush=flush)
 
 
 # -)

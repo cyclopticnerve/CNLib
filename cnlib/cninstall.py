@@ -296,7 +296,10 @@ class CNInstall:
         self._dry_run = dry_run
 
         # get install dict
-        self._dict_cfg = F.get_dict_from_file(path_cfg_inst)
+        try:
+            self._dict_cfg = F.get_dict_from_file(path_cfg_inst)
+        except OSError as e:  # from get_dict_from_file
+            print("error:", e)
 
         # get prg name/version
         prog_name = self._dict_cfg[self.S_KEY_INST_NAME]
@@ -344,7 +347,10 @@ class CNInstall:
         self._dry_run = dry_run
 
         # get dict from file
-        self._dict_cfg = F.get_dict_from_file(path_cfg)
+        try:
+            self._dict_cfg = F.get_dict_from_file(path_cfg)
+        except OSError as e:  # from get_dict_from_file
+            print("error:", e)
 
         # get prg name
         prog_name = self._dict_cfg[self.S_KEY_INST_NAME]
@@ -375,7 +381,10 @@ class CNInstall:
         # if we did pass an old conf, it must exist (if it doesn't, this could
         # be the first install but we will want to check on later updates)
         if path_cfg_uninst and Path(path_cfg_uninst).exists():
-            dict_cfg_old = F.get_dict_from_file(path_cfg_uninst)
+            try:
+                dict_cfg_old = F.get_dict_from_file(path_cfg_uninst)
+            except OSError as e:  # from get_dict_from_file
+                print("error:", e)
 
             # check versions
             ver_old = dict_cfg_old[self.S_KEY_INST_VER]
@@ -383,7 +392,7 @@ class CNInstall:
             res = F.comp_sem_ver(ver_old, ver_new)
 
             # same version is installed
-            if res == F.S_VER_SAME:
+            if res == F.I_VER_SAME:
 
                 # ask to install same version
                 str_ask = F.dialog(
@@ -398,7 +407,7 @@ class CNInstall:
                     sys.exit(-1)
 
             # newer version is installed
-            elif res == F.S_VER_OLDER:
+            elif res == F.I_VER_OLDER:
 
                 # ask to install old version over newer
                 str_ask = F.dialog(
@@ -452,10 +461,10 @@ class CNInstall:
             F.run(cmd, shell=True)
             print(self.S_MSG_DONE)
         except F.CNRunError as e:
-            # TODO: color/printd
-            # TODO: raise where?
             print(self.S_MSG_FAIL)
-            raise e
+            print()
+            print("error:", e)
+            sys.exit(-1)
 
     # --------------------------------------------------------------------------
     # Install requirements.txt
@@ -507,10 +516,10 @@ class CNInstall:
             F.run(cmd, shell=True)
             print(self.S_MSG_DONE)
         except F.CNRunError as e:
-            # TODO: color/printd
-            # TODO: raise where?
             print(self.S_MSG_FAIL)
-            raise e
+            print()
+            print("error:", e)
+            sys.exit(-1)
 
     # --------------------------------------------------------------------------
     # Fix .desktop file, for paths and such

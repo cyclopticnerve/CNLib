@@ -147,6 +147,10 @@ class CNVenv:
         if not file_reqs.is_absolute():
             file_reqs = self._dir_prj / file_reqs
 
+        # ignore missing/empty files
+        if not file_reqs.exists() or file_reqs.stat().st_size > 0:
+            return
+
         # the command to install packages to venv from reqs
         cmd = self.S_CMD_INSTALL.format(
             self._dir_venv.parent, self._dir_venv.name, file_reqs
