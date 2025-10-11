@@ -12,7 +12,7 @@ project's source files and the config file "mkdocs.yml" to create MarkDown
 files in the "docs" folder. It then builds the html file structure in the
 "site" folder. It uses the "gh-deploy" program to publish the site to a
 remote-only branch. It then instructs GitHub Pages to auto-publish your docs at
-<username>.github.io/<repo_name> from that branch.
+&lt;username&gt;.github.io/&lt;repo_name&gt; from that branch.
 As much code/settings/constants as can be are reused from conf.py.
 """
 
@@ -121,12 +121,16 @@ class CNMkDocs:
         dir_img=None,
     ):
         """
-        Make docs using mkdocs
-
-        Raises:
-            cnlib.cnfunctions.CNRunError: If function fails
-
-        Make the documents structure using the specified properties.
+        Docstring for make_docs
+        
+        :param self: Description
+        :param dir_prj: Description
+        :param use_rm: Description
+        :param use_api: Description
+        :param lst_api_in: Description
+        :param file_rm: Description
+        :param dir_api_out: Description
+        :param dir_img: Description
         """
 
         # NB: mutable lists are only set once, passing an empty list does

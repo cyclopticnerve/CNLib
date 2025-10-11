@@ -1,10 +1,10 @@
 #! /usr/bin/env python
 # ------------------------------------------------------------------------------
-# Project : __PP_NAME_PRJ_BIG__                                    /          \
+# Project : CNLib                                                  /          \
 # Filename: develop.py                                            |     ()     |
-# Date    : __PP_DATE__                                           |            |
-# Author  : __PP_AUTHOR__                                         |   \____/   |
-# License : __PP_LICENSE_NAME__                                    \          /
+# Date    : 10/11/2025                                            |            |
+# Author  : cyclopticnerve                                        |   \____/   |
+# License : WTFPLv2                                                \          /
 # ------------------------------------------------------------------------------
 
 # pylint: disable=too-many-lines
@@ -46,8 +46,8 @@ P_DIR_PRJ = Path(__file__).parent.resolve()
 T_DIR_PRJ = P_DIR_PRJ
 
 # init gettext
-T_DOMAIN = "__PP_NAME_PRJ_SMALL__"
-T_DIR_LOCALE = T_DIR_PRJ / "__PP_PATH_LOCALE__"
+T_DOMAIN = "cnlib"
+T_DIR_LOCALE = T_DIR_PRJ / "i18n/locale"
 T_TRANSLATION = gettext.translation(T_DOMAIN, T_DIR_LOCALE, fallback=True)
 _ = T_TRANSLATION.gettext
 
@@ -71,9 +71,9 @@ class CNDevelop:
     # --------------------------------------------------------------------------
 
     # file names and project type
-    S_NAME_VENV = "__PP_NAME_VENV__"
-    S_FILE_REQS = "__PP_REQS_FILE__"
-    S_TYPE_PRJ = "__PP_TYPE_PRJ__"
+    S_NAME_VENV = ".venv-cnlib"
+    S_FILE_REQS = "requirements.txt"
+    S_TYPE_PRJ = "p"
 
     # messages
 

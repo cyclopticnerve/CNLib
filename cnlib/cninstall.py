@@ -467,16 +467,6 @@ class CNInstall:
             print(self.S_MSG_DONE, "\n")
             return
 
-        # the cmd to create the venv
-        # try:
-        #     F.run(cmd, shell=True)
-        #     print(self.S_MSG_DONE)
-        # except F.CNRunError as e:
-        #     print(self.S_MSG_FAIL)
-        #     print()
-        #     print("error:", e)
-        #     sys.exit(-1)
-
         # do the thing with the thing
         try:
             cv = CNVenv(dir_usr_inst, dir_venv)

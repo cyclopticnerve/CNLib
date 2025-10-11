@@ -19,27 +19,23 @@
    │     └─ [] cnlib-0.0.6.tar.gz
    ├─ [] docs/
    │     ├─ [] API/
-   │     │     ├─ [] cnlib/
-   │     │     │     ├─ [] cnformatter.md
-   │     │     │     ├─ [] cnfunctions.md
-   │     │     │     ├─ [] cninstall.md
-   │     │     │     ├─ [] cnmkdocs.md
-   │     │     │     ├─ [] cnpot.md
-   │     │     │     ├─ [] cntree.md
-   │     │     │     └─ [] cnvenv.md
-   │     │     ├─ [] tests/
-   │     │     │     ├─ [] Test_Project/
-   │     │     │     │     └─ [] src/
-   │     │     │     │           └─ [] test.md
-   │     │     │     └─ [] cnlib_test.md
-   │     │     └─ [] develop.md
+   │     │     └─ [] cnlib/
+   │     │           ├─ [] cnformatter.md
+   │     │           ├─ [] cnfunctions.md
+   │     │           ├─ [] cninstall.md
+   │     │           ├─ [] cnmkdocs.md
+   │     │           ├─ [] cnpot.md
+   │     │           ├─ [] cntree.md
+   │     │           └─ [] cnvenv.md
    │     ├─ [] img/
+   │     │     ├─ [] cnlib.png
    │     │     └─ [] favicon.ico
    │     └─ [] index.md
    ├─ [] i18n/
    │     ├─ [] locale/
    │     │     └─ [] en/
    │     │           └─ [] LC_MESSAGES/
+   │     │                 └─ [] cnlib.mo
    │     ├─ [] po/
    │     │     ├─ [] en/
    │     │     │     └─ [] cnlib.po
@@ -49,30 +45,38 @@
    ├─ [] img/
    │     └─ [] cnlib.png
    ├─ [] misc/
+   │     ├─ [] default_files/
+   │     │     ├─ [] class.py
+   │     │     ├─ [] default.html
+   │     │     ├─ [] default.md
+   │     │     ├─ [] module.py
+   │     │     └─ [] window.py
+   │     ├─ [] how_to/
+   │     │     └─ [] i18n_tips.txt
    │     └─ [] tree.txt
    ├─ [] pyplate/
    │     ├─ [] private/
-   │     │     ├─ [] ABOUT
    │     │     └─ [] private.json
    │     └─ [] project.json
    ├─ [] site/
    │     ├─ [] API/
-   │     │     ├─ [] cnlib/
-   │     │     │     ├─ [] cnformatter/
-   │     │     │     │     └─ [] index.html
-   │     │     │     ├─ [] cnfunctions/
-   │     │     │     │     └─ [] index.html
-   │     │     │     ├─ [] cninstall/
-   │     │     │     │     └─ [] index.html
-   │     │     │     ├─ [] cnpot/
-   │     │     │     │     └─ [] index.html
-   │     │     │     ├─ [] cntree/
-   │     │     │     │     └─ [] index.html
-   │     │     │     └─ [] cnvenv/
-   │     │     │           └─ [] index.html
-   │     │     └─ [] tests/
-   │     │           └─ [] cnlib_test/
+   │     │     └─ [] cnlib/
+   │     │           ├─ [] cnformatter/
+   │     │           │     └─ [] index.html
+   │     │           ├─ [] cnfunctions/
+   │     │           │     └─ [] index.html
+   │     │           ├─ [] cninstall/
+   │     │           │     └─ [] index.html
+   │     │           ├─ [] cnmkdocs/
+   │     │           │     └─ [] index.html
+   │     │           ├─ [] cnpot/
+   │     │           │     └─ [] index.html
+   │     │           ├─ [] cntree/
+   │     │           │     └─ [] index.html
+   │     │           └─ [] cnvenv/
    │     │                 └─ [] index.html
+   │     ├─ [] assets/
+   │     │     └─ [] _mkdocstrings.css
    │     ├─ [] css/
    │     │     ├─ [] base.css
    │     │     ├─ [] bootstrap.min.css
@@ -106,23 +110,10 @@
    │     │     └─ [] fa-v4compatibility.woff2
    │     ├─ [] 404.html
    │     ├─ [] index.html
+   │     ├─ [] objects.inv
    │     ├─ [] sitemap.xml
    │     └─ [] sitemap.xml.gz
    ├─ [] tests/
-   │     ├─ [] Test_Project/
-   │     │     ├─ [] docs/
-   │     │     │     ├─ [] API/
-   │     │     │     │     └─ [] src/
-   │     │     │     │           └─ [] test.md
-   │     │     │     ├─ [] img/
-   │     │     │     │     ├─ [] favicon.ico
-   │     │     │     │     └─ [] pyplate.png
-   │     │     │     └─ [] index.md
-   │     │     ├─ [] img/
-   │     │     │     └─ [] pyplate.png
-   │     │     ├─ [] src/
-   │     │     │     └─ [] test.py
-   │     │     └─ [] readme.md
    │     └─ [] cnlib_test.py
    ├─ [] todo/
    │     └─ [] ABOUT
