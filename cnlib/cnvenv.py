@@ -48,7 +48,9 @@ class CNVenv:
     # NB format param is self._dir_venv
     S_CMD_CREATE = "python -Xfrozen_modules=off -m venv {}"
     # NB: format params are venv.parent, venv.name, path to reqs file
-    S_CMD_INSTALL = "cd {};. {}/bin/activate;python -m pip install -r {}"
+    S_CMD_INSTALL = (
+        "cd {};. {}/bin/activate;python -m pip install -r {} > /dev/null 2>&1"
+    )
     # NB: format params are venv.parent, venv.name, path to reqs file
     S_CMD_FREEZE = (
         "cd {}; "
@@ -148,7 +150,7 @@ class CNVenv:
             file_reqs = self._dir_prj / file_reqs
 
         # ignore missing/empty files
-        if not file_reqs.exists() or file_reqs.stat().st_size > 0:
+        if not file_reqs.exists() or file_reqs.stat().st_size == 0:
             return
 
         # the command to install packages to venv from reqs

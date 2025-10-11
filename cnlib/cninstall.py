@@ -21,7 +21,8 @@ import shutil
 import sys
 
 # local imports
-import cnlib.cnfunctions as F  # type: ignore
+import cnlib.cnfunctions as F
+from cnlib.cnvenv import CNVenv  # type: ignore
 
 # ------------------------------------------------------------------------------
 # Classes
@@ -78,7 +79,7 @@ class CNInstall:
     S_MSG_REQS_START = "Installing requirements... "
     S_MSG_LIBS_START = "Installing libs... "
     S_MSG_DSK_START = "Fixing .desktop file... "
-    S_MSG_VER_ABORT = "Installation aborted"
+    S_MSG_ABORT = "Installation aborted"
 
     # errors
     S_ERR_NO_SUDO = "Could not get sudo permission"
@@ -100,6 +101,8 @@ class CNInstall:
      installed. Do you  want to overwrite?"
     S_ASK_VER_OLDER = "A newer version of this program is currently \
     installed. Do you want to overwrite?"
+    # NB: format param is __PP_NAME_PRJ_BIG__
+    S_ASK_UNINST = "This will uninstall {}.\nDo you want to continue?"
 
     # --------------------------------------------------------------------------
 
@@ -108,13 +111,11 @@ class CNInstall:
 
     # commands
     # NB: format param is dir_venv
-    S_CMD_CREATE = "python -Xfrozen_modules=off -m venv {}"
-    # NB: format params are path to prj, path to venv, and path to reqs file
-    S_CMD_INSTALL = "cd {};. {}/bin/activate;python -m pip install -r {}"
-    # NB: format params are path to prj, path to venv
-    S_CMD_VENV_ACTIVATE = "cd {};. {}/bin/activate"
-    # NB: format param is name of lib
-    S_CMD_INST_LIB = "python -m pip install {}"
+    # S_CMD_CREATE = "python -Xfrozen_modules=off -m venv {}"
+    # # NB: format params are path to prj, path to venv, and path to reqs file
+    # S_CMD_INSTALL = "cd {};. {}/bin/activate;python -m pip install -r {}"
+    # # NB: format params are path to prj, path to venv
+    # S_CMD_VENV_ACTIVATE = "cd {};. {}/bin/activate"
 
     # regex for adding user's home to icon path
     R_ICON_SCH = r"^(Icon=)(.*)$"
@@ -297,9 +298,9 @@ class CNInstall:
 
         # get install dict
         try:
-            self._dict_cfg = F.get_dict_from_file(path_cfg_inst)
-        except OSError as e:  # from get_dict_from_file
-            print("error:", e)
+            F.load_dicts(path_cfg_inst, start_dict=self._dict_cfg)
+        except OSError as e:
+            raise e
 
         # get prg name/version
         prog_name = self._dict_cfg[self.S_KEY_INST_NAME]
@@ -315,10 +316,7 @@ class CNInstall:
         self._check_version(path_cfg_uninst)
 
         # make the venv on the user's comp
-        self._make_venv(dir_usr_inst, dir_venv)
-
-        # install reqs
-        self._install_reqs(dir_usr_inst, dir_venv, path_reqs)
+        self._make_venv(dir_usr_inst, dir_venv, path_reqs)
 
         # fix desktop file if present
         self._fix_desktop_file(file_desk, file_desk_icon)
@@ -348,12 +346,24 @@ class CNInstall:
 
         # get dict from file
         try:
-            self._dict_cfg = F.get_dict_from_file(path_cfg)
-        except OSError as e:  # from get_dict_from_file
-            print("error:", e)
+            F.load_dicts(path_cfg, start_dict=self._dict_cfg)
+        except OSError as e:
+            raise e
 
         # get prg name
         prog_name = self._dict_cfg[self.S_KEY_INST_NAME]
+
+        # ask to uninstall
+        str_ask = F.dialog(
+            self.S_ASK_UNINST.format(prog_name),
+            [self.S_ASK_YES, self.S_ASK_NO],
+            self.S_ASK_NO,
+        )
+
+        # user hit enter or typed "n/N"
+        if str_ask == self.S_ASK_NO:
+            print(self.S_MSG_ABORT)
+            sys.exit(-1)
 
         # print
         print()
@@ -382,9 +392,9 @@ class CNInstall:
         # be the first install but we will want to check on later updates)
         if path_cfg_uninst and Path(path_cfg_uninst).exists():
             try:
-                dict_cfg_old = F.get_dict_from_file(path_cfg_uninst)
-            except OSError as e:  # from get_dict_from_file
-                print("error:", e)
+                dict_cfg_old = F.load_dicts(path_cfg_uninst)
+            except OSError as e:
+                raise e
 
             # check versions
             ver_old = dict_cfg_old[self.S_KEY_INST_VER]
@@ -403,7 +413,7 @@ class CNInstall:
 
                 # user hit enter or typed "n/N"
                 if str_ask == self.S_ASK_NO:
-                    print(self.S_MSG_VER_ABORT)
+                    print(self.S_MSG_ABORT)
                     sys.exit(-1)
 
             # newer version is installed
@@ -418,13 +428,13 @@ class CNInstall:
 
                 # user hit enter or typed "n/N"
                 if str_ask == F.S_ASK_NO:
-                    print(self.S_MSG_VER_ABORT)
+                    print(self.S_MSG_ABORT)
                     sys.exit(-1)
 
     # --------------------------------------------------------------------------
     # Make venv for this program on user's computer
     # --------------------------------------------------------------------------
-    def _make_venv(self, dir_usr_inst, dir_venv):
+    def _make_venv(self, dir_usr_inst, dir_venv, path_reqs):
         """
         Make venv for this program on user's computer
 
@@ -443,83 +453,40 @@ class CNInstall:
         print(self.S_MSG_VENV_START, flush=True, end="")
 
         # sanity check
-        dir_venv = Path(dir_venv)
-        if not dir_venv.is_absolute():
-            dir_venv = Path(dir_usr_inst) / dir_venv
+        # dir_venv = Path(dir_venv)
+        # if not dir_venv.is_absolute():
+        #     dir_venv = Path(dir_usr_inst) / dir_venv
 
-        # the command to create a venv
-        cmd = self.S_CMD_CREATE.format(dir_venv)
+        # # the command to create a venv
+        # cmd = self.S_CMD_CREATE.format(dir_venv)
 
         # if it's a dry run, don't make venv
         if self._dry_run:
+            cmd = CNVenv.S_CMD_CREATE.format(dir_venv)
             print("\nvenv cmd:", cmd)
             print(self.S_MSG_DONE, "\n")
             return
 
         # the cmd to create the venv
+        # try:
+        #     F.run(cmd, shell=True)
+        #     print(self.S_MSG_DONE)
+        # except F.CNRunError as e:
+        #     print(self.S_MSG_FAIL)
+        #     print()
+        #     print("error:", e)
+        #     sys.exit(-1)
+
+        # do the thing with the thing
         try:
-            F.run(cmd, shell=True)
-            print(self.S_MSG_DONE)
+            cv = CNVenv(dir_usr_inst, dir_venv)
+            cv.create()
+            cv.install_reqs(path_reqs)
+            F.printc(self.S_MSG_DONE, fg=F.C_FG_GREEN, bold=True)
         except F.CNRunError as e:
-            print(self.S_MSG_FAIL)
-            print()
-            print("error:", e)
-            sys.exit(-1)
-
-    # --------------------------------------------------------------------------
-    # Install requirements.txt
-    # --------------------------------------------------------------------------
-    def _install_reqs(self, dir_usr_inst, dir_venv, path_reqs):
-        """
-        Install requirements.txt
-
-        Args:
-            dir_usr_inst: The program's install folder in which the venv
-            resides
-            dir_venv: The path tp the venv folder to create
-            path_reqs: Path to the requirements.txt file to add requirements to
-            the venv
-
-        Raises:
-            cnlib.cnfunctions.CNRunError if the reqs install fails
-
-        Installs the contents of a requirements.txt file into the program's
-        venv.
-        """
-
-        # show progress
-        print(self.S_MSG_REQS_START, end="", flush=True)
-
-        # sanity check
-        dir_venv = Path(dir_venv)
-        if not dir_venv.is_absolute():
-            dir_venv = Path(dir_usr_inst) / dir_venv
-
-        # if param is not abs, make abs rel to prj dir
-        path_reqs = Path(path_reqs)
-        if not path_reqs.is_absolute():
-            path_reqs = Path(dir_usr_inst) / path_reqs
-
-        # the command to install packages to venv from reqs
-        cmd = self.S_CMD_INSTALL.format(
-            dir_venv.parent, dir_venv.name, path_reqs
-        )
-
-        # if it's a dry run, don't install
-        if self._dry_run:
-            print("\nreqs cmd:", cmd)
-            print(self.S_MSG_DONE, "\n")
-            return
-
-        # the cmd to install the reqs
-        try:
-            F.run(cmd, shell=True)
-            print(self.S_MSG_DONE)
-        except F.CNRunError as e:
-            print(self.S_MSG_FAIL)
-            print()
-            print("error:", e)
-            sys.exit(-1)
+            # exit gracefully
+            F.printc(self.S_MSG_FAIL, fg=F.C_FG_RED, bold=True)
+            raise e
 
     # --------------------------------------------------------------------------
     # Fix .desktop file, for paths and such

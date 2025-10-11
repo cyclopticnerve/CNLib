@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------
 # Project : CNLib                                                  /          \
-# Filename: cnpotpy.py                                            |     ()     |
+# Filename: cnpot.py                                              |     ()     |
 # Date    : 03/14/2024                                            |            |
 # Author  : cyclopticnerve                                        |   \____/   |
 # License : WTFPLv2                                                \          /

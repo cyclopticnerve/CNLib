@@ -13,8 +13,7 @@
             "todo",
             "**/__pycache__",
             "site",
-            "pyplate",
-            "develop.py"
+            "pyplate"
         ],
         "SKIP_CONTENTS": [
             "**/*.png",

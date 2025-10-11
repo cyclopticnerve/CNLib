@@ -33,6 +33,7 @@ from pathlib import Path
 import re
 import shlex
 import subprocess
+from typing import Any
 
 # ------------------------------------------------------------------------------
 # Constant strings
@@ -464,7 +465,10 @@ def pp(obj, indent_size=4, label=None):
 # ------------------------------------------------------------------------------
 # Update a dictionary with entries from another dict
 # ------------------------------------------------------------------------------
-def combine_dicts(dicts_new, dict_old=None):
+def combine_dicts(
+    dicts_new: dict[str, Any] | list[dict[str, Any]],
+    dict_old: dict[str, Any] | None = None,
+):
     """
     Update a dictionary with entries from another dict
 
@@ -480,47 +484,57 @@ def combine_dicts(dicts_new, dict_old=None):
     adds/overwrites these keys and values in dict_old, preserving any values
     that are blank or None in dict_new. It is also recursive, so a dict or list
     as a value will be handled correctly.
+    *NOTE: This function DOES NOT test for type mismatches in values for
+    matching keys!!!
+    So if a new dict has a key of "A" and a value of type "str", and the old
+    dict has a key of "A" with a value of type "list", bad things will
+    happen!!!
     """
 
     # default return val
     if dict_old is None:
         dict_old = {}
 
-    # sanity check
+    # sanity checks
     if isinstance(dicts_new, dict):
         dicts_new = [dicts_new]
     if len(dicts_new) == 0:
         return dict_old
-    if not dict_old:
-        dict_old = {}
 
     # go through the new dicts in order
     for dict_new in dicts_new:
 
-        # for each k,v pair in dict_n
+        # for each k,v pair in dict_new
         for k, v in dict_new.items():
+
             # copy whole value if key is missing
             if not k in dict_old:
                 dict_old[k] = v
+                continue
 
-            # if the key is present in both
-            else:
-                # if the value is a dict
-                if isinstance(v, dict):
-                    # start recursing
-                    # recurse using the current key and value
-                    dict_old[k] = combine_dicts([v], dict_old[k])
+            # if the key is present in both, check for type
 
-                # if the value is a list
-                elif isinstance(v, list):
-                    list_old = dict_old[k]
-                    for list_item in v:
-                        list_old.append(list_item)
+            # if the value is a dict
+            if isinstance(v, dict):
+                # start recursing
+                # recurse using the current key and value
+                dict_old[k] = combine_dicts(v, dict_old[k])
+                continue
 
-                # if the value is not a dict or a list
-                else:
-                    # just copy value from one dict to the other
-                    dict_old[k] = v
+            # if the value is a list
+            if isinstance(v, list):
+                list_old = dict_old[k]
+                # append any new items
+                for list_item in v:
+                    list_old.append(list_item)
+
+                # remove dups while preserving order
+                list_old = dict.fromkeys(list_old)
+                continue
+
+            # if the value is not a dict or a list
+            # just copy value from one dict to the other
+            dict_old[k] = v
 
     # return the updated dict_old
     return dict_old
@@ -644,13 +658,10 @@ def load_dicts(paths, start_dict=None):
     # loop through possible files
     for path in paths:
 
-        # sanity check
-        path = Path(path).resolve()
-
-        # sanity check
-        if path is None or not path.exists():
-            print(S_ERR_NOT_EXIST.format(path))
+        # sanity checks
+        if not path:
             continue
+        path = Path(path).resolve()
 
         # try each option
         try:
@@ -699,16 +710,13 @@ def save_dict(a_dict, paths):
     # loop through possible files
     for path in paths:
 
-        # sanity check
+        # sanity checks
+        if not path:
+            continue
         path = Path(path).resolve()
 
-        # try each option
+        # try each path
         try:
-
-            # make sure path is absolute
-            if not path.is_absolute():
-                print(S_ERR_NOT_CREATE.format(path))
-                continue
 
             # first make dirs
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -793,39 +801,6 @@ def dialog(
         # no loop, return blank
         if not loop:
             return ""
-
-
-# --------------------------------------------------------------------------
-# Open a json file and return the dict inside
-# --------------------------------------------------------------------------
-def get_dict_from_file(path_cfg):
-    """
-    Open a json file and return the dict inside
-
-    Args:
-        path_cfg: Path to the file containing the dict
-
-    Returns:
-        The dict contained in the file
-
-    Raises:
-        OSError: If the file cannot be found or the file is not valid JSON
-
-    Opens the specified file and returns the config dict found in it.
-    """
-
-    # set conf dict
-    try:
-        with open(path_cfg, "r", encoding="UTF-8") as a_file:
-            return json.load(a_file)
-
-    # file not found
-    except FileNotFoundError as e:
-        raise OSError(S_ERR_NOT_FOUND.format(path_cfg)) from e
-
-    # not valid json in file
-    except json.JSONDecodeError as e:
-        raise OSError(S_ERR_NOT_JSON.format(path_cfg)) from e
 
 
 # ------------------------------------------------------------------------------
@@ -1020,6 +995,7 @@ def comp_sem_ver(ver_old, ver_new):
     # error in one or both versions
     return I_VER_SAME
 
+
 # ------------------------------------------------------------------------------
 # Print a string in color
 # ------------------------------------------------------------------------------
@@ -1097,7 +1073,7 @@ def printc(
         arr_opt.append("1")
 
     # put arr_opt together
-    color_val = ";".join(arr_opt) # '32;42;1', '42'
+    color_val = ";".join(arr_opt)  # '32;42;1', '42'
 
     # get open sequence
     color_start = f"\033[{color_val}m"
@@ -1140,7 +1116,15 @@ def printd(*values, sep=" ", end="\n", file=None, flush=False, debug=False):
     """
 
     if debug:
-        print(*values, sep=sep, end=end, file=file, flush=flush)
+        printc(
+            *values,
+            sep=sep,
+            end=end,
+            file=file,
+            flush=flush,
+            fg=C_FG_RED,
+            bold=True,
+        )
 
 
 # -)
