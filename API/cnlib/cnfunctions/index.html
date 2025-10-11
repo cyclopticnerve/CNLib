@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../../img/favicon.ico">
-        <title>cnfunctions.py - My Docs</title>
+        <title>cnfunctions.py - CNLib</title>
         <link href="../../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../../css/brands.min.css" rel="stylesheet">
@@ -17,6 +17,7 @@
         <link href="../../../css/base.css" rel="stylesheet">
         <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
         <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <link href="../../../assets/_mkdocstrings.css" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script> 
     </head>
@@ -24,7 +25,7 @@
     <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="../../..">My Docs</a>
+                <a class="navbar-brand" href="../../..">CNLib</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -58,6 +59,10 @@
 </li>
             
 <li>
+    <a href="../cnmkdocs/" class="dropdown-item">cnmkdocs.py</a>
+</li>
+            
+<li>
     <a href="../cnpot/" class="dropdown-item">cnpot.py</a>
 </li>
             
@@ -67,16 +72,6 @@
             
 <li>
     <a href="../cnvenv/" class="dropdown-item">cnvenv.py</a>
-</li>
-    </ul>
-  </li>
-                                    
-  <li class="dropdown-submenu">
-    <a href="#" class="dropdown-item">Tests</a>
-    <ul class="dropdown-menu">
-            
-<li>
-    <a href="../../tests/cnlib_test/" class="dropdown-item">cnlib_test.py</a>
 </li>
     </ul>
   </li>
@@ -120,6 +115,70 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#cnfunctionspy" class="nav-link">cnfunctions.py</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions" class="nav-link">cnfunctions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.CNRunError" class="nav-link">CNRunError</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.combine_dicts" class="nav-link">combine_dicts</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.comp_sem_ver" class="nav-link">comp_sem_ver</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.dialog" class="nav-link">dialog</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.do_bool" class="nav-link">do_bool</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.dpretty" class="nav-link">dpretty</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.fix_globs" class="nav-link">fix_globs</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.load_dicts" class="nav-link">load_dicts</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.lpretty" class="nav-link">lpretty</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.pascal_case" class="nav-link">pascal_case</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.pp" class="nav-link">pp</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.printc" class="nav-link">printc</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.printd" class="nav-link">printd</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.run" class="nav-link">run</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.save_dict" class="nav-link">save_dict</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -128,7 +187,2560 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="cnfunctionspy">cnfunctions.py</h1>
-<p>::: cnlib.cnfunctions</p></div>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="cnlib.cnfunctions"></a>
+    <div class="doc doc-contents first">
+
+        <p>A collection of common functions used by CN software</p>
+
+
+<p><span class="doc-section-title">Functions:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="pascal_case(a_str) (cnlib.cnfunctions.pascal_case)" href="#cnlib.cnfunctions.pascal_case">pascal_case</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Convert a class name to it's Pascal equivalent</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="do_bool(val) (cnlib.cnfunctions.do_bool)" href="#cnlib.cnfunctions.do_bool">do_bool</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Convert other values, like integers or strings, to bools</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="dpretty(dict_print, indent_size=4, indent_level=0, label=None) (cnlib.cnfunctions.dpretty)" href="#cnlib.cnfunctions.dpretty">dpretty</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Pretty print a dict</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="lpretty(list_print, indent_size=4, indent_level=0, label=None) (cnlib.cnfunctions.lpretty)" href="#cnlib.cnfunctions.lpretty">lpretty</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Pretty print a list</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="pp(obj, indent_size=4, label=None) (cnlib.cnfunctions.pp)" href="#cnlib.cnfunctions.pp">pp</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Pretty print a dictionary or list</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="combine_dicts(dicts_new, dict_old=None) (cnlib.cnfunctions.combine_dicts)" href="#cnlib.cnfunctions.combine_dicts">combine_dicts</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Update a dictionary with one or more dictionaries</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><span title="cnlib.cnfunctions.sh">sh</span></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Run a command string in the shell</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="load_dicts(paths, start_dict=None) (cnlib.cnfunctions.load_dicts)" href="#cnlib.cnfunctions.load_dicts">load_dicts</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Combines dictionaries from all found paths</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="save_dict(a_dict, paths) (cnlib.cnfunctions.save_dict)" href="#cnlib.cnfunctions.save_dict">save_dict</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Save a dictionary to all paths</p>
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="cnlib.cnfunctions.CNRunError" class="doc doc-heading">
+            <code>CNRunError</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="Exception">Exception</span></code></p>
+
+
+        <p>A class to encapsulate run exceptions</p>
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+                <pre class="highlight"><code class="language-python">class CNRunError(Exception):
+    """
+    A class to encapsulate run exceptions
+    """
+
+    # --------------------------------------------------------------------------
+    # Initialize the class
+    # --------------------------------------------------------------------------
+    def __init__(self, cmd, returncode, stdout, stderr, output):
+        """
+        Docstring for __init__
+
+        :param self: Description
+        :param cmd: Description
+        :param returncode: Description
+        :param stdout: Description
+        :param stderr: Description
+        :param output: Description
+        """
+
+        # call super __init__
+        super().__init__()
+
+        # set properties from params
+        self.cmd = cmd
+        self.returncode = returncode
+        self.stdout = stdout
+        self.stderr = stderr
+        self.output = output
+
+    # --------------------------------------------------------------------------
+    # Return a string representation of an instance of the class
+    # --------------------------------------------------------------------------
+    def __str__(self):
+        return (
+            f"cmd: {self.cmd}, "
+            f"returncode: {self.returncode}, "
+            f"stdout: {self.stdout}, "
+            f"stderr: {self.stderr}, "
+            f"output: {self.output}"
+        )</code></pre>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="cnlib.cnfunctions.CNRunError.__init__" class="doc doc-heading">
+            <code class="highlight language-python">__init__(cmd, returncode, stdout, stderr, output)</code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Docstring for <strong>init</strong></p>
+<p>:param self: Description
+:param cmd: Description
+:param returncode: Description
+:param stdout: Description
+:param stderr: Description
+:param output: Description</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def __init__(self, cmd, returncode, stdout, stderr, output):
+    """
+    Docstring for __init__
+
+    :param self: Description
+    :param cmd: Description
+    :param returncode: Description
+    :param stdout: Description
+    :param stderr: Description
+    :param output: Description
+    """
+
+    # call super __init__
+    super().__init__()
+
+    # set properties from params
+    self.cmd = cmd
+    self.returncode = returncode
+    self.stdout = stdout
+    self.stderr = stderr
+    self.output = output</code></pre>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.combine_dicts" class="doc doc-heading">
+            <code class="highlight language-python">combine_dicts(dicts_new, dict_old=None)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Update a dictionary with entries from another dict</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>dicts_new</code>
+            </td>
+            <td>
+                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>] | <span title="list">list</span>[<span title="dict">dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A dictionary or list of dictionaries containing new</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>dict_old</code>
+            </td>
+            <td>
+                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>] | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The dictionary defined as the one to receive updates</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The updated dict_old, filled with updates from dict_new</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>This function takes key/value pairs from each of the new dicts and
+adds/overwrites these keys and values in dict_old, preserving any values
+that are blank or None in dict_new. It is also recursive, so a dict or list
+as a value will be handled correctly.
+*NOTE: This function DOES NOT test for type mismatches in values for
+matching keys!!!
+So if a new dict has a key of "A" and a value of type "str", and the old
+dict has a key of "A" with a value of type "list", bad things will
+happen!!!</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def combine_dicts(
+    dicts_new: dict[str, Any] | list[dict[str, Any]],
+    dict_old: dict[str, Any] | None = None,
+):
+    """
+    Update a dictionary with entries from another dict
+
+    Args:
+        dicts_new: A dictionary or list of dictionaries containing new
+        keys/values to be updated in the old dictionary
+        dict_old: The dictionary defined as the one to receive updates
+
+    Returns:
+        The updated dict_old, filled with updates from dict_new
+
+    This function takes key/value pairs from each of the new dicts and
+    adds/overwrites these keys and values in dict_old, preserving any values
+    that are blank or None in dict_new. It is also recursive, so a dict or list
+    as a value will be handled correctly.
+    *NOTE: This function DOES NOT test for type mismatches in values for
+    matching keys!!!
+    So if a new dict has a key of "A" and a value of type "str", and the old
+    dict has a key of "A" with a value of type "list", bad things will
+    happen!!!
+    """
+
+    # default return val
+    if dict_old is None:
+        dict_old = {}
+
+    # sanity checks
+    if isinstance(dicts_new, dict):
+        dicts_new = [dicts_new]
+    if len(dicts_new) == 0:
+        return dict_old
+
+    # go through the new dicts in order
+    for dict_new in dicts_new:
+
+        # for each k,v pair in dict_new
+        for k, v in dict_new.items():
+
+            # copy whole value if key is missing
+            if not k in dict_old:
+                dict_old[k] = v
+                continue
+
+            # if the key is present in both, check for type
+
+            # if the value is a dict
+            if isinstance(v, dict):
+                # start recursing
+                # recurse using the current key and value
+                dict_old[k] = combine_dicts(v, dict_old[k])
+                continue
+
+            # if the value is a list
+            if isinstance(v, list):
+                list_old = dict_old[k]
+                # append any new items
+                for list_item in v:
+                    list_old.append(list_item)
+
+                # remove dups while preserving order
+                list_old = dict.fromkeys(list_old)
+                continue
+
+            # if the value is not a dict or a list
+            # just copy value from one dict to the other
+            dict_old[k] = v
+
+    # return the updated dict_old
+    return dict_old</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.comp_sem_ver" class="doc doc-heading">
+            <code class="highlight language-python">comp_sem_ver(ver_old, ver_new)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compare two semantic versions</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>ver_old</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The old version to compare</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>ver_new</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The new version to compare</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>An integer showing the relationship between the two version</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Compare two semantic versions</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def comp_sem_ver(ver_old, ver_new):
+    """
+    Compare two semantic versions
+
+    Args:
+        ver_old: The old version to compare
+        ver_new: The new version to compare
+
+    Returns:
+        An integer showing the relationship between the two version
+
+    Compare two semantic versions
+    """
+
+    # sanity checks
+    if not ver_old or ver_old == "":
+        return I_VER_ERROR
+    if not ver_new or ver_new == "":
+        return I_VER_ERROR
+    if ver_old == ver_new:
+        return I_VER_SAME
+
+    # --------------------------------------------------------------------------
+
+    # compare version string parts (only x.x.x)
+    res_old = re.search(R_VERSION_VALID, ver_old)
+    res_new = re.search(R_VERSION_VALID, ver_new)
+
+    # if either version string is None
+    if not res_old or not res_new:
+        return I_VER_ERROR
+
+    # make a list of groups to check
+    lst_groups = [
+        R_VERSION_GROUP_MAJ,
+        R_VERSION_GROUP_MIN,
+        R_VERSION_GROUP_REV,
+    ]
+
+    # for each part as int
+    for group in lst_groups:
+        old_val = int(res_old.group(group))
+        new_val = int(res_new.group(group))
+
+        # slide out at the first difference
+        if old_val &lt; new_val:
+            return I_VER_NEWER
+        if old_val &gt; new_val:
+            return I_VER_OLDER
+
+    # --------------------------------------------------------------------------
+
+    # still going, check pre
+    pre_old = res_old.group(R_VERSION_GROUP_PRE)
+    pre_new = res_new.group(R_VERSION_GROUP_PRE)
+
+    # simple pre rule compare
+    if not pre_old and pre_new:
+        return I_VER_OLDER
+    if pre_old and not pre_new:
+        return I_VER_NEWER
+    if not pre_old and not pre_new:
+        return I_VER_SAME
+
+    # --------------------------------------------------------------------------
+
+    # if pre_old and pre_new:
+
+    # split pre on dots
+    lst_pre_old = pre_old.split(".")
+    lst_pre_new = pre_new.split(".")
+
+    # get number of parts
+    len_pre_old = len(lst_pre_old)
+    len_pre_new = len(lst_pre_new)
+
+    # get shorter of two
+    shortest = len_pre_old if len_pre_old &lt;= len_pre_new else len_pre_new
+
+    # for each part in shortest
+    for index in range(shortest):
+
+        # get each value at position
+        old_val = lst_pre_old[index]
+        new_val = lst_pre_new[index]
+
+        # 1. both numbers
+        if old_val.isdigit() and new_val.isdigit():
+            tmp_old_val = int(old_val)
+            tmp_new_val = int(new_val)
+
+            # slide out at the first difference
+            if tmp_old_val &gt; tmp_new_val:
+                return I_VER_OLDER
+            if tmp_old_val &lt; tmp_new_val:
+                return I_VER_NEWER
+
+        # 2. both alphanumeric
+        if not old_val.isdigit() and not new_val.isdigit():
+            lst_alpha = [old_val, new_val]
+            lst_alpha.sort()
+
+            idx_old = lst_alpha.index(old_val)
+            idx_new = lst_alpha.index(new_val)
+
+            if idx_old &gt; idx_new:
+                return I_VER_OLDER
+            if idx_old &lt; idx_new:
+                return I_VER_NEWER
+
+        # 3 num vs alphanumeric
+        if old_val.isdigit() and not new_val.isdigit():
+            return I_VER_OLDER
+        if not old_val.isdigit() and new_val.isdigit():
+            return I_VER_NEWER
+
+        # 4 len
+        if len_pre_old &gt; len_pre_new:
+            return I_VER_OLDER
+        if len_pre_new &gt; len_pre_old:
+            return I_VER_NEWER
+
+    # --------------------------------------------------------------------------
+
+    # error in one or both versions
+    return I_VER_SAME</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.dialog" class="doc doc-heading">
+            <code class="highlight language-python">dialog(message, buttons, default='', loop=False, btn_sep='/', msg_fmt='{} [{}]: ')</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Create a dialog-like question and return the result</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>message</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The message to display</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>buttons</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>List of single char answers to the question</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>default</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The button item to return when the user presses Enter at the
+question (default: "")</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>loop</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If True and the user enters an invalid response, keep asking the</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>(default</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>False)</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>btn_sep</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Char to use to separate button items</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;/&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>msg_fmt</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Format string to present message/buttons to the user</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;{} [{}]: &#39;</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A lowercased string that matches a button, or an empty string under</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>certain conditions</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>This method returns the string entered on the command line in response to a
+question. If the entered option does not match any of the buttons, the
+question is asked again. If you set a default and the option entered is
+just the Return key, the default string will be returned. If no default is
+present, the entered string must match one of the buttons array values. All
+returned values are lowercased. The question will be repeatedly printed to
+the screen until a valid entry is made.</p>
+<p>Note that if default == "", pressing Enter is not considered a valid entry.
+So if the default is empty and loop is True, the user MUST enter a valid
+response or the dialog will loop forever.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def dialog(
+    message, buttons, default="", loop=False, btn_sep="/", msg_fmt="{} [{}]: "
+):
+    """
+    Create a dialog-like question and return the result
+
+    Args:
+        message: The message to display
+        buttons: List of single char answers to the question
+        default: The button item to return when the user presses Enter at the
+            question (default: "")
+        loop: If True and the user enters an invalid response, keep asking the
+        question. If False, return an empty string for an invalid response
+        (default: False)
+        btn_sep: Char to use to separate button items
+        msg_fmt: Format string to present message/buttons to the user
+
+    Returns:
+        A lowercased string that matches a button, or an empty string under
+        certain conditions
+
+    This method returns the string entered on the command line in response to a
+    question. If the entered option does not match any of the buttons, the
+    question is asked again. If you set a default and the option entered is
+    just the Return key, the default string will be returned. If no default is
+    present, the entered string must match one of the buttons array values. All
+    returned values are lowercased. The question will be repeatedly printed to
+    the screen until a valid entry is made.
+
+    Note that if default == "", pressing Enter is not considered a valid entry.
+    So if the default is empty and loop is True, the user MUST enter a valid
+    response or the dialog will loop forever.
+    """
+
+    # --------------------------------------------------------------------------
+
+    # add buttons to message
+    btns_all = btn_sep.join(buttons)
+    str_fmt = msg_fmt.format(message, btns_all)
+
+    # --------------------------------------------------------------------------
+
+    # assume loop == True
+    while True:
+
+        # ask the question, get the result (first char only/empty)
+        inp = input(str_fmt)
+        if len(inp) &gt; 0:
+            inp = inp[0]
+
+        # ----------------------------------------------------------------------
+        # button correct, done
+        if inp in buttons:
+            return inp
+
+        # ----------------------------------------------------------------------
+        # wrong answer
+
+        # default set
+        if default != "":
+
+            if inp == "":
+                return default
+
+        # no loop, return blank
+        if not loop:
+            return ""</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.do_bool" class="doc doc-heading">
+            <code class="highlight language-python">do_bool(val)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Convert other values, like integers or strings, to bools</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>val</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The value to convert to a bool</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A boolean value converted from the argument</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Converts integers and strings to boolean values based on the rules.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def do_bool(val):
+    """
+    Convert other values, like integers or strings, to bools
+
+    Args:
+        val: The value to convert to a bool
+
+    Returns:
+        A boolean value converted from the argument
+
+    Converts integers and strings to boolean values based on the rules.
+    """
+
+    # lower all test vals
+    rules_true = [item.lower() for item in L_RULES_TRUE]
+
+    # return result
+    return str(val).lower() in rules_true</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.dpretty" class="doc doc-heading">
+            <code class="highlight language-python">dpretty(dict_print, indent_size=4, indent_level=0, label=None)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Pretty print a dict</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>dict_print</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The dictionary to print</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>indent_size</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The number of spaces to use for each indent level</p>
+              </div>
+            </td>
+            <td>
+                  <code>4</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>(default</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>4)</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>indent_level</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The number of indent levels to use for this part of the</p>
+              </div>
+            </td>
+            <td>
+                  <code>0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>print</code>
+            </td>
+            <td>
+                  <code>process (default</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>0)</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>label</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The string to use as a label (default: None)</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The formatted string to print</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Formats a dictionary nicely so it can be printed to the console.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def dpretty(dict_print, indent_size=4, indent_level=0, label=None):
+    """
+    Pretty print a dict
+
+    Args:
+        dict_print: The dictionary to print
+        indent_size: The number of spaces to use for each indent level
+        (default: 4)
+        indent_level: The number of indent levels to use for this part of the
+        print process (default: 0)
+        label: The string to use as a label (default: None)
+
+    Returns:
+        The formatted string to print
+
+    Raises:
+        OSError if the first param is not a dict
+
+    Formats a dictionary nicely so it can be printed to the console.
+    """
+
+    # sanity check
+    if not isinstance(dict_print, dict):
+        raise OSError(S_ERR_NOT_DICT)
+
+    # default out
+    out = ""
+
+    # print label
+    if label is not None:
+        out += label + ": "
+
+    # convert indent_size to string and multiply by indent_level
+    indent_str = (" " * indent_size) * (indent_level)
+
+    # items will need an extra indent, since they don't recurse
+    indent_str_next = (" " * indent_size) * (indent_level + 1)
+
+    # default result opening brace (no indent in case it is nested and is
+    # preceded by a key)
+    out += indent_str + "{\n"
+
+    # for each entry
+    for k, v in dict_print.items():
+
+        # print the key
+        out += indent_str_next + f'"{k}": '
+
+        # if the value is a list
+        if isinstance(v, list):
+
+            # recurse the value and increase indent level
+            ret = (
+                lpretty(
+                    v,
+                    indent_size=indent_size,
+                    indent_level=indent_level + 1,
+                    label=None,
+                )
+                + "\n"
+            )
+            ret = ret.lstrip()
+            out += ret
+
+        # if the value is a dict
+        elif isinstance(v, dict):
+
+            # recurse the value and increase indent level
+            ret = (
+                dpretty(
+                    v,
+                    indent_size=indent_size,
+                    indent_level=indent_level + 1,
+                    label=None,
+                )
+                + "\n"
+            )
+            ret = ret.lstrip()
+            out += ret
+
+        # if it is a single entry (str, int, bool)
+        else:
+
+            # print the value, quoting it if it is a string
+            if isinstance(v, str):
+                out += f'"{v}",\n'
+            else:
+                out += f"{v},\n"
+
+    # get original indent
+    indent_str = (" " * indent_size) * indent_level
+
+    # # add closing bracket
+    out += indent_str + "}"
+
+    # return result
+    return out</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.fix_globs" class="doc doc-heading">
+            <code class="highlight language-python">fix_globs(dir_start, dict_in)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Convert items in blacklist to absolute Path objects</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>dict_in</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>the dictionary with glob strings</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A dictionary of Path objects representing the globs</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Get absolute paths for all entries in the blacklist.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def fix_globs(dir_start, dict_in):
+    """
+    Convert items in blacklist to absolute Path objects
+
+    Args:
+        dict_in: the dictionary with glob strings
+
+    Returns:
+        A dictionary of Path objects representing the globs
+
+    Get absolute paths for all entries in the blacklist.
+    """
+
+    # the un-globbed dict to return
+    result = {}
+    dir_start = Path(dir_start)
+
+    # make a copy and remove path separators in one shot
+    # NB: this is mostly for glob support, as globs cannot end in path
+    # separators
+    for key, val in dict_in.items():
+        dict_in[key] = [item.rstrip("/") for item in val]
+
+    # support for absolute/relative/glob
+    # NB: adapted from cntree.py
+
+    # for each section of blacklist
+    for key, val in dict_in.items():
+
+        # convert all items in list to Path objects
+        paths = [Path(item) for item in val]
+
+        # move absolute paths to one list
+        abs_paths = [item for item in paths if item.is_absolute()]
+
+        # move relative/glob paths to another list
+        other_paths = [item for item in paths if not item.is_absolute()]
+
+        # convert relative/glob paths back to strings
+        other_strings = [str(item) for item in other_paths]
+
+        # get glob results as generators
+        glob_results = [dir_start.glob(item) for item in other_strings]
+
+        # start with absolutes
+        new_val = abs_paths
+
+        # for each generator
+        for item in glob_results:
+            # add results as whole shebang
+            new_val += list(item)
+
+        # set the list as the result list
+        result[key] = new_val
+
+    # return the un-globbed dict
+    return result</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.load_dicts" class="doc doc-heading">
+            <code class="highlight language-python">load_dicts(paths, start_dict=None)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Combines dictionaries from all found paths</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>paths</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The file path or list of file paths to load start_dict: The</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>starting</code>
+            </td>
+            <td>
+                  <code>dict and final dict after combining (default</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>None)</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The final combined dictionary</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="OSError">OSError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the file does not exist or the file is not a valid JSON</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Load the dictionaries from all files and use combine_dicts to combine them.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def load_dicts(paths, start_dict=None):
+    """
+    Combines dictionaries from all found paths
+
+    Args:
+        paths: The file path or list of file paths to load start_dict: The
+        starting dict and final dict after combining (default: None)
+
+    Returns:
+        The final combined dictionary
+
+    Raises:
+        OSError: If the file does not exist or the file is not a valid JSON
+        file
+
+    Load the dictionaries from all files and use combine_dicts to combine them.
+    """
+
+    # sanity check
+    if isinstance(paths, (str, Path)):
+        paths = [paths]
+
+    # set the default result
+    if start_dict is None:
+        start_dict = {}
+
+    # loop through possible files
+    for path in paths:
+
+        # sanity checks
+        if not path:
+            continue
+        path = Path(path).resolve()
+
+        # try each option
+        try:
+
+            # open the file
+            with open(path, "r", encoding="UTF-8") as a_file:
+                # load dict from file
+                new_dict = json.load(a_file)
+
+                # combine new dict with previous
+                start_dict = combine_dicts([new_dict], start_dict)
+
+        # file not found
+        except FileNotFoundError as e:
+            raise OSError(S_ERR_NOT_FOUND.format(path)) from e
+
+        # not valid json in file
+        except json.JSONDecodeError as e:
+            raise OSError(S_ERR_NOT_JSON.format(path)) from e
+
+    # return the final dict
+    return start_dict</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.lpretty" class="doc doc-heading">
+            <code class="highlight language-python">lpretty(list_print, indent_size=4, indent_level=0, label=None)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Pretty print a list</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>list_print</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The list to print</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>indent_size</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The number of spaces to use for each indent level</p>
+              </div>
+            </td>
+            <td>
+                  <code>4</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>(default</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>4)</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>indent_level</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The number of indent levels to use for this part of the</p>
+              </div>
+            </td>
+            <td>
+                  <code>0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>print</code>
+            </td>
+            <td>
+                  <code>process (default</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>0)</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>label</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The string to use as a label (default: None)</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The formatted string to print</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Formats a list nicely so it can be printed to the console.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def lpretty(list_print, indent_size=4, indent_level=0, label=None):
+    """
+    Pretty print a list
+
+    Args:
+        list_print: The list to print
+        indent_size: The number of spaces to use for each indent level
+        (default: 4)
+        indent_level: The number of indent levels to use for this part of the
+        print process (default: 0)
+        label: The string to use as a label (default: None)
+
+    Returns:
+        The formatted string to print
+
+    Raises:
+        OSError if the first param is not a list
+
+    Formats a list nicely so it can be printed to the console.
+    """
+
+    # sanity check
+    if not isinstance(list_print, list):
+        raise OSError(S_ERR_NOT_LIST)
+
+    # default out
+    out = ""
+
+    # print label
+    if label is not None:
+        out += label + ": "
+
+    # convert indent_size to string and multiply by indent_level
+    indent_str = (" " * indent_size) * (indent_level)
+
+    # items will need an extra indent, since they don't recurse
+    indent_str_next = (" " * indent_size) * (indent_level + 1)
+
+    # default result opening brace (no indent in case it is nested and is
+    # preceded by a key)
+    out += indent_str + "[\n"
+
+    # for each entry
+    for v in list_print:
+
+        # if the value is a list
+        if isinstance(v, list):
+
+            # recurse the value and increase indent level
+            ret = (
+                lpretty(
+                    v,
+                    indent_size=indent_size,
+                    indent_level=indent_level + 1,
+                    label=None,
+                )
+                + "\n"
+            )
+            out += ret
+
+        # if the value is a dict
+        elif isinstance(v, dict):
+
+            # recurse the value and increase indent level
+            ret = (
+                dpretty(
+                    v,
+                    indent_size=indent_size,
+                    indent_level=indent_level + 1,
+                    label=None,
+                )
+                + "\n"
+            )
+            out += ret
+
+        # if it is a single entry (str, int, bool)
+        else:
+
+            # print the value, quoting it if it is a string
+            if isinstance(v, str):
+                out += indent_str_next + f'"{v}",\n'
+            else:
+                out += indent_str_next + f"{v},\n"
+
+    # get original indent
+    indent_str = (" " * indent_size) * indent_level
+
+    # # add closing bracket
+    out += indent_str + "]"
+
+    # return result
+    return out</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.pascal_case" class="doc doc-heading">
+            <code class="highlight language-python">pascal_case(a_str)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Format a string in Pascal case</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>a_str</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A string to convert to Pascal case</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Returns;
+    The Pascal cased string</p>
+<p>Formats the given string to a Pascal case equivalent, ie. "my_class"
+becomes "MyClass".</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def pascal_case(a_str):
+    """
+    Format a string in Pascal case
+
+    Args:
+        a_str: A string to convert to Pascal case
+
+    Returns;
+        The Pascal cased string
+
+    Formats the given string to a Pascal case equivalent, ie. "my_class"
+    becomes "MyClass".
+    """
+
+    # do formatting
+    name_pascal = a_str
+    name_pascal = name_pascal.replace("_", " ")
+    name_pascal = name_pascal.replace("-", " ")
+    name_pascal = name_pascal.title()
+    name_pascal = name_pascal.replace(" ", "")
+
+    # return result
+    return name_pascal</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.pp" class="doc doc-heading">
+            <code class="highlight language-python">pp(obj, indent_size=4, label=None)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Pretty print a dictionary or list</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>obj</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The dictionary or list to print</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>indent_size</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The number of spaces to use for each indent level</p>
+              </div>
+            </td>
+            <td>
+                  <code>4</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>(default</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>4)</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>label</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The string to use as a label (default: None)</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The object formatted for printing</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Formats a dictionary or list nicely and prints it to the console. Note that
+this method includes magic commas in the output, and therefore cannot be
+used to create true JSON-compatible strings. It should only be used for
+debugging.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def pp(obj, indent_size=4, label=None):
+    """
+    Pretty print a dictionary or list
+
+    Args:
+        obj: The dictionary or list to print
+        indent_size: The number of spaces to use for each indent level
+        (default: 4)
+        label: The string to use as a label (default: None)
+
+    Returns:
+        The object formatted for printing
+
+    Raises:
+        OSError if the first param is not a dict or list
+
+    Formats a dictionary or list nicely and prints it to the console. Note that
+    this method includes magic commas in the output, and therefore cannot be
+    used to create true JSON-compatible strings. It should only be used for
+    debugging.
+    """
+
+    # the default result
+    result = ""
+
+    # call different pretty functions depending on the object type
+    if isinstance(obj, dict):
+        result = dpretty(obj, indent_size, 0, label)
+    elif isinstance(obj, list):
+        result = lpretty(obj, indent_size, 0, label)
+    else:
+        raise OSError(S_ERR_NOT_DICT_OR_LIST)
+
+    # print the result
+    print(result)</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.printc" class="doc doc-heading">
+            <code class="highlight language-python">printc(*values, sep=' ', end='\n', file=None, flush=False, fg=0, bg=0, bold=False)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <pre><code>Print a string in color
+
+Args:
+    *values: A variable number of string arguments
+    sep: The string used to join *values (default: ' ')
+    end: The character(s) to print after the *values (default:'
+</code></pre>
+<p>')
+        file: The file object to print to or, if None, print to stdout
+        (default: None)
+        flush: Whether to force the output buffer to write immediately, rather
+        than waiting for it to fill
+        fg: The foreground color of the text as a C_FG_XXX value (see below).
+        If 0, use default terminal color (default: 0)
+        bg: The background color of the text as a C_FG_XXX value (see below).
+        If 0, use default terminal color (default: 0)
+        bold: Whether the text is bold (duh) (default:False)</p>
+<pre><code>This function prints something to the console, just like print(), but with
+COLOR! and BOLD! The first five parameters are EXACTLY the same as print()
+and the last three are as follows:
+fg: The foreground color of the text to print. This can be one of the
+following values:
+
+C_FG_NONE (use the terminal default)
+C_FG_BLACK
+C_FG_RED
+C_FG_GREEN
+C_FG_YELLOW
+C_FG_BLUE
+C_FG_MAGENTA
+C_FG_CYAN
+C_FG_WHITE
+
+bg: The background (or highlight) color of the text to print. This can
+be one of the following values:
+
+C_BG_NONE (use the terminal default)
+C_BG_BLACK
+C_BG_RED
+C_BG_GREEN
+C_BG_YELLOW
+C_BG_BLUE
+C_BG_MAGENTA
+C_BG_CYAN
+C_BG_WHITE
+
+A note about the background color:
+
+Setting the background color will (almost?) always set the foreground color
+to white. So no cyan text on a magenta background.
+
+*sad beeping noises*
+'my eyes, they bleed...'
+'DO IT TO JULIAAAAA!!!!!!!!'
+</code></pre>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def printc(
+    *values, sep=" ", end="\n", file=None, flush=False, fg=0, bg=0, bold=False
+):
+    """
+    Print a string in color
+
+    Args:
+        *values: A variable number of string arguments
+        sep: The string used to join *values (default: ' ')
+        end: The character(s) to print after the *values (default:'\n')
+        file: The file object to print to or, if None, print to stdout
+        (default: None)
+        flush: Whether to force the output buffer to write immediately, rather
+        than waiting for it to fill
+        fg: The foreground color of the text as a C_FG_XXX value (see below).
+        If 0, use default terminal color (default: 0)
+        bg: The background color of the text as a C_FG_XXX value (see below).
+        If 0, use default terminal color (default: 0)
+        bold: Whether the text is bold (duh) (default:False)
+
+    This function prints something to the console, just like print(), but with
+    COLOR! and BOLD! The first five parameters are EXACTLY the same as print()
+    and the last three are as follows:
+    fg: The foreground color of the text to print. This can be one of the
+    following values:
+
+    C_FG_NONE (use the terminal default)
+    C_FG_BLACK
+    C_FG_RED
+    C_FG_GREEN
+    C_FG_YELLOW
+    C_FG_BLUE
+    C_FG_MAGENTA
+    C_FG_CYAN
+    C_FG_WHITE
+
+    bg: The background (or highlight) color of the text to print. This can
+    be one of the following values:
+
+    C_BG_NONE (use the terminal default)
+    C_BG_BLACK
+    C_BG_RED
+    C_BG_GREEN
+    C_BG_YELLOW
+    C_BG_BLUE
+    C_BG_MAGENTA
+    C_BG_CYAN
+    C_BG_WHITE
+
+    A note about the background color:\n
+    Setting the background color will (almost?) always set the foreground color
+    to white. So no cyan text on a magenta background.\n
+    *sad beeping noises*
+    'my eyes, they bleed...'
+    'DO IT TO JULIAAAAA!!!!!!!!'
+    """
+
+    # NB: every option has a unique value and order does not matter
+    # the default array of text options
+    arr_opt = []
+
+    # maybe set fg
+    if fg != 0:
+        arr_opt.append(str(fg))
+
+    # maybe set bg
+    if bg != 0:
+        arr_opt.append(str(bg))
+
+    # maybe set bold
+    if bold:
+        arr_opt.append("1")
+
+    # put arr_opt together
+    color_val = ";".join(arr_opt)  # '32;42;1', '42'
+
+    # get open sequence
+    color_start = f"\033[{color_val}m"
+
+    # get the string
+    value = sep.join(values)
+
+    # get the close sequence (reset fg/bg/bold)
+    color_end = "\033[0m"
+
+    # build the final string
+    string = color_start + value + color_end
+
+    # call 'super' (real print) with final string and params
+    # NB: minus sep since we already did the work -)
+    print(string, end=end, file=file, flush=flush)</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.printd" class="doc doc-heading">
+            <code class="highlight language-python">printd(*values, sep=' ', end='\n', file=None, flush=False, debug=False)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <pre><code>Print a string if the debug param is True
+
+Args:
+    *values: A variable number of string arguments
+    sep: The string used to join *values (default: ' ')
+    end: The character(s) to print after the *values (default:'
+</code></pre>
+<p>')
+        file: The file object to print to or, if None, print to stdout
+        (default: None)
+        flush: Whether to force the output buffer to write immediately, rather
+        than waiting for it to fill
+        debug: Whether to print debug statements or not (use a global debug in
+        your code)</p>
+<pre><code>This function is really handy for me when I run a program in debug mode. It
+just lets me wrap prints in context-aware statements
+</code></pre>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def printd(*values, sep=" ", end="\n", file=None, flush=False, debug=False):
+    """
+    Print a string if the debug param is True
+
+    Args:
+        *values: A variable number of string arguments
+        sep: The string used to join *values (default: ' ')
+        end: The character(s) to print after the *values (default:'\n')
+        file: The file object to print to or, if None, print to stdout
+        (default: None)
+        flush: Whether to force the output buffer to write immediately, rather
+        than waiting for it to fill
+        debug: Whether to print debug statements or not (use a global debug in
+        your code)
+
+
+    This function is really handy for me when I run a program in debug mode. It
+    just lets me wrap prints in context-aware statements
+    """
+
+    if debug:
+        printc(
+            *values,
+            sep=sep,
+            end=end,
+            file=file,
+            flush=flush,
+            fg=C_FG_RED,
+            bold=True,
+        )</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.run" class="doc doc-heading">
+            <code class="highlight language-python">run(cmd, shell=False)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Run a program or shell command string</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>cmd</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The command to run</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>shell</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If False (the default), run the cmd as one long string. If True,</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The result of running the command line, as a</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>subprocess.CompletedProcess object</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>This is just a dumb convenience method to use subprocess with a string
+instead of having to convert a string to an array with shlex every time. It
+also combines FileNotFoundError and CalledProcessError into one CNRunError.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def run(cmd, shell=False):
+    """
+    Run a program or shell command string
+
+    Args:
+        cmd: The command to run
+        shell: If False (the default), run the cmd as one long string. If True,
+        split the cmd into separate arguments
+
+    Returns:
+        The result of running the command line, as a
+        subprocess.CompletedProcess object
+
+    Raises:
+        CNRunError if the command is invalid or the process fails
+
+    This is just a dumb convenience method to use subprocess with a string
+    instead of having to convert a string to an array with shlex every time. It
+    also combines FileNotFoundError and CalledProcessError into one CNRunError.
+    """
+
+    # sanity check to make sure cmd is a string
+    cmd = str(cmd)
+
+    # if not shell, split into bin/cli options
+    # NB: if shell, we only want the stuff after ["sh", "-c"], which is what
+    # would be typed at the command prompt (i.e. all one long command string)
+    if not shell:
+        cmd = shlex.split(cmd)
+
+    # get result of running the shell command or bubble up an error
+    try:
+        cp = subprocess.run(
+            # the cmd or array of commands
+            cmd,
+            # if check is True, an exception will be raised if the return code
+            # is not 0
+            # if check is False, no exception is raised but cp will be None,
+            # meaning you have to test for it in the calling function
+            # but that also means you have no information on WHY it failed
+            # because stderr comes from the CalledProcessError IF
+            # capture_output=True
+            check=True,
+            # put stdout/stderr into cp/cpe
+            capture_output=True,
+            # convert stdout/stderr from bytes to text
+            encoding="utf-8",
+            text=True,
+            # whether the call is a file w/ params (False) or a direct shell
+            # input (True)
+            shell=shell,
+        )
+
+        # return the result
+        return cp
+
+    # the first item in the list is not a bin
+    # NB: try these:
+    # cmd = "cd /", shell = False: fail
+    # cmd = "cd /", shell = True: pass
+    # cmd = "ls -l", shell = False: pass
+    # cmd = "ls -l", shell = True: pass
+
+    # check if first item is bin, if shell false
+    except FileNotFoundError as fnfe:
+        # NB: fnfe already has a nice __str__, so use that in the stderr
+        # also output = stdout, which is kinda pointless for this error
+        # NB: print(exc) gives ALL properties
+        # print(exc.stderr) give concise output
+        exc = CNRunError(
+            cmd, fnfe.errno, fnfe.filename, f"{fnfe}", fnfe.filename
+        )
+        raise exc from fnfe
+
+    # cmd ran but failed
+    except subprocess.CalledProcessError as cpe:
+        # NB: here we use the regular stderr as concise output
+        exc = CNRunError(
+            cpe.cmd, cpe.returncode, cpe.stdout, cpe.stderr, cpe.output
+        )
+        raise exc from cpe</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.save_dict" class="doc doc-heading">
+            <code class="highlight language-python">save_dict(a_dict, paths)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Save a dictionary to all paths</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>a_dict</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The dictionary to save to the file</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>paths</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The path or list of paths to save to</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="OSError">OSError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the file does not exist and can't be created</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Save the dictionary to a file at all the specified locations.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def save_dict(a_dict, paths):
+    """
+    Save a dictionary to all paths
+
+    Args:
+        a_dict: The dictionary to save to the file
+        paths: The path or list of paths to save to
+
+    Raises:
+        OSError: If the file does not exist and can't be created
+
+    Save the dictionary to a file at all the specified locations.
+    """
+
+    # sanity check
+    if isinstance(paths, (str, Path)):
+        paths = [paths]
+
+    # loop through possible files
+    for path in paths:
+
+        # sanity checks
+        if not path:
+            continue
+        path = Path(path).resolve()
+
+        # try each path
+        try:
+
+            # first make dirs
+            path.parent.mkdir(parents=True, exist_ok=True)
+
+            # open the file
+            with open(path, "w", encoding="UTF-8") as a_file:
+                # save dict tp file
+                json.dump(a_dict, a_file, indent=4)
+
+        # raise an OS Error
+        except OSError as e:
+            raise OSError(S_ERR_NOT_CREATE.format(path)) from e</code></pre>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div></div>
             </div>
         </div>
 
