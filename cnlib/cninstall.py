@@ -104,6 +104,9 @@ class CNInstall:
     # NB: format param is __PP_NAME_PRJ_BIG__
     S_ASK_UNINST = "This will uninstall {}.\nDo you want to continue?"
 
+    # encoding
+    S_ENCODING = "UTF-8"
+
     # --------------------------------------------------------------------------
 
     # NB: format param is path to icon
@@ -231,7 +234,7 @@ class CNInstall:
 
         # open file
         text = ""
-        with open(desk_file, "r", encoding="UTF-8") as a_file:
+        with open(desk_file, "r", encoding=self.S_ENCODING) as a_file:
             text = a_file.read()
 
         # find icon line and fix
@@ -253,7 +256,7 @@ class CNInstall:
                 return
 
             # write fixed text back to file
-            with open(desk_file, "w", encoding="UTF-8") as a_file:
+            with open(desk_file, "w", encoding=self.S_ENCODING) as a_file:
                 a_file.write(text)
 
     # --------------------------------------------------------------------------
@@ -513,7 +516,7 @@ class CNInstall:
 
         # open file
         text = ""
-        with open(file_desk, "r", encoding="UTF-8") as a_file:
+        with open(file_desk, "r", encoding=self.S_ENCODING) as a_file:
             text = a_file.read()
 
         # find icon line and fix
@@ -530,7 +533,7 @@ class CNInstall:
             # ------------------------------------------------------------------
 
             # write fixed text back to file
-            with open(file_desk, "w", encoding="UTF-8") as a_file:
+            with open(file_desk, "w", encoding=self.S_ENCODING) as a_file:
                 a_file.write(text)
 
         # show some info

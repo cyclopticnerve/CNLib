@@ -39,6 +39,14 @@ from typing import Any
 # Constant strings
 # ------------------------------------------------------------------------------
 
+# ------------------------------------------------------------------------------
+# bools
+
+B_DEBUG = False
+
+# ------------------------------------------------------------------------------
+# strings
+
 S_ERR_NOT_DICT = "dpretty object is not a dict"
 S_ERR_NOT_LIST = "lpretty object is not a list"
 S_ERR_NOT_DICT_OR_LIST = "pp object is not a dict or list"
@@ -59,39 +67,17 @@ S_ERR_NOT_JSON = "File {} is not a JSON file"
 S_ASK_YES = "y"
 S_ASK_NO = "n"
 
+# encoding
+S_ENCODING = "UTF-8"
+
+# ------------------------------------------------------------------------------
+# ints
+
 # version check results
 I_VER_OLDER = -1
 I_VER_SAME = 0
 I_VER_NEWER = 1
 I_VER_ERROR = -2
-
-# regex to compare version numbers
-R_VERSION_VALID = (
-    r"^"
-    r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)"
-    r"(?:-("
-    r"(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)"
-    r"(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*"
-    r"))?"
-    r"(?:\+("
-    r"[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*"
-    r"))?"
-    r"$"
-)
-R_VERSION_GROUP_MAJ = 1
-R_VERSION_GROUP_MIN = 2
-R_VERSION_GROUP_REV = 3
-R_VERSION_GROUP_PRE = 4
-R_VERSION_GROUP_META = 5
-
-# if it is in this list, it is True, else false
-# NB: strings here should be all lowercase
-L_RULES_TRUE = [
-    "true",
-    "1",
-    "yes",
-    "y",
-]
 
 # ------------------------------------------------------------------------------
 # colors
@@ -115,6 +101,40 @@ C_BG_BLUE = 44
 C_BG_MAGENTA = 45
 C_BG_CYAN = 46
 C_BG_WHITE = 47
+
+# ------------------------------------------------------------------------------
+# regexes
+
+# regex to compare version numbers
+R_VERSION_VALID = (
+    r"^"
+    r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)"
+    r"(?:-("
+    r"(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)"
+    r"(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*"
+    r"))?"
+    r"(?:\+("
+    r"[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*"
+    r"))?"
+    r"$"
+)
+R_VERSION_GROUP_MAJ = 1
+R_VERSION_GROUP_MIN = 2
+R_VERSION_GROUP_REV = 3
+R_VERSION_GROUP_PRE = 4
+R_VERSION_GROUP_META = 5
+
+# ------------------------------------------------------------------------------
+# lists
+
+# if it is in this list, it is True, else false
+# NB: strings here should be all lowercase
+L_RULES_TRUE = [
+    "true",
+    "1",
+    "yes",
+    "y",
+]
 
 # ------------------------------------------------------------------------------
 # Public classes
@@ -165,7 +185,6 @@ class CNRunError(Exception):
             f"stderr: {self.stderr}, "
             f"output: {self.output}"
         )
-
 
 # ------------------------------------------------------------------------------
 # Public methods
@@ -589,7 +608,7 @@ def run(cmd, shell=False):
             # put stdout/stderr into cp/cpe
             capture_output=True,
             # convert stdout/stderr from bytes to text
-            encoding="utf-8",
+            encoding=S_ENCODING,
             text=True,
             # whether the call is a file w/ params (False) or a direct shell
             # input (True)
@@ -667,7 +686,7 @@ def load_dicts(paths, start_dict=None):
         try:
 
             # open the file
-            with open(path, "r", encoding="UTF-8") as a_file:
+            with open(path, "r", encoding=S_ENCODING) as a_file:
                 # load dict from file
                 new_dict = json.load(a_file)
 
@@ -722,7 +741,7 @@ def save_dict(a_dict, paths):
             path.parent.mkdir(parents=True, exist_ok=True)
 
             # open the file
-            with open(path, "w", encoding="UTF-8") as a_file:
+            with open(path, "w", encoding=S_ENCODING) as a_file:
                 # save dict tp file
                 json.dump(a_dict, a_file, indent=4)
 
@@ -848,7 +867,7 @@ def fix_globs(dir_start, dict_in):
         other_strings = [str(item) for item in other_paths]
 
         # get glob results as generators
-        glob_results = [dir_start.glob(item) for item in other_strings]
+        glob_results = [dir_start.rglob(item) for item in other_strings]
 
         # start with absolutes
         new_val = abs_paths
@@ -1095,7 +1114,7 @@ def printc(
 # ------------------------------------------------------------------------------
 # Print a string if the debug param is True
 # ------------------------------------------------------------------------------
-def printd(*values, sep=" ", end="\n", file=None, flush=False, debug=False):
+def printd(*values, sep=" ", end="\n", file=None, flush=False):
     """
     Print a string if the debug param is True
 
@@ -1107,15 +1126,13 @@ def printd(*values, sep=" ", end="\n", file=None, flush=False, debug=False):
         (default: None)
         flush: Whether to force the output buffer to write immediately, rather
         than waiting for it to fill
-        debug: Whether to print debug statements or not (use a global debug in
-        your code)
 
 
     This function is really handy for me when I run a program in debug mode. It
     just lets me wrap prints in context-aware statements
     """
 
-    if debug:
+    if B_DEBUG:
         printc(
             *values,
             sep=sep,

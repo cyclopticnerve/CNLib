@@ -59,12 +59,6 @@ class CNMkDocs:
     # NB: format params are file name and formatted pkg name, done in make_docs
     S_DEF_FILE = "# {}\n::: {}"
 
-    # name used by mkdocs (DO NOT CHANGE!!!)
-    S_DIR_DOCS = "docs"
-    S_DIR_SITE = "site"
-    S_INDEX_NAME = "index.md"
-    S_DIR_IMG = "img"
-
     # default encoding
     S_ENCODING = "UTF-8"
 
@@ -100,7 +94,10 @@ class CNMkDocs:
         # self._p_dir_pp = ""
         # self._p_dir_pp_venv = ""
         # self._path_readme = ""
-        # self._dir_img = ""
+
+        # NB: DO NOT CHANGE!!!
+        self._index_name = "index.md"
+        self._dir_img = "img"
 
     # --------------------------------------------------------------------------
     # Public functions
@@ -112,6 +109,7 @@ class CNMkDocs:
     def make_docs(
         self,
         dir_prj,
+        dir_docs,
         #
         use_rm=False,
         use_api=False,
@@ -143,7 +141,7 @@ class CNMkDocs:
         # check docs dir for exist
 
         # find docs dir
-        dir_docs = Path(dir_prj) / self.S_DIR_DOCS
+        dir_docs = Path(dir_prj) / dir_docs
 
         # no docs folder in template
         if not dir_docs.exists():
@@ -151,17 +149,24 @@ class CNMkDocs:
             # make dir
             dir_docs.mkdir(parents=True)
 
+            # make img dir
+            # NB: the name of this dir is hard-coded in mkdocs (AFAIK)
+            # it is used exclusively to serve the favicon.ico
+            # paths to readme images, etc, can use a different dir
+            img_dir = dir_docs / self._dir_img
+            img_dir.mkdir(parents=True)
+
         # ----------------------------------------------------------------------
         # make index
 
         # make empty or from readme or don't touch
-        self._make_index(dir_prj, use_rm, file_rm)
+        self._make_index(dir_prj, use_rm, file_rm, dir_docs)
 
         # ----------------------------------------------------------------------
         # make api
 
         # make new api or delete old
-        self._make_api(dir_prj, use_api, lst_api_in, dir_api_out)
+        self._make_api(dir_prj, use_api, lst_api_in, dir_api_out, dir_docs)
 
         # ----------------------------------------------------------------------
         # make img dir
@@ -171,7 +176,7 @@ class CNMkDocs:
             # make new img dir or combine
             dir_img_src = Path(dir_prj) / dir_img
             if dir_img_src.exists():
-                dir_img_dst = dir_docs / self.S_DIR_IMG
+                dir_img_dst = dir_docs / dir_img
                 shutil.copytree(dir_img_src, dir_img_dst, dirs_exist_ok=True)
 
     # --------------------------------------------------------------------------
@@ -222,7 +227,7 @@ class CNMkDocs:
     # --------------------------------------------------------------------------
     # Make the home file (index.md)
     # --------------------------------------------------------------------------
-    def _make_index(self, dir_prj, use_rm, file_rm):
+    def _make_index(self, dir_prj, use_rm, file_rm, dir_docs):
         """
         Make the home file (index.md)
 
@@ -230,8 +235,8 @@ class CNMkDocs:
         """
 
         # first check if index exists
-        dir_docs_out = Path(dir_prj) / self.S_DIR_DOCS
-        path_index = dir_docs_out / self.S_INDEX_NAME
+        dir_docs_out = Path(dir_prj) / dir_docs
+        path_index = dir_docs_out / self._index_name
 
         # if not exist
         if not path_index.exists():
@@ -269,7 +274,7 @@ class CNMkDocs:
     # --------------------------------------------------------------------------
     # Make the api files
     # --------------------------------------------------------------------------
-    def _make_api(self, dir_prj, use_api, lst_api_in, dir_api_out):
+    def _make_api(self, dir_prj, use_api, lst_api_in, dir_api_out, dir_docs):
         """
         Make the api files
 
@@ -282,7 +287,7 @@ class CNMkDocs:
 
         # find api dir
         dir_prj = Path(dir_prj)
-        dir_docs_out = dir_prj / self.S_DIR_DOCS
+        dir_docs_out = dir_prj / dir_docs
         dir_api_out = dir_docs_out / dir_api_out
 
         # nuke it if it exists and we changed out mind

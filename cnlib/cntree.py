@@ -7,9 +7,12 @@
 # ------------------------------------------------------------------------------
 
 """
-This module creates a tree of the specified directory, with paths being
-ignored by the filter list and names being formatted according to the
-specified formats.
+This module creates a tree of the specified directory, with paths being ignored
+by the filter list and names being formatted according to the specified
+formats. It creates both text and HTML versions. The HTML version has the
+ability to display checkboxes that show the state of each item as either
+checked, unchecked, or indeterminate, according to their child checkboxes'
+values.
 """
 
 # ------------------------------------------------------------------------------
@@ -77,6 +80,165 @@ class CNTree:
     # custom sorting order
     S_SORT_ORDER = "_."  # sort first char of name in this order (above ord)
 
+    # style the html lists
+    S_DEF_CSS = """ul {
+                list-style-type: none;
+                padding-left: 20px;
+            }"""
+
+    # --------------------------------------------------------------------------
+    # html stuff
+    # NB: DO NOT MESS WITH THIS!!!
+
+    # prolog (html/head/style/body)
+    # NB: format params are self._css, root name, and root id
+    S_HTML_PROLOG = """<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            {0}
+        </style>
+    </head>
+    <body>
+        <ul>
+            <li>
+                <input type="checkbox" id="{2}">
+                <label for="{2}">{1}</label>
+                <ul>"""
+
+    # epilog (what comes after the checkbox list)
+    S_HTML_EPILOG = """
+                </ul>
+            </li>
+        </ul>
+        <script>
+
+            // NB: https://codepen.io/girish/pen/BaWMGKp
+
+            // helper func to create a flat array from a NodeList
+            nodeArray = (parent, selector) =>
+                Array.from(parent.querySelectorAll(selector));
+
+            // get all checkboxes from document
+            allChecks = nodeArray(document, 'input[type="checkbox"]');
+
+            // global document listener (add to all inputs)
+            addEventListener('change', e => {
+
+                // get object that changed
+                check = e.target;
+
+                // if event did not come from a checkbox in our list
+                if (allChecks.indexOf(check) === -1)
+                    return;
+
+                // check/uncheck children based on parent state
+                parent = check.parentNode;
+                children = nodeArray(parent, 'input[type="checkbox"]');
+                children.forEach(child =>
+                    child.checked = check.checked
+                );
+
+                // traverse up from target check
+                while (check) {
+
+                    // find parent checkbox
+                    parent = check.closest('ul');
+                    parent = parent.parentNode;
+                    parent = parent.querySelector('input[type="checkbox"]');
+
+                    // find sibling checkboxes
+                    siblings = parent.closest('li');
+                    siblings = siblings.querySelector('ul');
+                    siblings = nodeArray(siblings, 'input[type="checkbox"]');
+
+                    // get checked state of siblings
+                    // are every or some siblings checked?
+                    siblingsMap = siblings.map(check => check.checked);
+                    every = siblingsMap.every(Boolean);
+                    some = siblingsMap.some(Boolean);
+
+                    // check parent if all child siblings are checked
+                    // set indeterminate if some (not all and not none) are checked
+                    parent.checked = every;
+                    parent.indeterminate = !every && every !== some;
+
+                    // prepare for next loop
+                    check = check != parent ? parent : 0;
+                }
+
+                // save current state
+                save();
+            });
+
+            // save current state
+            function save() {
+
+                // for each checkbox
+                allChecks.forEach(check => {
+
+                    // get all the stuff
+                    id = check.id;
+                    ind = check.indeterminate;
+                    checked = check.checked;
+
+                    // if it is -, save that
+                    if (ind) {
+                        localStorage.setItem(id, 'ind');
+
+                        // not -, save checked or not
+                    } else {
+                        localStorage.setItem(id, checked);
+                    }
+                });
+            };
+
+            // load previous state
+            window.onload = function () {
+
+                // for each checkbox
+                allChecks.forEach(check => {
+
+                    // get all the stuff
+                    id = check.id;
+                    ind = localStorage.getItem(id) === 'ind';
+                    checked = localStorage.getItem(id) === 'true';
+
+                    // if it was -, set to -
+                    if (ind) {
+                        check.indeterminate = true
+
+                    // if it was not -, set to old state
+                    } else {
+                        check.checked = checked;
+                    }
+                });
+            };
+
+        </script>
+    </body>
+</html>
+
+<!-- -) -->
+"""
+
+    # start of new entry (file, folder)
+    # NB: format params are entry name, indent string, and self._id
+    S_ENTRY_OPEN = """
+    {1}<li>
+    {1}    <input type='checkbox' id='{2}'>
+    {1}    <label for='{2}'>{0}</label>
+    {1}    <ul>"""
+
+    # end of entry (close child list, close entry)
+    # NB: format param is indent string
+    S_ENTRY_CLOSE = """
+    {0}    </ul>
+    {0}</li>"""
+
+    # indent used in <li> to align better
+    S_HTML_INDENT = "    "
+
     # --------------------------------------------------------------------------
     # Class methods
     # --------------------------------------------------------------------------
@@ -93,6 +255,7 @@ class CNTree:
         file_format="",
         dirs_only=False,
         ignore_case=True,
+        css=None,
     ):
         """
         Initializes the new object
@@ -136,9 +299,9 @@ class CNTree:
         https://docs.python.org/3/library/pathlib.html#pathlib.Path.glob
 
         The format strings for directory and file names will have the value
-        of "FORMAT_NAME" replaced by the directory or file name.
+        of "fmt_name" replaced by the directory or file name.
 
-        Example: (assuming FORMAT_NAME is set to "$NAME")
+        Example: (assuming "fmt_name" is set to "$NAME")
 
             dir_format = " [] $NAME/"
             item.name = "Foo"
@@ -166,7 +329,7 @@ class CNTree:
             self._filter_list = []
 
         self._fmt_name = self.S_FORMAT_NAME
-        if fmt_name and self.S_FORMAT_NAME in fmt_name:
+        if fmt_name and self._fmt_name in fmt_name:
             self._fmt_name = fmt_name
 
         self._dir_format = self.S_FORMAT_DIR
@@ -180,11 +343,18 @@ class CNTree:
         self._dirs_only = dirs_only
         self._ignore_case = ignore_case
 
+        if not css:
+            self._css = self.S_DEF_CSS
+
         # create private props
         self._root_lead = ""
         self._dir_lead = ""
         self._sort_order = {}
         self._tree = []
+        self._level = 4  # indent level for html
+        self._id = ""  # build a unique id for entries (dot separated path)
+        self.text = ""
+        self.html = ""
 
     # --------------------------------------------------------------------------
     # Public methods
@@ -222,121 +392,13 @@ class CNTree:
         # enumerate the start dir and add its contents, starting recursion
         self._add_contents(self._start_dir)
 
-        # turn the final tree array into a string and return it
-        str_out = "\n".join(self._tree)
-        return str_out
+        # turn the final tree array into string and html
+        self.text = "\n".join(self._tree)
+        self.html += self.S_HTML_EPILOG
 
     # --------------------------------------------------------------------------
     # Private methods
     # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # Gets the filter_list from paths or globs
-    # --------------------------------------------------------------------------
-    def _get_filter_list(self):
-        """
-        Gets the filter_list from paths or globs
-
-        Converts entries in filter_list to absolute Path objects relative
-        to start_dir. Globs are acceptable, see
-        https://docs.python.org/3/library/pathlib.html#pathlib.Path.globs
-        """
-
-        # sanity check
-        if self._filter_list is None:
-            return
-
-        # convert all items in filter_list to Path objects
-        filter_paths = [Path(item) for item in self._filter_list]
-
-        # move absolute paths to one list
-        absolute_paths = [item for item in filter_paths if item.is_absolute()]
-
-        # move non-absolute paths (assume globs) to another list
-        other_paths = [item for item in filter_paths if not item.is_absolute()]
-
-        # convert glob/relative path objects back to strings
-        other_strings = [str(item) for item in other_paths]
-
-        # get glob results as generators
-        glob_results = [self._start_dir.glob(item) for item in other_strings]
-
-        # start with absolutes
-        result = absolute_paths
-
-        # for each generator
-        for item in glob_results:
-            # add results as whole shebang
-            result += list(item)
-
-        # set the filter list as the class filter list
-        self._filter_list = result
-
-    # --------------------------------------------------------------------------
-    # Gets the leads (extra spaces) before each entry in the tree
-    # --------------------------------------------------------------------------
-    def _get_leads(self):
-        """
-        Gets the leads (extra spaces) before each entry in the tree
-
-        Calculates how many spaces should be presented before each entry in
-        the tree. The root folder should have no spaces (left-aligned) and
-        each subsequent entry should add the number of spaces in a
-        directory's format name. This allows us to align the connector with
-        the index of the FORMAT_NAME variable.
-        """
-
-        # get the leads (extra indents to line up the pipes/tees/ells)
-        # NB: we don't care about file leads, nothing goes under a file
-
-        # get the root's format with no leading spaces
-        root_fmt = self._dir_format.lstrip()
-
-        # set root lead as string
-        root_lead_count = root_fmt.find(self.S_FORMAT_NAME)
-        self._root_lead = " " * root_lead_count
-
-        # set directory lead as string
-        dir_lead_count = self._dir_format.find(self.S_FORMAT_NAME)
-        self._dir_lead = " " * dir_lead_count
-
-    # --------------------------------------------------------------------------
-    # Gets the sort order for custom sorting
-    # --------------------------------------------------------------------------
-    def _get_sort_order(self):
-        """
-        Gets the sort order for custom sorting
-
-        This just fixes a personal quirk of mine. The default sorting order
-        in Python sorts names starting with a dot (.) above a name starting
-        with an underscore (_) (as per string.printable), which for me is
-        dependant on my locale, en_US, YMMV. This does not match my IDE,
-        VSCode, and I want the tree to match my File Explorer in my IDE. So
-        to fix this, I created a custom sorter that reverses that. It's not
-        really necessary, but it does the job.
-
-        This function creates a dict in the form of:
-        {char:index[, ...]}
-        where:
-        char is the character in the SORT_ORDER string
-        index is the ordinal of that char (starting at the lowest negative
-        ordinal)
-        so that:
-        SORT_ORDER = "_."
-        results in:
-        self._sort_order = {"_": -2, ".": -1}
-
-        most of this came form:
-        https://stackoverflow.com/questions/75301122/how-can-i-change-how-python-sort-deals-with-punctuation
-        """
-
-        # get length of string to count backwards
-        sort_len = len(self.S_SORT_ORDER)
-
-        # for each char in string
-        for index, char in enumerate(self.S_SORT_ORDER):
-            # make a dict entry for the char and its new ord
-            self._sort_order[char] = index - sort_len
 
     # --------------------------------------------------------------------------
     # Adds the root to the tree
@@ -352,7 +414,13 @@ class CNTree:
         # format the root directory name to a display name and add it
         fmt_root = self._dir_format.lstrip()
         rep_name = fmt_root.replace(self._fmt_name, self._start_dir.name)
+
+        # setup text file
         self._tree.append(rep_name)
+
+        # setup html file
+        self._id = self._start_dir.name
+        self.html += self.S_HTML_PROLOG.format(self._css, rep_name, self._id)
 
     # --------------------------------------------------------------------------
     # Enumerates the given directory and adds its contents to the tree
@@ -402,11 +470,13 @@ class CNTree:
         if self._dirs_only:
             items = [item for item in items if item.is_dir()]
 
+        # ----------------------------------------------------------------------
         # get number of files/directories (for determining connector)
         count = len(items)
 
         # for each entry
         for index, item in enumerate(items):
+
             # get the type of connector based on position in enum
             connector = (
                 self.S_CONNECTOR_TEE
@@ -425,42 +495,158 @@ class CNTree:
                 f"{self._root_lead}{prefix}{connector}{rep_name}"
             )
 
+            # increase indent
+            indent = self.S_HTML_INDENT * self._level
+            self._level += 1
+
+            # increase id level
+            self._id += "." + item.name
+
+            # add the item to the tree
+            self.html += self.S_ENTRY_OPEN.format(rep_name, indent, self._id)
+
             # if item is a dir
             if item.is_dir():
-                # adjust the prefix, and call _add_contents for the dir
-                self._add_dir(item, prefix, count, index)
+
+                # need a fresh prefix for recursion
+                prefix_dir = (
+                    prefix + self.S_PREFIX_VERT
+                    if index < (count - 1)
+                    else self.S_PREFIX_NONE
+                )
+
+                # add some spacing
+                prefix_dir += self._dir_lead
+
+                # indent again
+                self._level += 1
+
+                # recurse with dir and new prefix
+                self._add_contents(item, prefix_dir)
+
+                # unindent html
+                self._level -= 1
+
+            # possibly back from recursion
+
+            # back up id from previous level (+1 for dot)
+            self._id = self._id[: -(len(item.name) + 1)]
+
+            # unindent for html
+            self._level -= 1
+            indent = self.S_HTML_INDENT * self._level
+
+            # close the item
+            self.html += self.S_ENTRY_CLOSE.format(indent)
 
     # --------------------------------------------------------------------------
-    # Does some extra stuff when adding a directory
+    # Gets the filter_list from paths or globs
     # --------------------------------------------------------------------------
-    def _add_dir(self, item, prefix, count, index):
+    def _get_filter_list(self):
         """
-        Does some extra stuff when adding a directory
+        Gets the filter_list from paths or globs
 
-        Args:
-            item: Path object to add
-            prefix: Prefix for the last Path object added
-            count: Total number of objects in the parent (for prefix)
-            index: Index of this object in its parent (for prefix)
-
-        Does some extra stuff when adding a directory. First, the prefix
-        needs to be appended with another pipe or more spaces. Also the line
-        needs to account for the directory lead. Then, it needs to recurse
-        back to _add_contents.
-        This code CANNOT be included in _add_contents because changing the
-        prefix will break recursion (IDKWTF)
+        Converts entries in filter_list to absolute Path objects relative
+        to start_dir. Globs are acceptable, see
+        https://docs.python.org/3/library/pathlib.html#pathlib.Path.globs
         """
 
-        # add a vert or a blank
-        prefix += (
-            self.S_PREFIX_VERT if index < (count - 1) else self.S_PREFIX_NONE
-        )
+        # sanity check
+        if self._filter_list is None:
+            return
 
-        # add some spacing
-        prefix += self._dir_lead
+        # convert all items in filter_list to Path objects
+        filter_paths = [Path(item) for item in self._filter_list]
 
-        # call _add_contents recursively with current item and new prefix
-        self._add_contents(item, prefix)
+        # move absolute paths to one list
+        absolute_paths = [item for item in filter_paths if item.is_absolute()]
+
+        # move non-absolute paths (assume globs) to another list
+        other_paths = [item for item in filter_paths if not item.is_absolute()]
+
+        # convert glob/relative path objects back to strings
+        other_strings = [str(item) for item in other_paths]
+
+        # get glob results as generators
+        glob_results = [self._start_dir.rglob(item) for item in other_strings]
+
+        # start with absolutes
+        result = absolute_paths
+
+        # for each generator
+        for item in glob_results:
+            # add results as whole shebang
+            result += list(item)
+
+        # set the filter list as the class filter list
+        self._filter_list = result
+
+    # --------------------------------------------------------------------------
+    # Gets the leads (extra spaces) before each entry in the tree
+    # --------------------------------------------------------------------------
+    def _get_leads(self):
+        """
+        Gets the leads (extra spaces) before each entry in the tree
+
+        Calculates how many spaces should be presented before each entry in
+        the tree. The root folder should have no spaces (left-aligned) and
+        each subsequent entry should add the number of spaces in a
+        directory's format name. This allows us to align the connector with
+        the first character of the FORMAT_NAME variable, skipping things like
+        checkbox brackets.
+        """
+
+        # get the leads (extra indents to line up the pipes/tees/ells)
+        # NB: we don't care about file leads, nothing goes under a file
+
+        # get the root's format with no leading spaces
+        root_fmt = self._dir_format.lstrip()
+
+        # set root lead as string
+        root_lead_count = root_fmt.find(self.S_FORMAT_NAME)
+        self._root_lead = " " * root_lead_count
+
+        # set directory lead as string
+        dir_lead_count = self._dir_format.find(self.S_FORMAT_NAME)
+        self._dir_lead = " " * dir_lead_count
+
+    # --------------------------------------------------------------------------
+    # Gets the sort order for custom sorting
+    # --------------------------------------------------------------------------
+    def _get_sort_order(self):
+        """
+        Gets the sort order for custom sorting
+
+        This just fixes a personal quirk of mine. The default sorting order
+        in Python sorts names starting with a dot (.) above a name starting
+        with an underscore (_) (as per string.printable), which for me is
+        dependant on my locale, en_US, YMMV. This does not match my IDE,
+        VSCode, and I want the tree to match my File Explorer in my IDE. So
+        to fix this, I created a custom sorter that reverses that. It's not
+        really necessary, but it does the job.
+
+        This function creates a dict in the form of:
+        {char:index[, ...]}
+        where:
+        char is the character in the SORT_ORDER string
+        index is the ordinal of that char (starting at the lowest negative
+        ordinal)
+        so that:
+        SORT_ORDER = "_."
+        results in:
+        self._sort_order = {"_": -2, ".": -1}
+
+        most of this came from:
+        https://stackoverflow.com/questions/75301122/how-can-i-change-how-python-sort-deals-with-punctuation
+        """
+
+        # get length of string to count backwards
+        sort_len = len(self.S_SORT_ORDER)
+
+        # for each char in string
+        for index, char in enumerate(self.S_SORT_ORDER):
+            # make a dict entry for the char and its new ord
+            self._sort_order[char] = index - sort_len
 
     # --------------------------------------------------------------------------
     # Sorts items in the item list according to the item name
@@ -485,11 +671,10 @@ class CNTree:
         # get the ordinal position of each char
         # NB: if the key (char) is present, the get() function returns the value
         # of the specified key. if the key is not present, it returns the second
-        # (ord of char in string.printable)
-        # this is why we need to know  about the ignore_case, since if it is
+        # (ord of char in string.printable, i.e. a=0, b=1, c=2, etc.)
+        # this is why we need to know about the ignore_case, since if it is
         # False, uppercase will always take precedence over lowercase (at least
-        # in en_US str.printable, YMMV)
+        # in en_US str.printable, again YMMV)
         return [self._sort_order.get(char, ord(char)) for char in tmp_item]
-
 
 # -)

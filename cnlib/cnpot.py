@@ -61,7 +61,7 @@ class CNPotPy:
     # --------------------------------------------------------------------------
 
     # default encoding for .pot and .po files
-    S_CHARSET = "UTF-8"
+    S_ENCODING = "UTF-8"
     # this is the default subdir for GNU
     S_DIR_LC = "LC_MESSAGES"
     # the file to store all wlang/domain names for .desktop files
@@ -130,7 +130,7 @@ class CNPotPy:
         dict_clangs=None,
         dict_no_ext=None,
         list_wlangs=None,
-        charset=S_CHARSET,
+        charset=S_ENCODING,
         location=True,
     ):
         """
@@ -254,7 +254,7 @@ class CNPotPy:
 
         # fix up charset
         if charset is None:
-            charset = self.S_CHARSET
+            charset = self.S_ENCODING
         self._charset = charset
 
         # set location prop
@@ -694,7 +694,7 @@ class CNPotPy:
         """
 
         # open file and get contents
-        with open(file_pot, "r", encoding="UTF-8") as a_file:
+        with open(file_pot, "r", encoding=self.S_ENCODING) as a_file:
             text = a_file.read()
 
         # replace short description
@@ -722,7 +722,7 @@ class CNPotPy:
         text = re.sub(str_pattern, str_rep, text, flags=re.M)
 
         # save file
-        with open(file_pot, "w", encoding="UTF-8") as a_file:
+        with open(file_pot, "w", encoding=self.S_ENCODING) as a_file:
             a_file.write(text)
 
 
