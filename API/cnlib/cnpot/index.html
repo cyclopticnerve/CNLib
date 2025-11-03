@@ -242,7 +242,7 @@ for internationalizing a Python or PyGObject project.</p>
     # --------------------------------------------------------------------------
 
     # default encoding for .pot and .po files
-    S_CHARSET = "UTF-8"
+    S_ENCODING = "UTF-8"
     # this is the default subdir for GNU
     S_DIR_LC = "LC_MESSAGES"
     # the file to store all wlang/domain names for .desktop files
@@ -311,7 +311,7 @@ for internationalizing a Python or PyGObject project.</p>
         dict_clangs=None,
         dict_no_ext=None,
         list_wlangs=None,
-        charset=S_CHARSET,
+        charset=S_ENCODING,
         location=True,
     ):
         """
@@ -435,7 +435,7 @@ for internationalizing a Python or PyGObject project.</p>
 
         # fix up charset
         if charset is None:
-            charset = self.S_CHARSET
+            charset = self.S_ENCODING
         self._charset = charset
 
         # set location prop
@@ -875,7 +875,7 @@ for internationalizing a Python or PyGObject project.</p>
         """
 
         # open file and get contents
-        with open(file_pot, "r", encoding="UTF-8") as a_file:
+        with open(file_pot, "r", encoding=self.S_ENCODING) as a_file:
             text = a_file.read()
 
         # replace short description
@@ -903,7 +903,7 @@ for internationalizing a Python or PyGObject project.</p>
         text = re.sub(str_pattern, str_rep, text, flags=re.M)
 
         # save file
-        with open(file_pot, "w", encoding="UTF-8") as a_file:
+        with open(file_pot, "w", encoding=self.S_ENCODING) as a_file:
             a_file.write(text)</code></pre>
               </details>
 
@@ -923,7 +923,7 @@ for internationalizing a Python or PyGObject project.</p>
 
 
 <h3 id="cnlib.cnpot.CNPotPy.__init__" class="doc doc-heading">
-            <code class="highlight language-python">__init__(str_domain, str_version, str_author, str_email, dir_prj, list_src, dir_pot, dir_po, dir_locale, str_tag=None, dict_clangs=None, dict_no_ext=None, list_wlangs=None, charset=S_CHARSET, location=True)</code>
+            <code class="highlight language-python">__init__(str_domain, str_version, str_author, str_email, dir_prj, list_src, dir_pot, dir_po, dir_locale, str_tag=None, dict_clangs=None, dict_no_ext=None, list_wlangs=None, charset=S_ENCODING, location=True)</code>
 
 </h3>
 
@@ -1206,7 +1206,7 @@ If ths dict is empty or None, all files will be scanned
               </div>
             </td>
             <td>
-                  <code><span title="cnlib.cnpot.CNPotPy.S_CHARSET">S_CHARSET</span></code>
+                  <code><span title="cnlib.cnpot.CNPotPy.S_ENCODING">S_ENCODING</span></code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -1282,7 +1282,7 @@ its properties, and any other code needed to create a new object.</p>
     dict_clangs=None,
     dict_no_ext=None,
     list_wlangs=None,
-    charset=S_CHARSET,
+    charset=S_ENCODING,
     location=True,
 ):
     """
@@ -1406,7 +1406,7 @@ its properties, and any other code needed to create a new object.</p>
 
     # fix up charset
     if charset is None:
-        charset = self.S_CHARSET
+        charset = self.S_ENCODING
     self._charset = charset
 
     # set location prop

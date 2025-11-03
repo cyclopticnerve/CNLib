@@ -1525,7 +1525,7 @@ response or the dialog will loop forever.</p>
         other_strings = [str(item) for item in other_paths]
 
         # get glob results as generators
-        glob_results = [dir_start.glob(item) for item in other_strings]
+        glob_results = [dir_start.rglob(item) for item in other_strings]
 
         # start with absolutes
         new_val = abs_paths
@@ -1691,7 +1691,7 @@ response or the dialog will loop forever.</p>
         try:
 
             # open the file
-            with open(path, "r", encoding="UTF-8") as a_file:
+            with open(path, "r", encoding=S_ENCODING) as a_file:
                 # load dict from file
                 new_dict = json.load(a_file)
 
@@ -2360,7 +2360,7 @@ to white. So no cyan text on a magenta background.
 
 
 <h2 id="cnlib.cnfunctions.printd" class="doc doc-heading">
-            <code class="highlight language-python">printd(*values, sep=' ', end='\n', file=None, flush=False, debug=False)</code>
+            <code class="highlight language-python">printd(*values, sep=' ', end='\n', file=None, flush=False)</code>
 
 </h2>
 
@@ -2378,9 +2378,7 @@ Args:
         file: The file object to print to or, if None, print to stdout
         (default: None)
         flush: Whether to force the output buffer to write immediately, rather
-        than waiting for it to fill
-        debug: Whether to print debug statements or not (use a global debug in
-        your code)</p>
+        than waiting for it to fill</p>
 <pre><code>This function is really handy for me when I run a program in debug mode. It
 just lets me wrap prints in context-aware statements
 </code></pre>
@@ -2388,7 +2386,7 @@ just lets me wrap prints in context-aware statements
 
             <details class="quote">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
-              <pre class="highlight"><code class="language-python">def printd(*values, sep=" ", end="\n", file=None, flush=False, debug=False):
+              <pre class="highlight"><code class="language-python">def printd(*values, sep=" ", end="\n", file=None, flush=False):
     """
     Print a string if the debug param is True
 
@@ -2400,15 +2398,13 @@ just lets me wrap prints in context-aware statements
         (default: None)
         flush: Whether to force the output buffer to write immediately, rather
         than waiting for it to fill
-        debug: Whether to print debug statements or not (use a global debug in
-        your code)
 
 
     This function is really handy for me when I run a program in debug mode. It
     just lets me wrap prints in context-aware statements
     """
 
-    if debug:
+    if B_DEBUG:
         printc(
             *values,
             sep=sep,
@@ -2564,7 +2560,7 @@ also combines FileNotFoundError and CalledProcessError into one CNRunError.</p>
             # put stdout/stderr into cp/cpe
             capture_output=True,
             # convert stdout/stderr from bytes to text
-            encoding="utf-8",
+            encoding=S_ENCODING,
             text=True,
             # whether the call is a file w/ params (False) or a direct shell
             # input (True)
@@ -2722,7 +2718,7 @@ also combines FileNotFoundError and CalledProcessError into one CNRunError.</p>
             path.parent.mkdir(parents=True, exist_ok=True)
 
             # open the file
-            with open(path, "w", encoding="UTF-8") as a_file:
+            with open(path, "w", encoding=S_ENCODING) as a_file:
                 # save dict tp file
                 json.dump(a_dict, a_file, indent=4)
 
