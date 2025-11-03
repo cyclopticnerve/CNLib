@@ -2,35 +2,36 @@
     "PUB_BL": {
         "SKIP_ALL": [
             ".git",
-            "**/.venv*",
+            ".venv*",
             ".VSCodeCounter",
             "dist",
             "docs",
             "i18n",
             "misc",
+            "site",
+            "todo",
             "LICENSE.txt",
             "requirements.txt",
-            "todo",
             "**/__pycache__",
-            "site",
+            "**/*.egg-info",
             "pyplate"
         ],
         "SKIP_CONTENTS": [
             "**/*.png",
             "**/*.jpg",
-            "**/*.jpeg"
+            "**/*.jpeg",
+            "**/*.ico"
         ],
         "SKIP_HEADER": [],
         "SKIP_CODE": [
-            ".gitignore",
-            ".desktop"
+            "conf"
         ],
-        "SKIP_PATH": [],
         "SKIP_TREE": [
             ".git",
-            "**/.venv*",
+            ".venv*",
             ".VSCodeCounter",
-            "**/__pycache__"
+            "**/__pycache__",
+            "**/*.egg-info"
         ]
     },
     "PUB_DBG": {
@@ -51,19 +52,18 @@
         "DOCS_USE_RM": false,
         "DOCS_MAKE_API": true,
         "DOCS_DIR_API": [
-            "src",
             "cnlib"
         ]
     },
     "PUB_I18N": {
         "DOMAIN": "cnlib",
         "SOURCES": [
-            "src",
+            "cnlib",
             "develop.py"
         ],
         "CLANGS": {
             "Python": [
-                "py"
+                ".py"
             ],
             "Glade": [
                 ".ui",
@@ -85,7 +85,7 @@
     },
     "PUB_META": {
         "META_SHORT_DESC": "A Python library containing useful functions and classes ",
-        "META_VERSION": "0.0.7",
+        "META_VERSION": "0.0.6",
         "META_KEYWORDS": [
             "python",
             "pyplate",

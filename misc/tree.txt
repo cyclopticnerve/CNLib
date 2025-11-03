@@ -10,41 +10,42 @@
    │     ├─ [] cnpot.py
    │     ├─ [] cntree.py
    │     └─ [] cnvenv.py
-   ├─ [] CNLib.egg-info/
-   │     ├─ [] dependency_links.txt
-   │     ├─ [] PKG-INFO
-   │     ├─ [] SOURCES.txt
-   │     └─ [] top_level.txt
    ├─ [] dist/
    │     └─ [] cnlib-0.0.6.tar.gz
    ├─ [] docs/
    │     ├─ [] API/
    │     │     └─ [] cnlib/
-   │     │           ├─ [] cnformatter.md
-   │     │           ├─ [] cnfunctions.md
-   │     │           ├─ [] cninstall.md
-   │     │           ├─ [] cnmkdocs.md
-   │     │           ├─ [] cnpot.md
-   │     │           ├─ [] cntree.md
-   │     │           └─ [] cnvenv.md
+         ├─ [] cnformatter.md
+         ├─ [] cnfunctions.md
+         ├─ [] cninstall.md
+         ├─ [] cnmkdocs.md
+         ├─ [] cnpot.md
+         ├─ [] cntree.md
+         └─ [] cnvenv.md
+   │     ├─ [] images/
+   │     │     └─ [] cnlib.png
    │     ├─ [] img/
-   │     │     ├─ [] cnlib.png
    │     │     └─ [] favicon.ico
    │     └─ [] index.md
    ├─ [] i18n/
    │     ├─ [] locale/
    │     │     └─ [] en/
-   │     │           └─ [] LC_MESSAGES/
-   │     │                 └─ [] cnlib.mo
+         └─ [] LC_MESSAGES/
+         └─ [] cnlib.mo
    │     ├─ [] po/
    │     │     ├─ [] en/
    │     │     │     └─ [] cnlib.po
    │     │     └─ [] LINGUAS
    │     └─ [] pot/
-   │           └─ [] cnlib.pot
-   ├─ [] img/
+         └─ [] cnlib.pot
+   ├─ [] images/
    │     └─ [] cnlib.png
    ├─ [] misc/
+   │     ├─ [] checklists/
+   │     │     ├─ [] checklist.html
+   │     │     ├─ [] checklist.txt
+   │     │     ├─ [] html checklist
+   │     │     └─ [] style.txt
    │     ├─ [] default_files/
    │     │     ├─ [] class.py
    │     │     ├─ [] default.html
@@ -53,6 +54,7 @@
    │     │     └─ [] window.py
    │     ├─ [] how_to/
    │     │     └─ [] i18n_tips.txt
+   │     ├─ [] tree.html
    │     └─ [] tree.txt
    ├─ [] pyplate/
    │     ├─ [] private/
@@ -61,20 +63,20 @@
    ├─ [] site/
    │     ├─ [] API/
    │     │     └─ [] cnlib/
-   │     │           ├─ [] cnformatter/
-   │     │           │     └─ [] index.html
-   │     │           ├─ [] cnfunctions/
-   │     │           │     └─ [] index.html
-   │     │           ├─ [] cninstall/
-   │     │           │     └─ [] index.html
-   │     │           ├─ [] cnmkdocs/
-   │     │           │     └─ [] index.html
-   │     │           ├─ [] cnpot/
-   │     │           │     └─ [] index.html
-   │     │           ├─ [] cntree/
-   │     │           │     └─ [] index.html
-   │     │           └─ [] cnvenv/
-   │     │                 └─ [] index.html
+         ├─ [] cnformatter/
+         │     └─ [] index.html
+         ├─ [] cnfunctions/
+         │     └─ [] index.html
+         ├─ [] cninstall/
+         │     └─ [] index.html
+         ├─ [] cnmkdocs/
+         │     └─ [] index.html
+         ├─ [] cnpot/
+         │     └─ [] index.html
+         ├─ [] cntree/
+         │     └─ [] index.html
+         └─ [] cnvenv/
+         └─ [] index.html
    │     ├─ [] assets/
    │     │     └─ [] _mkdocstrings.css
    │     ├─ [] css/
@@ -85,8 +87,9 @@
    │     │     ├─ [] fontawesome.min.css
    │     │     ├─ [] solid.min.css
    │     │     └─ [] v4-font-face.min.css
+   │     ├─ [] images/
+   │     │     └─ [] cnlib.png
    │     ├─ [] img/
-   │     │     ├─ [] cnlib.png
    │     │     ├─ [] favicon.ico
    │     │     └─ [] grid.png
    │     ├─ [] js/
@@ -114,6 +117,10 @@
    │     ├─ [] sitemap.xml
    │     └─ [] sitemap.xml.gz
    ├─ [] tests/
+   │     ├─ [] tree/
+   │     │     ├─ [] tree.html
+   │     │     ├─ [] tree.py
+   │     │     └─ [] tree.txt
    │     └─ [] cnlib_test.py
    ├─ [] todo/
    │     └─ [] ABOUT
