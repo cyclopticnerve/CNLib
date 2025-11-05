@@ -6,22 +6,23 @@
 <!-- License : WTFPLv2                                         \          /  -->
 <!----------------------------------------------------------------------------->
 
-![](images/cnlib.png)
+![Logo](images/cnlib.png)
 # CNLib
 
 ## "It mostly works" ™©®
 
 [![License: WTFPLv2](https://img.shields.io/badge/License-WTFPL-brightgreen.svg)](http://www.wtfpl.net)
 
-<!-- __RM_SHORT_DESC__ -->
-A Python library containing useful functions and classes 
-<!-- __RM_SHORT_DESC__ -->
-
 <!-- __RM_VERSION__ -->
 Version 0.0.6
 <!-- __RM_VERSION__ -->
 
-<!-- ![alt-text](readme/screenshot.png) -->
+<!-- __RM_SHORT_DESC__ -->
+A Python library containing useful functions and classes 
+<!-- __RM_SHORT_DESC__ -->
+
+<!-- __RM_SCREENSHOT__ -->
+<!-- __RM_SCREENSHOT__ -->
 
 ## Table of Contents
 - [Requirements](#requirements)

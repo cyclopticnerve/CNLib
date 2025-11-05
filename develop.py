@@ -89,7 +89,7 @@ class CNDevelop:
 
     # NB: format param is dir_venv
     S_CMD_VENV_CREATE = "python -m venv {}"
-    S_CMD_VENV_INST = "__PP_VENV_INST__"
+    S_CMD_VENV_INST = "python -m pip install -e ."
 
     # errors
 

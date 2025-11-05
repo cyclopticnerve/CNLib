@@ -6,7 +6,7 @@
 <!-- License : WTFPLv2                                         \          /  -->
 <!----------------------------------------------------------------------------->
 
-![](images/cnlib.png)
+![Logo](images/cnlib.png)
 # CNLib
 
 ## "It mostly works" ™©®
