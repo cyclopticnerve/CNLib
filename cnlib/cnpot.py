@@ -131,7 +131,6 @@ class CNPotPy:
         dict_no_ext=None,
         list_wlangs=None,
         charset=S_ENCODING,
-        location=True,
     ):
         """
         Initialize the new object
@@ -256,9 +255,6 @@ class CNPotPy:
         if charset is None:
             charset = self.S_ENCODING
         self._charset = charset
-
-        # set location prop
-        self._location = location
 
         # make sure all necessary dirs exist
         self._make_wlang_dirs()
@@ -443,9 +439,6 @@ class CNPotPy:
                 # add -L for specific exts
                 f"-L {clang_name} "
             )
-
-            if not self._location:
-                cmd += "--no-location "
 
             # add all input files
             paths = [f'"{item}" ' for item in clang_files]
