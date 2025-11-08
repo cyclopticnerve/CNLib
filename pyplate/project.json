@@ -4,6 +4,7 @@
             ".git",
             ".venv*",
             ".VSCodeCounter",
+            "*.code-workspace",
             "dist",
             "docs",
             "i18n",
