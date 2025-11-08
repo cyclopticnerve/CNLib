@@ -567,7 +567,7 @@ class CNPotPy:
 
         # write the LINGUAS file
         linguas_path = self._dir_po / self.S_FILE_LINGUAS
-        with open(linguas_path, "w", encoding="UTF8") as f:
+        with open(linguas_path, "w", encoding=self.S_ENCODING) as f:
             f.write(linguas)
 
     # --------------------------------------------------------------------------
