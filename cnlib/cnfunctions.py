@@ -483,7 +483,7 @@ def pp(obj, indent_size=4, label=None):
 # ------------------------------------------------------------------------------
 # Update a dictionary with entries from another dict
 # ------------------------------------------------------------------------------
-def combine_dicts(dicts_new, dict_old):
+def combine_dicts(dicts_new, dict_old=None):
     """
     Update a dictionary with entries from another dict
 
@@ -491,6 +491,7 @@ def combine_dicts(dicts_new, dict_old):
         dicts_new: A dictionary or list of dictionaries containing new
         keys/values to be updated in the old dictionary
         dict_old: The dictionary defined as the one to receive updates
+        (default: None)
 
     Returns:
         The updated dict_old, filled with updates from dict_new
@@ -509,6 +510,8 @@ def combine_dicts(dicts_new, dict_old):
     # default return val
     if dict_old is None:
         dict_old = {}
+    else:
+        dict_old = dict_old.copy()
 
     # sanity checks
     if isinstance(dicts_new, dict):
