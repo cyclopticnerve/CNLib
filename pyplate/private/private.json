@@ -19,7 +19,7 @@
         "__PP_DIR_SRC__": "src",
         "__PP_PATH_LOCALE__": "i18n/locale",
         "__PP_DIR_DIST__": "dist",
-        "__PP_NAME_DSK_TMP__": "template",
+        "__PP_NAME_DSK_TMP__": "template.desktop",
         "__PP_USR_APPS__": ".local/share/applications",
         "__PP_USR_BIN__": ".local/bin",
         "__PP_USR_SHARE__": ".local/share",
@@ -28,11 +28,11 @@
         "__PP_DIR_UI__": "src/gui/ui",
         "__PP_DLG_FILE__": "dialogs",
         "__PP_DLG_ABOUT__": "dlg_about",
-        "__PP_DIR_INSTALL__": "",
-        "__PP_INST_CONF_FILE__": "",
-        "__PP_UNINST_CONF_FILE__": "",
-        "__PP_DIR_DOCS__": "",
-        "__PP_DIR_SITE__": "",
+        "__PP_DIR_INSTALL__": "install",
+        "__PP_INST_CONF_FILE__": "install/install.json",
+        "__PP_UNINST_CONF_FILE__": "install/uninstall.json",
+        "__PP_DIR_DOCS__": "docs",
+        "__PP_DIR_SITE__": "site"
     },
     "PRV_PRJ": {
         "__PP_TYPE_PRJ__": "p",
@@ -56,8 +56,9 @@
         "__PP_IMG_ABOUT__": "../../../images/cnlib.png",
         "__PP_VER_MMR__": "0.0.6",
         "__PP_VER_DISP__": "Version 0.0.6",
+        "__PP_DEV_INST__": "cd {};. {}/bin/activate;python -m pip install -e . > /dev/null 2>&1",
         "__PP_USR_INST__": ".local/share/cnlib",
         "__PP_APP_ID__": "org.cyclopticnerve.cnlib",
-        "__PP_DEV_INST__": "cd {};. {}/bin/activate;python -m pip install -e . > /dev/null 2>&1"
+        "__PP_FMT_DIST__": "cnlib-0.0.6"
     }
 }

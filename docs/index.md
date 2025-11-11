@@ -21,7 +21,8 @@ A Python library containing useful functions and classes
 Version 0.0.6
 <!-- __RM_VERSION__ -->
 
-<!-- ![alt-text](readme/screenshot.png) -->
+<!-- __RM_SCREENSHOT__ -->
+<!-- __RM_SCREENSHOT__ -->
 
 ## Table of Contents
 - [Requirements](#requirements)

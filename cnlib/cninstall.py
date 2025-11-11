@@ -316,7 +316,7 @@ class CNInstall:
         # ----------------------------------------------------------------------
         # draw the rest of the owl
 
-        self._check_version(path_cfg_uninst)
+        self._compare_version(path_cfg_uninst)
 
         # make the venv on the user's comp
         self._make_venv(dir_usr_inst, dir_venv, path_reqs)
@@ -383,7 +383,7 @@ class CNInstall:
     # --------------------------------------------------------------------------
     # Check the version installed vs version to be installed
     # --------------------------------------------------------------------------
-    def _check_version(self, path_cfg_uninst):
+    def _compare_version(self, path_cfg_uninst):
         """
         Check the version installed vs version to be installed
         """

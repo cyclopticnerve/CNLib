@@ -50,7 +50,7 @@
     },
     "PUB_DOCS": {
         "DOCS_THEME": "",
-        "DOCS_USE_RM": false,
+        "DOCS_USE_RM": true,
         "DOCS_MAKE_API": true,
         "DOCS_DIR_API": [
             "cnlib"
@@ -74,11 +74,7 @@
                 ".desktop"
             ]
         },
-        "NO_EXT": {
-            "Python": [
-                "cnlib"
-            ]
-        },
+        "NO_EXT": {},
         "WLANGS": [
             "en"
         ],

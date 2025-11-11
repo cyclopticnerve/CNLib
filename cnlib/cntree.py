@@ -15,6 +15,9 @@ checked, unchecked, or indeterminate, according to their child checkboxes'
 values.
 """
 
+# FIXME: only do check event on load if item has no children
+# start bottom up?
+
 # ------------------------------------------------------------------------------
 # Imports
 # ------------------------------------------------------------------------------
