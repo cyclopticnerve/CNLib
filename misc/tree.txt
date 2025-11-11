@@ -11,6 +11,16 @@
    │     ├─ [] cntree.py
    │     └─ [] cnvenv.py
    ├─ [] dist/
+   │     ├─ [] cnlib-0.0.6/
+   │     │     ├─ [] cnlib/
+   │     │     │     ├─ [] cnformatter.py
+   │     │     │     ├─ [] cnfunctions.py
+   │     │     │     ├─ [] cninstall.py
+   │     │     │     ├─ [] cnmkdocs.py
+   │     │     │     ├─ [] cnpot.py
+   │     │     │     ├─ [] cntree.py
+   │     │     │     └─ [] cnvenv.py
+   │     │     └─ [] pyproject.toml
    │     └─ [] cnlib-0.0.6.tar.gz
    ├─ [] docs/
    │     ├─ [] API/
@@ -42,9 +52,7 @@
    │     └─ [] cnlib.png
    ├─ [] misc/
    │     ├─ [] checklists/
-   │     │     ├─ [] checklist.html
-   │     │     ├─ [] checklist.txt
-   │     │     ├─ [] html checklist
+   │     │     ├─ [] project.txt
    │     │     └─ [] style.txt
    │     ├─ [] default_files/
    │     │     ├─ [] class.py

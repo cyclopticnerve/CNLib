@@ -17,7 +17,7 @@ A Python library containing useful functions and classes
 <!-- __RM_SHORT_DESC__ -->
 
 <!-- __RM_VERSION__ -->
-Version 0.0.6
+Version 0.0.7
 <!-- __RM_VERSION__ -->
 
 <!-- __RM_SCREENSHOT__ -->
@@ -102,7 +102,7 @@ $ python -m pip uninstall cnlib
 <!-- __RM_PKG__ -->
 
 ## Documentation
-See the [documentation](https://__PP_AUTHOR__.github.io/__PP_NAME_PRJ_BIG__)
+See the [documentation](https://cyclopticnerve.github.io/CNLib)
 
 ## Developing
 If you are developing this project, make sure you run the "develop.py" script

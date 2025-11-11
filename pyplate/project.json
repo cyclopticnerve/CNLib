@@ -50,7 +50,7 @@
     },
     "PUB_DOCS": {
         "DOCS_THEME": "",
-        "DOCS_USE_RM": true,
+        "DOCS_USE_RM": false,
         "DOCS_MAKE_API": true,
         "DOCS_DIR_API": [
             "cnlib"
@@ -82,7 +82,7 @@
     },
     "PUB_META": {
         "META_SHORT_DESC": "A Python library containing useful functions and classes ",
-        "META_VERSION": "0.0.6",
+        "META_VERSION": "0.0.7",
         "META_KEYWORDS": [
             "python",
             "pyplate",

@@ -6,8 +6,7 @@
 <!-- License : WTFPLv2                                         \          /  -->
 <!----------------------------------------------------------------------------->
 
-![Logo](images/cnlib.png)
-# CNLib
+# ![Logo](images/cnlib.png) CNLib
 
 ## "It mostly works" ™©®
 
@@ -18,7 +17,7 @@ A Python library containing useful functions and classes
 <!-- __RM_SHORT_DESC__ -->
 
 <!-- __RM_VERSION__ -->
-Version 0.0.6
+Version 0.0.7
 <!-- __RM_VERSION__ -->
 
 <!-- __RM_SCREENSHOT__ -->
@@ -30,6 +29,8 @@ Version 0.0.6
 - [Installing](#installing)
 - [Usage](#usage)
 - [Uninstalling](#uninstalling)
+- [Documentation](#documentation)
+- [Developing](#developing)
 - [Notes](#notes)
 
 ## Requirements
@@ -99,6 +100,13 @@ $ . .venv/bin/activate
 $ python -m pip uninstall cnlib
 ```
 <!-- __RM_PKG__ -->
+
+## Documentation
+See the [documentation](https://cyclopticnerve.github.io/CNLib)
+
+## Developing
+If you are developing this project, make sure you run the "develop.py" script
+first to create the proper virtual environment (venv). 
 
 ## Notes
 10/10, no notes.
