@@ -33,7 +33,6 @@ from pathlib import Path
 import re
 import shlex
 import subprocess
-from typing import Any
 
 # ------------------------------------------------------------------------------
 # Constant strings
@@ -484,10 +483,7 @@ def pp(obj, indent_size=4, label=None):
 # ------------------------------------------------------------------------------
 # Update a dictionary with entries from another dict
 # ------------------------------------------------------------------------------
-def combine_dicts(
-    dicts_new: dict[str, Any] | list[dict[str, Any]],
-    dict_old: dict[str, Any] | None = None,
-):
+def combine_dicts(dicts_new, dict_old):
     """
     Update a dictionary with entries from another dict
 
