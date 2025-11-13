@@ -468,7 +468,6 @@
                 <code>dicts_new</code>
             </td>
             <td>
-                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>] | <span title="list">list</span>[<span title="dict">dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -484,7 +483,6 @@
                 <code>dict_old</code>
             </td>
             <td>
-                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>] | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -532,10 +530,7 @@ happen!!!</p>
 
             <details class="quote">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
-              <pre class="highlight"><code class="language-python">def combine_dicts(
-    dicts_new: dict[str, Any] | list[dict[str, Any]],
-    dict_old: dict[str, Any] | None = None,
-):
+              <pre class="highlight"><code class="language-python">def combine_dicts(dicts_new, dict_old=None):
     """
     Update a dictionary with entries from another dict
 

@@ -312,7 +312,6 @@ for internationalizing a Python or PyGObject project.</p>
         dict_no_ext=None,
         list_wlangs=None,
         charset=S_ENCODING,
-        location=True,
     ):
         """
         Initialize the new object
@@ -437,9 +436,6 @@ for internationalizing a Python or PyGObject project.</p>
         if charset is None:
             charset = self.S_ENCODING
         self._charset = charset
-
-        # set location prop
-        self._location = location
 
         # make sure all necessary dirs exist
         self._make_wlang_dirs()
@@ -625,9 +621,6 @@ for internationalizing a Python or PyGObject project.</p>
                 f"-L {clang_name} "
             )
 
-            if not self._location:
-                cmd += "--no-location "
-
             # add all input files
             paths = [f'"{item}" ' for item in clang_files]
             j_paths = "".join(paths)
@@ -755,7 +748,7 @@ for internationalizing a Python or PyGObject project.</p>
 
         # write the LINGUAS file
         linguas_path = self._dir_po / self.S_FILE_LINGUAS
-        with open(linguas_path, "w", encoding="UTF8") as f:
+        with open(linguas_path, "w", encoding=self.S_ENCODING) as f:
             f.write(linguas)
 
     # --------------------------------------------------------------------------
@@ -923,7 +916,7 @@ for internationalizing a Python or PyGObject project.</p>
 
 
 <h3 id="cnlib.cnpot.CNPotPy.__init__" class="doc doc-heading">
-            <code class="highlight language-python">__init__(str_domain, str_version, str_author, str_email, dir_prj, list_src, dir_pot, dir_po, dir_locale, str_tag=None, dict_clangs=None, dict_no_ext=None, list_wlangs=None, charset=S_ENCODING, location=True)</code>
+            <code class="highlight language-python">__init__(str_domain, str_version, str_author, str_email, dir_prj, list_src, dir_pot, dir_po, dir_locale, str_tag=None, dict_clangs=None, dict_no_ext=None, list_wlangs=None, charset=S_ENCODING)</code>
 
 </h3>
 
@@ -1283,7 +1276,6 @@ its properties, and any other code needed to create a new object.</p>
     dict_no_ext=None,
     list_wlangs=None,
     charset=S_ENCODING,
-    location=True,
 ):
     """
     Initialize the new object
@@ -1408,9 +1400,6 @@ its properties, and any other code needed to create a new object.</p>
     if charset is None:
         charset = self.S_ENCODING
     self._charset = charset
-
-    # set location prop
-    self._location = location
 
     # make sure all necessary dirs exist
     self._make_wlang_dirs()</code></pre>
