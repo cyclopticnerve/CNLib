@@ -185,6 +185,7 @@ class CNRunError(Exception):
             f"output: {self.output}"
         )
 
+
 # ------------------------------------------------------------------------------
 # Public methods
 # ------------------------------------------------------------------------------
@@ -897,7 +898,7 @@ def comp_sem_ver(ver_old, ver_new):
     Returns:
         An integer showing the relationship between the two version
 
-    Compare two semantic versions
+    Compare two semantic versions.
     """
 
     # sanity checks
@@ -1026,52 +1027,51 @@ def printc(
     Args:
         *values: A variable number of string arguments
         sep: The string used to join *values (default: ' ')
-        end: The character(s) to print after the *values (default:'\n')
-        file: The file object to print to or, if None, print to stdout
+        end: The character(s) to print after the *values (default:'\\n')
+        file: The file object to print to or, if None, print to stdout \
         (default: None)
-        flush: Whether to force the output buffer to write immediately, rather
-        than waiting for it to fill
-        fg: The foreground color of the text as a C_FG_XXX value (see below).
+        flush: Whether to force the output buffer to write immediately, \
+            rather than waiting for it to fill
+        fg: The foreground color of the text as a C_FG_XXX value (see below). \
         If 0, use default terminal color (default: 0)
-        bg: The background color of the text as a C_FG_XXX value (see below).
+        bg: The background color of the text as a C_FG_XXX value (see below). \
         If 0, use default terminal color (default: 0)
         bold: Whether the text is bold (duh) (default:False)
 
     This function prints something to the console, just like print(), but with
-    COLOR! and BOLD! The first five parameters are EXACTLY the same as print()
-    and the last three are as follows:
+    COLOR! and BOLD!\n
+    The first five parameters are EXACTLY the same as print()
+    and the last three are as follows:\n
+    \n
     fg: The foreground color of the text to print. This can be one of the
-    following values:
-
-    C_FG_NONE (use the terminal default)
-    C_FG_BLACK
-    C_FG_RED
-    C_FG_GREEN
-    C_FG_YELLOW
-    C_FG_BLUE
-    C_FG_MAGENTA
-    C_FG_CYAN
-    C_FG_WHITE
-
+    following values:\n
+    \n
+    C_FG_NONE (use the terminal default)\n
+    C_FG_BLACK\n
+    C_FG_RED\n
+    C_FG_GREEN\n
+    C_FG_YELLOW\n
+    C_FG_BLUE\n
+    C_FG_MAGENTA\n
+    C_FG_CYAN\n
+    C_FG_WHITE\n
+    \n
     bg: The background (or highlight) color of the text to print. This can
-    be one of the following values:
-
-    C_BG_NONE (use the terminal default)
-    C_BG_BLACK
-    C_BG_RED
-    C_BG_GREEN
-    C_BG_YELLOW
-    C_BG_BLUE
-    C_BG_MAGENTA
-    C_BG_CYAN
-    C_BG_WHITE
-
+    be one of the following values:\n
+    \n
+    C_BG_NONE (use the terminal default)\n
+    C_BG_BLACK\n
+    C_BG_RED\n
+    C_BG_GREEN\n
+    C_BG_YELLOW\n
+    C_BG_BLUE\n
+    C_BG_MAGENTA\n
+    C_BG_CYAN\n
+    C_BG_WHITE\n
+    \n
     A note about the background color:\n
     Setting the background color will (almost?) always set the foreground color
-    to white. So no cyan text on a magenta background.\n
-    *sad beeping noises*
-    'my eyes, they bleed...'
-    'DO IT TO JULIAAAAA!!!!!!!!'
+    to white. So no cyan text on a magenta background.
     """
 
     # NB: every option has a unique value and order does not matter
@@ -1096,19 +1096,29 @@ def printc(
     # get open sequence
     color_start = f"\033[{color_val}m"
 
-    # get the string
-    value = sep.join(values)
-
     # get the close sequence (reset fg/bg/bold)
     color_end = "\033[0m"
 
-    # build the final string
-    string = color_start + value + color_end
+    # ------------------------------------------------------------------------------
 
-    # call 'super' (real print) with final string and params
-    # NB: minus sep since we already did the work -)
-    print(string, end=end, file=file, flush=flush)
+    # get the full string
+    value = sep.join(values)
 
+    # split into lines
+    lines = value.split("\n")
+
+    # a list of newline-separated strings in the final string
+    wrapped_lines = []
+
+    # for each string
+    for line in lines:
+        # wrap it and add it to the final string
+        wrapped_lines.append(color_start + line + color_end)
+
+    # rejoin strings uning newline
+    final_str = "\n".join(wrapped_lines)
+
+    print(final_str, sep=sep, end=end, file=file, flush=flush)
 
 # ------------------------------------------------------------------------------
 # Print a string if the debug param is True
