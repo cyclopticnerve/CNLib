@@ -493,6 +493,21 @@
                   <code>None</code>
             </td>
           </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>(default</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>None)</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
       </tbody>
     </table>
 
@@ -538,6 +553,7 @@ happen!!!</p>
         dicts_new: A dictionary or list of dictionaries containing new
         keys/values to be updated in the old dictionary
         dict_old: The dictionary defined as the one to receive updates
+        (default: None)
 
     Returns:
         The updated dict_old, filled with updates from dict_new
@@ -556,6 +572,8 @@ happen!!!</p>
     # default return val
     if dict_old is None:
         dict_old = {}
+    else:
+        dict_old = dict_old.copy()
 
     # sanity checks
     if isinstance(dicts_new, dict):
@@ -684,7 +702,7 @@ happen!!!</p>
           </tr>
       </tbody>
     </table>
-        <p>Compare two semantic versions</p>
+        <p>Compare two semantic versions.</p>
 
 
             <details class="quote">
@@ -700,7 +718,7 @@ happen!!!</p>
     Returns:
         An integer showing the relationship between the two version
 
-    Compare two semantic versions
+    Compare two semantic versions.
     """
 
     # sanity checks
@@ -2196,61 +2214,171 @@ debugging.</p>
 
     <div class="doc doc-contents ">
 
-        <pre><code>Print a string in color
+        <p>Print a string in color</p>
 
-Args:
-    *values: A variable number of string arguments
-    sep: The string used to join *values (default: ' ')
-    end: The character(s) to print after the *values (default:'
-</code></pre>
-<p>')
-        file: The file object to print to or, if None, print to stdout
-        (default: None)
-        flush: Whether to force the output buffer to write immediately, rather
-        than waiting for it to fill
-        fg: The foreground color of the text as a C_FG_XXX value (see below).
-        If 0, use default terminal color (default: 0)
-        bg: The background color of the text as a C_FG_XXX value (see below).
-        If 0, use default terminal color (default: 0)
-        bold: Whether the text is bold (duh) (default:False)</p>
-<pre><code>This function prints something to the console, just like print(), but with
-COLOR! and BOLD! The first five parameters are EXACTLY the same as print()
-and the last three are as follows:
-fg: The foreground color of the text to print. This can be one of the
-following values:
 
-C_FG_NONE (use the terminal default)
-C_FG_BLACK
-C_FG_RED
-C_FG_GREEN
-C_FG_YELLOW
-C_FG_BLUE
-C_FG_MAGENTA
-C_FG_CYAN
-C_FG_WHITE
-
-bg: The background (or highlight) color of the text to print. This can
-be one of the following values:
-
-C_BG_NONE (use the terminal default)
-C_BG_BLACK
-C_BG_RED
-C_BG_GREEN
-C_BG_YELLOW
-C_BG_BLUE
-C_BG_MAGENTA
-C_BG_CYAN
-C_BG_WHITE
-
-A note about the background color:
-
-Setting the background color will (almost?) always set the foreground color
-to white. So no cyan text on a magenta background.
-
-*sad beeping noises*
-'my eyes, they bleed...'
-'DO IT TO JULIAAAAA!!!!!!!!'
-</code></pre>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>*values</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A variable number of string arguments</p>
+              </div>
+            </td>
+            <td>
+                  <code>()</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>sep</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The string used to join *values (default: ' ')</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39; &#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>end</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The character(s) to print after the *values (default:'\n')</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;\n&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>file</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The file object to print to or, if None, print to stdout         (default: None)</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>flush</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Whether to force the output buffer to write immediately,             rather than waiting for it to fill</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>fg</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The foreground color of the text as a C_FG_XXX value (see below).         If 0, use default terminal color (default: 0)</p>
+              </div>
+            </td>
+            <td>
+                  <code>0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>bg</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The background color of the text as a C_FG_XXX value (see below).         If 0, use default terminal color (default: 0)</p>
+              </div>
+            </td>
+            <td>
+                  <code>0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>bold</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Whether the text is bold (duh) (default:False)</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>This function prints something to the console, just like print(), but with
+COLOR! and BOLD!</p>
+<p>The first five parameters are EXACTLY the same as print()
+and the last three are as follows:</p>
+<p>fg: The foreground color of the text to print. This can be one of the
+following values:</p>
+<p>C_FG_NONE (use the terminal default)</p>
+<p>C_FG_BLACK</p>
+<p>C_FG_RED</p>
+<p>C_FG_GREEN</p>
+<p>C_FG_YELLOW</p>
+<p>C_FG_BLUE</p>
+<p>C_FG_MAGENTA</p>
+<p>C_FG_CYAN</p>
+<p>C_FG_WHITE</p>
+<p>bg: The background (or highlight) color of the text to print. This can
+be one of the following values:</p>
+<p>C_BG_NONE (use the terminal default)</p>
+<p>C_BG_BLACK</p>
+<p>C_BG_RED</p>
+<p>C_BG_GREEN</p>
+<p>C_BG_YELLOW</p>
+<p>C_BG_BLUE</p>
+<p>C_BG_MAGENTA</p>
+<p>C_BG_CYAN</p>
+<p>C_BG_WHITE</p>
+<p>A note about the background color:</p>
+<p>Setting the background color will (almost?) always set the foreground color
+to white. So no cyan text on a magenta background.</p>
 
 
             <details class="quote">
@@ -2264,52 +2392,51 @@ to white. So no cyan text on a magenta background.
     Args:
         *values: A variable number of string arguments
         sep: The string used to join *values (default: ' ')
-        end: The character(s) to print after the *values (default:'\n')
-        file: The file object to print to or, if None, print to stdout
+        end: The character(s) to print after the *values (default:'\\n')
+        file: The file object to print to or, if None, print to stdout \
         (default: None)
-        flush: Whether to force the output buffer to write immediately, rather
-        than waiting for it to fill
-        fg: The foreground color of the text as a C_FG_XXX value (see below).
+        flush: Whether to force the output buffer to write immediately, \
+            rather than waiting for it to fill
+        fg: The foreground color of the text as a C_FG_XXX value (see below). \
         If 0, use default terminal color (default: 0)
-        bg: The background color of the text as a C_FG_XXX value (see below).
+        bg: The background color of the text as a C_FG_XXX value (see below). \
         If 0, use default terminal color (default: 0)
         bold: Whether the text is bold (duh) (default:False)
 
     This function prints something to the console, just like print(), but with
-    COLOR! and BOLD! The first five parameters are EXACTLY the same as print()
-    and the last three are as follows:
+    COLOR! and BOLD!\n
+    The first five parameters are EXACTLY the same as print()
+    and the last three are as follows:\n
+    \n
     fg: The foreground color of the text to print. This can be one of the
-    following values:
-
-    C_FG_NONE (use the terminal default)
-    C_FG_BLACK
-    C_FG_RED
-    C_FG_GREEN
-    C_FG_YELLOW
-    C_FG_BLUE
-    C_FG_MAGENTA
-    C_FG_CYAN
-    C_FG_WHITE
-
+    following values:\n
+    \n
+    C_FG_NONE (use the terminal default)\n
+    C_FG_BLACK\n
+    C_FG_RED\n
+    C_FG_GREEN\n
+    C_FG_YELLOW\n
+    C_FG_BLUE\n
+    C_FG_MAGENTA\n
+    C_FG_CYAN\n
+    C_FG_WHITE\n
+    \n
     bg: The background (or highlight) color of the text to print. This can
-    be one of the following values:
-
-    C_BG_NONE (use the terminal default)
-    C_BG_BLACK
-    C_BG_RED
-    C_BG_GREEN
-    C_BG_YELLOW
-    C_BG_BLUE
-    C_BG_MAGENTA
-    C_BG_CYAN
-    C_BG_WHITE
-
+    be one of the following values:\n
+    \n
+    C_BG_NONE (use the terminal default)\n
+    C_BG_BLACK\n
+    C_BG_RED\n
+    C_BG_GREEN\n
+    C_BG_YELLOW\n
+    C_BG_BLUE\n
+    C_BG_MAGENTA\n
+    C_BG_CYAN\n
+    C_BG_WHITE\n
+    \n
     A note about the background color:\n
     Setting the background color will (almost?) always set the foreground color
-    to white. So no cyan text on a magenta background.\n
-    *sad beeping noises*
-    'my eyes, they bleed...'
-    'DO IT TO JULIAAAAA!!!!!!!!'
+    to white. So no cyan text on a magenta background.
     """
 
     # NB: every option has a unique value and order does not matter
@@ -2334,18 +2461,29 @@ to white. So no cyan text on a magenta background.
     # get open sequence
     color_start = f"\033[{color_val}m"
 
-    # get the string
-    value = sep.join(values)
-
     # get the close sequence (reset fg/bg/bold)
     color_end = "\033[0m"
 
-    # build the final string
-    string = color_start + value + color_end
+    # ------------------------------------------------------------------------------
 
-    # call 'super' (real print) with final string and params
-    # NB: minus sep since we already did the work -)
-    print(string, end=end, file=file, flush=flush)</code></pre>
+    # get the full string
+    value = sep.join(values)
+
+    # split into lines
+    lines = value.split("\n")
+
+    # a list of newline-separated strings in the final string
+    wrapped_lines = []
+
+    # for each string
+    for line in lines:
+        # wrap it and add it to the final string
+        wrapped_lines.append(color_start + line + color_end)
+
+    # rejoin strings uning newline
+    final_str = "\n".join(wrapped_lines)
+
+    print(final_str, sep=sep, end=end, file=file, flush=flush)</code></pre>
             </details>
     </div>
 
