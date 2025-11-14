@@ -484,7 +484,7 @@ def pp(obj, indent_size=4, label=None):
 # ------------------------------------------------------------------------------
 # Update a dictionary with entries from another dict
 # ------------------------------------------------------------------------------
-def combine_dicts(dicts_new, dict_old=None):
+def combine_dicts(dicts_new, dict_old=None, combine_lists=False):
     """
     Update a dictionary with entries from another dict
 
@@ -515,7 +515,7 @@ def combine_dicts(dicts_new, dict_old=None):
         dict_old = dict_old.copy()
 
     # sanity checks
-    if isinstance(dicts_new, dict):
+    if not isinstance(dicts_new, list):
         dicts_new = [dicts_new]
     if len(dicts_new) == 0:
         return dict_old
@@ -542,13 +542,13 @@ def combine_dicts(dicts_new, dict_old=None):
 
             # if the value is a list
             if isinstance(v, list):
-                list_old = dict_old[k]
-                # append any new items
-                for list_item in v:
-                    list_old.append(list_item)
 
-                # remove dups while preserving order
-                list_old = dict.fromkeys(list_old)
+                # combine lists with no dups
+                if combine_lists:
+                    dict_old[k] = list(set(v + dict_old[k]))
+                # new list overwrites old list
+                else:
+                    dict_old[k] = v
                 continue
 
             # if the value is not a dict or a list
@@ -667,7 +667,7 @@ def load_dicts(paths, start_dict=None):
     """
 
     # sanity check
-    if isinstance(paths, (str, Path)):
+    if not isinstance(paths, list):
         paths = [paths]
 
     # set the default result
@@ -1115,7 +1115,7 @@ def printc(
         # wrap it and add it to the final string
         wrapped_lines.append(color_start + line + color_end)
 
-    # rejoin strings uning newline
+    # rejoin strings using newline
     final_str = "\n".join(wrapped_lines)
 
     print(final_str, sep=sep, end=end, file=file, flush=flush)

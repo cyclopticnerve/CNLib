@@ -1,2 +1,12 @@
 tree/
-└─ tree.py
+├─ foo/
+│  ├─ foo1/
+│  │  └─ foo1.txt
+│  ├─ foo2/
+│  │  └─ foo3/
+   └─ foo3.txt
+│  ├─ bar.txt
+│  └─ bar1.txt
+├─ tree.html
+├─ tree.py
+└─ tree.txt
