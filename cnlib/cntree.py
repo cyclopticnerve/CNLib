@@ -17,6 +17,23 @@ values.
 
 # FIXME: only do check event on load if item has no children
 # start bottom up?
+# FIXME: add empty line between sibling dirs
+# project_name/
+# │
+# ├── README.md
+# ├── setup.py
+# ├── requirements.txt
+# │
+# ├── src/
+# │   ├── __init__.py
+# │   ├── module1.py
+# │   └── module2.py
+# │
+# └── tests/
+#     ├── __init__.py
+#     ├── test_module1.py
+#     └── test_module2.py
+
 
 # ------------------------------------------------------------------------------
 # Imports
@@ -257,6 +274,8 @@ class CNTree:
         dir_format="",
         file_format="",
         dirs_only=False,
+        sort=True,
+        sort_files=False,
         ignore_case=True,
         css=None,
     ):
@@ -345,6 +364,8 @@ class CNTree:
 
         self._dirs_only = dirs_only
         self._ignore_case = ignore_case
+        self._sort = sort
+        self._sort_files = sort_files
 
         if not css:
             self._css = self.S_DEF_CSS
@@ -354,9 +375,11 @@ class CNTree:
         self._dir_lead = ""
         self._sort_order = {}
         self._tree = []
+        self.text = ""
+
+        # html stuff
         self._level = 4  # indent level for html
         self._id = ""  # build a unique id for entries (dot separated path)
-        self.text = ""
         self.html = ""
 
     # --------------------------------------------------------------------------
@@ -464,7 +487,11 @@ class CNTree:
         # false(0) above a true(1), so an item that is NOT a file (ie. a dir,
         # and thus a 0), will be placed above an item that IS a file (and thus
         # a 1)
-        items.sort(key=lambda item: item.is_file())
+        if self._sort:
+            if not self._sort_files:
+                items.sort(key=lambda item: item.is_file())
+            else:
+                items.sort(key=lambda item: item.is_dir())
 
         # remove the filtered paths
         items = [item for item in items if item not in self._filter_list]
@@ -478,7 +505,7 @@ class CNTree:
         count = len(items)
 
         # for each entry
-        for index, item in enumerate(items):
+        for index, an_item in enumerate(items):
 
             # get the type of connector based on position in enum
             connector = (
@@ -488,52 +515,51 @@ class CNTree:
             )
 
             # get format string based on whether it is a dir or file
-            fmt = self._dir_format if item.is_dir() else self._file_format
+            fmt = self._dir_format if an_item.is_dir() else self._file_format
 
             # replace name in format string
-            rep_name = fmt.replace(self.S_FORMAT_NAME, item.name)
+            rep_name = fmt.replace(self.S_FORMAT_NAME, an_item.name)
 
             # add the item to the tree
             self._tree.append(
                 f"{self._root_lead}{prefix}{connector}{rep_name}"
             )
 
-            # increase indent
-            indent = self.S_HTML_INDENT * self._level
-            self._level += 1
-
             # increase id level
-            self._id += "." + item.name
+            self._id += "." + an_item.name
+
+            # increase indent
+            self._level += 1
+            indent = self.S_HTML_INDENT * self._level
 
             # add the item to the tree
             self.html += self.S_ENTRY_OPEN.format(rep_name, indent, self._id)
 
             # if item is a dir
-            if item.is_dir():
+            if an_item.is_dir():
 
+                # --------------------------------------------------------------
                 # need a fresh prefix for recursion
-                prefix_dir = (
-                    prefix + self.S_PREFIX_VERT
+                new_prefix = (
+                    self.S_PREFIX_VERT
                     if index < (count - 1)
                     else self.S_PREFIX_NONE
                 )
+                new_prefix += self._dir_lead
 
-                # add some spacing
-                prefix_dir += self._dir_lead
-
-                # indent again
-                self._level += 1
+                # get whole prefix for next recurse
+                prefix += new_prefix
 
                 # recurse with dir and new prefix
-                self._add_contents(item, prefix_dir)
+                self._add_contents(an_item, prefix)
 
-                # unindent html
-                self._level -= 1
+                # remove new_prefix
+                prefix = prefix[len(new_prefix) :]
 
-            # possibly back from recursion
+            # ------------------------------------------------------------------
 
             # back up id from previous level (+1 for dot)
-            self._id = self._id[: -(len(item.name) + 1)]
+            self._id = self._id[: -(len(an_item.name) + 1)]
 
             # unindent for html
             self._level -= 1
@@ -663,7 +689,6 @@ class CNTree:
 
         Returns:
             The index of the sorted item
-
         """
 
         # check if we need to lowercase based on the build_tree param
@@ -679,5 +704,28 @@ class CNTree:
         # False, uppercase will always take precedence over lowercase (at least
         # in en_US str.printable, again YMMV)
         return [self._sort_order.get(char, ord(char)) for char in tmp_item]
+
+
+# ------------------------------------------------------------------------------
+# Code to run when called from command line
+# ------------------------------------------------------------------------------
+if __name__ == "__main__":
+    # Code to run when called from command line
+
+    # This is the top level code of the program, called when the Python file is
+    # invoked from the command line.
+
+    dir2 = Path(__file__).parents[1]
+    dir2 = dir2 / "tests"
+    t = CNTree(
+        dir2,
+        dir_format=" [] $NAME/",
+        file_format=" [] $NAME",
+        filter_list=["**/__pycache__"],
+        sort=False,
+        sort_files=True,
+    )
+    t.main()
+    print(t.text)
 
 # -)
