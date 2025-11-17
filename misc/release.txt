@@ -1,5 +1,6 @@
 1. Run PB on CNLib
-    1a. Change version
+    1a. activate pyplate venv
+    1b. Change version
 
 2. Commit/Push
     2a. Tag local/remote

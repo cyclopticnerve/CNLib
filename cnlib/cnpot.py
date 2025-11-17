@@ -665,6 +665,7 @@ class CNPotPy:
                 dict_res_src[clang].extend(files)
 
             # add them all up
+            # FIXME: change this
             scan_all = F.combine_dicts(dict_res_src, scan_all)
 
         # return result

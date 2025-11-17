@@ -691,6 +691,7 @@ def load_dicts(paths, start_dict=None):
                 new_dict = json.load(a_file)
 
                 # combine new dict with previous
+                # FIXME: change this
                 start_dict = combine_dicts([new_dict], start_dict)
 
         # file not found
