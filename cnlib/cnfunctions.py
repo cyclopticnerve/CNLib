@@ -484,7 +484,7 @@ def pp(obj, indent_size=4, label=None):
 # ------------------------------------------------------------------------------
 # Update a dictionary with entries from another dict
 # ------------------------------------------------------------------------------
-def combine_dicts(dicts_new, dict_old=None, combine_lists=False):
+def combine_dicts(dicts_new, dict_old=None):
     """
     Update a dictionary with entries from another dict
 
@@ -504,7 +504,7 @@ def combine_dicts(dicts_new, dict_old=None, combine_lists=False):
     *NOTE: This function DOES NOT test for type mismatches in values for
     matching keys!!!
     So if a new dict has a key of "A" and a value of type "str", and the old
-    dict has a key of "A" with a value of type "list", bad things will
+    dict has a key of "A" with a value of type "int", bad things will
     happen!!!
     """
 
@@ -512,7 +512,7 @@ def combine_dicts(dicts_new, dict_old=None, combine_lists=False):
     if dict_old is None:
         dict_old = {}
     else:
-        dict_old = dict_old.copy()
+        dict_old = dict(dict_old)
 
     # sanity checks
     if not isinstance(dicts_new, list):
@@ -526,29 +526,11 @@ def combine_dicts(dicts_new, dict_old=None, combine_lists=False):
         # for each k,v pair in dict_new
         for k, v in dict_new.items():
 
-            # copy whole value if key is missing
-            if not k in dict_old:
-                dict_old[k] = v
-                continue
-
-            # if the key is present in both, check for type
-
             # if the value is a dict
             if isinstance(v, dict):
-                # start recursing
                 # recurse using the current key and value
-                dict_old[k] = combine_dicts(v, dict_old[k])
-                continue
-
-            # if the value is a list
-            if isinstance(v, list):
-
-                # combine lists with no dups
-                if combine_lists:
-                    dict_old[k] = list(set(v + dict_old[k]))
-                # new list overwrites old list
-                else:
-                    dict_old[k] = v
+                dict_old[k] = combine_dicts(v, dict_old.get(k, None))
+                # dict_old[k] = combine_dicts(v, dict_old[k])
                 continue
 
             # if the value is not a dict or a list
@@ -691,8 +673,7 @@ def load_dicts(paths, start_dict=None):
                 new_dict = json.load(a_file)
 
                 # combine new dict with previous
-                # FIXME: change this
-                start_dict = combine_dicts([new_dict], start_dict)
+                start_dict = combine_dicts(new_dict, start_dict)
 
         # file not found
         except FileNotFoundError as e:
@@ -723,9 +704,11 @@ def save_dict(a_dict, paths):
     Save the dictionary to a file at all the specified locations.
     """
 
-    # sanity check
-    if isinstance(paths, (str, Path)):
+    # sanity checks
+    if not isinstance(paths, list):
         paths = [paths]
+    if len(paths) == 0:
+        return
 
     # loop through possible files
     for path in paths:
@@ -821,68 +804,6 @@ def dialog(
         # no loop, return blank
         if not loop:
             return ""
-
-
-# ------------------------------------------------------------------------------
-# Convert items in blacklist to absolute Path objects
-# ------------------------------------------------------------------------------
-def fix_globs(dir_start, dict_in):
-    """
-    Convert items in blacklist to absolute Path objects
-
-    Args:
-        dict_in: the dictionary with glob strings
-
-    Returns:
-        A dictionary of Path objects representing the globs
-
-    Get absolute paths for all entries in the blacklist.
-    """
-
-    # the un-globbed dict to return
-    result = {}
-    dir_start = Path(dir_start)
-
-    # make a copy and remove path separators in one shot
-    # NB: this is mostly for glob support, as globs cannot end in path
-    # separators
-    for key, val in dict_in.items():
-        dict_in[key] = [item.rstrip("/") for item in val]
-
-    # support for absolute/relative/glob
-    # NB: adapted from cntree.py
-
-    # for each section of blacklist
-    for key, val in dict_in.items():
-
-        # convert all items in list to Path objects
-        paths = [Path(item) for item in val]
-
-        # move absolute paths to one list
-        abs_paths = [item for item in paths if item.is_absolute()]
-
-        # move relative/glob paths to another list
-        other_paths = [item for item in paths if not item.is_absolute()]
-
-        # convert relative/glob paths back to strings
-        other_strings = [str(item) for item in other_paths]
-
-        # get glob results as generators
-        glob_results = [dir_start.rglob(item) for item in other_strings]
-
-        # start with absolutes
-        new_val = abs_paths
-
-        # for each generator
-        for item in glob_results:
-            # add results as whole shebang
-            new_val += list(item)
-
-        # set the list as the result list
-        result[key] = new_val
-
-    # return the un-globbed dict
-    return result
 
 
 # ------------------------------------------------------------------------------
@@ -1120,6 +1041,7 @@ def printc(
     final_str = "\n".join(wrapped_lines)
 
     print(final_str, sep=sep, end=end, file=file, flush=flush)
+
 
 # ------------------------------------------------------------------------------
 # Print a string if the debug param is True

@@ -15,9 +15,9 @@ checked, unchecked, or indeterminate, according to their child checkboxes'
 values.
 """
 
-# FIXME: only do check event on load if item has no children
+# TODO: only do check event on load if item has no children
 # start bottom up?
-# FIXME: add empty line between sibling dirs
+# TODO: add empty line between sibling dirs
 # project_name/
 # │
 # ├── README.md
@@ -303,22 +303,8 @@ class CNTree:
 
         If start_dir == "", the current directory is used.
 
-        Items in the filter list will be skipped. These items can be absolute or
-        relative directory or file paths, or a glob.
-
-        Example:
-
-            filter_list = ["Foo/bar.txt", "Foo"]
-
-        An entry of "Foo/bar.txt" will skip a file with the absolute path
-        "\\<start dir\\>/Foo/bar.txt".
-
-        An entry of "Foo" (if it points to a directory) will skip a
-        directory with the absolute path "\\<start dir\\>/Foo/" and
-        everything under it.
-
-        Globs are also acceptable, see
-        https://docs.python.org/3/library/pathlib.html#pathlib.Path.glob
+        Items in the filter list will be skipped. These items can be relative
+        paths, or globs.
 
         The format strings for directory and file names will have the value
         of "fmt_name" replaced by the directory or file name.
@@ -576,39 +562,19 @@ class CNTree:
         Gets the filter_list from paths or globs
 
         Converts entries in filter_list to absolute Path objects relative
-        to start_dir. Globs are acceptable, see
-        https://docs.python.org/3/library/pathlib.html#pathlib.Path.globs
+        to start_dir. Globs are acceptable.
         """
 
         # sanity check
         if self._filter_list is None:
             return
 
-        # convert all items in filter_list to Path objects
-        filter_paths = [Path(item) for item in self._filter_list]
+        list_filter = []
+        for item in self._filter_list:
+            res = list(self._start_dir.glob(item))
+            list_filter.extend(res)
 
-        # move absolute paths to one list
-        absolute_paths = [item for item in filter_paths if item.is_absolute()]
-
-        # move non-absolute paths (assume globs) to another list
-        other_paths = [item for item in filter_paths if not item.is_absolute()]
-
-        # convert glob/relative path objects back to strings
-        other_strings = [str(item) for item in other_paths]
-
-        # get glob results as generators
-        glob_results = [self._start_dir.rglob(item) for item in other_strings]
-
-        # start with absolutes
-        result = absolute_paths
-
-        # for each generator
-        for item in glob_results:
-            # add results as whole shebang
-            result += list(item)
-
-        # set the filter list as the class filter list
-        self._filter_list = result
+        self._filter_list = list_filter
 
     # --------------------------------------------------------------------------
     # Gets the leads (extra spaces) before each entry in the tree

@@ -15,4 +15,6 @@
     4c. Update template/gui/requirements.txt
     4d. pip uninstall cnlib
     4e. pip install -r requirements.txt
+    or
+    4e. pip install -e ../CNLib
     
