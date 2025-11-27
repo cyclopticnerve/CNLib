@@ -249,7 +249,7 @@ class CNPotPy:
         # fix up list_wlangs
         if list_wlangs is None:
             list_wlangs = []
-        self._list_wlangs = dict(list_wlangs)
+        self._list_wlangs = list(list_wlangs)
 
         # fix up charset
         if charset is None:
@@ -624,7 +624,7 @@ class CNPotPy:
                 for abs_src in abs_srcs:
 
                     # get matching files and add to list
-                    files = list(abs_src.rglob(ext, case_sensitive=False))
+                    files = list(abs_src.glob(ext, case_sensitive=False))
                     list_clang.extend(files)
 
             # assign the final list to the key in dict_clangs
@@ -644,7 +644,7 @@ class CNPotPy:
                 for abs_src in abs_srcs:
 
                     # get matching files and add to list
-                    files = list(abs_src.rglob(name, case_sensitive=False))
+                    files = list(abs_src.glob(name, case_sensitive=False))
                     list_no_ext.extend(files)
             # get all paths that match file name
             # NB: the is_file() check here is to make sure we only add
