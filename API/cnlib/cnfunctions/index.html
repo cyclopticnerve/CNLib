@@ -143,10 +143,6 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.fix_globs" class="nav-link">fix_globs</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
             <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.load_dicts" class="nav-link">load_dicts</a>
               <ul class="nav flex-column">
               </ul>
@@ -249,7 +245,7 @@
               </td>
             </tr>
             <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="combine_dicts(dicts_new, dict_old=None, combine_lists=False) (cnlib.cnfunctions.combine_dicts)" href="#cnlib.cnfunctions.combine_dicts">combine_dicts</a></code></td>
+              <td><code><a class="autorefs autorefs-internal" title="combine_dicts(dicts_new, dict_old=None) (cnlib.cnfunctions.combine_dicts)" href="#cnlib.cnfunctions.combine_dicts">combine_dicts</a></code></td>
               <td>
                 <div class="doc-md-description">
                   <p>Update a dictionary with one or more dictionaries</p>
@@ -442,7 +438,7 @@
 
 
 <h2 id="cnlib.cnfunctions.combine_dicts" class="doc doc-heading">
-            <code class="highlight language-python">combine_dicts(dicts_new, dict_old=None, combine_lists=False)</code>
+            <code class="highlight language-python">combine_dicts(dicts_new, dict_old=None)</code>
 
 </h2>
 
@@ -539,13 +535,13 @@ as a value will be handled correctly.
 *NOTE: This function DOES NOT test for type mismatches in values for
 matching keys!!!
 So if a new dict has a key of "A" and a value of type "str", and the old
-dict has a key of "A" with a value of type "list", bad things will
+dict has a key of "A" with a value of type "int", bad things will
 happen!!!</p>
 
 
             <details class="quote">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
-              <pre class="highlight"><code class="language-python">def combine_dicts(dicts_new, dict_old=None, combine_lists=False):
+              <pre class="highlight"><code class="language-python">def combine_dicts(dicts_new, dict_old=None):
     """
     Update a dictionary with entries from another dict
 
@@ -565,7 +561,7 @@ happen!!!</p>
     *NOTE: This function DOES NOT test for type mismatches in values for
     matching keys!!!
     So if a new dict has a key of "A" and a value of type "str", and the old
-    dict has a key of "A" with a value of type "list", bad things will
+    dict has a key of "A" with a value of type "int", bad things will
     happen!!!
     """
 
@@ -573,7 +569,7 @@ happen!!!</p>
     if dict_old is None:
         dict_old = {}
     else:
-        dict_old = dict_old.copy()
+        dict_old = dict(dict_old)
 
     # sanity checks
     if not isinstance(dicts_new, list):
@@ -587,29 +583,11 @@ happen!!!</p>
         # for each k,v pair in dict_new
         for k, v in dict_new.items():
 
-            # copy whole value if key is missing
-            if not k in dict_old:
-                dict_old[k] = v
-                continue
-
-            # if the key is present in both, check for type
-
             # if the value is a dict
             if isinstance(v, dict):
-                # start recursing
                 # recurse using the current key and value
-                dict_old[k] = combine_dicts(v, dict_old[k])
-                continue
-
-            # if the value is a list
-            if isinstance(v, list):
-
-                # combine lists with no dups
-                if combine_lists:
-                    dict_old[k] = list(set(v + dict_old[k]))
-                # new list overwrites old list
-                else:
-                    dict_old[k] = v
+                dict_old[k] = combine_dicts(v, dict_old.get(k, None))
+                # dict_old[k] = combine_dicts(v, dict_old[k])
                 continue
 
             # if the value is not a dict or a list
@@ -1430,137 +1408,6 @@ response or the dialog will loop forever.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="cnlib.cnfunctions.fix_globs" class="doc doc-heading">
-            <code class="highlight language-python">fix_globs(dir_start, dict_in)</code>
-
-</h2>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Convert items in blacklist to absolute Path objects</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>dict_in</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>the dictionary with glob strings</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>A dictionary of Path objects representing the globs</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-        <p>Get absolute paths for all entries in the blacklist.</p>
-
-
-            <details class="quote">
-              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
-              <pre class="highlight"><code class="language-python">def fix_globs(dir_start, dict_in):
-    """
-    Convert items in blacklist to absolute Path objects
-
-    Args:
-        dict_in: the dictionary with glob strings
-
-    Returns:
-        A dictionary of Path objects representing the globs
-
-    Get absolute paths for all entries in the blacklist.
-    """
-
-    # the un-globbed dict to return
-    result = {}
-    dir_start = Path(dir_start)
-
-    # make a copy and remove path separators in one shot
-    # NB: this is mostly for glob support, as globs cannot end in path
-    # separators
-    for key, val in dict_in.items():
-        dict_in[key] = [item.rstrip("/") for item in val]
-
-    # support for absolute/relative/glob
-    # NB: adapted from cntree.py
-
-    # for each section of blacklist
-    for key, val in dict_in.items():
-
-        # convert all items in list to Path objects
-        paths = [Path(item) for item in val]
-
-        # move absolute paths to one list
-        abs_paths = [item for item in paths if item.is_absolute()]
-
-        # move relative/glob paths to another list
-        other_paths = [item for item in paths if not item.is_absolute()]
-
-        # convert relative/glob paths back to strings
-        other_strings = [str(item) for item in other_paths]
-
-        # get glob results as generators
-        glob_results = [dir_start.rglob(item) for item in other_strings]
-
-        # start with absolutes
-        new_val = abs_paths
-
-        # for each generator
-        for item in glob_results:
-            # add results as whole shebang
-            new_val += list(item)
-
-        # set the list as the result list
-        result[key] = new_val
-
-    # return the un-globbed dict
-    return result</code></pre>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
 <h2 id="cnlib.cnfunctions.load_dicts" class="doc doc-heading">
             <code class="highlight language-python">load_dicts(paths, start_dict=None)</code>
 
@@ -1709,7 +1556,7 @@ response or the dialog will loop forever.</p>
                 new_dict = json.load(a_file)
 
                 # combine new dict with previous
-                start_dict = combine_dicts([new_dict], start_dict)
+                start_dict = combine_dicts(new_dict, start_dict)
 
         # file not found
         except FileNotFoundError as e:
@@ -2832,9 +2679,11 @@ also combines FileNotFoundError and CalledProcessError into one CNRunError.</p>
     Save the dictionary to a file at all the specified locations.
     """
 
-    # sanity check
-    if isinstance(paths, (str, Path)):
+    # sanity checks
+    if not isinstance(paths, list):
         paths = [paths]
+    if len(paths) == 0:
+        return
 
     # loop through possible files
     for path in paths:

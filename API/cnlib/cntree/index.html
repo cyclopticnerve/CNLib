@@ -435,6 +435,8 @@ stdout or a file.</p>
         dir_format="",
         file_format="",
         dirs_only=False,
+        sort=True,
+        sort_files=False,
         ignore_case=True,
         css=None,
     ):
@@ -462,22 +464,8 @@ stdout or a file.</p>
 
         If start_dir == "", the current directory is used.
 
-        Items in the filter list will be skipped. These items can be absolute or
-        relative directory or file paths, or a glob.
-
-        Example:
-
-            filter_list = ["Foo/bar.txt", "Foo"]
-
-        An entry of "Foo/bar.txt" will skip a file with the absolute path
-        "\\&lt;start dir\\&gt;/Foo/bar.txt".
-
-        An entry of "Foo" (if it points to a directory) will skip a
-        directory with the absolute path "\\&lt;start dir\\&gt;/Foo/" and
-        everything under it.
-
-        Globs are also acceptable, see
-        https://docs.python.org/3/library/pathlib.html#pathlib.Path.glob
+        Items in the filter list will be skipped. These items can be relative
+        paths, or globs.
 
         The format strings for directory and file names will have the value
         of "fmt_name" replaced by the directory or file name.
@@ -523,6 +511,8 @@ stdout or a file.</p>
 
         self._dirs_only = dirs_only
         self._ignore_case = ignore_case
+        self._sort = sort
+        self._sort_files = sort_files
 
         if not css:
             self._css = self.S_DEF_CSS
@@ -532,9 +522,11 @@ stdout or a file.</p>
         self._dir_lead = ""
         self._sort_order = {}
         self._tree = []
+        self.text = ""
+
+        # html stuff
         self._level = 4  # indent level for html
         self._id = ""  # build a unique id for entries (dot separated path)
-        self.text = ""
         self.html = ""
 
     # --------------------------------------------------------------------------
@@ -642,7 +634,11 @@ stdout or a file.</p>
         # false(0) above a true(1), so an item that is NOT a file (ie. a dir,
         # and thus a 0), will be placed above an item that IS a file (and thus
         # a 1)
-        items.sort(key=lambda item: item.is_file())
+        if self._sort:
+            if not self._sort_files:
+                items.sort(key=lambda item: item.is_file())
+            else:
+                items.sort(key=lambda item: item.is_dir())
 
         # remove the filtered paths
         items = [item for item in items if item not in self._filter_list]
@@ -656,7 +652,7 @@ stdout or a file.</p>
         count = len(items)
 
         # for each entry
-        for index, item in enumerate(items):
+        for index, an_item in enumerate(items):
 
             # get the type of connector based on position in enum
             connector = (
@@ -666,52 +662,51 @@ stdout or a file.</p>
             )
 
             # get format string based on whether it is a dir or file
-            fmt = self._dir_format if item.is_dir() else self._file_format
+            fmt = self._dir_format if an_item.is_dir() else self._file_format
 
             # replace name in format string
-            rep_name = fmt.replace(self.S_FORMAT_NAME, item.name)
+            rep_name = fmt.replace(self.S_FORMAT_NAME, an_item.name)
 
             # add the item to the tree
             self._tree.append(
                 f"{self._root_lead}{prefix}{connector}{rep_name}"
             )
 
-            # increase indent
-            indent = self.S_HTML_INDENT * self._level
-            self._level += 1
-
             # increase id level
-            self._id += "." + item.name
+            self._id += "." + an_item.name
+
+            # increase indent
+            self._level += 1
+            indent = self.S_HTML_INDENT * self._level
 
             # add the item to the tree
             self.html += self.S_ENTRY_OPEN.format(rep_name, indent, self._id)
 
             # if item is a dir
-            if item.is_dir():
+            if an_item.is_dir():
 
+                # --------------------------------------------------------------
                 # need a fresh prefix for recursion
-                prefix_dir = (
-                    prefix + self.S_PREFIX_VERT
+                new_prefix = (
+                    self.S_PREFIX_VERT
                     if index &lt; (count - 1)
                     else self.S_PREFIX_NONE
                 )
+                new_prefix += self._dir_lead
 
-                # add some spacing
-                prefix_dir += self._dir_lead
-
-                # indent again
-                self._level += 1
+                # get whole prefix for next recurse
+                prefix += new_prefix
 
                 # recurse with dir and new prefix
-                self._add_contents(item, prefix_dir)
+                self._add_contents(an_item, prefix)
 
-                # unindent html
-                self._level -= 1
+                # remove new_prefix
+                prefix = prefix[len(new_prefix) :]
 
-            # possibly back from recursion
+            # ------------------------------------------------------------------
 
             # back up id from previous level (+1 for dot)
-            self._id = self._id[: -(len(item.name) + 1)]
+            self._id = self._id[: -(len(an_item.name) + 1)]
 
             # unindent for html
             self._level -= 1
@@ -728,39 +723,19 @@ stdout or a file.</p>
         Gets the filter_list from paths or globs
 
         Converts entries in filter_list to absolute Path objects relative
-        to start_dir. Globs are acceptable, see
-        https://docs.python.org/3/library/pathlib.html#pathlib.Path.globs
+        to start_dir. Globs are acceptable.
         """
 
         # sanity check
         if self._filter_list is None:
             return
 
-        # convert all items in filter_list to Path objects
-        filter_paths = [Path(item) for item in self._filter_list]
+        list_filter = []
+        for item in self._filter_list:
+            res = list(self._start_dir.glob(item))
+            list_filter.extend(res)
 
-        # move absolute paths to one list
-        absolute_paths = [item for item in filter_paths if item.is_absolute()]
-
-        # move non-absolute paths (assume globs) to another list
-        other_paths = [item for item in filter_paths if not item.is_absolute()]
-
-        # convert glob/relative path objects back to strings
-        other_strings = [str(item) for item in other_paths]
-
-        # get glob results as generators
-        glob_results = [self._start_dir.rglob(item) for item in other_strings]
-
-        # start with absolutes
-        result = absolute_paths
-
-        # for each generator
-        for item in glob_results:
-            # add results as whole shebang
-            result += list(item)
-
-        # set the filter list as the class filter list
-        self._filter_list = result
+        self._filter_list = list_filter
 
     # --------------------------------------------------------------------------
     # Gets the leads (extra spaces) before each entry in the tree
@@ -841,7 +816,6 @@ stdout or a file.</p>
 
         Returns:
             The index of the sorted item
-
         """
 
         # check if we need to lowercase based on the build_tree param
@@ -875,7 +849,7 @@ stdout or a file.</p>
 
 
 <h3 id="cnlib.cntree.CNTree.__init__" class="doc doc-heading">
-            <code class="highlight language-python">__init__(start_dir, filter_list=None, fmt_name='', dir_format='', file_format='', dirs_only=False, ignore_case=True, css=None)</code>
+            <code class="highlight language-python">__init__(start_dir, filter_list=None, fmt_name='', dir_format='', file_format='', dirs_only=False, sort=True, sort_files=False, ignore_case=True, css=None)</code>
 
 </h3>
 
@@ -994,18 +968,8 @@ object, but MUST point to a directory.</p>
 <p>If start_dir does not point to a directory, an OSError will be raised.</p>
 <p>If start_dir == None, an OSError will be raised.</p>
 <p>If start_dir == "", the current directory is used.</p>
-<p>Items in the filter list will be skipped. These items can be absolute or
-relative directory or file paths, or a glob.</p>
-<p>Example:</p>
-<pre><code>filter_list = ["Foo/bar.txt", "Foo"]
-</code></pre>
-<p>An entry of "Foo/bar.txt" will skip a file with the absolute path
-"\&lt;start dir&gt;/Foo/bar.txt".</p>
-<p>An entry of "Foo" (if it points to a directory) will skip a
-directory with the absolute path "\&lt;start dir&gt;/Foo/" and
-everything under it.</p>
-<p>Globs are also acceptable, see
-https://docs.python.org/3/library/pathlib.html#pathlib.Path.glob</p>
+<p>Items in the filter list will be skipped. These items can be relative
+paths, or globs.</p>
 <p>The format strings for directory and file names will have the value
 of "fmt_name" replaced by the directory or file name.</p>
 <p>Example: (assuming "fmt_name" is set to "$NAME")</p>
@@ -1031,6 +995,8 @@ new object.</p>
     dir_format="",
     file_format="",
     dirs_only=False,
+    sort=True,
+    sort_files=False,
     ignore_case=True,
     css=None,
 ):
@@ -1058,22 +1024,8 @@ new object.</p>
 
     If start_dir == "", the current directory is used.
 
-    Items in the filter list will be skipped. These items can be absolute or
-    relative directory or file paths, or a glob.
-
-    Example:
-
-        filter_list = ["Foo/bar.txt", "Foo"]
-
-    An entry of "Foo/bar.txt" will skip a file with the absolute path
-    "\\&lt;start dir\\&gt;/Foo/bar.txt".
-
-    An entry of "Foo" (if it points to a directory) will skip a
-    directory with the absolute path "\\&lt;start dir\\&gt;/Foo/" and
-    everything under it.
-
-    Globs are also acceptable, see
-    https://docs.python.org/3/library/pathlib.html#pathlib.Path.glob
+    Items in the filter list will be skipped. These items can be relative
+    paths, or globs.
 
     The format strings for directory and file names will have the value
     of "fmt_name" replaced by the directory or file name.
@@ -1119,6 +1071,8 @@ new object.</p>
 
     self._dirs_only = dirs_only
     self._ignore_case = ignore_case
+    self._sort = sort
+    self._sort_files = sort_files
 
     if not css:
         self._css = self.S_DEF_CSS
@@ -1128,9 +1082,11 @@ new object.</p>
     self._dir_lead = ""
     self._sort_order = {}
     self._tree = []
+    self.text = ""
+
+    # html stuff
     self._level = 4  # indent level for html
     self._id = ""  # build a unique id for entries (dot separated path)
-    self.text = ""
     self.html = ""</code></pre>
             </details>
     </div>

@@ -420,17 +420,17 @@ for internationalizing a Python or PyGObject project.</p>
         # fix up dict_clangs
         if dict_clangs is None:
             dict_clangs = {}
-        self._dict_clangs = dict_clangs
+        self._dict_clangs = dict(dict_clangs)
 
         # set no ext
         if dict_no_ext is None:
             dict_no_ext = {}
-        self._dict_no_ext = dict_no_ext
+        self._dict_no_ext = dict(dict_no_ext)
 
         # fix up list_wlangs
         if list_wlangs is None:
             list_wlangs = []
-        self._list_wlangs = list_wlangs
+        self._list_wlangs = list(list_wlangs)
 
         # fix up charset
         if charset is None:
@@ -695,7 +695,8 @@ for internationalizing a Python or PyGObject project.</p>
         """
 
         # get all wlangs to output
-        list_pos = list(self._dir_po.glob(f"*/*{self.S_EXT_PO}"))
+        glob_po = f"*{self.S_EXT_PO}"
+        list_pos = list(self._dir_po.glob(glob_po))
 
         # for each wlang
         for file_po in list_pos:
@@ -776,80 +777,71 @@ for internationalizing a Python or PyGObject project.</p>
         so they can be passed to xgettext.
         """
 
-        # return value
-        scan_all = {}
-
         # make src paths abs to prj dir
         abs_srcs = [
             self._dir_prj / src if not Path(src).is_absolute() else Path(src)
             for src in self._list_src
         ]
 
-        # for each full src
-        for abs_src in abs_srcs:
+        # ----------------------------------------------------------------------
 
-            # get default result
-            dict_res_src = {}
+        # for each clang name / list of exts
+        for clang, ext_list in self._dict_clangs.items():
 
-            # get all files for all clangs (or all files if no clangs)
+            # add stars (exts should not have stars in dict, for other ext
+            # matching reasons)
+            ext_list = [
+                f"*{item}" if not item.startswith("*") else item
+                for item in ext_list
+            ]
 
-            # get all paths to all files in source dir, recursively
-            # NB: very important to convert generator to list here
-            # this is because generators use yield to return every result
-            # individually, while lists are monolithic (rglob is a generator)
-            # you cannot iterate over a generator's yield result, because it is
-            # generally only one item, while a list contains all results
-            # calling list() on a generator causes the generator to give ALL
-            # it's generated results to the final list
+            # the new list of files
+            list_clang = []
 
-            # assume file, or glob if dir
-            paths = [abs_src]
-            if abs_src.is_dir():
-                paths = list(abs_src.rglob("*"))
+            # for each clang ext
+            for ext in ext_list:
 
-            # for each clang name / list of exts
-            for clang, ext_list in self._dict_clangs.items():
+                # for each source dir
+                for abs_src in abs_srcs:
 
-                # sanity check to add dots for exts that don't start with dot
-                # (dots needed for path.suffix matching)
-                exts = [
-                    f".{item}" if not item.startswith(".") else item
-                    for item in ext_list
-                ]
-                exts = [item.lower() for item in exts]
+                    # get matching files and add to list
+                    files = list(abs_src.glob(ext, case_sensitive=False))
+                    list_clang.extend(files)
 
-                # get all paths that match file ext
-                files = [f for f in paths if f.suffix.lower() in exts]
+            # assign the final list to the key in dict_clangs
+            list_clang = [str(item) for item in list_clang]
+            self._dict_clangs[clang] = list_clang
 
-                # make sure the key exists
-                if not clang in dict_res_src:
-                    dict_res_src[clang] = []
+        # ----------------------------------------------------------------------
 
-                # add results to langs that have extensions
-                dict_res_src[clang].extend(files)
+        # now time to handle files with no ext
+        for clang, name_list in self._dict_no_ext.items():
 
-            # now time to handle files with no ext
-            for clang, name_list in self._dict_no_ext.items():
+            list_no_ext = []
 
-                # get all paths that match file name
-                # NB: the is_file() check here is to make sure we only add
-                # files that have no ext, not dirs (which have no ext, obvs)
-                files = [
-                    f for f in paths if f.name in name_list if f.is_file()
-                ]
+            for name in name_list:
 
-                # make sure the key exists
-                if not clang in dict_res_src:
-                    dict_res_src[clang] = []
+                # for each source dir
+                for abs_src in abs_srcs:
 
-                # add results to langs that have extensions
-                dict_res_src[clang].extend(files)
+                    # get matching files and add to list
+                    files = list(abs_src.glob(name, case_sensitive=False))
+                    list_no_ext.extend(files)
+            # get all paths that match file name
+            # NB: the is_file() check here is to make sure we only add
+            # files that have no ext, not dirs (which have no ext, obvs)
+            list_no_ext = [
+                f for f in list_no_ext if f.is_file()
+            ]
 
-            # add them all up
-            scan_all = F.combine_dicts(dict_res_src, scan_all)
+            # add results to langs that have extensions
+            list_no_ext = [str(item) for item in list_no_ext]
+            self._dict_clangs[clang].extend(list_no_ext)
 
-        # return result
-        return scan_all
+        # ----------------------------------------------------------------------
+
+        # return the result
+        return self._dict_clangs
 
     # --------------------------------------------------------------------------
     # Set the header values for the pot which will carry over to each po
@@ -1384,17 +1376,17 @@ its properties, and any other code needed to create a new object.</p>
     # fix up dict_clangs
     if dict_clangs is None:
         dict_clangs = {}
-    self._dict_clangs = dict_clangs
+    self._dict_clangs = dict(dict_clangs)
 
     # set no ext
     if dict_no_ext is None:
         dict_no_ext = {}
-    self._dict_no_ext = dict_no_ext
+    self._dict_no_ext = dict(dict_no_ext)
 
     # fix up list_wlangs
     if list_wlangs is None:
         list_wlangs = []
-    self._list_wlangs = list_wlangs
+    self._list_wlangs = list(list_wlangs)
 
     # fix up charset
     if charset is None:
