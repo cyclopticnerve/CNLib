@@ -742,11 +742,12 @@ for internationalizing a Python or PyGObject project.</p>
         Returns:
             A dictionary containing file paths to source files
 
-        This method converts the dict_clangs dictionary:
+        This method uses the list_src list to convert the dict_clangs
+        dictionary:
             {
-                "Python": ["src/**/*.py", "develop.py"],
-                "Glade": ["src/**/*.ui", "src/**/*.glade"],
-                "Desktop": ["src/**/*.desktop"],
+                "Python": [".py"],
+                "Glade": [".ui", ".glade"],
+                "Desktop": [".desktop"],
             }
         into a dictionary of file paths to scan for each clang:
             {
