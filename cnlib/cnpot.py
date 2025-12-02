@@ -128,7 +128,6 @@ class CNPotPy:
         # optional in
         str_tag=None,
         dict_clangs=None,
-        dict_no_ext=None,
         list_wlangs=None,
         charset=S_ENCODING,
     ):
@@ -159,8 +158,6 @@ class CNPotPy:
             clang (default: None)
                 If ths dict is empty or None, all files will be scanned
                 (this is generally considered a "Very Bad Thing").
-            dict_no_ext: An optional dict mapping files with no extension
-            to their clang value (default: None)
             list_wlangs: A list of supported languages to ensure a complete
             file structure in the project dir (default: None)
             charset: the charset to use as the default in the .pot file, and
@@ -178,18 +175,6 @@ class CNPotPy:
             ],
             "Desktop": [
                 ".desktop"
-            ],
-        }
-
-        An example format for the dict_no_ext arg is:
-
-        {
-            "Markdown": [
-                "README",
-            ],
-            "Text": [
-                "INSTALL",
-                "LICENSE",
             ],
         }
 
@@ -240,11 +225,6 @@ class CNPotPy:
         if dict_clangs is None:
             dict_clangs = {}
         self._dict_clangs = dict(dict_clangs)
-
-        # set no ext
-        if dict_no_ext is None:
-            dict_no_ext = {}
-        self._dict_no_ext = dict(dict_no_ext)
 
         # fix up list_wlangs
         if list_wlangs is None:
@@ -581,7 +561,8 @@ class CNPotPy:
         Returns:
             A dictionary containing file paths to source files
 
-        This method converts the dict_clangs dictionary:
+        This method uses the list_src list to convert the dict_clangs
+        dictionary:
             {
                 "Python": [".py"],
                 "Glade": [".ui", ".glade"],
@@ -589,78 +570,73 @@ class CNPotPy:
             }
         into a dictionary of file paths to scan for each clang:
             {
-                "Python": [<Path>, ...],
-                "Glade": [<Path>, ...],
-                "Desktop": [<Path>, ...],
+                "Python": [<str>, ...],
+                "Glade": [<str>, ...],
+                "Desktop": [<str>, ...],
             }
         so they can be passed to xgettext.
         """
 
-        # make src paths abs to prj dir
-        abs_srcs = [
-            self._dir_prj / src if not Path(src).is_absolute() else Path(src)
-            for src in self._list_src
-        ]
+        # the dict to return
+        dict_res = {}
 
         # ----------------------------------------------------------------------
 
-        # for each clang name / list of exts
-        for clang, ext_list in self._dict_clangs.items():
+        # for each item in list_src
+        for place in self._list_src:
 
-            # add stars (exts should not have stars in dict, for other ext
-            # matching reasons)
-            ext_list = [
-                f"*{item}" if not item.startswith("*") else item
-                for item in ext_list
-            ]
+            # resolve place
+            p_place = self._dir_prj / place
 
-            # the new list of files
-            list_clang = []
+            # check if dir
+            if p_place.is_dir():
 
-            # for each clang ext
-            for ext in ext_list:
+                # for each clang name / list of exts
+                for clang, exts in self._dict_clangs.items():
 
-                # for each source dir
-                for abs_src in abs_srcs:
+                    # the new list of files
+                    list_clang = []
 
-                    # get matching files and add to list
-                    files = list(abs_src.glob(ext, case_sensitive=False))
-                    list_clang.extend(files)
+                    # for each clang ext
+                    for ext in exts:
 
-            # assign the final list to the key in dict_clangs
-            list_clang = [str(item) for item in list_clang]
-            self._dict_clangs[clang] = list_clang
+                        # get matching files and add to list
+                        res = list(
+                            p_place.glob("**/*" + ext, case_sensitive=False)
+                        )
+                        list_clang.extend(res)
 
-        # ----------------------------------------------------------------------
+                    # update result lang's val
+                    # NB: xgettext does not handle Paths, only strs
+                    list_clang = [str(item) for item in list_clang]
+                    list_old = dict_res.get(clang, [])
+                    list_old.extend(list_clang)
+                    dict_res[clang] = list_old
 
-        # now time to handle files with no ext
-        for clang, name_list in self._dict_no_ext.items():
+            # src item is file
+            else:
 
-            list_no_ext = []
+                # get item suffix (including dot)
+                ext_place = p_place.suffix
 
-            for name in name_list:
+                # find lang from suffix
+                for clang, exts in self._dict_clangs.items():  # Python, [".py"]
 
-                # for each source dir
-                for abs_src in abs_srcs:
+                    # if this item belongs to this clang
+                    if ext_place in exts:
 
-                    # get matching files and add to list
-                    files = list(abs_src.glob(name, case_sensitive=False))
-                    list_no_ext.extend(files)
-            # get all paths that match file name
-            # NB: the is_file() check here is to make sure we only add
-            # files that have no ext, not dirs (which have no ext, obvs)
-            list_no_ext = [
-                f for f in list_no_ext if f.is_file()
-            ]
+                        # update result lang's val
+                        # NB: xgettext does not handle Paths, only strs
+                        list_old = dict_res.get(clang, [])
+                        list_old.extend([str(p_place)])
+                        dict_res[clang] = list_old
 
-            # add results to langs that have extensions
-            list_no_ext = [str(item) for item in list_no_ext]
-            self._dict_clangs[clang].extend(list_no_ext)
+                        break
 
         # ----------------------------------------------------------------------
 
         # return the result
-        return self._dict_clangs
+        return dict_res
 
     # --------------------------------------------------------------------------
     # Set the header values for the pot which will carry over to each po
