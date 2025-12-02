@@ -74,9 +74,6 @@
                 ".desktop"
             ]
         },
-        "NO_EXT": {
-            "Python": ["cnlib"]
-        },
         "WLANGS": [
             "en"
         ],
