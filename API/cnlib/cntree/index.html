@@ -730,11 +730,13 @@ stdout or a file.</p>
         if self._filter_list is None:
             return
 
+        # do glob
         list_filter = []
         for item in self._filter_list:
             res = list(self._start_dir.glob(item))
             list_filter.extend(res)
 
+        # set result
         self._filter_list = list_filter
 
     # --------------------------------------------------------------------------
@@ -767,11 +769,11 @@ stdout or a file.</p>
         self._dir_lead = " " * dir_lead_count
 
     # --------------------------------------------------------------------------
-    # Gets the sort order for custom sorting
+    # Gets the sort order for custom sorting by name
     # --------------------------------------------------------------------------
     def _get_sort_order(self):
-        """
-        Gets the sort order for custom sorting
+        """ 
+        Gets the sort order for custom sorting by name
 
         This just fixes a personal quirk of mine. The default sorting order
         in Python sorts names starting with a dot (.) above a name starting
