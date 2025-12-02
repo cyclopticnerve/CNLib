@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.10\n"
 "Report-Msgid-Bugs-To: cyclopticnerve@gmail.com\n"
-"POT-Creation-Date: 2025-11-17 12:56-0500\n"
+"POT-Creation-Date: 2025-12-01 20:12-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,26 +18,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. I18N: done with step
-#: /Projects/Python/CNLib/develop.py:80
+#: develop.py:80
 msgid "Done"
 msgstr ""
 
 #. I18N: step failed
-#: /Projects/Python/CNLib/develop.py:82
+#: develop.py:82
 msgid "Failed"
 msgstr ""
 
 #. I18N: show the venv step
-#: /Projects/Python/CNLib/develop.py:84
+#: develop.py:84
 msgid "Making venv folder... "
 msgstr ""
 
 #. I18N: show the reqs step
-#: /Projects/Python/CNLib/develop.py:86
+#: develop.py:86
 msgid "Installing requirements... "
 msgstr ""
 
 #. I18N: an error occurred
-#: /Projects/Python/CNLib/develop.py:97
+#: develop.py:97
 msgid "Error: "
 msgstr ""
