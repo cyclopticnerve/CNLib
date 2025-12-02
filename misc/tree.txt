@@ -16,13 +16,13 @@
    ├─ [] docs/
    │     ├─ [] API/
    │     │     └─ [] cnlib/
-         ├─ [] cnformatter.md
-         ├─ [] cnfunctions.md
-         ├─ [] cninstall.md
-         ├─ [] cnmkdocs.md
-         ├─ [] cnpot.md
-         ├─ [] cntree.md
-         └─ [] cnvenv.md
+   │     │           ├─ [] cnformatter.md
+   │     │           ├─ [] cnfunctions.md
+   │     │           ├─ [] cninstall.md
+   │     │           ├─ [] cnmkdocs.md
+   │     │           ├─ [] cnpot.md
+   │     │           ├─ [] cntree.md
+   │     │           └─ [] cnvenv.md
    │     ├─ [] images/
    │     │     └─ [] cnlib.png
    │     ├─ [] img/
@@ -31,14 +31,14 @@
    ├─ [] i18n/
    │     ├─ [] locale/
    │     │     └─ [] en/
-         └─ [] LC_MESSAGES/
-         └─ [] cnlib.mo
+   │     │           └─ [] LC_MESSAGES/
+   │     │                 └─ [] cnlib.mo
    │     ├─ [] po/
    │     │     ├─ [] en/
    │     │     │     └─ [] cnlib.po
    │     │     └─ [] LINGUAS
    │     └─ [] pot/
-         └─ [] cnlib.pot
+   │           └─ [] cnlib.pot
    ├─ [] images/
    │     └─ [] cnlib.png
    ├─ [] misc/
@@ -63,20 +63,20 @@
    ├─ [] site/
    │     ├─ [] API/
    │     │     └─ [] cnlib/
-         ├─ [] cnformatter/
-         │     └─ [] index.html
-         ├─ [] cnfunctions/
-         │     └─ [] index.html
-         ├─ [] cninstall/
-         │     └─ [] index.html
-         ├─ [] cnmkdocs/
-         │     └─ [] index.html
-         ├─ [] cnpot/
-         │     └─ [] index.html
-         ├─ [] cntree/
-         │     └─ [] index.html
-         └─ [] cnvenv/
-         └─ [] index.html
+   │     │           ├─ [] cnformatter/
+   │     │           │     └─ [] index.html
+   │           │     ├─ [] cnfunctions/
+   │           │     │     └─ [] index.html
+         │     │     ├─ [] cninstall/
+         │     │     │     └─ [] index.html
+   │     │     │     ├─ [] cnmkdocs/
+   │     │     │     │     └─ [] index.html
+   │     │     │     ├─ [] cnpot/
+   │     │     │     │     └─ [] index.html
+   │     │     │     ├─ [] cntree/
+   │     │     │     │     └─ [] index.html
+   │     │     │     └─ [] cnvenv/
+   │     │     │           └─ [] index.html
    │     ├─ [] assets/
    │     │     └─ [] _mkdocstrings.css
    │     ├─ [] css/
@@ -117,7 +117,7 @@
    │     ├─ [] sitemap.xml
    │     └─ [] sitemap.xml.gz
    ├─ [] tests/
-   │     └─ [] ABOUT
+   │     └─ [] cnlib_test.py
    ├─ [] todo/
    │     └─ [] ABOUT
    ├─ [] .gitignore
