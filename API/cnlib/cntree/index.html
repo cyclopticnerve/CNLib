@@ -192,7 +192,7 @@ some format strings</p>
       </thead>
       <tbody>
             <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="main() (cnlib.cntree.CNTree.main)" href="#cnlib.cntree.CNTree.main">main</a></code></td>
+              <td><code><span title="cnlib.cntree.CNTree.main">main</span></code></td>
               <td>
                 <div class="doc-md-description">
                   <p>Creates a tree from the given start directory, using filter list,</p>
@@ -404,18 +404,18 @@ stdout or a file.</p>
 """
 
     # start of new entry (file, folder)
-    # NB: format params are entry name, indent string, and self._id
+    # NB: format params are indent string, self._id, and entry name
     S_ENTRY_OPEN = """
-    {1}&lt;li&gt;
-    {1}    &lt;input type='checkbox' id='{2}'&gt;
-    {1}    &lt;label for='{2}'&gt;{0}&lt;/label&gt;
-    {1}    &lt;ul&gt;"""
+{0}&lt;li&gt;
+{0}    &lt;input type='checkbox' id='{1}'&gt;
+{0}    &lt;label for='{1}'&gt;{2}&lt;/label&gt;
+{0}    &lt;ul&gt;"""
 
     # end of entry (close child list, close entry)
     # NB: format param is indent string
     S_ENTRY_CLOSE = """
-    {0}    &lt;/ul&gt;
-    {0}&lt;/li&gt;"""
+{0}    &lt;/ul&gt;
+{0}&lt;/li&gt;"""
 
     # indent used in &lt;li&gt; to align better
     S_HTML_INDENT = "    "
@@ -437,7 +437,7 @@ stdout or a file.</p>
         dirs_only=False,
         sort=True,
         sort_files=False,
-        ignore_case=True,
+        ignore_case=False,
         css=None,
     ):
         """
@@ -450,8 +450,12 @@ stdout or a file.</p>
             dir_format: Format to use for directories (default:"$NAME/")
             file_format: Format to use for files (default: "$NAME")
             dirs_only: Only list directories (default: False)
-            ignore_case: Sort entries regardless of case. If False,
-            uppercase alpha characters take precedence.
+            sort: Whether to use the sort_files arg (default: True)
+            sort_files: If True, sort files above dirs, or if False, sort dirs
+            above files (Ignored if sort is False) (default: False)
+            ignore_case: If True, sort entries regardless of case, or if False,
+            uppercase alpha characters take precedence (default: False)
+            css: Custom css string to use for HTML output
 
         Creates a tree from the given start directory.
 
@@ -525,7 +529,7 @@ stdout or a file.</p>
         self.text = ""
 
         # html stuff
-        self._level = 4  # indent level for html
+        self._level = 3  # initial indent level for html
         self._id = ""  # build a unique id for entries (dot separated path)
         self.html = ""
 
@@ -537,7 +541,7 @@ stdout or a file.</p>
     # Creates a tree from the given start directory, using filter list,
     # directory and file formats
     # --------------------------------------------------------------------------
-    def main(self):
+    def make_tree(self):
         """
         Creates a tree from the given start directory, using filter list,
         directory and file formats
@@ -612,6 +616,9 @@ stdout or a file.</p>
         a lot of the heavy lifting to determine what gets printed, and how.
         """
 
+        # ----------------------------------------------------------------------
+        # fix up items (sort, filter)
+
         # enum all items in the dir (files and folders) and convert to list
         # NB: we need a list rather than a generator, since we want everything
         # at once (iterdir is a generator, and so yields)
@@ -626,7 +633,9 @@ stdout or a file.</p>
         # based on a bubble sort
         # NB: the hidden params to the "key" function are self and the results
         # of an iterator of items
-        items.sort(key=self._sort_by_name)
+        items.sort(
+            key=self._sort_by_name
+        )  # self._sort_by_name(self, [item for item in items])
 
         # sort works by iterating through a list. this function passes every
         # item through the is_file() test to get its result
@@ -654,6 +663,9 @@ stdout or a file.</p>
         # for each entry
         for index, an_item in enumerate(items):
 
+            # ------------------------------------------------------------------
+            # text stuff
+
             # get the type of connector based on position in enum
             connector = (
                 self.S_CONNECTOR_TEE
@@ -672,15 +684,21 @@ stdout or a file.</p>
                 f"{self._root_lead}{prefix}{connector}{rep_name}"
             )
 
+            # ------------------------------------------------------------------
+            # html stuff
+
             # increase id level
             self._id += "." + an_item.name
 
             # increase indent
-            self._level += 1
+            self._level += 2
             indent = self.S_HTML_INDENT * self._level
 
             # add the item to the tree
-            self.html += self.S_ENTRY_OPEN.format(rep_name, indent, self._id)
+            self.html += self.S_ENTRY_OPEN.format(indent, self._id, rep_name)
+
+            # ------------------------------------------------------------------
+            # recurse
 
             # if item is a dir
             if an_item.is_dir():
@@ -704,13 +722,14 @@ stdout or a file.</p>
                 prefix = prefix[len(new_prefix) :]
 
             # ------------------------------------------------------------------
+            # html stuff
 
             # back up id from previous level (+1 for dot)
             self._id = self._id[: -(len(an_item.name) + 1)]
 
             # unindent for html
-            self._level -= 1
             indent = self.S_HTML_INDENT * self._level
+            self._level -= 2
 
             # close the item
             self.html += self.S_ENTRY_CLOSE.format(indent)
@@ -772,7 +791,7 @@ stdout or a file.</p>
     # Gets the sort order for custom sorting by name
     # --------------------------------------------------------------------------
     def _get_sort_order(self):
-        """ 
+        """
         Gets the sort order for custom sorting by name
 
         This just fixes a personal quirk of mine. The default sorting order
@@ -818,6 +837,10 @@ stdout or a file.</p>
 
         Returns:
             The index of the sorted item
+
+        Sorts items in the item list according to the item name, using a simple
+        bubble sort (i.e. step through each char in a string, promoting it
+        based on it's value)
         """
 
         # check if we need to lowercase based on the build_tree param
@@ -826,9 +849,9 @@ stdout or a file.</p>
             tmp_item = item.name.lower()
 
         # get the ordinal position of each char
-        # NB: if the key (char) is present, the get() function returns the value
-        # of the specified key. if the key is not present, it returns the second
-        # (ord of char in string.printable, i.e. a=0, b=1, c=2, etc.)
+        # NB: if the key (char) is present, the get() function returns the
+        # value of the specified key. if the key is not present, it returns the
+        # second (ord of char in string.printable, i.e. a=0, b=1, c=2, etc.)
         # this is why we need to know about the ignore_case, since if it is
         # False, uppercase will always take precedence over lowercase (at least
         # in en_US str.printable, again YMMV)
@@ -851,7 +874,7 @@ stdout or a file.</p>
 
 
 <h3 id="cnlib.cntree.CNTree.__init__" class="doc doc-heading">
-            <code class="highlight language-python">__init__(start_dir, filter_list=None, fmt_name='', dir_format='', file_format='', dirs_only=False, sort=True, sort_files=False, ignore_case=True, css=None)</code>
+            <code class="highlight language-python">__init__(start_dir, filter_list=None, fmt_name='', dir_format='', file_format='', dirs_only=False, sort=True, sort_files=False, ignore_case=False, css=None)</code>
 
 </h3>
 
@@ -949,17 +972,94 @@ stdout or a file.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
+                <code>sort</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Whether to use the sort_files arg (default: True)</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>sort_files</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If True, sort files above dirs, or if False, sort dirs</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>above</code>
+            </td>
+            <td>
+                  <code>files (Ignored if sort is False) (default</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>False)</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                 <code>ignore_case</code>
             </td>
             <td>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Sort entries regardless of case. If False,</p>
+                <p>If True, sort entries regardless of case, or if False,</p>
               </div>
             </td>
             <td>
-                  <code>True</code>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>uppercase</code>
+            </td>
+            <td>
+                  <code>alpha characters take precedence (default</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>False)</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>css</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Custom css string to use for HTML output</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
             </td>
           </tr>
       </tbody>
@@ -999,7 +1099,7 @@ new object.</p>
     dirs_only=False,
     sort=True,
     sort_files=False,
-    ignore_case=True,
+    ignore_case=False,
     css=None,
 ):
     """
@@ -1012,8 +1112,12 @@ new object.</p>
         dir_format: Format to use for directories (default:"$NAME/")
         file_format: Format to use for files (default: "$NAME")
         dirs_only: Only list directories (default: False)
-        ignore_case: Sort entries regardless of case. If False,
-        uppercase alpha characters take precedence.
+        sort: Whether to use the sort_files arg (default: True)
+        sort_files: If True, sort files above dirs, or if False, sort dirs
+        above files (Ignored if sort is False) (default: False)
+        ignore_case: If True, sort entries regardless of case, or if False,
+        uppercase alpha characters take precedence (default: False)
+        css: Custom css string to use for HTML output
 
     Creates a tree from the given start directory.
 
@@ -1087,7 +1191,7 @@ new object.</p>
     self.text = ""
 
     # html stuff
-    self._level = 4  # indent level for html
+    self._level = 3  # initial indent level for html
     self._id = ""  # build a unique id for entries (dot separated path)
     self.html = ""</code></pre>
             </details>
@@ -1098,8 +1202,8 @@ new object.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="cnlib.cntree.CNTree.main" class="doc doc-heading">
-            <code class="highlight language-python">main()</code>
+<h3 id="cnlib.cntree.CNTree.make_tree" class="doc doc-heading">
+            <code class="highlight language-python">make_tree()</code>
 
 </h3>
 
@@ -1158,7 +1262,7 @@ a path to a valid directory</p>
 
             <details class="quote">
               <summary>Source code in <code>cnlib/cntree.py</code></summary>
-              <pre class="highlight"><code class="language-python">def main(self):
+              <pre class="highlight"><code class="language-python">def make_tree(self):
     """
     Creates a tree from the given start directory, using filter list,
     directory and file formats
