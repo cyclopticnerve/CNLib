@@ -275,129 +275,129 @@ stdout or a file.</p>
     # NB: format params are self._css, root name, and root id
     S_HTML_PROLOG = """&lt;!DOCTYPE html&gt;
 &lt;html&gt;
-    &lt;head&gt;
-        &lt;style&gt;
-            {0}
-        &lt;/style&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;ul&gt;
-            &lt;li&gt;
-                &lt;input type="checkbox" id="{2}"&gt;
-                &lt;label for="{2}"&gt;{1}&lt;/label&gt;
-                &lt;ul&gt;"""
+&lt;head&gt;
+    &lt;style&gt;
+        {0}
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;ul&gt;
+        &lt;li&gt;
+            &lt;input type="checkbox" id="{2}"&gt;
+            &lt;label for="{2}"&gt;{1}&lt;/label&gt;
+            &lt;ul&gt;"""
 
     # epilog (what comes after the checkbox list)
     S_HTML_EPILOG = """
-                &lt;/ul&gt;
-            &lt;/li&gt;
-        &lt;/ul&gt;
-        &lt;script&gt;
+            &lt;/ul&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;script&gt;
 
-            // NB: https://codepen.io/girish/pen/BaWMGKp
+        // NB: https://codepen.io/girish/pen/BaWMGKp
 
-            // helper func to create a flat array from a NodeList
-            nodeArray = (parent, selector) =&gt;
-                Array.from(parent.querySelectorAll(selector));
+        // helper func to create a flat array from a NodeList
+        nodeArray = (parent, selector) =&gt;
+            Array.from(parent.querySelectorAll(selector));
 
-            // get all checkboxes from document
-            allChecks = nodeArray(document, 'input[type="checkbox"]');
+        // get all checkboxes from document
+        allChecks = nodeArray(document, 'input[type="checkbox"]');
 
-            // global document listener (add to all inputs)
-            addEventListener('change', e =&gt; {
+        // global document listener (add to all inputs)
+        addEventListener('change', e =&gt; {
 
-                // get object that changed
-                check = e.target;
+            // get object that changed
+            check = e.target;
 
-                // if event did not come from a checkbox in our list
-                if (allChecks.indexOf(check) === -1)
-                    return;
+            // if event did not come from a checkbox in our list
+            if (allChecks.indexOf(check) === -1)
+                return;
 
-                // check/uncheck children based on parent state
-                parent = check.parentNode;
-                children = nodeArray(parent, 'input[type="checkbox"]');
-                children.forEach(child =&gt;
-                    child.checked = check.checked
-                );
+            // check/uncheck children based on parent state
+            parent = check.parentNode;
+            children = nodeArray(parent, 'input[type="checkbox"]');
+            children.forEach(child =&gt;
+                child.checked = check.checked
+            );
 
-                // traverse up from target check
-                while (check) {
+            // traverse up from target check
+            while (check) {
 
-                    // find parent checkbox
-                    parent = check.closest('ul');
-                    parent = parent.parentNode;
-                    parent = parent.querySelector('input[type="checkbox"]');
+                // find parent checkbox
+                parent = check.closest('ul');
+                parent = parent.parentNode;
+                parent = parent.querySelector('input[type="checkbox"]');
 
-                    // find sibling checkboxes
-                    siblings = parent.closest('li');
-                    siblings = siblings.querySelector('ul');
-                    siblings = nodeArray(siblings, 'input[type="checkbox"]');
+                // find sibling checkboxes
+                siblings = parent.closest('li');
+                siblings = siblings.querySelector('ul');
+                siblings = nodeArray(siblings, 'input[type="checkbox"]');
 
-                    // get checked state of siblings
-                    // are every or some siblings checked?
-                    siblingsMap = siblings.map(check =&gt; check.checked);
-                    every = siblingsMap.every(Boolean);
-                    some = siblingsMap.some(Boolean);
+                // get checked state of siblings
+                // are every or some siblings checked?
+                siblingsMap = siblings.map(check =&gt; check.checked);
+                every = siblingsMap.every(Boolean);
+                some = siblingsMap.some(Boolean);
 
-                    // check parent if all child siblings are checked
-                    // set indeterminate if some (not all and not none) are checked
-                    parent.checked = every;
-                    parent.indeterminate = !every &amp;&amp; every !== some;
+                // check parent if all child siblings are checked
+                // set indeterminate if some (not all and not none) are checked
+                parent.checked = every;
+                parent.indeterminate = !every &amp;&amp; every !== some;
 
-                    // prepare for next loop
-                    check = check != parent ? parent : 0;
-                }
-
-                // save current state
-                save();
-            });
+                // prepare for next loop
+                check = check != parent ? parent : 0;
+            }
 
             // save current state
-            function save() {
+            save();
+        });
 
-                // for each checkbox
-                allChecks.forEach(check =&gt; {
+        // save current state
+        function save() {
 
-                    // get all the stuff
-                    id = check.id;
-                    ind = check.indeterminate;
-                    checked = check.checked;
+            // for each checkbox
+            allChecks.forEach(check =&gt; {
 
-                    // if it is -, save that
-                    if (ind) {
-                        localStorage.setItem(id, 'ind');
+                // get all the stuff
+                id = check.id;
+                ind = check.indeterminate;
+                checked = check.checked;
 
-                        // not -, save checked or not
-                    } else {
-                        localStorage.setItem(id, checked);
-                    }
-                });
-            };
+                // if it is -, save that
+                if (ind) {
+                    localStorage.setItem(id, 'ind');
 
-            // load previous state
-            window.onload = function () {
+                    // not -, save checked or not
+                } else {
+                    localStorage.setItem(id, checked);
+                }
+            });
+        };
 
-                // for each checkbox
-                allChecks.forEach(check =&gt; {
+        // load previous state
+        window.onload = function () {
 
-                    // get all the stuff
-                    id = check.id;
-                    ind = localStorage.getItem(id) === 'ind';
-                    checked = localStorage.getItem(id) === 'true';
+            // for each checkbox
+            allChecks.forEach(check =&gt; {
 
-                    // if it was -, set to -
-                    if (ind) {
-                        check.indeterminate = true
+                // get all the stuff
+                id = check.id;
+                ind = localStorage.getItem(id) === 'ind';
+                checked = localStorage.getItem(id) === 'true';
 
-                    // if it was not -, set to old state
-                    } else {
-                        check.checked = checked;
-                    }
-                });
-            };
+                // if it was -, set to -
+                if (ind) {
+                    check.indeterminate = true
 
-        &lt;/script&gt;
-    &lt;/body&gt;
+                // if it was not -, set to old state
+                } else {
+                    check.checked = checked;
+                }
+            });
+        };
+
+    &lt;/script&gt;
+&lt;/body&gt;
 &lt;/html&gt;
 
 &lt;!-- -) --&gt;
