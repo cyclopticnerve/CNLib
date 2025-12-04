@@ -31,6 +31,7 @@
             ".git",
             ".venv*",
             ".VSCodeCounter",
+            "site",
             "**/__pycache__",
             "**/*.egg-info"
         ]
@@ -81,7 +82,7 @@
     },
     "PUB_META": {
         "META_SHORT_DESC": "A Python library containing useful functions and classes ",
-        "META_VERSION": "0.0.10",
+        "META_VERSION": "0.0.11",
         "META_KEYWORDS": [
             "python",
             "pyplate",

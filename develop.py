@@ -7,7 +7,6 @@
 # License : WTFPLv2                                                \          /
 # ------------------------------------------------------------------------------
 
-# pylint: disable=too-many-lines
 """
 The develop script for this project
 
@@ -61,9 +60,9 @@ locale.bindtextdomain(T_DOMAIN, T_DIR_LOCALE)
 # ------------------------------------------------------------------------------
 class CNDevelop:
     """
-    The class to use for installing a PyPlate program
+    The class to use for developing a PyPlate program
 
-    This class performs the install operation.
+    This class performs the develop operation.
     """
 
     # --------------------------------------------------------------------------
@@ -85,33 +84,20 @@ class CNDevelop:
     # I18N: show the reqs step
     S_MSG_REQS_START = _("Installing requirements... ")
 
-    # commands
-
-    # NB: format param is dir_venv
-    S_CMD_VENV_CREATE = "python -m venv {}"
-    S_CMD_VENV_INST = "python -m pip install -e ."
-
     # errors
 
     # I18N: an error occurred
     S_ERR_ERR = _("Error: ")
 
+    # commands
+
+    # NB: format param is dir_venv
+    S_CMD_CREATE = "python -m venv {}"
+    S_CMD_INSTALL = "cd {};. {}/bin/activate;python -m pip install -e ."
+
     # --------------------------------------------------------------------------
     # Class methods
     # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # Initialize the class
-    # --------------------------------------------------------------------------
-    def __init__(self):
-        """
-        Initialize the class
-
-        Creates a new instance of the object and initializes its properties.
-        """
-
-        # set the initial vals
-        self._is_pkg = False
 
     # --------------------------------------------------------------------------
     # Run the program
@@ -146,7 +132,7 @@ class CNDevelop:
         print(self.S_MSG_VENV_START, flush=True, end="")
 
         # the command to create a venv
-        cmd = self.S_CMD_VENV_CREATE.format(self.S_NAME_VENV)
+        cmd = self.S_CMD_CREATE.format(self.S_NAME_VENV)
 
         # the cmd to create the venv
         try:
@@ -178,12 +164,12 @@ class CNDevelop:
         print(self.S_MSG_REQS_START, end="", flush=True)
 
         # the cmd to install the reqs
-        cmd = self.S_CMD_VENV_INST.format(
+        cmd = self.S_CMD_INSTALL.format(
             P_DIR_PRJ, self.S_NAME_VENV, self.S_FILE_REQS
         )
         try:
             # NB: hide output
-            subprocess.run(cmd, shell=True, check=True)
+            subprocess.run(cmd, shell=True, check=True, capture_output=True)
             print(self.S_MSG_DONE)
         except (FileNotFoundError, subprocess.CalledProcessError) as e:
             print(self.S_MSG_FAIL)

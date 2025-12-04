@@ -43,7 +43,7 @@
         "__PP_NAME_SEC_BIG__": "cnlib",
         "__PP_NAME_SEC_SMALL__": "cnlib",
         "__PP_NAME_SEC_PASCAL__": "Cnlib",
-        "__PP_DATE__": "12/01/2025",
+        "__PP_DATE__": "12/04/2025",
         "__PP_NAME_VENV__": ".venv-cnlib",
         "__PP_FILE_APP__": "cnlib_app",
         "__PP_CLASS_APP__": "CnlibApp",
@@ -54,11 +54,11 @@
         "__PP_IMG_DESK__": ".local/share/cnlib/images/cnlib.png",
         "__PP_IMG_DASH__": "../../../images/cnlib.png",
         "__PP_IMG_ABOUT__": "../../../images/cnlib.png",
-        "__PP_VER_MMR__": "0.0.10",
-        "__PP_VER_DISP__": "Version 0.0.10",
+        "__PP_VER_MMR__": "0.0.11",
+        "__PP_VER_DISP__": "Version 0.0.11",
         "__PP_DEV_INST__": "cd {};. {}/bin/activate;python -m pip install -e .",
         "__PP_USR_INST__": ".local/share/cnlib",
         "__PP_APP_ID__": "org.cyclopticnerve.cnlib",
-        "__PP_FMT_DIST__": "cnlib-0.0.10"
+        "__PP_FMT_DIST__": "cnlib-0.0.11"
     }
 }

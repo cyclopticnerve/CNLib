@@ -16,7 +16,7 @@ A simple script to test a package from within the project itself
 # ------------------------------------------------------------------------------
 
 # local imports
-from cnlib import cnfunctions
+from cnlib import cnfunctions as F
 
 # ------------------------------------------------------------------------------
 # Code to run when called from command line
@@ -28,7 +28,6 @@ if __name__ == "__main__":
     # invoked from the command line.
 
     # run main function
-    RES = cnfunctions.pascal_case("cnlib")
-    print(RES)
+    print(F.pascal_case("my_project"))
 
 # -)

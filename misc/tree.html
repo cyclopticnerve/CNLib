@@ -1,896 +1,560 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <style>
-            ul {
+<head>
+    <style>
+        ul {
                 list-style-type: none;
                 padding-left: 20px;
             }
-        </style>
-    </head>
-    <body>
-        <ul>
-            <li>
-                <input type="checkbox" id="CNLib">
-                <label for="CNLib">[] CNLib/</label>
-                <ul>
-                        <li>
-                            <input type='checkbox' id='CNLib..vscode'>
-                            <label for='CNLib..vscode'> [] .vscode/</label>
-                            <ul>
+    </style>
+</head>
+<body>
+    <ul>
+        <li>
+            <input type="checkbox" id="CNLib">
+            <label for="CNLib">[] CNLib/</label>
+            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib..vscode'>
+                        <label for='CNLib..vscode'> [] .vscode/</label>
+                        <ul>
                             <li>
                                 <input type='checkbox' id='CNLib..vscode.launch.json'>
                                 <label for='CNLib..vscode.launch.json'> [] launch.json</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                             <li>
                                 <input type='checkbox' id='CNLib..vscode.settings.json'>
                                 <label for='CNLib..vscode.settings.json'> [] settings.json</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                             <li>
                                 <input type='checkbox' id='CNLib..vscode.tasks.json'>
                                 <label for='CNLib..vscode.tasks.json'> [] tasks.json</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
-                        <li>
-                            <input type='checkbox' id='CNLib.cnlib'>
-                            <label for='CNLib.cnlib'> [] cnlib/</label>
-                            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib.cnlib'>
+                        <label for='CNLib.cnlib'> [] cnlib/</label>
+                        <ul>
                             <li>
                                 <input type='checkbox' id='CNLib.cnlib.cnformatter.py'>
                                 <label for='CNLib.cnlib.cnformatter.py'> [] cnformatter.py</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                             <li>
                                 <input type='checkbox' id='CNLib.cnlib.cnfunctions.py'>
                                 <label for='CNLib.cnlib.cnfunctions.py'> [] cnfunctions.py</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                             <li>
                                 <input type='checkbox' id='CNLib.cnlib.cninstall.py'>
                                 <label for='CNLib.cnlib.cninstall.py'> [] cninstall.py</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                             <li>
                                 <input type='checkbox' id='CNLib.cnlib.cnmkdocs.py'>
                                 <label for='CNLib.cnlib.cnmkdocs.py'> [] cnmkdocs.py</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                             <li>
                                 <input type='checkbox' id='CNLib.cnlib.cnpot.py'>
                                 <label for='CNLib.cnlib.cnpot.py'> [] cnpot.py</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                             <li>
                                 <input type='checkbox' id='CNLib.cnlib.cntree.py'>
                                 <label for='CNLib.cnlib.cntree.py'> [] cntree.py</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                             <li>
                                 <input type='checkbox' id='CNLib.cnlib.cnvenv.py'>
                                 <label for='CNLib.cnlib.cnvenv.py'> [] cnvenv.py</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
-                        <li>
-                            <input type='checkbox' id='CNLib.dist'>
-                            <label for='CNLib.dist'> [] dist/</label>
-                            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib.dist'>
+                        <label for='CNLib.dist'> [] dist/</label>
+                        <ul>
                             <li>
-                                <input type='checkbox' id='CNLib.dist.cnlib-0.0.10.tar.gz'>
-                                <label for='CNLib.dist.cnlib-0.0.10.tar.gz'> [] cnlib-0.0.10.tar.gz</label>
+                                <input type='checkbox' id='CNLib.dist.cnlib-0.0.11.tar.gz'>
+                                <label for='CNLib.dist.cnlib-0.0.11.tar.gz'> [] cnlib-0.0.11.tar.gz</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
-                        <li>
-                            <input type='checkbox' id='CNLib.docs'>
-                            <label for='CNLib.docs'> [] docs/</label>
-                            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib.docs'>
+                        <label for='CNLib.docs'> [] docs/</label>
+                        <ul>
                             <li>
                                 <input type='checkbox' id='CNLib.docs.API'>
                                 <label for='CNLib.docs.API'> [] API/</label>
                                 <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.docs.API.cnlib'>
-                                    <label for='CNLib.docs.API.cnlib'> [] cnlib/</label>
-                                    <ul>
                                     <li>
-                                        <input type='checkbox' id='CNLib.docs.API.cnlib.cnformatter.md'>
-                                        <label for='CNLib.docs.API.cnlib.cnformatter.md'> [] cnformatter.md</label>
+                                        <input type='checkbox' id='CNLib.docs.API.cnlib'>
+                                        <label for='CNLib.docs.API.cnlib'> [] cnlib/</label>
                                         <ul>
-                                    </ul>
-                                </li>
-                                    <li>
-                                        <input type='checkbox' id='CNLib.docs.API.cnlib.cnfunctions.md'>
-                                        <label for='CNLib.docs.API.cnlib.cnfunctions.md'> [] cnfunctions.md</label>
-                                        <ul>
-                                    </ul>
-                                </li>
-                                    <li>
-                                        <input type='checkbox' id='CNLib.docs.API.cnlib.cninstall.md'>
-                                        <label for='CNLib.docs.API.cnlib.cninstall.md'> [] cninstall.md</label>
-                                        <ul>
-                                    </ul>
-                                </li>
-                                    <li>
-                                        <input type='checkbox' id='CNLib.docs.API.cnlib.cnmkdocs.md'>
-                                        <label for='CNLib.docs.API.cnlib.cnmkdocs.md'> [] cnmkdocs.md</label>
-                                        <ul>
-                                    </ul>
-                                </li>
-                                    <li>
-                                        <input type='checkbox' id='CNLib.docs.API.cnlib.cnpot.md'>
-                                        <label for='CNLib.docs.API.cnlib.cnpot.md'> [] cnpot.md</label>
-                                        <ul>
-                                    </ul>
-                                </li>
-                                    <li>
-                                        <input type='checkbox' id='CNLib.docs.API.cnlib.cntree.md'>
-                                        <label for='CNLib.docs.API.cnlib.cntree.md'> [] cntree.md</label>
-                                        <ul>
-                                    </ul>
-                                </li>
-                                    <li>
-                                        <input type='checkbox' id='CNLib.docs.API.cnlib.cnvenv.md'>
-                                        <label for='CNLib.docs.API.cnlib.cnvenv.md'> [] cnvenv.md</label>
-                                        <ul>
-                                    </ul>
-                                </li>
+                                            <li>
+                                                <input type='checkbox' id='CNLib.docs.API.cnlib.cnformatter.md'>
+                                                <label for='CNLib.docs.API.cnlib.cnformatter.md'> [] cnformatter.md</label>
+                                                <ul>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <input type='checkbox' id='CNLib.docs.API.cnlib.cnfunctions.md'>
+                                                <label for='CNLib.docs.API.cnlib.cnfunctions.md'> [] cnfunctions.md</label>
+                                                <ul>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <input type='checkbox' id='CNLib.docs.API.cnlib.cninstall.md'>
+                                                <label for='CNLib.docs.API.cnlib.cninstall.md'> [] cninstall.md</label>
+                                                <ul>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <input type='checkbox' id='CNLib.docs.API.cnlib.cnmkdocs.md'>
+                                                <label for='CNLib.docs.API.cnlib.cnmkdocs.md'> [] cnmkdocs.md</label>
+                                                <ul>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <input type='checkbox' id='CNLib.docs.API.cnlib.cnpot.md'>
+                                                <label for='CNLib.docs.API.cnlib.cnpot.md'> [] cnpot.md</label>
+                                                <ul>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <input type='checkbox' id='CNLib.docs.API.cnlib.cntree.md'>
+                                                <label for='CNLib.docs.API.cnlib.cntree.md'> [] cntree.md</label>
+                                                <ul>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <input type='checkbox' id='CNLib.docs.API.cnlib.cnvenv.md'>
+                                                <label for='CNLib.docs.API.cnlib.cnvenv.md'> [] cnvenv.md</label>
+                                                <ul>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
-                            </ul>
-                        </li>
                             <li>
                                 <input type='checkbox' id='CNLib.docs.images'>
                                 <label for='CNLib.docs.images'> [] images/</label>
                                 <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.docs.images.cnlib.png'>
-                                    <label for='CNLib.docs.images.cnlib.png'> [] cnlib.png</label>
-                                    <ul>
+                                    <li>
+                                        <input type='checkbox' id='CNLib.docs.images.cnlib.png'>
+                                        <label for='CNLib.docs.images.cnlib.png'> [] cnlib.png</label>
+                                        <ul>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
-                            </ul>
-                        </li>
                             <li>
                                 <input type='checkbox' id='CNLib.docs.img'>
                                 <label for='CNLib.docs.img'> [] img/</label>
                                 <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.docs.img.favicon.ico'>
-                                    <label for='CNLib.docs.img.favicon.ico'> [] favicon.ico</label>
-                                    <ul>
+                                    <li>
+                                        <input type='checkbox' id='CNLib.docs.img.favicon.ico'>
+                                        <label for='CNLib.docs.img.favicon.ico'> [] favicon.ico</label>
+                                        <ul>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
-                            </ul>
-                        </li>
                             <li>
                                 <input type='checkbox' id='CNLib.docs.index.md'>
                                 <label for='CNLib.docs.index.md'> [] index.md</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
-                        <li>
-                            <input type='checkbox' id='CNLib.i18n'>
-                            <label for='CNLib.i18n'> [] i18n/</label>
-                            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib.i18n'>
+                        <label for='CNLib.i18n'> [] i18n/</label>
+                        <ul>
                             <li>
                                 <input type='checkbox' id='CNLib.i18n.locale'>
                                 <label for='CNLib.i18n.locale'> [] locale/</label>
                                 <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.i18n.locale.en'>
-                                    <label for='CNLib.i18n.locale.en'> [] en/</label>
-                                    <ul>
                                     <li>
-                                        <input type='checkbox' id='CNLib.i18n.locale.en.LC_MESSAGES'>
-                                        <label for='CNLib.i18n.locale.en.LC_MESSAGES'> [] LC_MESSAGES/</label>
+                                        <input type='checkbox' id='CNLib.i18n.locale.en'>
+                                        <label for='CNLib.i18n.locale.en'> [] en/</label>
                                         <ul>
-                                        <li>
-                                            <input type='checkbox' id='CNLib.i18n.locale.en.LC_MESSAGES.cnlib.mo'>
-                                            <label for='CNLib.i18n.locale.en.LC_MESSAGES.cnlib.mo'> [] cnlib.mo</label>
-                                            <ul>
+                                            <li>
+                                                <input type='checkbox' id='CNLib.i18n.locale.en.LC_MESSAGES'>
+                                                <label for='CNLib.i18n.locale.en.LC_MESSAGES'> [] LC_MESSAGES/</label>
+                                                <ul>
+                                                    <li>
+                                                        <input type='checkbox' id='CNLib.i18n.locale.en.LC_MESSAGES.cnlib.mo'>
+                                                        <label for='CNLib.i18n.locale.en.LC_MESSAGES.cnlib.mo'> [] cnlib.mo</label>
+                                                        <ul>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </li>
-                                    </ul>
-                                </li>
                                 </ul>
                             </li>
-                            </ul>
-                        </li>
                             <li>
                                 <input type='checkbox' id='CNLib.i18n.po'>
                                 <label for='CNLib.i18n.po'> [] po/</label>
                                 <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.i18n.po.en'>
-                                    <label for='CNLib.i18n.po.en'> [] en/</label>
-                                    <ul>
                                     <li>
-                                        <input type='checkbox' id='CNLib.i18n.po.en.cnlib.po'>
-                                        <label for='CNLib.i18n.po.en.cnlib.po'> [] cnlib.po</label>
+                                        <input type='checkbox' id='CNLib.i18n.po.en'>
+                                        <label for='CNLib.i18n.po.en'> [] en/</label>
                                         <ul>
-                                    </ul>
-                                </li>
+                                            <li>
+                                                <input type='checkbox' id='CNLib.i18n.po.en.cnlib.po'>
+                                                <label for='CNLib.i18n.po.en.cnlib.po'> [] cnlib.po</label>
+                                                <ul>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <input type='checkbox' id='CNLib.i18n.po.LINGUAS'>
+                                        <label for='CNLib.i18n.po.LINGUAS'> [] LINGUAS</label>
+                                        <ul>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.i18n.po.LINGUAS'>
-                                    <label for='CNLib.i18n.po.LINGUAS'> [] LINGUAS</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                            </ul>
-                        </li>
                             <li>
                                 <input type='checkbox' id='CNLib.i18n.pot'>
                                 <label for='CNLib.i18n.pot'> [] pot/</label>
                                 <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.i18n.pot.cnlib.pot'>
-                                    <label for='CNLib.i18n.pot.cnlib.pot'> [] cnlib.pot</label>
-                                    <ul>
+                                    <li>
+                                        <input type='checkbox' id='CNLib.i18n.pot.cnlib.pot'>
+                                        <label for='CNLib.i18n.pot.cnlib.pot'> [] cnlib.pot</label>
+                                        <ul>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
-                            </ul>
-                        </li>
                         </ul>
                     </li>
-                        <li>
-                            <input type='checkbox' id='CNLib.images'>
-                            <label for='CNLib.images'> [] images/</label>
-                            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib.images'>
+                        <label for='CNLib.images'> [] images/</label>
+                        <ul>
                             <li>
                                 <input type='checkbox' id='CNLib.images.cnlib.png'>
                                 <label for='CNLib.images.cnlib.png'> [] cnlib.png</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
-                        <li>
-                            <input type='checkbox' id='CNLib.misc'>
-                            <label for='CNLib.misc'> [] misc/</label>
-                            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib.misc'>
+                        <label for='CNLib.misc'> [] misc/</label>
+                        <ul>
                             <li>
                                 <input type='checkbox' id='CNLib.misc.checklists'>
                                 <label for='CNLib.misc.checklists'> [] checklists/</label>
                                 <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.misc.checklists.project.txt'>
-                                    <label for='CNLib.misc.checklists.project.txt'> [] project.txt</label>
-                                    <ul>
+                                    <li>
+                                        <input type='checkbox' id='CNLib.misc.checklists.project.txt'>
+                                        <label for='CNLib.misc.checklists.project.txt'> [] project.txt</label>
+                                        <ul>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <input type='checkbox' id='CNLib.misc.checklists.style.txt'>
+                                        <label for='CNLib.misc.checklists.style.txt'> [] style.txt</label>
+                                        <ul>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.misc.checklists.style.txt'>
-                                    <label for='CNLib.misc.checklists.style.txt'> [] style.txt</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                            </ul>
-                        </li>
                             <li>
                                 <input type='checkbox' id='CNLib.misc.default_files'>
                                 <label for='CNLib.misc.default_files'> [] default_files/</label>
                                 <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.misc.default_files.class.py'>
-                                    <label for='CNLib.misc.default_files.class.py'> [] class.py</label>
-                                    <ul>
+                                    <li>
+                                        <input type='checkbox' id='CNLib.misc.default_files.class.py'>
+                                        <label for='CNLib.misc.default_files.class.py'> [] class.py</label>
+                                        <ul>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <input type='checkbox' id='CNLib.misc.default_files.default.html'>
+                                        <label for='CNLib.misc.default_files.default.html'> [] default.html</label>
+                                        <ul>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <input type='checkbox' id='CNLib.misc.default_files.default.md'>
+                                        <label for='CNLib.misc.default_files.default.md'> [] default.md</label>
+                                        <ul>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <input type='checkbox' id='CNLib.misc.default_files.module.py'>
+                                        <label for='CNLib.misc.default_files.module.py'> [] module.py</label>
+                                        <ul>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <input type='checkbox' id='CNLib.misc.default_files.window.py'>
+                                        <label for='CNLib.misc.default_files.window.py'> [] window.py</label>
+                                        <ul>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.misc.default_files.default.html'>
-                                    <label for='CNLib.misc.default_files.default.html'> [] default.html</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.misc.default_files.default.md'>
-                                    <label for='CNLib.misc.default_files.default.md'> [] default.md</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.misc.default_files.module.py'>
-                                    <label for='CNLib.misc.default_files.module.py'> [] module.py</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.misc.default_files.window.py'>
-                                    <label for='CNLib.misc.default_files.window.py'> [] window.py</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                            </ul>
-                        </li>
                             <li>
                                 <input type='checkbox' id='CNLib.misc.how_to'>
                                 <label for='CNLib.misc.how_to'> [] how_to/</label>
                                 <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.misc.how_to.i18n_tips.txt'>
-                                    <label for='CNLib.misc.how_to.i18n_tips.txt'> [] i18n_tips.txt</label>
-                                    <ul>
+                                    <li>
+                                        <input type='checkbox' id='CNLib.misc.how_to.i18n_tips.txt'>
+                                        <label for='CNLib.misc.how_to.i18n_tips.txt'> [] i18n_tips.txt</label>
+                                        <ul>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
-                            </ul>
-                        </li>
                             <li>
                                 <input type='checkbox' id='CNLib.misc.release.txt'>
                                 <label for='CNLib.misc.release.txt'> [] release.txt</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                             <li>
                                 <input type='checkbox' id='CNLib.misc.tree.html'>
                                 <label for='CNLib.misc.tree.html'> [] tree.html</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                             <li>
                                 <input type='checkbox' id='CNLib.misc.tree.txt'>
                                 <label for='CNLib.misc.tree.txt'> [] tree.txt</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
-                        <li>
-                            <input type='checkbox' id='CNLib.pyplate'>
-                            <label for='CNLib.pyplate'> [] pyplate/</label>
-                            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib.pyplate'>
+                        <label for='CNLib.pyplate'> [] pyplate/</label>
+                        <ul>
                             <li>
                                 <input type='checkbox' id='CNLib.pyplate.private'>
                                 <label for='CNLib.pyplate.private'> [] private/</label>
                                 <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.pyplate.private.private.json'>
-                                    <label for='CNLib.pyplate.private.private.json'> [] private.json</label>
-                                    <ul>
+                                    <li>
+                                        <input type='checkbox' id='CNLib.pyplate.private.private.json'>
+                                        <label for='CNLib.pyplate.private.private.json'> [] private.json</label>
+                                        <ul>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
-                            </ul>
-                        </li>
                             <li>
                                 <input type='checkbox' id='CNLib.pyplate.project.json'>
                                 <label for='CNLib.pyplate.project.json'> [] project.json</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
-                        <li>
-                            <input type='checkbox' id='CNLib.site'>
-                            <label for='CNLib.site'> [] site/</label>
-                            <ul>
-                            <li>
-                                <input type='checkbox' id='CNLib.site.API'>
-                                <label for='CNLib.site.API'> [] API/</label>
-                                <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.API.cnlib'>
-                                    <label for='CNLib.site.API.cnlib'> [] cnlib/</label>
-                                    <ul>
-                                    <li>
-                                        <input type='checkbox' id='CNLib.site.API.cnlib.cnformatter'>
-                                        <label for='CNLib.site.API.cnlib.cnformatter'> [] cnformatter/</label>
-                                        <ul>
-                                        <li>
-                                            <input type='checkbox' id='CNLib.site.API.cnlib.cnformatter.index.html'>
-                                            <label for='CNLib.site.API.cnlib.cnformatter.index.html'> [] index.html</label>
-                                            <ul>
-                                        </ul>
-                                    </li>
-                                    </ul>
-                                </li>
-                                    <li>
-                                        <input type='checkbox' id='CNLib.site.API.cnlib.cnfunctions'>
-                                        <label for='CNLib.site.API.cnlib.cnfunctions'> [] cnfunctions/</label>
-                                        <ul>
-                                        <li>
-                                            <input type='checkbox' id='CNLib.site.API.cnlib.cnfunctions.index.html'>
-                                            <label for='CNLib.site.API.cnlib.cnfunctions.index.html'> [] index.html</label>
-                                            <ul>
-                                        </ul>
-                                    </li>
-                                    </ul>
-                                </li>
-                                    <li>
-                                        <input type='checkbox' id='CNLib.site.API.cnlib.cninstall'>
-                                        <label for='CNLib.site.API.cnlib.cninstall'> [] cninstall/</label>
-                                        <ul>
-                                        <li>
-                                            <input type='checkbox' id='CNLib.site.API.cnlib.cninstall.index.html'>
-                                            <label for='CNLib.site.API.cnlib.cninstall.index.html'> [] index.html</label>
-                                            <ul>
-                                        </ul>
-                                    </li>
-                                    </ul>
-                                </li>
-                                    <li>
-                                        <input type='checkbox' id='CNLib.site.API.cnlib.cnmkdocs'>
-                                        <label for='CNLib.site.API.cnlib.cnmkdocs'> [] cnmkdocs/</label>
-                                        <ul>
-                                        <li>
-                                            <input type='checkbox' id='CNLib.site.API.cnlib.cnmkdocs.index.html'>
-                                            <label for='CNLib.site.API.cnlib.cnmkdocs.index.html'> [] index.html</label>
-                                            <ul>
-                                        </ul>
-                                    </li>
-                                    </ul>
-                                </li>
-                                    <li>
-                                        <input type='checkbox' id='CNLib.site.API.cnlib.cnpot'>
-                                        <label for='CNLib.site.API.cnlib.cnpot'> [] cnpot/</label>
-                                        <ul>
-                                        <li>
-                                            <input type='checkbox' id='CNLib.site.API.cnlib.cnpot.index.html'>
-                                            <label for='CNLib.site.API.cnlib.cnpot.index.html'> [] index.html</label>
-                                            <ul>
-                                        </ul>
-                                    </li>
-                                    </ul>
-                                </li>
-                                    <li>
-                                        <input type='checkbox' id='CNLib.site.API.cnlib.cntree'>
-                                        <label for='CNLib.site.API.cnlib.cntree'> [] cntree/</label>
-                                        <ul>
-                                        <li>
-                                            <input type='checkbox' id='CNLib.site.API.cnlib.cntree.index.html'>
-                                            <label for='CNLib.site.API.cnlib.cntree.index.html'> [] index.html</label>
-                                            <ul>
-                                        </ul>
-                                    </li>
-                                    </ul>
-                                </li>
-                                    <li>
-                                        <input type='checkbox' id='CNLib.site.API.cnlib.cnvenv'>
-                                        <label for='CNLib.site.API.cnlib.cnvenv'> [] cnvenv/</label>
-                                        <ul>
-                                        <li>
-                                            <input type='checkbox' id='CNLib.site.API.cnlib.cnvenv.index.html'>
-                                            <label for='CNLib.site.API.cnlib.cnvenv.index.html'> [] index.html</label>
-                                            <ul>
-                                        </ul>
-                                    </li>
-                                    </ul>
-                                </li>
-                                </ul>
-                            </li>
-                            </ul>
-                        </li>
-                            <li>
-                                <input type='checkbox' id='CNLib.site.assets'>
-                                <label for='CNLib.site.assets'> [] assets/</label>
-                                <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.assets._mkdocstrings.css'>
-                                    <label for='CNLib.site.assets._mkdocstrings.css'> [] _mkdocstrings.css</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                            </ul>
-                        </li>
-                            <li>
-                                <input type='checkbox' id='CNLib.site.css'>
-                                <label for='CNLib.site.css'> [] css/</label>
-                                <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.css.base.css'>
-                                    <label for='CNLib.site.css.base.css'> [] base.css</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.css.bootstrap.min.css'>
-                                    <label for='CNLib.site.css.bootstrap.min.css'> [] bootstrap.min.css</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.css.bootstrap.min.css.map'>
-                                    <label for='CNLib.site.css.bootstrap.min.css.map'> [] bootstrap.min.css.map</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.css.brands.min.css'>
-                                    <label for='CNLib.site.css.brands.min.css'> [] brands.min.css</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.css.fontawesome.min.css'>
-                                    <label for='CNLib.site.css.fontawesome.min.css'> [] fontawesome.min.css</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.css.solid.min.css'>
-                                    <label for='CNLib.site.css.solid.min.css'> [] solid.min.css</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.css.v4-font-face.min.css'>
-                                    <label for='CNLib.site.css.v4-font-face.min.css'> [] v4-font-face.min.css</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                            </ul>
-                        </li>
-                            <li>
-                                <input type='checkbox' id='CNLib.site.images'>
-                                <label for='CNLib.site.images'> [] images/</label>
-                                <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.images.cnlib.png'>
-                                    <label for='CNLib.site.images.cnlib.png'> [] cnlib.png</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                            </ul>
-                        </li>
-                            <li>
-                                <input type='checkbox' id='CNLib.site.img'>
-                                <label for='CNLib.site.img'> [] img/</label>
-                                <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.img.favicon.ico'>
-                                    <label for='CNLib.site.img.favicon.ico'> [] favicon.ico</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.img.grid.png'>
-                                    <label for='CNLib.site.img.grid.png'> [] grid.png</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                            </ul>
-                        </li>
-                            <li>
-                                <input type='checkbox' id='CNLib.site.js'>
-                                <label for='CNLib.site.js'> [] js/</label>
-                                <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.js.base.js'>
-                                    <label for='CNLib.site.js.base.js'> [] base.js</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.js.bootstrap.bundle.min.js'>
-                                    <label for='CNLib.site.js.bootstrap.bundle.min.js'> [] bootstrap.bundle.min.js</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.js.bootstrap.bundle.min.js.map'>
-                                    <label for='CNLib.site.js.bootstrap.bundle.min.js.map'> [] bootstrap.bundle.min.js.map</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.js.darkmode.js'>
-                                    <label for='CNLib.site.js.darkmode.js'> [] darkmode.js</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                            </ul>
-                        </li>
-                            <li>
-                                <input type='checkbox' id='CNLib.site.search'>
-                                <label for='CNLib.site.search'> [] search/</label>
-                                <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.search.lunr.js'>
-                                    <label for='CNLib.site.search.lunr.js'> [] lunr.js</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.search.main.js'>
-                                    <label for='CNLib.site.search.main.js'> [] main.js</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.search.search_index.json'>
-                                    <label for='CNLib.site.search.search_index.json'> [] search_index.json</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.search.worker.js'>
-                                    <label for='CNLib.site.search.worker.js'> [] worker.js</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                            </ul>
-                        </li>
-                            <li>
-                                <input type='checkbox' id='CNLib.site.webfonts'>
-                                <label for='CNLib.site.webfonts'> [] webfonts/</label>
-                                <ul>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.webfonts.fa-brands-400.ttf'>
-                                    <label for='CNLib.site.webfonts.fa-brands-400.ttf'> [] fa-brands-400.ttf</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.webfonts.fa-brands-400.woff2'>
-                                    <label for='CNLib.site.webfonts.fa-brands-400.woff2'> [] fa-brands-400.woff2</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.webfonts.fa-regular-400.ttf'>
-                                    <label for='CNLib.site.webfonts.fa-regular-400.ttf'> [] fa-regular-400.ttf</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.webfonts.fa-regular-400.woff2'>
-                                    <label for='CNLib.site.webfonts.fa-regular-400.woff2'> [] fa-regular-400.woff2</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.webfonts.fa-solid-900.ttf'>
-                                    <label for='CNLib.site.webfonts.fa-solid-900.ttf'> [] fa-solid-900.ttf</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.webfonts.fa-solid-900.woff2'>
-                                    <label for='CNLib.site.webfonts.fa-solid-900.woff2'> [] fa-solid-900.woff2</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.webfonts.fa-v4compatibility.ttf'>
-                                    <label for='CNLib.site.webfonts.fa-v4compatibility.ttf'> [] fa-v4compatibility.ttf</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                                <li>
-                                    <input type='checkbox' id='CNLib.site.webfonts.fa-v4compatibility.woff2'>
-                                    <label for='CNLib.site.webfonts.fa-v4compatibility.woff2'> [] fa-v4compatibility.woff2</label>
-                                    <ul>
-                                </ul>
-                            </li>
-                            </ul>
-                        </li>
-                            <li>
-                                <input type='checkbox' id='CNLib.site.404.html'>
-                                <label for='CNLib.site.404.html'> [] 404.html</label>
-                                <ul>
-                            </ul>
-                        </li>
-                            <li>
-                                <input type='checkbox' id='CNLib.site.index.html'>
-                                <label for='CNLib.site.index.html'> [] index.html</label>
-                                <ul>
-                            </ul>
-                        </li>
-                            <li>
-                                <input type='checkbox' id='CNLib.site.objects.inv'>
-                                <label for='CNLib.site.objects.inv'> [] objects.inv</label>
-                                <ul>
-                            </ul>
-                        </li>
-                            <li>
-                                <input type='checkbox' id='CNLib.site.sitemap.xml'>
-                                <label for='CNLib.site.sitemap.xml'> [] sitemap.xml</label>
-                                <ul>
-                            </ul>
-                        </li>
-                            <li>
-                                <input type='checkbox' id='CNLib.site.sitemap.xml.gz'>
-                                <label for='CNLib.site.sitemap.xml.gz'> [] sitemap.xml.gz</label>
-                                <ul>
-                            </ul>
-                        </li>
-                        </ul>
-                    </li>
-                        <li>
-                            <input type='checkbox' id='CNLib.tests'>
-                            <label for='CNLib.tests'> [] tests/</label>
-                            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib.tests'>
+                        <label for='CNLib.tests'> [] tests/</label>
+                        <ul>
                             <li>
                                 <input type='checkbox' id='CNLib.tests.cnlib_test.py'>
                                 <label for='CNLib.tests.cnlib_test.py'> [] cnlib_test.py</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
-                        <li>
-                            <input type='checkbox' id='CNLib.todo'>
-                            <label for='CNLib.todo'> [] todo/</label>
-                            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib.todo'>
+                        <label for='CNLib.todo'> [] todo/</label>
+                        <ul>
                             <li>
                                 <input type='checkbox' id='CNLib.todo.ABOUT'>
                                 <label for='CNLib.todo.ABOUT'> [] ABOUT</label>
                                 <ul>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
-                        <li>
-                            <input type='checkbox' id='CNLib..gitignore'>
-                            <label for='CNLib..gitignore'> [] .gitignore</label>
-                            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib..gitignore'>
+                        <label for='CNLib..gitignore'> [] .gitignore</label>
+                        <ul>
                         </ul>
                     </li>
-                        <li>
-                            <input type='checkbox' id='CNLib.develop.py'>
-                            <label for='CNLib.develop.py'> [] develop.py</label>
-                            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib.LICENSE.txt'>
+                        <label for='CNLib.LICENSE.txt'> [] LICENSE.txt</label>
+                        <ul>
                         </ul>
                     </li>
-                        <li>
-                            <input type='checkbox' id='CNLib.LICENSE.txt'>
-                            <label for='CNLib.LICENSE.txt'> [] LICENSE.txt</label>
-                            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib.README.md'>
+                        <label for='CNLib.README.md'> [] README.md</label>
+                        <ul>
                         </ul>
                     </li>
-                        <li>
-                            <input type='checkbox' id='CNLib.mkdocs.yml'>
-                            <label for='CNLib.mkdocs.yml'> [] mkdocs.yml</label>
-                            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib.develop.py'>
+                        <label for='CNLib.develop.py'> [] develop.py</label>
+                        <ul>
                         </ul>
                     </li>
-                        <li>
-                            <input type='checkbox' id='CNLib.pyproject.toml'>
-                            <label for='CNLib.pyproject.toml'> [] pyproject.toml</label>
-                            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib.mkdocs.yml'>
+                        <label for='CNLib.mkdocs.yml'> [] mkdocs.yml</label>
+                        <ul>
                         </ul>
                     </li>
-                        <li>
-                            <input type='checkbox' id='CNLib.README.md'>
-                            <label for='CNLib.README.md'> [] README.md</label>
-                            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib.pyproject.toml'>
+                        <label for='CNLib.pyproject.toml'> [] pyproject.toml</label>
+                        <ul>
                         </ul>
                     </li>
-                        <li>
-                            <input type='checkbox' id='CNLib.requirements.txt'>
-                            <label for='CNLib.requirements.txt'> [] requirements.txt</label>
-                            <ul>
+                    <li>
+                        <input type='checkbox' id='CNLib.requirements.txt'>
+                        <label for='CNLib.requirements.txt'> [] requirements.txt</label>
+                        <ul>
                         </ul>
                     </li>
-                </ul>
-            </li>
-        </ul>
-        <script>
+            </ul>
+        </li>
+    </ul>
+    <script>
 
-            // NB: https://codepen.io/girish/pen/BaWMGKp
+        // NB: https://codepen.io/girish/pen/BaWMGKp
 
-            // helper func to create a flat array from a NodeList
-            nodeArray = (parent, selector) =>
-                Array.from(parent.querySelectorAll(selector));
+        // helper func to create a flat array from a NodeList
+        nodeArray = (parent, selector) =>
+            Array.from(parent.querySelectorAll(selector));
 
-            // get all checkboxes from document
-            allChecks = nodeArray(document, 'input[type="checkbox"]');
+        // get all checkboxes from document
+        allChecks = nodeArray(document, 'input[type="checkbox"]');
 
-            // global document listener (add to all inputs)
-            addEventListener('change', e => {
+        // global document listener (add to all inputs)
+        addEventListener('change', e => {
 
-                // get object that changed
-                check = e.target;
+            // get object that changed
+            check = e.target;
 
-                // if event did not come from a checkbox in our list
-                if (allChecks.indexOf(check) === -1)
-                    return;
+            // if event did not come from a checkbox in our list
+            if (allChecks.indexOf(check) === -1)
+                return;
 
-                // check/uncheck children based on parent state
-                parent = check.parentNode;
-                children = nodeArray(parent, 'input[type="checkbox"]');
-                children.forEach(child =>
-                    child.checked = check.checked
-                );
+            // check/uncheck children based on parent state
+            parent = check.parentNode;
+            children = nodeArray(parent, 'input[type="checkbox"]');
+            children.forEach(child =>
+                child.checked = check.checked
+            );
 
-                // traverse up from target check
-                while (check) {
+            // traverse up from target check
+            while (check) {
 
-                    // find parent checkbox
-                    parent = check.closest('ul');
-                    parent = parent.parentNode;
-                    parent = parent.querySelector('input[type="checkbox"]');
+                // find parent checkbox
+                parent = check.closest('ul');
+                parent = parent.parentNode;
+                parent = parent.querySelector('input[type="checkbox"]');
 
-                    // find sibling checkboxes
-                    siblings = parent.closest('li');
-                    siblings = siblings.querySelector('ul');
-                    siblings = nodeArray(siblings, 'input[type="checkbox"]');
+                // find sibling checkboxes
+                siblings = parent.closest('li');
+                siblings = siblings.querySelector('ul');
+                siblings = nodeArray(siblings, 'input[type="checkbox"]');
 
-                    // get checked state of siblings
-                    // are every or some siblings checked?
-                    siblingsMap = siblings.map(check => check.checked);
-                    every = siblingsMap.every(Boolean);
-                    some = siblingsMap.some(Boolean);
+                // get checked state of siblings
+                // are every or some siblings checked?
+                siblingsMap = siblings.map(check => check.checked);
+                every = siblingsMap.every(Boolean);
+                some = siblingsMap.some(Boolean);
 
-                    // check parent if all child siblings are checked
-                    // set indeterminate if some (not all and not none) are checked
-                    parent.checked = every;
-                    parent.indeterminate = !every && every !== some;
+                // check parent if all child siblings are checked
+                // set indeterminate if some (not all and not none) are checked
+                parent.checked = every;
+                parent.indeterminate = !every && every !== some;
 
-                    // prepare for next loop
-                    check = check != parent ? parent : 0;
-                }
-
-                // save current state
-                save();
-            });
+                // prepare for next loop
+                check = check != parent ? parent : 0;
+            }
 
             // save current state
-            function save() {
+            save();
+        });
 
-                // for each checkbox
-                allChecks.forEach(check => {
+        // save current state
+        function save() {
 
-                    // get all the stuff
-                    id = check.id;
-                    ind = check.indeterminate;
-                    checked = check.checked;
+            // for each checkbox
+            allChecks.forEach(check => {
 
-                    // if it is -, save that
-                    if (ind) {
-                        localStorage.setItem(id, 'ind');
+                // get all the stuff
+                id = check.id;
+                ind = check.indeterminate;
+                checked = check.checked;
 
-                        // not -, save checked or not
-                    } else {
-                        localStorage.setItem(id, checked);
-                    }
-                });
-            };
+                // if it is -, save that
+                if (ind) {
+                    localStorage.setItem(id, 'ind');
 
-            // load previous state
-            window.onload = function () {
+                    // not -, save checked or not
+                } else {
+                    localStorage.setItem(id, checked);
+                }
+            });
+        };
 
-                // for each checkbox
-                allChecks.forEach(check => {
+        // load previous state
+        window.onload = function () {
 
-                    // get all the stuff
-                    id = check.id;
-                    ind = localStorage.getItem(id) === 'ind';
-                    checked = localStorage.getItem(id) === 'true';
+            // for each checkbox
+            allChecks.forEach(check => {
 
-                    // if it was -, set to -
-                    if (ind) {
-                        check.indeterminate = true
+                // get all the stuff
+                id = check.id;
+                ind = localStorage.getItem(id) === 'ind';
+                checked = localStorage.getItem(id) === 'true';
 
-                    // if it was not -, set to old state
-                    } else {
-                        check.checked = checked;
-                    }
-                });
-            };
+                // if it was -, set to -
+                if (ind) {
+                    check.indeterminate = true
 
-        </script>
-    </body>
+                // if it was not -, set to old state
+                } else {
+                    check.checked = checked;
+                }
+            });
+        };
+
+    </script>
+</body>
 </html>
 
 <!-- -) -->

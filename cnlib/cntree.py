@@ -15,24 +15,30 @@ checked, unchecked, or indeterminate, according to their child checkboxes'
 values.
 """
 
+# TODO: some pipes still missing (see site dir)
+
 # TODO: only do check event on load if item has no children
 # start bottom up?
-# TODO: add empty line between sibling dirs
+
+# TODO: add empty line below root
+# TODO: add empty line above dir and below last dir entry
+# but only on top level
+
 # project_name/
-# │
-# ├── README.md
-# ├── setup.py
-# ├── requirements.txt
 # │
 # ├── src/
 # │   ├── __init__.py
 # │   ├── module1.py
 # │   └── module2.py
 # │
-# └── tests/
-#     ├── __init__.py
-#     ├── test_module1.py
-#     └── test_module2.py
+# ├── tests/
+# |   ├── __init__.py
+# |   ├── test_module1.py
+# |   └── test_module2.py
+# |
+# ├── README.md
+# ├── requirements.txt
+# └── setup.py
 
 
 # ------------------------------------------------------------------------------
@@ -114,147 +120,147 @@ class CNTree:
     # NB: format params are self._css, root name, and root id
     S_HTML_PROLOG = """<!DOCTYPE html>
 <html>
-    <head>
-        <style>
-            {0}
-        </style>
-    </head>
-    <body>
-        <ul>
-            <li>
-                <input type="checkbox" id="{2}">
-                <label for="{2}">{1}</label>
-                <ul>"""
+<head>
+    <style>
+        {0}
+    </style>
+</head>
+<body>
+    <ul>
+        <li>
+            <input type="checkbox" id="{2}">
+            <label for="{2}">{1}</label>
+            <ul>"""
 
     # epilog (what comes after the checkbox list)
     S_HTML_EPILOG = """
-                </ul>
-            </li>
-        </ul>
-        <script>
+            </ul>
+        </li>
+    </ul>
+    <script>
 
-            // NB: https://codepen.io/girish/pen/BaWMGKp
+        // NB: https://codepen.io/girish/pen/BaWMGKp
 
-            // helper func to create a flat array from a NodeList
-            nodeArray = (parent, selector) =>
-                Array.from(parent.querySelectorAll(selector));
+        // helper func to create a flat array from a NodeList
+        nodeArray = (parent, selector) =>
+            Array.from(parent.querySelectorAll(selector));
 
-            // get all checkboxes from document
-            allChecks = nodeArray(document, 'input[type="checkbox"]');
+        // get all checkboxes from document
+        allChecks = nodeArray(document, 'input[type="checkbox"]');
 
-            // global document listener (add to all inputs)
-            addEventListener('change', e => {
+        // global document listener (add to all inputs)
+        addEventListener('change', e => {
 
-                // get object that changed
-                check = e.target;
+            // get object that changed
+            check = e.target;
 
-                // if event did not come from a checkbox in our list
-                if (allChecks.indexOf(check) === -1)
-                    return;
+            // if event did not come from a checkbox in our list
+            if (allChecks.indexOf(check) === -1)
+                return;
 
-                // check/uncheck children based on parent state
-                parent = check.parentNode;
-                children = nodeArray(parent, 'input[type="checkbox"]');
-                children.forEach(child =>
-                    child.checked = check.checked
-                );
+            // check/uncheck children based on parent state
+            parent = check.parentNode;
+            children = nodeArray(parent, 'input[type="checkbox"]');
+            children.forEach(child =>
+                child.checked = check.checked
+            );
 
-                // traverse up from target check
-                while (check) {
+            // traverse up from target check
+            while (check) {
 
-                    // find parent checkbox
-                    parent = check.closest('ul');
-                    parent = parent.parentNode;
-                    parent = parent.querySelector('input[type="checkbox"]');
+                // find parent checkbox
+                parent = check.closest('ul');
+                parent = parent.parentNode;
+                parent = parent.querySelector('input[type="checkbox"]');
 
-                    // find sibling checkboxes
-                    siblings = parent.closest('li');
-                    siblings = siblings.querySelector('ul');
-                    siblings = nodeArray(siblings, 'input[type="checkbox"]');
+                // find sibling checkboxes
+                siblings = parent.closest('li');
+                siblings = siblings.querySelector('ul');
+                siblings = nodeArray(siblings, 'input[type="checkbox"]');
 
-                    // get checked state of siblings
-                    // are every or some siblings checked?
-                    siblingsMap = siblings.map(check => check.checked);
-                    every = siblingsMap.every(Boolean);
-                    some = siblingsMap.some(Boolean);
+                // get checked state of siblings
+                // are every or some siblings checked?
+                siblingsMap = siblings.map(check => check.checked);
+                every = siblingsMap.every(Boolean);
+                some = siblingsMap.some(Boolean);
 
-                    // check parent if all child siblings are checked
-                    // set indeterminate if some (not all and not none) are checked
-                    parent.checked = every;
-                    parent.indeterminate = !every && every !== some;
+                // check parent if all child siblings are checked
+                // set indeterminate if some (not all and not none) are checked
+                parent.checked = every;
+                parent.indeterminate = !every && every !== some;
 
-                    // prepare for next loop
-                    check = check != parent ? parent : 0;
-                }
-
-                // save current state
-                save();
-            });
+                // prepare for next loop
+                check = check != parent ? parent : 0;
+            }
 
             // save current state
-            function save() {
+            save();
+        });
 
-                // for each checkbox
-                allChecks.forEach(check => {
+        // save current state
+        function save() {
 
-                    // get all the stuff
-                    id = check.id;
-                    ind = check.indeterminate;
-                    checked = check.checked;
+            // for each checkbox
+            allChecks.forEach(check => {
 
-                    // if it is -, save that
-                    if (ind) {
-                        localStorage.setItem(id, 'ind');
+                // get all the stuff
+                id = check.id;
+                ind = check.indeterminate;
+                checked = check.checked;
 
-                        // not -, save checked or not
-                    } else {
-                        localStorage.setItem(id, checked);
-                    }
-                });
-            };
+                // if it is -, save that
+                if (ind) {
+                    localStorage.setItem(id, 'ind');
 
-            // load previous state
-            window.onload = function () {
+                    // not -, save checked or not
+                } else {
+                    localStorage.setItem(id, checked);
+                }
+            });
+        };
 
-                // for each checkbox
-                allChecks.forEach(check => {
+        // load previous state
+        window.onload = function () {
 
-                    // get all the stuff
-                    id = check.id;
-                    ind = localStorage.getItem(id) === 'ind';
-                    checked = localStorage.getItem(id) === 'true';
+            // for each checkbox
+            allChecks.forEach(check => {
 
-                    // if it was -, set to -
-                    if (ind) {
-                        check.indeterminate = true
+                // get all the stuff
+                id = check.id;
+                ind = localStorage.getItem(id) === 'ind';
+                checked = localStorage.getItem(id) === 'true';
 
-                    // if it was not -, set to old state
-                    } else {
-                        check.checked = checked;
-                    }
-                });
-            };
+                // if it was -, set to -
+                if (ind) {
+                    check.indeterminate = true
 
-        </script>
-    </body>
+                // if it was not -, set to old state
+                } else {
+                    check.checked = checked;
+                }
+            });
+        };
+
+    </script>
+</body>
 </html>
 
 <!-- -) -->
 """
 
     # start of new entry (file, folder)
-    # NB: format params are entry name, indent string, and self._id
+    # NB: format params are indent string, self._id, and entry name
     S_ENTRY_OPEN = """
-    {1}<li>
-    {1}    <input type='checkbox' id='{2}'>
-    {1}    <label for='{2}'>{0}</label>
-    {1}    <ul>"""
+{0}<li>
+{0}    <input type='checkbox' id='{1}'>
+{0}    <label for='{1}'>{2}</label>
+{0}    <ul>"""
 
     # end of entry (close child list, close entry)
     # NB: format param is indent string
     S_ENTRY_CLOSE = """
-    {0}    </ul>
-    {0}</li>"""
+{0}    </ul>
+{0}</li>"""
 
     # indent used in <li> to align better
     S_HTML_INDENT = "    "
@@ -276,7 +282,7 @@ class CNTree:
         dirs_only=False,
         sort=True,
         sort_files=False,
-        ignore_case=True,
+        ignore_case=False,
         css=None,
     ):
         """
@@ -289,8 +295,12 @@ class CNTree:
             dir_format: Format to use for directories (default:"$NAME/")
             file_format: Format to use for files (default: "$NAME")
             dirs_only: Only list directories (default: False)
-            ignore_case: Sort entries regardless of case. If False,
-            uppercase alpha characters take precedence.
+            sort: Whether to use the sort_files arg (default: True)
+            sort_files: If True, sort files above dirs, or if False, sort dirs
+            above files (Ignored if sort is False) (default: False)
+            ignore_case: If True, sort entries regardless of case, or if False,
+            uppercase alpha characters take precedence (default: False)
+            css: Custom css string to use for HTML output
 
         Creates a tree from the given start directory.
 
@@ -364,7 +374,7 @@ class CNTree:
         self.text = ""
 
         # html stuff
-        self._level = 4  # indent level for html
+        self._level = 3  # initial indent level for html
         self._id = ""  # build a unique id for entries (dot separated path)
         self.html = ""
 
@@ -376,7 +386,7 @@ class CNTree:
     # Creates a tree from the given start directory, using filter list,
     # directory and file formats
     # --------------------------------------------------------------------------
-    def main(self):
+    def make_tree(self):
         """
         Creates a tree from the given start directory, using filter list,
         directory and file formats
@@ -451,6 +461,9 @@ class CNTree:
         a lot of the heavy lifting to determine what gets printed, and how.
         """
 
+        # ----------------------------------------------------------------------
+        # fix up items (sort, filter)
+
         # enum all items in the dir (files and folders) and convert to list
         # NB: we need a list rather than a generator, since we want everything
         # at once (iterdir is a generator, and so yields)
@@ -465,7 +478,9 @@ class CNTree:
         # based on a bubble sort
         # NB: the hidden params to the "key" function are self and the results
         # of an iterator of items
-        items.sort(key=self._sort_by_name)
+        items.sort(
+            key=self._sort_by_name
+        )  # self._sort_by_name(self, [item for item in items])
 
         # sort works by iterating through a list. this function passes every
         # item through the is_file() test to get its result
@@ -493,6 +508,9 @@ class CNTree:
         # for each entry
         for index, an_item in enumerate(items):
 
+            # ------------------------------------------------------------------
+            # text stuff
+
             # get the type of connector based on position in enum
             connector = (
                 self.S_CONNECTOR_TEE
@@ -511,15 +529,21 @@ class CNTree:
                 f"{self._root_lead}{prefix}{connector}{rep_name}"
             )
 
+            # ------------------------------------------------------------------
+            # html stuff
+
             # increase id level
             self._id += "." + an_item.name
 
             # increase indent
-            self._level += 1
+            self._level += 2
             indent = self.S_HTML_INDENT * self._level
 
             # add the item to the tree
-            self.html += self.S_ENTRY_OPEN.format(rep_name, indent, self._id)
+            self.html += self.S_ENTRY_OPEN.format(indent, self._id, rep_name)
+
+            # ------------------------------------------------------------------
+            # recurse
 
             # if item is a dir
             if an_item.is_dir():
@@ -543,13 +567,14 @@ class CNTree:
                 prefix = prefix[len(new_prefix) :]
 
             # ------------------------------------------------------------------
+            # html stuff
 
             # back up id from previous level (+1 for dot)
             self._id = self._id[: -(len(an_item.name) + 1)]
 
             # unindent for html
-            self._level -= 1
             indent = self.S_HTML_INDENT * self._level
+            self._level -= 2
 
             # close the item
             self.html += self.S_ENTRY_CLOSE.format(indent)
@@ -569,11 +594,13 @@ class CNTree:
         if self._filter_list is None:
             return
 
+        # do glob
         list_filter = []
         for item in self._filter_list:
             res = list(self._start_dir.glob(item))
             list_filter.extend(res)
 
+        # set result
         self._filter_list = list_filter
 
     # --------------------------------------------------------------------------
@@ -606,11 +633,11 @@ class CNTree:
         self._dir_lead = " " * dir_lead_count
 
     # --------------------------------------------------------------------------
-    # Gets the sort order for custom sorting
+    # Gets the sort order for custom sorting by name
     # --------------------------------------------------------------------------
     def _get_sort_order(self):
         """
-        Gets the sort order for custom sorting
+        Gets the sort order for custom sorting by name
 
         This just fixes a personal quirk of mine. The default sorting order
         in Python sorts names starting with a dot (.) above a name starting
@@ -655,6 +682,10 @@ class CNTree:
 
         Returns:
             The index of the sorted item
+
+        Sorts items in the item list according to the item name, using a simple
+        bubble sort (i.e. step through each char in a string, promoting it
+        based on it's value)
         """
 
         # check if we need to lowercase based on the build_tree param
@@ -663,9 +694,9 @@ class CNTree:
             tmp_item = item.name.lower()
 
         # get the ordinal position of each char
-        # NB: if the key (char) is present, the get() function returns the value
-        # of the specified key. if the key is not present, it returns the second
-        # (ord of char in string.printable, i.e. a=0, b=1, c=2, etc.)
+        # NB: if the key (char) is present, the get() function returns the
+        # value of the specified key. if the key is not present, it returns the
+        # second (ord of char in string.printable, i.e. a=0, b=1, c=2, etc.)
         # this is why we need to know about the ignore_case, since if it is
         # False, uppercase will always take precedence over lowercase (at least
         # in en_US str.printable, again YMMV)
@@ -681,17 +712,19 @@ if __name__ == "__main__":
     # This is the top level code of the program, called when the Python file is
     # invoked from the command line.
 
-    dir2 = Path(__file__).parents[1]
-    dir2 = dir2 / "tests"
-    t = CNTree(
-        dir2,
-        dir_format=" [] $NAME/",
-        file_format=" [] $NAME",
-        filter_list=["**/__pycache__"],
-        sort=False,
-        sort_files=True,
-    )
-    t.main()
-    print(t.text)
+    a_start_dir = Path(__file__).parents[1]
+    a_filter_list = [
+        ".git",
+        ".venv*",
+        ".VSCodeCounter",
+        "**/*.egg-info",
+        "**/__pycache__",
+        "site",
+    ]
+
+    cntree = CNTree(a_start_dir, filter_list=a_filter_list)
+    cntree.make_tree()
+
+    print(cntree.text)
 
 # -)

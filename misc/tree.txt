@@ -12,7 +12,7 @@
    │     ├─ [] cntree.py
    │     └─ [] cnvenv.py
    ├─ [] dist/
-   │     └─ [] cnlib-0.0.10.tar.gz
+   │     └─ [] cnlib-0.0.11.tar.gz
    ├─ [] docs/
    │     ├─ [] API/
    │     │     └─ [] cnlib/
@@ -60,70 +60,14 @@
    │     ├─ [] private/
    │     │     └─ [] private.json
    │     └─ [] project.json
-   ├─ [] site/
-   │     ├─ [] API/
-   │     │     └─ [] cnlib/
-   │     │           ├─ [] cnformatter/
-   │     │           │     └─ [] index.html
-   │           │     ├─ [] cnfunctions/
-   │           │     │     └─ [] index.html
-         │     │     ├─ [] cninstall/
-         │     │     │     └─ [] index.html
-   │     │     │     ├─ [] cnmkdocs/
-   │     │     │     │     └─ [] index.html
-   │     │     │     ├─ [] cnpot/
-   │     │     │     │     └─ [] index.html
-   │     │     │     ├─ [] cntree/
-   │     │     │     │     └─ [] index.html
-   │     │     │     └─ [] cnvenv/
-   │     │     │           └─ [] index.html
-   │     ├─ [] assets/
-   │     │     └─ [] _mkdocstrings.css
-   │     ├─ [] css/
-   │     │     ├─ [] base.css
-   │     │     ├─ [] bootstrap.min.css
-   │     │     ├─ [] bootstrap.min.css.map
-   │     │     ├─ [] brands.min.css
-   │     │     ├─ [] fontawesome.min.css
-   │     │     ├─ [] solid.min.css
-   │     │     └─ [] v4-font-face.min.css
-   │     ├─ [] images/
-   │     │     └─ [] cnlib.png
-   │     ├─ [] img/
-   │     │     ├─ [] favicon.ico
-   │     │     └─ [] grid.png
-   │     ├─ [] js/
-   │     │     ├─ [] base.js
-   │     │     ├─ [] bootstrap.bundle.min.js
-   │     │     ├─ [] bootstrap.bundle.min.js.map
-   │     │     └─ [] darkmode.js
-   │     ├─ [] search/
-   │     │     ├─ [] lunr.js
-   │     │     ├─ [] main.js
-   │     │     ├─ [] search_index.json
-   │     │     └─ [] worker.js
-   │     ├─ [] webfonts/
-   │     │     ├─ [] fa-brands-400.ttf
-   │     │     ├─ [] fa-brands-400.woff2
-   │     │     ├─ [] fa-regular-400.ttf
-   │     │     ├─ [] fa-regular-400.woff2
-   │     │     ├─ [] fa-solid-900.ttf
-   │     │     ├─ [] fa-solid-900.woff2
-   │     │     ├─ [] fa-v4compatibility.ttf
-   │     │     └─ [] fa-v4compatibility.woff2
-   │     ├─ [] 404.html
-   │     ├─ [] index.html
-   │     ├─ [] objects.inv
-   │     ├─ [] sitemap.xml
-   │     └─ [] sitemap.xml.gz
    ├─ [] tests/
    │     └─ [] cnlib_test.py
    ├─ [] todo/
    │     └─ [] ABOUT
    ├─ [] .gitignore
-   ├─ [] develop.py
    ├─ [] LICENSE.txt
+   ├─ [] README.md
+   ├─ [] develop.py
    ├─ [] mkdocs.yml
    ├─ [] pyproject.toml
-   ├─ [] README.md
    └─ [] requirements.txt

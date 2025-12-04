@@ -1,5 +1,5 @@
 1. Run PB on CNLib
-    1a. activate pyplate venv
+    1a. run PB
     1b. Change version
 
 2. Commit/Push
