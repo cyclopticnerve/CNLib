@@ -12,7 +12,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "CNLib"
-version = "0.0.11"
+version = "0.0.12"
 description = "A Python library containing useful functions and classes "
 authors = [{ name = "cyclopticnerve", email = "cyclopticnerve@gmail.com" }]
 readme = "README.md"

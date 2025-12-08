@@ -17,7 +17,7 @@ A Python library containing useful functions and classes
 <!-- __RM_SHORT_DESC__ -->
 
 <!-- __RM_VERSION__ -->
-Version 0.0.11
+Version 0.0.12
 <!-- __RM_VERSION__ -->
 
 <!-- __RM_SCREENSHOT__ -->
