@@ -3,7 +3,8 @@
     1b. Change version
 
 2. Commit/Push
-    2a. Tag local/remote
+    2a. Tag local
+    2b. use gitgraph to push tag to remote
 
 3. Github
     3a. Create release

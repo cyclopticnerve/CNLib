@@ -509,7 +509,7 @@ def combine_dicts(dicts_new, dict_old=None):
     """
 
     # default return val
-    if dict_old is None:
+    if not dict_old:
         dict_old = {}
     else:
         dict_old = dict(dict_old)
@@ -528,9 +528,9 @@ def combine_dicts(dicts_new, dict_old=None):
 
             # if the value is a dict
             if isinstance(v, dict):
+
                 # recurse using the current key and value
                 dict_old[k] = combine_dicts(v, dict_old.get(k, None))
-                # dict_old[k] = combine_dicts(v, dict_old[k])
                 continue
 
             # if the value is not a dict or a list
@@ -630,13 +630,13 @@ def run(cmd, shell=False):
 # ------------------------------------------------------------------------------
 # Combines dictionaries from all found paths
 # ------------------------------------------------------------------------------
-def load_dicts(paths, start_dict=None):
+def load_paths_into_dict(paths, start_dict=None):
     """
     Combines dictionaries from all found paths
 
     Args:
-        paths: The file path or list of file paths to load start_dict: The
-        starting dict and final dict after combining (default: None)
+        paths: The file path or list of file paths to load
+        start_dict: The starting dict and final dict after combining (default: None)
 
     Returns:
         The final combined dictionary
@@ -690,12 +690,12 @@ def load_dicts(paths, start_dict=None):
 # ------------------------------------------------------------------------------
 # Save a dictionary to all paths
 # ------------------------------------------------------------------------------
-def save_dict(a_dict, paths):
+def save_dict_into_paths(save_dict, paths):
     """
     Save a dictionary to all paths
 
     Args:
-        a_dict: The dictionary to save to the file
+        save_dict: The dictionary to save to the paths(s)
         paths: The path or list of paths to save to
 
     Raises:
@@ -727,7 +727,7 @@ def save_dict(a_dict, paths):
             # open the file
             with open(path, "w", encoding=S_ENCODING) as a_file:
                 # save dict tp file
-                json.dump(a_dict, a_file, indent=4)
+                json.dump(save_dict, a_file, indent=4)
 
         # raise an OS Error
         except OSError as e:
