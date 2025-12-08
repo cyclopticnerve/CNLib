@@ -301,7 +301,7 @@ class CNInstall:
 
         # get install dict
         try:
-            F.load_dicts(path_cfg_inst, start_dict=self._dict_cfg)
+            F.load_paths_into_dict(path_cfg_inst, start_dict=self._dict_cfg)
         except OSError as e:
             raise e
 
@@ -349,7 +349,7 @@ class CNInstall:
 
         # get dict from file
         try:
-            F.load_dicts(path_cfg, start_dict=self._dict_cfg)
+            F.load_paths_into_dict(path_cfg, start_dict=self._dict_cfg)
         except OSError as e:
             raise e
 
@@ -395,7 +395,7 @@ class CNInstall:
         # be the first install but we will want to check on later updates)
         if path_cfg_uninst and Path(path_cfg_uninst).exists():
             try:
-                dict_cfg_old = F.load_dicts(path_cfg_uninst)
+                dict_cfg_old = F.load_paths_into_dict(path_cfg_uninst)
             except OSError as e:
                 raise e
 
