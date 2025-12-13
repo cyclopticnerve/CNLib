@@ -15,7 +15,7 @@ checked, unchecked, or indeterminate, according to their child checkboxes'
 values.
 """
 
-# TODO: some pipes still missing (see site dir)
+# FIXME: some pipes still missing (see site dir)
 
 # TODO: only do check event on load if item has no children
 # start bottom up?
