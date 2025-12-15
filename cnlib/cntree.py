@@ -476,11 +476,10 @@ class CNTree:
 
         # the key function's result is used to determine an item's position
         # based on a bubble sort
-        # NB: the hidden params to the "key" function are self and the results
-        # of an iterator of items
-        items.sort(
-            key=self._sort_by_name
-        )  # self._sort_by_name(self, [item for item in items])
+        # NB: the hidden param to the "key" function is self is an iterator of
+        # items i.e:
+        # self._sort_by_name([item for item in items])
+        items.sort(key=self._sort_by_name)
 
         # sort works by iterating through a list. this function passes every
         # item through the is_file() test to get its result
@@ -558,13 +557,10 @@ class CNTree:
                 new_prefix += self._dir_lead
 
                 # get whole prefix for next recurse
-                prefix += new_prefix
+                new_prefix = prefix + new_prefix
 
                 # recurse with dir and new prefix
-                self._add_contents(an_item, prefix)
-
-                # remove new_prefix
-                prefix = prefix[len(new_prefix) :]
+                self._add_contents(an_item, new_prefix)
 
             # ------------------------------------------------------------------
             # html stuff
@@ -712,19 +708,13 @@ if __name__ == "__main__":
     # This is the top level code of the program, called when the Python file is
     # invoked from the command line.
 
-    a_start_dir = Path(__file__).parents[1]
-    a_filter_list = [
-        ".git",
-        ".venv*",
-        ".VSCodeCounter",
-        "**/*.egg-info",
-        "**/__pycache__",
-        "site",
-    ]
+    a_start_dir = Path(__file__).parents[1] / "tests"
 
-    cntree = CNTree(a_start_dir, filter_list=a_filter_list)
+    cntree = CNTree(a_start_dir)
     cntree.make_tree()
 
+    print()
     print(cntree.text)
+    print()
 
 # -)

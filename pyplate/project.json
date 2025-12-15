@@ -46,30 +46,6 @@
         "DBG_DIST": true
     },
     "PUB_DIST": {
-        "c": {
-            "bin": "assets",
-            "conf": "assets",
-            "log": "assets",
-            "i18n": "assets",
-            "install": "assets",
-            "src": "assets",
-            "requirements.txt": "assets/install"
-        },
-        "g": {
-            "bin": "assets",
-            "conf": "assets",
-            "log": "assets",
-            "i18n": "assets",
-            "images": "assets",
-            "install": "assets",
-            "src": "assets",
-            "requirements.txt": "assets/install"
-        },
-        "p": {
-            "__PP_NAME_PRJ_SMALL__": "",
-            "pyproject.toml": "",
-            "cnlib": ""
-        },
         "cnlib": "",
         "pyproject.toml": ""
     },
@@ -106,7 +82,7 @@
     },
     "PUB_META": {
         "META_SHORT_DESC": "A Python library containing useful functions and classes ",
-        "META_VERSION": "0.0.12",
+        "META_VERSION": "0.0.13",
         "META_KEYWORDS": [
             "python",
             "pyplate",

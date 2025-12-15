@@ -12,7 +12,7 @@
    │     ├─ [] cntree.py
    │     └─ [] cnvenv.py
    ├─ [] dist/
-   │     └─ [] cnlib-0.0.11.tar.gz
+   │     └─ [] cnlib-0.0.13.tar.gz
    ├─ [] docs/
    │     ├─ [] API/
    │     │     └─ [] cnlib/
@@ -61,6 +61,14 @@
    │     │     └─ [] private.json
    │     └─ [] project.json
    ├─ [] tests/
+   │     ├─ [] site/
+   │     │     └─ [] API/
+   │     │           └─ [] cnlib/
+   │     │                 ├─ [] cnformatter/
+   │     │                 │     └─ [] index.html
+   │                 │     └─ [] cnfunctions/
+   │                 │           └─ [] index.html
+   │     ├─ [] ai_test.py
    │     └─ [] cnlib_test.py
    ├─ [] todo/
    │     └─ [] ABOUT
