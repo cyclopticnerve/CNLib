@@ -1,10 +1,10 @@
 1. Run PB on CNLib
-    1a. run PB
+    1a. Run PB
     1b. Change version
 
 2. Commit/Push
-    2a. Tag local
-    2b. Use gitgraph to tag local/remote
+    2a. Commit & Push
+    2b. Use GitGraph to tag local/remote
 
 3. Github
     3a. Create release
