@@ -83,7 +83,7 @@
     },
     "PUB_META": {
         "META_SHORT_DESC": "A Python library containing useful functions and classes ",
-        "META_VERSION": "0.0.13",
+        "META_VERSION": "0.1.0",
         "META_KEYWORDS": [
             "python",
             "pyplate",
@@ -94,5 +94,11 @@
             "Python 3.10+": "https://python.org"
         },
         "META_CATS": []
+    },
+    "PUB_INST": {
+        "INST_VER": "0.1.0"
+    },
+    "PUB_UNINST": {
+        "INST_VER": "0.1.0"
     }
 }
