@@ -11,8 +11,6 @@
    │     ├─ [] cnpot.py
    │     ├─ [] cntree.py
    │     └─ [] cnvenv.py
-   ├─ [] dist/
-   │     └─ [] cnlib-0.0.13.tar.gz
    ├─ [] docs/
    │     ├─ [] API/
    │     │     └─ [] cnlib/
@@ -66,9 +64,8 @@
    │     │           └─ [] cnlib/
    │     │                 ├─ [] cnformatter/
    │     │                 │     └─ [] index.html
-   │                 │     └─ [] cnfunctions/
-   │                 │           └─ [] index.html
-   │     ├─ [] ai_test.py
+   │     │                 └─ [] cnfunctions/
+   │     │                       └─ [] index.html
    │     └─ [] cnlib_test.py
    ├─ [] todo/
    │     └─ [] ABOUT
