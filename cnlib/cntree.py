@@ -353,7 +353,7 @@ class CNTree:
         self.text = ""
 
         # html stuff
-        self._level = 3  # initial indent level for html
+        self._level = 2  # initial indent level for html
         self._id = ""  # build a unique id for entries (dot separated path)
         self.html = ""
 
@@ -693,7 +693,7 @@ if __name__ == "__main__":
     cntree.make_tree()
 
     print()
-    print(cntree.text)
+    print(cntree.html)
     print()
 
 # -)
