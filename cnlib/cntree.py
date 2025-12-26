@@ -15,31 +15,10 @@ checked, unchecked, or indeterminate, according to their child checkboxes'
 values.
 """
 
-# FIXME: some pipes still missing (see site dir)
-
 # TODO: only do check event on load if item has no children
 # start bottom up?
 
-# TODO: add empty line below root
-# TODO: add empty line above dir and below last dir entry
-# but only on top level
-
-# project_name/
-# │
-# ├── src/
-# │   ├── __init__.py
-# │   ├── module1.py
-# │   └── module2.py
-# │
-# ├── tests/
-# |   ├── __init__.py
-# |   ├── test_module1.py
-# |   └── test_module2.py
-# |
-# ├── README.md
-# ├── requirements.txt
-# └── setup.py
-
+# TODO: empty lines for readability?
 
 # ------------------------------------------------------------------------------
 # Imports
