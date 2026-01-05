@@ -42,7 +42,6 @@
         "DBG_VENV": true,
         "DBG_I18N": true,
         "DBG_DOCS": true,
-        "DBG_INST": true,
         "DBG_TREE": true,
         "DBG_DIST": true
     },
@@ -82,7 +81,7 @@
         "CHARSET": "UTF-8"
     },
     "PUB_META": {
-        "META_SHORT_DESC": "A Python library containing useful functions and classes ",
+        "META_SHORT_DESC": "A Python library containing useful functions and classes",
         "META_VERSION": "0.1.0",
         "META_KEYWORDS": [
             "python",
@@ -95,10 +94,5 @@
         },
         "META_CATS": []
     },
-    "PUB_INST": {
-        "INST_VER": "0.1.0"
-    },
-    "PUB_UNINST": {
-        "INST_VER": "0.1.0"
-    }
+    "PUB_INST": {}
 }

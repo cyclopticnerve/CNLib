@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # Project : CNLib                                                  /          \
 # Filename: .gitignore                                            |     ()     |
-# Date    : 12/19/2022                                            |            |
+# Date    : 01/01/2026                                            |            |
 # Author  : cyclopticnerve                                        |   \____/   |
 # License : WTFPLv2                                                \          /
 # ------------------------------------------------------------------------------
@@ -9,12 +9,16 @@
 # shamelessly stolen from 
 # https://github.com/github/gitignore/blob/main/Python.gitignore
 
+# ------------------------------------------------------------------------------
+
 # my stuff
 .VSCodeCounter/
 *.code-workspace
 .venv*/
 dist/
 site/
+
+# ------------------------------------------------------------------------------
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

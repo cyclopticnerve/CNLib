@@ -2,7 +2,7 @@
 # ------------------------------------------------------------------------------
 # Project : CNLib                                                  /          \
 # Filename: develop.py                                            |     ()     |
-# Date    : 10/11/2025                                            |            |
+# Date    : 01/01/2026                                            |            |
 # Author  : cyclopticnerve                                        |   \____/   |
 # License : WTFPLv2                                                \          /
 # ------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ P_DIR_PRJ = Path(__file__).parent.resolve()
 # ------------------------------------------------------------------------------
 # gettext stuff for CLI
 # NB: keep global
-# to test translations, run as foo@bar:$ LANGUAGE=xx ./pybaker.py
+# to test translations, run as foo@bar:$ LANGUAGE=xx ./develop.py
 
 # path to project dir
 T_DIR_PRJ = P_DIR_PRJ
@@ -69,7 +69,7 @@ class CNDevelop:
     # Class constants
     # --------------------------------------------------------------------------
 
-    # file names and project type
+    # venv and reqs names
     S_NAME_VENV = ".venv-cnlib"
     S_FILE_REQS = "requirements.txt"
 
@@ -93,7 +93,7 @@ class CNDevelop:
 
     # NB: format param is dir_venv
     S_CMD_CREATE = "python -m venv {}"
-    S_CMD_INSTALL = "cd {};. {}/bin/activate;python -m pip install -e ."
+    S_CMD_TYPE_INST = "cd {};. {}/bin/activate;python -m pip install -e ."
 
     # --------------------------------------------------------------------------
     # Class methods
@@ -164,7 +164,7 @@ class CNDevelop:
         print(self.S_MSG_REQS_START, end="", flush=True)
 
         # the cmd to install the reqs
-        cmd = self.S_CMD_INSTALL.format(
+        cmd = self.S_CMD_TYPE_INST.format(
             P_DIR_PRJ, self.S_NAME_VENV, self.S_FILE_REQS
         )
         try:

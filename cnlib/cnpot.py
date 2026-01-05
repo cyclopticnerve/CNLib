@@ -236,9 +236,6 @@ class CNPotPy:
             charset = self.S_ENCODING
         self._charset = charset
 
-        # make sure all necessary dirs exist
-        self._make_wlang_dirs()
-
     # --------------------------------------------------------------------------
     # Public methods
     # --------------------------------------------------------------------------
@@ -262,6 +259,9 @@ class CNPotPy:
 
         # ----------------------------------------------------------------------
         # do the steps
+
+        # make sure all necessary dirs exist
+        self._make_wlang_dirs()
 
         try:
             self._make_pot()
@@ -494,7 +494,7 @@ class CNPotPy:
         """
 
         # get all wlangs to output
-        glob_po = f"*{self.S_EXT_PO}"
+        glob_po = f"**/*{self.S_EXT_PO}"
         list_pos = list(self._dir_po.glob(glob_po))
 
         # for each wlang

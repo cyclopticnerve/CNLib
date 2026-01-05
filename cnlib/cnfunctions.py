@@ -28,7 +28,9 @@ Functions:
 # ------------------------------------------------------------------------------
 
 # system imports
+import gettext
 import json
+import locale
 from pathlib import Path
 import re
 import shlex
@@ -784,27 +786,24 @@ def dialog(
 
         # ask the question, get the result (first char only/empty)
         inp = input(str_fmt)
-        if len(inp) > 0:
-            inp = inp[0]
+        # if len(inp) > 0:
+        #     inp = inp[0]
 
-        # ----------------------------------------------------------------------
-        # button correct, done
-        if inp in buttons:
-            return inp
+        # no input (empty)
+        if inp == "" and default != "":
+            return default
 
-        # ----------------------------------------------------------------------
+        # input a button
+        for item in buttons:
+            if inp.lower() == item.lower():
+                return item
+
+        # ------------------------------------------------------------------
         # wrong answer
-
-        # default set
-        if default != "":
-
-            if inp == "":
-                return default
 
         # no loop, return blank
         if not loop:
             return ""
-
 
 # ------------------------------------------------------------------------------
 # Compare two semantic versions
@@ -1074,6 +1073,23 @@ def printd(*values, sep=" ", end="\n", file=None, flush=False):
             fg=C_FG_RED,
             bold=True,
         )
+
+# ------------------------------------------------------------------------------
+# Return an underscore function for a module
+# ------------------------------------------------------------------------------
+def get_underscore(domain, path_locale):
+    """
+    Return an underscore function for a module
+    """
+
+    # fix locale (different than gettext stuff, mostly fixes GUI issues, but ok
+    # to use for CLI in the interest of common code)
+    locale.bindtextdomain(domain, path_locale)
+
+    # init gettext
+    t_translation = gettext.translation(domain, path_locale, fallback=True)
+    return t_translation.gettext
+
 
 
 # -)

@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # Project : CNLib                                                  /          \
 # Filename: pyproject.toml                                        |     ()     |
-# Date    : 06/12/2025                                            |            |
+# Date    : 01/01/2026                                            |            |
 # Author  : cyclopticnerve                                        |   \____/   |
 # License : WTFPLv2                                                \          /
 # ------------------------------------------------------------------------------
@@ -13,7 +13,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "CNLib"
 version = "0.1.0"
-description = "A Python library containing useful functions and classes "
+description = "A Python library containing useful functions and classes"
 authors = [{ name = "cyclopticnerve", email = "cyclopticnerve@gmail.com" }]
 readme = "README.md"
 license = { file = "LICENSE.txt" }

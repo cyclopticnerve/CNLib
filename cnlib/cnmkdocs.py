@@ -46,7 +46,7 @@ class CNMkDocs:
 
     # cmd for mkdocs
     # NB: format params are path to pp, path to pp venv, and path to project
-    # S_CMD_DOC_BUILD = "cd {};. {}/bin/activate;cd {};mkdocs build"
+    S_CMD_DOC_BUILD = "cd {};. {}/bin/activate;cd {};mkdocs build"
     # cmd for mkdocs
     # NB: format params are path to pp, path to pp venv, and path to project
     S_CMD_DOC_DEPLOY = "cd {};. {}/bin/activate;cd {};mkdocs gh-deploy"
@@ -76,24 +76,7 @@ class CNMkDocs:
         Initializes a new instance of the class, setting the default values
         of its properties, and any other code that needs to run to create a
         new object.
-
-        Arguments:
-            Numerous and belligerent
         """
-
-        # set all properties from params
-        # self._dir_name_small = ""
-        # self._dir_prj = ""
-        # self._dict_prv = ""
-        # self._dir_docs = ""
-        # self._dir_api = ""
-        # self._skip_all = ""
-        # self._skip_contents = ""
-        # self._use_rm = ""
-        # self._use_api = ""
-        # self._p_dir_pp = ""
-        # self._p_dir_pp_venv = ""
-        # self._path_readme = ""
 
         # NB: DO NOT CHANGE!!!
         self._index_name = "index.md"
@@ -110,7 +93,6 @@ class CNMkDocs:
         self,
         dir_prj,
         dir_docs,
-        #
         use_rm=False,
         use_api=False,
         lst_api_in=None,
@@ -182,10 +164,9 @@ class CNMkDocs:
     # --------------------------------------------------------------------------
     # Bake docs using mkdocs
     # --------------------------------------------------------------------------
-    def bake_docs(
+    def build_docs(
         self,
         dir_prj,
-        #
         p_dir_pp,
         p_dir_pp_venv,
     ):
@@ -198,11 +179,39 @@ class CNMkDocs:
         Updates and deploys docs using mkdocs.
         """
 
-        # # ----------------------------------------------------------------------
-        # # do all the build stuff
-        # self.make_docs(
-        #     dir_prj, use_rm, use_api, lst_api_in, file_rm, dir_api_out, dir_img
-        # )
+        # ----------------------------------------------------------------------
+        # build docs
+
+        # format cmd using pdoc template dir, output dir, and start dir
+        cmd_docs = self.S_CMD_DOC_BUILD.format(
+            p_dir_pp,
+            p_dir_pp_venv,
+            dir_prj,
+        )
+
+        # the command to run mkdocs
+        try:
+            F.run(cmd_docs, shell=True)
+        except F.CNRunError as e:
+            raise e
+
+    # --------------------------------------------------------------------------
+    # Deploy docs using mkdocs
+    # --------------------------------------------------------------------------
+    def deploy_docs(
+        self,
+        dir_prj,
+        p_dir_pp,
+        p_dir_pp_venv,
+    ):
+        """
+        Bake docs using mkdocs
+
+        Raises:
+            cnlib.cnfunctions.CNRunError if bake fails
+
+        Updates and deploys docs using mkdocs.
+        """
 
         # ----------------------------------------------------------------------
         # deploy docs

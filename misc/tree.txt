@@ -30,7 +30,7 @@
    │     ├─ [] locale/
    │     │     └─ [] en/
    │     │           └─ [] LC_MESSAGES/
-   │     │                 └─ [] cnlib.mo
+   │     │                 └─ [] ABOUT
    │     ├─ [] po/
    │     │     ├─ [] en/
    │     │     │     └─ [] cnlib.po
@@ -49,8 +49,6 @@
    │     │     ├─ [] default.md
    │     │     ├─ [] module.py
    │     │     └─ [] window.py
-   │     ├─ [] how_to/
-   │     │     └─ [] i18n_tips.txt
    │     ├─ [] release.txt
    │     ├─ [] tree.html
    │     └─ [] tree.txt
@@ -59,13 +57,6 @@
    │     │     └─ [] private.json
    │     └─ [] project.json
    ├─ [] tests/
-   │     ├─ [] site/
-   │     │     └─ [] API/
-   │     │           └─ [] cnlib/
-   │     │                 ├─ [] cnformatter/
-   │     │                 │     └─ [] index.html
-   │     │                 └─ [] cnfunctions/
-   │     │                       └─ [] index.html
    │     └─ [] cnlib_test.py
    ├─ [] todo/
    │     └─ [] ABOUT

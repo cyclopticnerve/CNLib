@@ -2,7 +2,7 @@
 # ------------------------------------------------------------------------------
 # Project : CNLib                                                  /          \
 # Filename: cnlib_test.py                                         |     ()     |
-# Date    : 11/24/2025                                            |            |
+# Date    : 01/01/2026                                            |            |
 # Author  : cyclopticnerve                                        |   \____/   |
 # License : WTFPLv2                                                \          /
 # ------------------------------------------------------------------------------
@@ -15,30 +15,28 @@ A simple script to test a package from within the project itself
 # Imports
 # ------------------------------------------------------------------------------
 
+# FIXME: install self as editable and remove this
 from pathlib import Path
+import sys
+P_DIR_PRJ = Path(__file__).parents[1].resolve()
+sys.path.append(str(P_DIR_PRJ))
 
 # local imports
-# from cnlib import cnfunctions as F
-from cnlib import cntree
+from cnlib import cnfunctions as F
 
 # ------------------------------------------------------------------------------
 # Code to run when called from command line
 # ------------------------------------------------------------------------------
-if __name__ == "__main__":
-    # Code to run when called from command line
 
-    # This is the top level code of the program, called when the Python file is
-    # invoked from the command line.
+btns = ["y", "N"]
 
-    # run main function
-    # print(F.pascal_case("my_project"))
+RES = F.dialog("question", btns, default="", loop=True)
+print(RES)
 
-    a_start_dir = Path(__file__).parents[1]
-
-    a_tree = cntree.CNTree(a_start_dir)
-    a_tree.make_tree()
-
-    print(a_tree.text)
-
+# while True:
+#     RES = F.dialog("question", btns, default="")
+#     print(RES)
+#     if RES == "q":
+#         break
 
 # -)
