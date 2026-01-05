@@ -30,7 +30,7 @@
    │     ├─ [] locale/
    │     │     └─ [] en/
    │     │           └─ [] LC_MESSAGES/
-   │     │                 └─ [] ABOUT
+   │     │                 └─ [] cnlib.mo
    │     ├─ [] po/
    │     │     ├─ [] en/
    │     │     │     └─ [] cnlib.po
@@ -59,7 +59,7 @@
    ├─ [] tests/
    │     └─ [] cnlib_test.py
    ├─ [] todo/
-   │     └─ [] ABOUT
+   │     └─ [] todo.txt
    ├─ [] .gitignore
    ├─ [] LICENSE.txt
    ├─ [] README.md
