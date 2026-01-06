@@ -200,7 +200,7 @@ As much code/settings/constants as can be are reused from conf.py.</p>
 
     # cmd for mkdocs
     # NB: format params are path to pp, path to pp venv, and path to project
-    # S_CMD_DOC_BUILD = "cd {};. {}/bin/activate;cd {};mkdocs build"
+    S_CMD_DOC_BUILD = "cd {};. {}/bin/activate;cd {};mkdocs build"
     # cmd for mkdocs
     # NB: format params are path to pp, path to pp venv, and path to project
     S_CMD_DOC_DEPLOY = "cd {};. {}/bin/activate;cd {};mkdocs gh-deploy"
@@ -230,24 +230,7 @@ As much code/settings/constants as can be are reused from conf.py.</p>
         Initializes a new instance of the class, setting the default values
         of its properties, and any other code that needs to run to create a
         new object.
-
-        Arguments:
-            Numerous and belligerent
         """
-
-        # set all properties from params
-        # self._dir_name_small = ""
-        # self._dir_prj = ""
-        # self._dict_prv = ""
-        # self._dir_docs = ""
-        # self._dir_api = ""
-        # self._skip_all = ""
-        # self._skip_contents = ""
-        # self._use_rm = ""
-        # self._use_api = ""
-        # self._p_dir_pp = ""
-        # self._p_dir_pp_venv = ""
-        # self._path_readme = ""
 
         # NB: DO NOT CHANGE!!!
         self._index_name = "index.md"
@@ -264,7 +247,6 @@ As much code/settings/constants as can be are reused from conf.py.</p>
         self,
         dir_prj,
         dir_docs,
-        #
         use_rm=False,
         use_api=False,
         lst_api_in=None,
@@ -336,10 +318,9 @@ As much code/settings/constants as can be are reused from conf.py.</p>
     # --------------------------------------------------------------------------
     # Bake docs using mkdocs
     # --------------------------------------------------------------------------
-    def bake_docs(
+    def build_docs(
         self,
         dir_prj,
-        #
         p_dir_pp,
         p_dir_pp_venv,
     ):
@@ -352,11 +333,41 @@ As much code/settings/constants as can be are reused from conf.py.</p>
         Updates and deploys docs using mkdocs.
         """
 
-        # # ----------------------------------------------------------------------
-        # # do all the build stuff
-        # self.make_docs(
-        #     dir_prj, use_rm, use_api, lst_api_in, file_rm, dir_api_out, dir_img
-        # )
+        # ----------------------------------------------------------------------
+        # build docs
+
+        # format cmd using pdoc template dir, output dir, and start dir
+        cmd_docs = self.S_CMD_DOC_BUILD.format(
+            p_dir_pp,
+            p_dir_pp_venv,
+            dir_prj,
+        )
+
+        print(cmd_docs)
+
+        # the command to run mkdocs
+        try:
+            F.run(cmd_docs, shell=True)
+        except F.CNRunError as e:
+            raise e
+
+    # --------------------------------------------------------------------------
+    # Deploy docs using mkdocs
+    # --------------------------------------------------------------------------
+    def deploy_docs(
+        self,
+        dir_prj,
+        p_dir_pp,
+        p_dir_pp_venv,
+    ):
+        """
+        Bake docs using mkdocs
+
+        Raises:
+            cnlib.cnfunctions.CNRunError if bake fails
+
+        Updates and deploys docs using mkdocs.
+        """
 
         # ----------------------------------------------------------------------
         # deploy docs
@@ -548,24 +559,7 @@ new object.</p>
     Initializes a new instance of the class, setting the default values
     of its properties, and any other code that needs to run to create a
     new object.
-
-    Arguments:
-        Numerous and belligerent
     """
-
-    # set all properties from params
-    # self._dir_name_small = ""
-    # self._dir_prj = ""
-    # self._dict_prv = ""
-    # self._dir_docs = ""
-    # self._dir_api = ""
-    # self._skip_all = ""
-    # self._skip_contents = ""
-    # self._use_rm = ""
-    # self._use_api = ""
-    # self._p_dir_pp = ""
-    # self._p_dir_pp_venv = ""
-    # self._path_readme = ""
 
     # NB: DO NOT CHANGE!!!
     self._index_name = "index.md"
@@ -578,8 +572,8 @@ new object.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="cnlib.cnmkdocs.CNMkDocs.bake_docs" class="doc doc-heading">
-            <code class="highlight language-python">bake_docs(dir_prj, p_dir_pp, p_dir_pp_venv)</code>
+<h3 id="cnlib.cnmkdocs.CNMkDocs.build_docs" class="doc doc-heading">
+            <code class="highlight language-python">build_docs(dir_prj, p_dir_pp, p_dir_pp_venv)</code>
 
 </h3>
 
@@ -592,10 +586,9 @@ new object.</p>
 
             <details class="quote">
               <summary>Source code in <code>cnlib/cnmkdocs.py</code></summary>
-              <pre class="highlight"><code class="language-python">def bake_docs(
+              <pre class="highlight"><code class="language-python">def build_docs(
     self,
     dir_prj,
-    #
     p_dir_pp,
     p_dir_pp_venv,
 ):
@@ -608,11 +601,59 @@ new object.</p>
     Updates and deploys docs using mkdocs.
     """
 
-    # # ----------------------------------------------------------------------
-    # # do all the build stuff
-    # self.make_docs(
-    #     dir_prj, use_rm, use_api, lst_api_in, file_rm, dir_api_out, dir_img
-    # )
+    # ----------------------------------------------------------------------
+    # build docs
+
+    # format cmd using pdoc template dir, output dir, and start dir
+    cmd_docs = self.S_CMD_DOC_BUILD.format(
+        p_dir_pp,
+        p_dir_pp_venv,
+        dir_prj,
+    )
+
+    print(cmd_docs)
+
+    # the command to run mkdocs
+    try:
+        F.run(cmd_docs, shell=True)
+    except F.CNRunError as e:
+        raise e</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="cnlib.cnmkdocs.CNMkDocs.deploy_docs" class="doc doc-heading">
+            <code class="highlight language-python">deploy_docs(dir_prj, p_dir_pp, p_dir_pp_venv)</code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Bake docs using mkdocs</p>
+        <p>Updates and deploys docs using mkdocs.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnmkdocs.py</code></summary>
+              <pre class="highlight"><code class="language-python">def deploy_docs(
+    self,
+    dir_prj,
+    p_dir_pp,
+    p_dir_pp_venv,
+):
+    """
+    Bake docs using mkdocs
+
+    Raises:
+        cnlib.cnfunctions.CNRunError if bake fails
+
+    Updates and deploys docs using mkdocs.
+    """
 
     # ----------------------------------------------------------------------
     # deploy docs
@@ -662,7 +703,6 @@ new object.</p>
     self,
     dir_prj,
     dir_docs,
-    #
     use_rm=False,
     use_api=False,
     lst_api_in=None,

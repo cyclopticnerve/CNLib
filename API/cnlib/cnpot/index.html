@@ -417,9 +417,6 @@ for internationalizing a Python or PyGObject project.</p>
             charset = self.S_ENCODING
         self._charset = charset
 
-        # make sure all necessary dirs exist
-        self._make_wlang_dirs()
-
     # --------------------------------------------------------------------------
     # Public methods
     # --------------------------------------------------------------------------
@@ -443,6 +440,9 @@ for internationalizing a Python or PyGObject project.</p>
 
         # ----------------------------------------------------------------------
         # do the steps
+
+        # make sure all necessary dirs exist
+        self._make_wlang_dirs()
 
         try:
             self._make_pot()
@@ -675,7 +675,7 @@ for internationalizing a Python or PyGObject project.</p>
         """
 
         # get all wlangs to output
-        glob_po = f"*{self.S_EXT_PO}"
+        glob_po = f"**/*{self.S_EXT_PO}"
         list_pos = list(self._dir_po.glob(glob_po))
 
         # for each wlang
@@ -1306,10 +1306,7 @@ its properties, and any other code needed to create a new object.</p>
     # fix up charset
     if charset is None:
         charset = self.S_ENCODING
-    self._charset = charset
-
-    # make sure all necessary dirs exist
-    self._make_wlang_dirs()</code></pre>
+    self._charset = charset</code></pre>
             </details>
     </div>
 
@@ -1352,6 +1349,9 @@ repo is synced, so that the .pot file is synced.</p>
 
     # ----------------------------------------------------------------------
     # do the steps
+
+    # make sure all necessary dirs exist
+    self._make_wlang_dirs()
 
     try:
         self._make_pot()
