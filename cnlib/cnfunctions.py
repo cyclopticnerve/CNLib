@@ -66,7 +66,7 @@ S_ERR_NOT_JSON = "File {} is not a JSON file"
 
 # questions
 S_ASK_YES = "y"
-S_ASK_NO = "n"
+S_ASK_NO = "N"
 
 # encoding
 S_ENCODING = "UTF-8"
@@ -546,7 +546,7 @@ def combine_dicts(dicts_new, dict_old=None):
 # ------------------------------------------------------------------------------
 # Run a program or shell command string
 # ------------------------------------------------------------------------------
-def run(cmd, shell=False):
+def run(cmd, shell=False, capture_output=False):
     """
     Run a program or shell command string
 
@@ -590,7 +590,7 @@ def run(cmd, shell=False):
             # capture_output=True
             check=True,
             # put stdout/stderr into cp/cpe
-            capture_output=True,
+            capture_output=capture_output,
             # convert stdout/stderr from bytes to text
             encoding=S_ENCODING,
             text=True,

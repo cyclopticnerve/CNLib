@@ -475,7 +475,7 @@ class CNPotPy:
             # update existing po file using latest pot
             cmd = self.S_CMD_MERGE_POS.format(file_po, file_pot)
             try:
-                F.run(cmd)
+                F.run(cmd, capture_output=True)
             except F.CNRunError as e:
                 raise e
 

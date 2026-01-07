@@ -46,10 +46,10 @@ class CNMkDocs:
 
     # cmd for mkdocs
     # NB: format params are path to pp, path to pp venv, and path to project
-    S_CMD_DOC_BUILD = "cd {};. {}/bin/activate;cd {};mkdocs build"
+    S_CMD_DOC_BUILD = ". {}/bin/activate;cd {};mkdocs build"
     # cmd for mkdocs
     # NB: format params are path to pp, path to pp venv, and path to project
-    S_CMD_DOC_DEPLOY = "cd {};. {}/bin/activate;cd {};mkdocs gh-deploy"
+    S_CMD_DOC_DEPLOY = ". {}/bin/activate;cd {};mkdocs gh-deploy"
 
     # file ext for in/out
     S_EXT_IN = ".py"
@@ -102,7 +102,7 @@ class CNMkDocs:
     ):
         """
         Docstring for make_docs
-        
+
         :param self: Description
         :param dir_prj: Description
         :param use_rm: Description
@@ -164,12 +164,7 @@ class CNMkDocs:
     # --------------------------------------------------------------------------
     # Bake docs using mkdocs
     # --------------------------------------------------------------------------
-    def build_docs(
-        self,
-        dir_prj,
-        p_dir_pp,
-        p_dir_pp_venv,
-    ):
+    def build_docs(self, p_dir_pp_venv, p_dir_prj):
         """
         Bake docs using mkdocs
 
@@ -183,27 +178,19 @@ class CNMkDocs:
         # build docs
 
         # format cmd using pdoc template dir, output dir, and start dir
-        cmd_docs = self.S_CMD_DOC_BUILD.format(
-            p_dir_pp,
-            p_dir_pp_venv,
-            dir_prj,
-        )
+        cmd_docs = self.S_CMD_DOC_BUILD.format(p_dir_pp_venv, p_dir_prj)
 
         # the command to run mkdocs
         try:
-            F.run(cmd_docs, shell=True)
+            cp = F.run(cmd_docs, shell=True, capture_output=True)
+            return cp
         except F.CNRunError as e:
             raise e
 
     # --------------------------------------------------------------------------
     # Deploy docs using mkdocs
     # --------------------------------------------------------------------------
-    def deploy_docs(
-        self,
-        dir_prj,
-        p_dir_pp,
-        p_dir_pp_venv,
-    ):
+    def deploy_docs(self, p_dir_pp_venv, p_dir_prj):
         """
         Bake docs using mkdocs
 
@@ -217,15 +204,12 @@ class CNMkDocs:
         # deploy docs
 
         # format cmd using pdoc template dir, output dir, and start dir
-        cmd_docs = self.S_CMD_DOC_DEPLOY.format(
-            p_dir_pp,
-            p_dir_pp_venv,
-            dir_prj,
-        )
+        cmd_docs = self.S_CMD_DOC_DEPLOY.format(p_dir_pp_venv, p_dir_prj)
 
         # the command to run mkdocs
         try:
-            F.run(cmd_docs, shell=True)
+            cp = F.run(cmd_docs, shell=True, capture_output=True)
+            return cp
         except F.CNRunError as e:
             raise e
 
