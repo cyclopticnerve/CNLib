@@ -1,134 +1,192 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <link rel="shortcut icon" href="../../../img/favicon.ico" />
-    <title>cnfunctions.py - CNLib</title>
-    <link rel="stylesheet" href="../../../css/theme.css" />
-    <link rel="stylesheet" href="../../../css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
-        <link href="../../../assets/_mkdocstrings.css" rel="stylesheet" />
-    
-      <script>
-        // Current page data
-        var mkdocs_page_name = "cnfunctions.py";
-        var mkdocs_page_input_path = "API/cnlib/cnfunctions.md";
-        var mkdocs_page_url = null;
-      </script>
-    
-    <!--[if lt IE 9]>
-      <script src="../../../js/html5shiv.min.js"></script>
-    <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-      <script>hljs.highlightAll();</script> 
-</head>
-
-<body class="wy-body-for-nav" role="document">
-
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
-    <div class="wy-side-scroll">
-      <div class="wy-side-nav-search">
-          <a href="../../.." class="icon icon-home"> CNLib
-        </a><div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
-  </form>
-</div>
-      </div>
-
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
-                </li>
-              </ul>
-              <p class="caption"><span class="caption-text">API</span></p>
-              <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" >Cnlib</a>
-    <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="../cnformatter/">cnformatter.py</a>
-                </li>
-                <li class="toctree-l2 current"><a class="reference internal current" href="#">cnfunctions.py</a>
-    <ul class="current">
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnfunctions">cnfunctions</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnfunctions.CNRunError">CNRunError</a>
-        <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#cnlib.cnfunctions.CNRunError.__init__">__init__</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnfunctions.combine_dicts">combine_dicts</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnfunctions.comp_sem_ver">comp_sem_ver</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnfunctions.dialog">dialog</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnfunctions.do_bool">do_bool</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnfunctions.dpretty">dpretty</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnfunctions.get_underscore">get_underscore</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnfunctions.load_paths_into_dict">load_paths_into_dict</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnfunctions.lpretty">lpretty</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnfunctions.pascal_case">pascal_case</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnfunctions.pp">pp</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnfunctions.printc">printc</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnfunctions.printd">printd</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnfunctions.run">run</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnfunctions.save_dict_into_paths">save_dict_into_paths</a>
-    </li>
-    </ul>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../cninstall/">cninstall.py</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../cnmkdocs/">cnmkdocs.py</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../cnpot/">cnpot.py</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../cntree/">cntree.py</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../cnvenv/">cnvenv.py</a>
-                </li>
-    </ul>
-                  </li>
-              </ul>
-      </div>
-    </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../..">CNLib</a>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-      </nav>
-      <div class="wy-nav-content">
-        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
-          <li class="breadcrumb-item">API</li>
-          <li class="breadcrumb-item">Cnlib</li>
-      <li class="breadcrumb-item active">cnfunctions.py</li>
-    <li class="wy-breadcrumbs-aside">
-    </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-            <div class="section" itemprop="articleBody">
-              
-                <h1 id="cnfunctionspy">cnfunctions.py</h1>
+        
+        
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>cnfunctions.py - CNLib</title>
+        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../../css/brands.min.css" rel="stylesheet">
+        <link href="../../../css/solid.min.css" rel="stylesheet">
+        <link href="../../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <link href="../../../assets/_mkdocstrings.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../..">CNLib</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">API</a>
+                                <ul class="dropdown-menu">
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Cnlib</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../cnformatter/" class="dropdown-item">cnformatter.py</a>
+</li>
+            
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">cnfunctions.py</a>
+</li>
+            
+<li>
+    <a href="../cninstall/" class="dropdown-item">cninstall.py</a>
+</li>
+            
+<li>
+    <a href="../cnmkdocs/" class="dropdown-item">cnmkdocs.py</a>
+</li>
+            
+<li>
+    <a href="../cnpot/" class="dropdown-item">cnpot.py</a>
+</li>
+            
+<li>
+    <a href="../cntree/" class="dropdown-item">cntree.py</a>
+</li>
+            
+<li>
+    <a href="../cnvenv/" class="dropdown-item">cnvenv.py</a>
+</li>
+    </ul>
+  </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../cnformatter/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../cninstall/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#cnfunctionspy" class="nav-link">cnfunctions.py</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions" class="nav-link">cnfunctions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.CNRunError" class="nav-link">CNRunError</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.combine_dicts" class="nav-link">combine_dicts</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.comp_sem_ver" class="nav-link">comp_sem_ver</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.dialog" class="nav-link">dialog</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.do_bool" class="nav-link">do_bool</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.dpretty" class="nav-link">dpretty</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.get_underscore" class="nav-link">get_underscore</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.load_paths_into_dict" class="nav-link">load_paths_into_dict</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.lpretty" class="nav-link">lpretty</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.pascal_case" class="nav-link">pascal_case</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.pp" class="nav-link">pp</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.printc" class="nav-link">printc</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.printd" class="nav-link">printd</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.run" class="nav-link">run</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.save_dict_into_paths" class="nav-link">save_dict_into_paths</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="cnfunctionspy">cnfunctions.py</h1>
 
 
 <div class="doc doc-object doc-module">
@@ -394,64 +452,87 @@
         <p>Update a dictionary with entries from another dict</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>dicts_new</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>dicts_new</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>A dictionary or list of dictionaries containing new</p>
               </div>
-            </li>
-            <li>
-              <b><code>dict_old</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>dict_old</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The dictionary defined as the one to receive updates</p>
               </div>
-            </li>
-            <li>
-              <b><code>(default</code></b>
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>(default</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>None)</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              –
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The updated dict_old, filled with updates from dict_new</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>This function takes key/value pairs from each of the new dicts and
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>This function takes key/value pairs from each of the new dicts and
 adds/overwrites these keys and values in dict_old, preserving any values
 that are blank or None in dict_new. It is also recursive, so a dict or list
 as a value will be handled correctly.
@@ -538,57 +619,72 @@ happen!!!</p>
         <p>Compare two semantic versions</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>ver_old</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>ver_old</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The old version to compare</p>
               </div>
-            </li>
-            <li>
-              <b><code>ver_new</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>ver_new</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The new version to compare</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              –
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>An integer showing the relationship between the two version</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>Compare two semantic versions.</p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Compare two semantic versions.</p>
 
 
             <details class="quote">
@@ -738,99 +834,157 @@ happen!!!</p>
         <p>Create a dialog-like question and return the result</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>message</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>message</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The message to display</p>
               </div>
-            </li>
-            <li>
-              <b><code>buttons</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>buttons</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>List of single char answers to the question</p>
               </div>
-            </li>
-            <li>
-              <b><code>default</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>default</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The button item to return when the user presses Enter at the
 question (default: "")</p>
               </div>
-            </li>
-            <li>
-              <b><code>loop</code></b>
-              –
+            </td>
+            <td>
+                  <code>&#39;&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>loop</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>If True and the user enters an invalid response, keep asking the</p>
               </div>
-            </li>
-            <li>
-              <b><code>(default</code></b>
-              –
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>(default</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>False)</p>
               </div>
-            </li>
-            <li>
-              <b><code>btn_sep</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>btn_sep</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>Char to use to separate button items</p>
               </div>
-            </li>
-            <li>
-              <b><code>msg_fmt</code></b>
-              –
+            </td>
+            <td>
+                  <code>&#39;/&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>msg_fmt</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>Format string to present message/buttons to the user</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>&#39;{} [{}]: &#39;</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              –
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>A lowercased string that matches a button, or an empty string under</p>
               </div>
-            </li>
-            <li>
-              –
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>certain conditions</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>This method returns the string entered on the command line in response to a
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>This method returns the string entered on the command line in response to a
 question. If the entered option does not match any of the buttons, the
 question is asked again. If you set a default and the option entered is
 just the Return key, the default string will be returned. If no default is
@@ -928,50 +1082,57 @@ response or the dialog will loop forever.</p>
         <p>Convert other values, like integers or strings, to bools</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>val</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>val</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The value to convert to a bool</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              –
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>A boolean value converted from the argument</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>Converts integers and strings to boolean values based on the rules.</p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Converts integers and strings to boolean values based on the rules.</p>
 
 
             <details class="quote">
@@ -1013,86 +1174,133 @@ response or the dialog will loop forever.</p>
         <p>Pretty print a dict</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>dict_print</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>dict_print</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The dictionary to print</p>
               </div>
-            </li>
-            <li>
-              <b><code>indent_size</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>indent_size</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The number of spaces to use for each indent level</p>
               </div>
-            </li>
-            <li>
-              <b><code>(default</code></b>
-              –
+            </td>
+            <td>
+                  <code>4</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>(default</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>4)</p>
               </div>
-            </li>
-            <li>
-              <b><code>indent_level</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>indent_level</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The number of indent levels to use for this part of the</p>
               </div>
-            </li>
-            <li>
-              <b><code>print</code></b>
-                  (<code>process (default</code>)
-              –
+            </td>
+            <td>
+                  <code>0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>print</code>
+            </td>
+            <td>
+                  <code>process (default</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>0)</p>
               </div>
-            </li>
-            <li>
-              <b><code>label</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>label</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The string to use as a label (default: None)</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              –
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The formatted string to print</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>Formats a dictionary nicely so it can be printed to the console.</p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Formats a dictionary nicely so it can be printed to the console.</p>
 
 
             <details class="quote">
@@ -1246,80 +1454,95 @@ response or the dialog will loop forever.</p>
         <p>Combines dictionaries from all found paths</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>paths</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>paths</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The file path or list of file paths to load</p>
               </div>
-            </li>
-            <li>
-              <b><code>start_dict</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>start_dict</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The starting dict and final dict after combining (default: None)</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              –
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The final combined dictionary</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Raises:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
                   <code><span title="OSError">OSError</span></code>
-              –
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>If the file does not exist or the file is not a valid JSON</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>Load the dictionaries from all files and use combine_dicts to combine them.</p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Load the dictionaries from all files and use combine_dicts to combine them.</p>
 
 
             <details class="quote">
@@ -1398,86 +1621,133 @@ response or the dialog will loop forever.</p>
         <p>Pretty print a list</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>list_print</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>list_print</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The list to print</p>
               </div>
-            </li>
-            <li>
-              <b><code>indent_size</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>indent_size</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The number of spaces to use for each indent level</p>
               </div>
-            </li>
-            <li>
-              <b><code>(default</code></b>
-              –
+            </td>
+            <td>
+                  <code>4</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>(default</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>4)</p>
               </div>
-            </li>
-            <li>
-              <b><code>indent_level</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>indent_level</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The number of indent levels to use for this part of the</p>
               </div>
-            </li>
-            <li>
-              <b><code>print</code></b>
-                  (<code>process (default</code>)
-              –
+            </td>
+            <td>
+                  <code>0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>print</code>
+            </td>
+            <td>
+                  <code>process (default</code>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>0)</p>
               </div>
-            </li>
-            <li>
-              <b><code>label</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>label</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The string to use as a label (default: None)</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              –
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The formatted string to print</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>Formats a list nicely so it can be printed to the console.</p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Formats a list nicely so it can be printed to the console.</p>
 
 
             <details class="quote">
@@ -1593,28 +1863,35 @@ response or the dialog will loop forever.</p>
         <p>Format a string in Pascal case</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>a_str</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>a_str</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>A string to convert to Pascal case</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>Returns;
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Returns;
     The Pascal cased string</p>
 <p>Formats the given string to a Pascal case equivalent, ie. "my_class"
 becomes "MyClass".</p>
@@ -1664,71 +1941,102 @@ becomes "MyClass".</p>
         <p>Pretty print a dictionary or list</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>obj</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>obj</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The dictionary or list to print</p>
               </div>
-            </li>
-            <li>
-              <b><code>indent_size</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>indent_size</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The number of spaces to use for each indent level</p>
               </div>
-            </li>
-            <li>
-              <b><code>(default</code></b>
-              –
+            </td>
+            <td>
+                  <code>4</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>(default</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>4)</p>
               </div>
-            </li>
-            <li>
-              <b><code>label</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>label</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The string to use as a label (default: None)</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              –
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The object formatted for printing</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>Formats a dictionary or list nicely and prints it to the console. Note that
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Formats a dictionary or list nicely and prints it to the console. Note that
 this method includes magic commas in the output, and therefore cannot be
 used to create true JSON-compatible strings. It should only be used for
 debugging.</p>
@@ -1790,77 +2098,140 @@ debugging.</p>
         <p>Print a string in color</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>*values</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>*values</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>A variable number of string arguments</p>
               </div>
-            </li>
-            <li>
-              <b><code>sep</code></b>
-              –
+            </td>
+            <td>
+                  <code>()</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>sep</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The string used to join *values (default: ' ')</p>
               </div>
-            </li>
-            <li>
-              <b><code>end</code></b>
-              –
+            </td>
+            <td>
+                  <code>&#39; &#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>end</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The character(s) to print after the *values (default:'\n')</p>
               </div>
-            </li>
-            <li>
-              <b><code>file</code></b>
-              –
+            </td>
+            <td>
+                  <code>&#39;\n&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>file</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The file object to print to or, if None, print to stdout         (default: None)</p>
               </div>
-            </li>
-            <li>
-              <b><code>flush</code></b>
-              –
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>flush</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>Whether to force the output buffer to write immediately,             rather than waiting for it to fill</p>
               </div>
-            </li>
-            <li>
-              <b><code>fg</code></b>
-              –
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>fg</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The foreground color of the text as a C_FG_XXX value (see below).         If 0, use default terminal color (default: 0)</p>
               </div>
-            </li>
-            <li>
-              <b><code>bg</code></b>
-              –
+            </td>
+            <td>
+                  <code>0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>bg</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The background color of the text as a C_FG_XXX value (see below).         If 0, use default terminal color (default: 0)</p>
               </div>
-            </li>
-            <li>
-              <b><code>bold</code></b>
-              –
+            </td>
+            <td>
+                  <code>0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>bold</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>Whether the text is bold (duh) (default:False)</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>This function prints something to the console, just like print(), but with
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>This function prints something to the console, just like print(), but with
 COLOR! and BOLD!</p>
 <p>The first five parameters are EXACTLY the same as print()
 and the last three are as follows:</p>
@@ -2066,7 +2437,7 @@ just lets me wrap prints in context-aware statements
 
 
 <h2 id="cnlib.cnfunctions.run" class="doc doc-heading">
-            <code class="highlight language-python">run(cmd, shell=False)</code>
+            <code class="highlight language-python">run(cmd, shell=False, capture_output=False)</code>
 
 </h2>
 
@@ -2076,70 +2447,88 @@ just lets me wrap prints in context-aware statements
         <p>Run a program or shell command string</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>cmd</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>cmd</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The command to run</p>
               </div>
-            </li>
-            <li>
-              <b><code>shell</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>shell</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>If False (the default), run the cmd as one long string. If True,</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              –
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The result of running the command line, as a</p>
               </div>
-            </li>
-            <li>
-              –
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>subprocess.CompletedProcess object</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>This is just a dumb convenience method to use subprocess with a string
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>This is just a dumb convenience method to use subprocess with a string
 instead of having to convert a string to an array with shlex every time. It
 also combines FileNotFoundError and CalledProcessError into one CNRunError.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
-              <pre class="highlight"><code class="language-python">def run(cmd, shell=False):
+              <pre class="highlight"><code class="language-python">def run(cmd, shell=False, capture_output=False):
     """
     Run a program or shell command string
 
@@ -2183,7 +2572,7 @@ also combines FileNotFoundError and CalledProcessError into one CNRunError.</p>
             # capture_output=True
             check=True,
             # put stdout/stderr into cp/cpe
-            capture_output=True,
+            capture_output=capture_output,
             # convert stdout/stderr from bytes to text
             encoding=S_ENCODING,
             text=True,
@@ -2239,58 +2628,73 @@ also combines FileNotFoundError and CalledProcessError into one CNRunError.</p>
         <p>Save a dictionary to all paths</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>save_dict</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>save_dict</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The dictionary to save to the paths(s)</p>
               </div>
-            </li>
-            <li>
-              <b><code>paths</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>paths</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The path or list of paths to save to</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Raises:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
                   <code><span title="OSError">OSError</span></code>
-              –
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>If the file does not exist and can't be created</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>Save the dictionary to a file at all the specified locations.</p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Save the dictionary to a file at all the specified locations.</p>
 
 
             <details class="quote">
@@ -2348,52 +2752,82 @@ also combines FileNotFoundError and CalledProcessError into one CNRunError.</p>
 
     </div>
 
-</div>
-              
+</div></div>
             </div>
-          </div><footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../cnformatter/" class="btn btn-neutral float-left" title="cnformatter.py"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../cninstall/" class="btn btn-neutral float-right" title="cninstall.py">Next <span class="icon icon-circle-arrow-right"></span></a>
-    </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <!-- Copyright etc -->
-  </div>
-
-  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-</footer>
-          
         </div>
-      </div>
 
-    </section>
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../../js/base.js"></script>
+        <script src="../../../search/main.js"></script>
 
-  </div>
-
-  <div class="rst-versions" role="note" aria-label="Versions">
-  <span class="rst-current-version" data-toggle="rst-current-version">
-    
-    
-      <span><a href="../cnformatter/" style="color: #fcfcfc">&laquo; Previous</a></span>
-    
-    
-      <span><a href="../cninstall/" style="color: #fcfcfc">Next &raquo;</a></span>
-    
-  </span>
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
 </div>
-    <script src="../../../js/jquery-3.6.0.min.js"></script>
-    <script>var base_url = "../../..";</script>
-    <script src="../../../js/theme_extra.js"></script>
-    <script src="../../../js/theme.js"></script>
-      <script src="../../../search/main.js"></script>
-    <script>
-        jQuery(function () {
-            SphinxRtdTheme.Navigation.enable(true);
-        });
-    </script>
 
-</body>
+    </body>
 </html>
