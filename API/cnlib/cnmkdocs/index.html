@@ -336,7 +336,8 @@ As much code/settings/constants as can be are reused from conf.py.</p>
 
         # the command to run mkdocs
         try:
-            F.run(cmd_docs, shell=True)
+            cp = F.run(cmd_docs, shell=True, capture_output=True)
+            return cp
         except F.CNRunError as e:
             raise e
 
@@ -361,7 +362,8 @@ As much code/settings/constants as can be are reused from conf.py.</p>
 
         # the command to run mkdocs
         try:
-            F.run(cmd_docs, shell=True)
+            cp = F.run(cmd_docs, shell=True, capture_output=True)
+            return cp
         except F.CNRunError as e:
             raise e
 
@@ -584,7 +586,8 @@ new object.</p>
 
     # the command to run mkdocs
     try:
-        F.run(cmd_docs, shell=True)
+        cp = F.run(cmd_docs, shell=True, capture_output=True)
+        return cp
     except F.CNRunError as e:
         raise e</code></pre>
             </details>
@@ -627,7 +630,8 @@ new object.</p>
 
     # the command to run mkdocs
     try:
-        F.run(cmd_docs, shell=True)
+        cp = F.run(cmd_docs, shell=True, capture_output=True)
+        return cp
     except F.CNRunError as e:
         raise e</code></pre>
             </details>
