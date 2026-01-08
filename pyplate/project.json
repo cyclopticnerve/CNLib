@@ -1,4 +1,18 @@
 {
+    "PUB_META": {
+        "META_SHORT_DESC": "A Python library containing useful functions and classes",
+        "META_VERSION": "1.1.1",
+        "META_KEYWORDS": [
+            "python",
+            "pyplate",
+            "pymaker",
+            "pybaker"
+        ],
+        "META_DEPS": {
+            "Python 3.10+": "https://python.org"
+        },
+        "META_CATS": []
+    },
     "PUB_BL": {
         "SKIP_ALL": [
             ".git",
@@ -79,20 +93,6 @@
             "en"
         ],
         "CHARSET": "UTF-8"
-    },
-    "PUB_META": {
-        "META_SHORT_DESC": "A Python library containing useful functions and classes",
-        "META_VERSION": "0.1.0",
-        "META_KEYWORDS": [
-            "python",
-            "pyplate",
-            "pymaker",
-            "pybaker"
-        ],
-        "META_DEPS": {
-            "Python 3.10+": "https://python.org"
-        },
-        "META_CATS": []
     },
     "PUB_INST": {}
 }
