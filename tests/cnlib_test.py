@@ -15,12 +15,6 @@ A simple script to test a package from within the project itself
 # Imports
 # ------------------------------------------------------------------------------
 
-# FIXME: install self as editable and remove this
-from pathlib import Path
-import sys
-P_DIR_PRJ = Path(__file__).parents[1].resolve()
-sys.path.append(str(P_DIR_PRJ))
-
 # local imports
 from cnlib import cnfunctions as F
 
