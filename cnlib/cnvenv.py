@@ -156,7 +156,7 @@ class CNVenv:
             self._dir_venv.parent, self._dir_venv.name, file_reqs
         )
         try:
-            F.run(cmd, shell=True)
+            F.run(cmd, shell=True, capture_output=True)
         except F.CNRunError as e:
             raise e
 
