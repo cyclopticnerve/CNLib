@@ -5,5 +5,6 @@ DONE: F.run needs capture_output, text, completed process object
         also make sure CNRunError has all props from fnf and cpe
         also test any manual sub runs if using F (spaceoddity, template)
 DONE: function to get gettext
+DONE: cnvenv --exclude-editable in freeze
 
 TODO: CNlib docs online - no theme?
