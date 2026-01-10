@@ -103,7 +103,6 @@ $ python -m pip uninstall cnlib
 
 ## Documentation
 See the full [documentation](https://cyclopticnerve.github.io/CNLib).
-See the full <p><a href=https://cyclopticnerve.github.io/CNLib target="_blank">documentation</a></p>
 
 ## Developing
 If you are developing this project, make sure you run the "develop.py" script
