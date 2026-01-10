@@ -64,7 +64,7 @@
         "pyproject.toml": ""
     },
     "PUB_DOCS": {
-        "DOCS_THEME": "readthedocs",
+        "DOCS_THEME": "",
         "DOCS_USE_RM": true,
         "DOCS_MAKE_API": true,
         "DOCS_DIR_API": [
