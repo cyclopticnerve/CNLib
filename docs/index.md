@@ -89,7 +89,6 @@ $ python -m pip install -r requirements.txt
 ```
 <!-- __RM_PKG__ -->
 
-
 ## Usage
 Read the full [documentation](https://cyclopticnerve.github.io/CNLib).
 
@@ -101,7 +100,6 @@ $ . ..venv-cnlib/bin/activate
 $ python -m pip uninstall cnlib
 ```
 <!-- __RM_PKG__ -->
-
 
 ## Documentation
 See the full [documentation](https://cyclopticnerve.github.io/CNLib).
