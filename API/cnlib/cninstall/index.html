@@ -1,116 +1,136 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <link rel="shortcut icon" href="../../../img/favicon.ico" />
-    <title>cninstall.py - CNLib</title>
-    <link rel="stylesheet" href="../../../css/theme.css" />
-    <link rel="stylesheet" href="../../../css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
-        <link href="../../../assets/_mkdocstrings.css" rel="stylesheet" />
-    
-      <script>
-        // Current page data
-        var mkdocs_page_name = "cninstall.py";
-        var mkdocs_page_input_path = "API/cnlib/cninstall.md";
-        var mkdocs_page_url = null;
-      </script>
-    
-    <!--[if lt IE 9]>
-      <script src="../../../js/html5shiv.min.js"></script>
-    <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-      <script>hljs.highlightAll();</script> 
-</head>
-
-<body class="wy-body-for-nav" role="document">
-
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
-    <div class="wy-side-scroll">
-      <div class="wy-side-nav-search">
-          <a href="../../.." class="icon icon-home"> CNLib
-        </a><div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
-  </form>
-</div>
-      </div>
-
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
-                </li>
-              </ul>
-              <p class="caption"><span class="caption-text">API</span></p>
-              <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" >Cnlib</a>
-    <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="../cnformatter/">cnformatter.py</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../cnfunctions/">cnfunctions.py</a>
-                </li>
-                <li class="toctree-l2 current"><a class="reference internal current" href="#">cninstall.py</a>
-    <ul class="current">
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cninstall">cninstall</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cninstall.CNInstall">CNInstall</a>
-        <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#cnlib.cninstall.CNInstall.__init__">__init__</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#cnlib.cninstall.CNInstall.fix_desktop_file">fix_desktop_file</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#cnlib.cninstall.CNInstall.install">install</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#cnlib.cninstall.CNInstall.make_install_cfg">make_install_cfg</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#cnlib.cninstall.CNInstall.make_uninstall_cfg">make_uninstall_cfg</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#cnlib.cninstall.CNInstall.uninstall">uninstall</a>
-    </li>
-        </ul>
-    </li>
-    </ul>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../cnmkdocs/">cnmkdocs.py</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../cnpot/">cnpot.py</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../cntree/">cntree.py</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../cnvenv/">cnvenv.py</a>
-                </li>
-    </ul>
-                  </li>
-              </ul>
-      </div>
-    </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../..">CNLib</a>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-      </nav>
-      <div class="wy-nav-content">
-        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
-          <li class="breadcrumb-item">API</li>
-          <li class="breadcrumb-item">Cnlib</li>
-      <li class="breadcrumb-item active">cninstall.py</li>
-    <li class="wy-breadcrumbs-aside">
-    </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-            <div class="section" itemprop="articleBody">
-              
-                <h1 id="cninstallpy">cninstall.py</h1>
+        
+        
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>cninstall.py - CNLib</title>
+        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../../css/brands.min.css" rel="stylesheet">
+        <link href="../../../css/solid.min.css" rel="stylesheet">
+        <link href="../../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <link href="../../../assets/_mkdocstrings.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../..">CNLib</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">API</a>
+                                <ul class="dropdown-menu">
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Cnlib</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../cnformatter/" class="dropdown-item">cnformatter.py</a>
+</li>
+            
+<li>
+    <a href="../cnfunctions/" class="dropdown-item">cnfunctions.py</a>
+</li>
+            
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">cninstall.py</a>
+</li>
+            
+<li>
+    <a href="../cnmkdocs/" class="dropdown-item">cnmkdocs.py</a>
+</li>
+            
+<li>
+    <a href="../cnpot/" class="dropdown-item">cnpot.py</a>
+</li>
+            
+<li>
+    <a href="../cntree/" class="dropdown-item">cntree.py</a>
+</li>
+            
+<li>
+    <a href="../cnvenv/" class="dropdown-item">cnvenv.py</a>
+</li>
+    </ul>
+  </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../cnfunctions/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../cnmkdocs/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#cninstallpy" class="nav-link">cninstall.py</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cninstall" class="nav-link">cninstall</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cninstall.CNInstall" class="nav-link">CNInstall</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="cninstallpy">cninstall.py</h1>
 
 
 <div class="doc doc-object doc-module">
@@ -893,42 +913,65 @@ performs the install and uninstall operations.</p>
         <p>Fix .desktop file, for paths and such</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>desk_file</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>desk_file</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The path to the desktop file to be modified</p>
               </div>
-            </li>
-            <li>
-              <b><code>path_icon</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>path_icon</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The path to the program's icon, relative to user home</p>
               </div>
-            </li>
-            <li>
-              <b><code>dry</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>dry</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>If True, do not copy files, ony print the action (default:</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>Fixes entries in the .desktop file (absolute paths, etc.)
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Fixes entries in the .desktop file (absolute paths, etc.)
 Currently only fixes absolute path to icon.</p>
 
 
@@ -1001,77 +1044,140 @@ Currently only fixes absolute path to icon.</p>
         <p>Install the program</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>dir_assets</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>dir_assets</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>Path to the assets folder where all of the program</p>
               </div>
-            </li>
-            <li>
-              <b><code>path_lib</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>path_lib</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>Path to the dist's lib folder, ie. "assets/lib"</p>
               </div>
-            </li>
-            <li>
-              <b><code>path_cfg_inst</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>path_cfg_inst</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>Path to the file that contains the current install</p>
               </div>
-            </li>
-            <li>
-              <b><code>path_cfg_uninst</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>path_cfg_uninst</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>Path to the currently installed program's</p>
               </div>
-            </li>
-            <li>
-              <b><code>dir_usr_inst</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>dir_usr_inst</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The program's install folder in which to make a venv</p>
               </div>
-            </li>
-            <li>
-              <b><code>dir_venv</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>dir_venv</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>The path to the venv folder to create</p>
               </div>
-            </li>
-            <li>
-              <b><code>path_reqs</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>path_reqs</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>Path to the requirements.txt file to add requirements to</p>
               </div>
-            </li>
-            <li>
-              <b><code>dry</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>dry</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>If True, do not copy files, ony print the action (default:</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>Runs the install operation.</p>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Runs the install operation.</p>
 
 
             <details class="quote">
@@ -1161,71 +1267,102 @@ Currently only fixes absolute path to icon.</p>
         <p>Make a valid install config file</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>name</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>name</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>Program name</p>
               </div>
-            </li>
-            <li>
-              <b><code>version</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>version</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>New version number to compare to any installed version</p>
               </div>
-            </li>
-            <li>
-              <b><code>dict_install</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>dict_install</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>Dict of assets to install</p>
               </div>
-            </li>
-            <li>
-              <b><code>desk</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>desk</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>Whether to make a .desktop file for the program</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              –
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>A properly formatted install config dict to save to a file</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>This method creates a config file for use by install.py. The dict
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>This method creates a config file for use by install.py. The dict
 format can be found below.</p>
 
 
@@ -1277,71 +1414,102 @@ format can be found below.</p>
         <p>Make a valid uninstall config file</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>name</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>name</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>Program name</p>
               </div>
-            </li>
-            <li>
-              <b><code>version</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>version</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>Initial program version from pyplate.py</p>
               </div>
-            </li>
-            <li>
-              <b><code>list_uninstall</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>list_uninstall</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>List of assets to uninstall</p>
               </div>
-            </li>
-            <li>
-              <b><code>desk</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>desk</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>Whether to delete a .desktop file for the program</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Returns:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              –
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>A properly formatted uninstall config dict to save to a file</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>This method creates a config file for use by uninstall.py. The dict
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>This method creates a config file for use by uninstall.py. The dict
 format can be found below.</p>
 
 
@@ -1392,35 +1560,50 @@ format can be found below.</p>
         <p>Uninstall the program</p>
 
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-      <th class="field-name">Parameters:</th>
-      <td class="field-body">
-        <ul class="first simple">
-            <li>
-              <b><code>path_cfg</code></b>
-              –
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>path_cfg</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>Path to the file that contains the uninstall dict info</p>
               </div>
-            </li>
-            <li>
-              <b><code>dry</code></b>
-              –
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>dry</code>
+            </td>
+            <td>
+            </td>
+            <td>
               <div class="doc-md-description">
                 <p>If True, do not remove files, ony print the action (default:</p>
               </div>
-            </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>        <p>Runs the uninstall operation.</p>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Runs the uninstall operation.</p>
 
 
             <details class="quote">
@@ -1488,52 +1671,82 @@ format can be found below.</p>
 
     </div>
 
-</div>
-              
+</div></div>
             </div>
-          </div><footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../cnfunctions/" class="btn btn-neutral float-left" title="cnfunctions.py"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../cnmkdocs/" class="btn btn-neutral float-right" title="cnmkdocs.py">Next <span class="icon icon-circle-arrow-right"></span></a>
-    </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <!-- Copyright etc -->
-  </div>
-
-  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-</footer>
-          
         </div>
-      </div>
 
-    </section>
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../../js/base.js"></script>
+        <script src="../../../search/main.js"></script>
 
-  </div>
-
-  <div class="rst-versions" role="note" aria-label="Versions">
-  <span class="rst-current-version" data-toggle="rst-current-version">
-    
-    
-      <span><a href="../cnfunctions/" style="color: #fcfcfc">&laquo; Previous</a></span>
-    
-    
-      <span><a href="../cnmkdocs/" style="color: #fcfcfc">Next &raquo;</a></span>
-    
-  </span>
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
 </div>
-    <script src="../../../js/jquery-3.6.0.min.js"></script>
-    <script>var base_url = "../../..";</script>
-    <script src="../../../js/theme_extra.js"></script>
-    <script src="../../../js/theme.js"></script>
-      <script src="../../../search/main.js"></script>
-    <script>
-        jQuery(function () {
-            SphinxRtdTheme.Navigation.enable(true);
-        });
-    </script>
 
-</body>
+    </body>
 </html>
