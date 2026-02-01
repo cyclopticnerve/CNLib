@@ -581,6 +581,11 @@ def run(cmd, shell=False, capture_output=False):
         cp = subprocess.run(
             # the cmd or array of commands
             cmd,
+            # whether the call is a file w/ params (False) or a direct shell
+            # input (True)
+            shell=shell,
+            # put stdout/stderr into cp/cpe, instead of the current terminal
+            capture_output=capture_output,
             # if check is True, an exception will be raised if the return code
             # is not 0
             # if check is False, no exception is raised but cp will be None,
@@ -589,14 +594,9 @@ def run(cmd, shell=False, capture_output=False):
             # because stderr comes from the CalledProcessError IF
             # capture_output=True
             check=True,
-            # put stdout/stderr into cp/cpe
-            capture_output=capture_output,
             # convert stdout/stderr from bytes to text
             encoding=S_ENCODING,
             text=True,
-            # whether the call is a file w/ params (False) or a direct shell
-            # input (True)
-            shell=shell,
         )
 
         # return the result
@@ -1075,6 +1075,24 @@ def printd(*values, sep=" ", end="\n", file=None, flush=False):
         )
 
 # ------------------------------------------------------------------------------
+# Constrain a value to an upper or lower value
+# ------------------------------------------------------------------------------
+def clamp(val_in:int, vals:list[int]) -> int:
+    """
+    Constrain a value to an upper or lower value
+
+    :param val_in: The value to be clamped
+    :type val_in: int
+    :param vals: The upper and lower clamp limits
+    :type vals: list[int]
+    :return: The value after being clamped
+    :rtype: int
+    """
+    val_min = vals[0]
+    val_max = vals[1]
+    return max(val_min, min(val_in, val_max))
+
+# ------------------------------------------------------------------------------
 # Return an underscore function for a module
 # ------------------------------------------------------------------------------
 def get_underscore(domain, path_locale):
@@ -1089,7 +1107,6 @@ def get_underscore(domain, path_locale):
     # init gettext
     t_translation = gettext.translation(domain, path_locale, fallback=True)
     return t_translation.gettext
-
 
 
 # -)
