@@ -17,6 +17,7 @@ values.
 
 # TODO: only do check event on load if item has no children
 # start bottom up?
+# https://www.cssscript.com/demo/tree-view-checkboxes/
 
 # TODO: empty lines for readability?
 

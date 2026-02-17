@@ -24,7 +24,7 @@ from cnlib import cnfunctions as F
 
 btns = ["y", "N"]
 
-RES = F.dialog("question", btns, default="", loop=True)
+RES = F.dialog("question", btns, default="n", loop=True)
 print(RES)
 
 # while True:
