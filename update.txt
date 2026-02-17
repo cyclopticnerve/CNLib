@@ -1,2 +1,3 @@
-git push
+git commit/push
 run pybaker and change version
+change something
