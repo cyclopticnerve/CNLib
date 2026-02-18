@@ -1,15 +1,11 @@
 
-git add all changes (to staged)
-git commit/push w/ msg "ready for version x.x.x" or something
-
 run pybaker and change version
 
-git add all changes
-git commit/push w/ msg "ready for version x.x.x" or something
-
-right click, "create tag...", tag name="vx.x.x", tag message="ready for version x.x.x" or something
-git add all changes
-git commit/push "ready for version x.x.x" or something
+git stage all changes
+git commit/push w/ msg "release version x.x.x"
+xxx
+right click, "create tag...", tag name="vx.x.x"
 
 github
 
+ 
