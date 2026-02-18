@@ -96,7 +96,7 @@ Read the full [documentation](https://cyclopticnerve.github.io/CNLib).
 <!-- __RM_PKG__ -->
 In your project folder:
 ```bash
-$ . ..venv-cnlib/bin/activate
+$ . .venv/bin/activate
 $ python -m pip uninstall cnlib
 ```
 <!-- __RM_PKG__ -->
