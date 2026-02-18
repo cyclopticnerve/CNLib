@@ -12,3 +12,4 @@ git add all changes
 git commit/push "ready for version x.x.x" or something
 
 github
+
