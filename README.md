@@ -44,7 +44,7 @@ There are two ways to get the code:
 
 1. Download the [latest
 release](https://github.com/cyclopticnerve/CNLib/releases/latest)
-(the **'Source code (zip)'** file should work an all platforms).
+(the **'cnlib-\<version\>.zip'** file should work on all platforms).
 
 2. Or you can clone the git repo to get the latest (and often broken) code from
    the main branch:
@@ -54,7 +54,7 @@ $ git clone https://github.com/cyclopticnerve/CNLib
 
 ## Installing
 <!-- __RM_PKG__ -->
-There are also two ways to get CNLib into your project.
+There are also two ways to get CNLib into your project.<br>
 Run these commands from your project directory.
 
 First make sure you have a venv and it is active:
@@ -67,9 +67,8 @@ $ . .venv/bin/activate
 
 If you downloaded the zip file:
 ```bash
-$ python -m pip install /path/to/CNLib-<version>.zip
+$ python -m pip install /path/to/cnlib-<version>.zip
 ```
-where \<version\> is the version number included in the file name.
 
 Or if you cloned the repo:
 ```bash
@@ -106,7 +105,8 @@ See the full [documentation](https://cyclopticnerve.github.io/CNLib).
 
 ## Developing
 If you are developing this project, make sure you run the "develop.py" script
-first to create the proper virtual environment (venv). 
+first to create the proper virtual environment and install the requirements (if
+any). 
 
 ## Notes
 10/10, no notes.
