@@ -51,7 +51,8 @@
    │     │     └─ [] window.py
    │     ├─ [] release.txt
    │     ├─ [] tree.html
-   │     └─ [] tree.txt
+   │     ├─ [] tree.txt
+   │     └─ [] update_cnlib.txt
    ├─ [] pyplate/
    │     ├─ [] private/
    │     │     └─ [] private.json
@@ -59,11 +60,11 @@
    ├─ [] tests/
    │     └─ [] cnlib_test.py
    ├─ [] todo/
+   │     ├─ [] configurator.py
    │     └─ [] todo.txt
    ├─ [] .gitignore
    ├─ [] LICENSE.txt
    ├─ [] README.md
    ├─ [] develop.py
    ├─ [] mkdocs.yml
-   ├─ [] pyproject.toml
-   └─ [] update.txt
+   └─ [] pyproject.toml

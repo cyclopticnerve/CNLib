@@ -805,6 +805,7 @@ def dialog(
         if not loop:
             return ""
 
+
 # ------------------------------------------------------------------------------
 # Compare two semantic versions
 # ------------------------------------------------------------------------------
@@ -1074,10 +1075,11 @@ def printd(*values, sep=" ", end="\n", file=None, flush=False):
             bold=True,
         )
 
+
 # ------------------------------------------------------------------------------
 # Constrain a value to an upper or lower value
 # ------------------------------------------------------------------------------
-def clamp(val_in:int, vals:list[int]) -> int:
+def clamp(val_in: int, vals: list[int]) -> int:
     """
     Constrain a value to an upper or lower value
 
@@ -1091,6 +1093,7 @@ def clamp(val_in:int, vals:list[int]) -> int:
     val_min = vals[0]
     val_max = vals[1]
     return max(val_min, min(val_in, val_max))
+
 
 # ------------------------------------------------------------------------------
 # Return an underscore function for a module
@@ -1107,6 +1110,64 @@ def get_underscore(domain, path_locale):
     # init gettext
     t_translation = gettext.translation(domain, path_locale, fallback=True)
     return t_translation.gettext
+
+
+# ------------------------------------------------------------------------------
+# Convert a value in one range to the value in another range
+# ------------------------------------------------------------------------------
+def interpolate(
+    in_val: float,
+    in_low: float,
+    in_high: float,
+    out_low: float,
+    out_high: float,
+) -> float:
+    """
+    Convert a value in one range to the value in another range
+
+    Args:
+        val_int: The value to be converted
+        in_low: Lower bound of input range
+        in_high: Upper bound of input range
+        out_low: Lower bound of output range
+        out_high: Upper bound of output range
+
+    Returns:
+        The interpolated value as a float
+
+    Raises:
+        ValueError if the input value is outside the input range, or if in_low
+        is greater than in_high, or out_low is greater than out_high
+
+    This method converts a value in a range to it's corresponding value in
+    another range. For example, given the values (50, 0, 100, 0, 255), it will
+    return 127.5.
+    """
+
+    # sanity checks
+    if in_low > in_high:
+        raise ValueError("in_low must be less than in_high")
+    if in_val < in_low or in_val > in_high:
+        raise ValueError("in_val must be between in_low and in_high")
+
+    # first get the spans of the ranges
+    in_diff = in_high - in_low
+    out_diff = out_high - out_low
+
+    # get how far into the range we are
+    in_pos = in_val - in_low
+
+    # then get in val as a percent of span
+    in_pct = in_pos / in_diff
+
+    # get out val as a percent of span and add start val
+    out_pos = out_diff * in_pct
+
+    # get how far into the range we should be
+    out_val = out_pos + out_low
+
+    # done
+    return out_val
 
 
 # -)

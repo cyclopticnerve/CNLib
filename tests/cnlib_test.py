@@ -22,15 +22,7 @@ from cnlib import cnfunctions as F
 # Code to run when called from command line
 # ------------------------------------------------------------------------------
 
-btns = ["y", "N"]
-
-RES = F.dialog("question", btns, default="n", loop=True)
+RES = F.interpolate(-50, 0, -100, -255, 0)
 print(RES)
-
-# while True:
-#     RES = F.dialog("question", btns, default="")
-#     print(RES)
-#     if RES == "q":
-#         break
 
 # -)
