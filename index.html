@@ -178,7 +178,7 @@
 <!-- __RM_SHORT_DESC__ -->
 
 <!-- __RM_VERSION__ -->
-<p>Version 1.0.0</p>
+<p>Version 1.1.0</p>
 <!-- __RM_VERSION__ -->
 
 <!-- __RM_SCREENSHOT__ -->
@@ -206,7 +206,7 @@
 <li>
 <p>Download the <a href="https://github.com/cyclopticnerve/CNLib/releases/latest">latest
 release</a>
-(the <strong>'Source code (zip)'</strong> file should work an all platforms).</p>
+(the <strong>'cnlib-\&lt;version&gt;.zip'</strong> file should work on all platforms).</p>
 </li>
 <li>
 <p>Or you can clone the git repo to get the latest (and often broken) code from
@@ -217,7 +217,7 @@ release</a>
 </code></pre>
 <h2 id="installing">Installing</h2>
 <!-- __RM_PKG__ -->
-<p>There are also two ways to get CNLib into your project.
+<p>There are also two ways to get CNLib into your project.<br>
 Run these commands from your project directory.</p>
 <p>First make sure you have a venv and it is active:</p>
 <pre><code class="language-bash">$  python -m venv .venv
@@ -225,9 +225,8 @@ $ . .venv/bin/activate
 </code></pre>
 <h3 id="manually">Manually</h3>
 <p>If you downloaded the zip file:</p>
-<pre><code class="language-bash">$ python -m pip install /path/to/CNLib-&lt;version&gt;.zip
+<pre><code class="language-bash">$ python -m pip install /path/to/cnlib-&lt;version&gt;.zip
 </code></pre>
-<p>where \&lt;version&gt; is the version number included in the file name.</p>
 <p>Or if you cloned the repo:</p>
 <pre><code class="language-bash">$ python -m pip install /path/to/CNLib
 </code></pre>
@@ -246,7 +245,7 @@ $ . .venv/bin/activate
 <h2 id="uninstalling">Uninstalling</h2>
 <!-- __RM_PKG__ -->
 <p>In your project folder:</p>
-<pre><code class="language-bash">$ . ..venv-cnlib/bin/activate
+<pre><code class="language-bash">$ . .venv/bin/activate
 $ python -m pip uninstall cnlib
 </code></pre>
 <!-- __RM_PKG__ -->
@@ -255,7 +254,8 @@ $ python -m pip uninstall cnlib
 <p>See the full <a href="https://cyclopticnerve.github.io/CNLib">documentation</a>.</p>
 <h2 id="developing">Developing</h2>
 <p>If you are developing this project, make sure you run the "develop.py" script
-first to create the proper virtual environment (venv). </p>
+first to create the proper virtual environment and install the requirements (if
+any). </p>
 <h2 id="notes">Notes</h2>
 <p>10/10, no notes.</p>
 <p>-)</p>
@@ -341,5 +341,5 @@ first to create the proper virtual environment (venv). </p>
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-02-18 00:08:27.170851+00:00
+Build Date UTC : 2026-03-03 15:17:57.615188+00:00
 -->

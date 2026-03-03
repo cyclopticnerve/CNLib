@@ -123,6 +123,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.clamp" class="nav-link">clamp</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.combine_dicts" class="nav-link">combine_dicts</a>
               <ul class="nav flex-column">
               </ul>
@@ -437,6 +441,47 @@
 
 </div>
 
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.clamp" class="doc doc-heading">
+            <code class="highlight language-python">clamp(val_in, vals)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Constrain a value to an upper or lower value</p>
+<p>:param val_in: The value to be clamped
+:type val_in: int
+:param vals: The upper and lower clamp limits
+:type vals: list[int]
+:return: The value after being clamped
+:rtype: int</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def clamp(val_in:int, vals:list[int]) -&gt; int:
+    """
+    Constrain a value to an upper or lower value
+
+    :param val_in: The value to be clamped
+    :type val_in: int
+    :param vals: The upper and lower clamp limits
+    :type vals: list[int]
+    :return: The value after being clamped
+    :rtype: int
+    """
+    val_min = vals[0]
+    val_max = vals[1]
+    return max(val_min, min(val_in, val_max))</code></pre>
+            </details>
+    </div>
+
+</div>
 
 <div class="doc doc-object doc-function">
 
@@ -2563,6 +2608,11 @@ also combines FileNotFoundError and CalledProcessError into one CNRunError.</p>
         cp = subprocess.run(
             # the cmd or array of commands
             cmd,
+            # whether the call is a file w/ params (False) or a direct shell
+            # input (True)
+            shell=shell,
+            # put stdout/stderr into cp/cpe, instead of the current terminal
+            capture_output=capture_output,
             # if check is True, an exception will be raised if the return code
             # is not 0
             # if check is False, no exception is raised but cp will be None,
@@ -2571,14 +2621,9 @@ also combines FileNotFoundError and CalledProcessError into one CNRunError.</p>
             # because stderr comes from the CalledProcessError IF
             # capture_output=True
             check=True,
-            # put stdout/stderr into cp/cpe
-            capture_output=capture_output,
             # convert stdout/stderr from bytes to text
             encoding=S_ENCODING,
             text=True,
-            # whether the call is a file w/ params (False) or a direct shell
-            # input (True)
-            shell=shell,
         )
 
         # return the result
