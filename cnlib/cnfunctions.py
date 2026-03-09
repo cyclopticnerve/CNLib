@@ -129,12 +129,18 @@ R_VERSION_GROUP_META = 5
 # lists
 
 # if it is in this list, it is True, else false
-# NB: strings here should be all lowercase
+# NB: test is case insensitive
 L_RULES_TRUE = [
     "true",
     "1",
     "yes",
     "y",
+]
+L_RULES_FALSE = [
+    "false",
+    "0",
+    "",
+
 ]
 
 # ------------------------------------------------------------------------------
@@ -224,7 +230,7 @@ def pascal_case(a_str):
 # ------------------------------------------------------------------------------
 # Convert other values, like integers or strings, to bools
 # ------------------------------------------------------------------------------
-def do_bool(val):
+def bool(val):
     """
     Convert other values, like integers or strings, to bools
 
@@ -234,14 +240,36 @@ def do_bool(val):
     Returns:
         A boolean value converted from the argument
 
-    Converts integers and strings to boolean values based on the rules.
+    Converts integers and strings to boolean values based on the rules. Works
+    for bools (True/False), strings, ints, and floats.
+
+    For bools, no conversion is necessary, and the original value is returned.
+    For strings, if the string is "", "0", or "false" (case insensitive), the
+    result is False. All other strings return True.
+    For ints, if the value is 0, the result is False. All other values
+    (including negative numbers) is True.
+    For floats, the value is rounded to the nearest int before being tested. The
+    result is then the same as for ints.
     """
 
-    # lower all test vals
-    rules_true = [item.lower() for item in L_RULES_TRUE]
+    # first check if no conversion needed
+    if val in (True, False):
+        return val
+    
+    # next check for strings
+    if isinstance(val, str):
+            
+        # case insensitive
+        val = val.lower()
+        rules_true = [item.lower() for item in L_RULES_TRUE]
 
-    # return result
-    return str(val).lower() in rules_true
+        # return result
+        return val in rules_true
+
+    # test for floats
+    if isinstance(val, float):
+        val = round(val)
+
 
 
 # ------------------------------------------------------------------------------
@@ -1061,7 +1089,7 @@ def printd(*values, sep=" ", end="\n", file=None, flush=False):
 
 
     This function is really handy for me when I run a program in debug mode. It
-    just lets me wrap prints in context-aware statements
+    just lets me wrap prints in context-aware statements.
     """
 
     if B_DEBUG:
@@ -1074,25 +1102,6 @@ def printd(*values, sep=" ", end="\n", file=None, flush=False):
             fg=C_FG_RED,
             bold=True,
         )
-
-
-# ------------------------------------------------------------------------------
-# Constrain a value to an upper or lower value
-# ------------------------------------------------------------------------------
-def clamp(val_in: int, vals: list[int]) -> int:
-    """
-    Constrain a value to an upper or lower value
-
-    :param val_in: The value to be clamped
-    :type val_in: int
-    :param vals: The upper and lower clamp limits
-    :type vals: list[int]
-    :return: The value after being clamped
-    :rtype: int
-    """
-    val_min = vals[0]
-    val_max = vals[1]
-    return max(val_min, min(val_in, val_max))
 
 
 # ------------------------------------------------------------------------------
@@ -1113,6 +1122,39 @@ def get_underscore(domain, path_locale):
 
 
 # ------------------------------------------------------------------------------
+# Constrain a value to an upper or lower value
+# ------------------------------------------------------------------------------
+def clamp(
+    val_in: float | int, val_low: float | int, val_high: float | int
+) -> float | int:
+    """
+    Constrain a value to an upper or lower value
+
+    :param val_in: The value to be clamped
+    :type val_in: int
+    :param vals: The upper and lower clamp limits
+    :type vals: list[int]
+    :return: The value after being clamped
+    :rtype: int
+    """
+
+    # TODO: test this
+    # if any value is float, return float
+    # if all values are int, return int
+
+    # use_float = (
+    #     isinstance(val_in, float)
+    #     or isinstance(val_low, float)
+    #     or isinstance(val_high, float)
+    # )
+
+    # val = max(val_low, min(val_in, val_high))
+    # return int/float
+
+    return max(val_low, min(val_in, val_high))
+
+
+# ------------------------------------------------------------------------------
 # Convert a value in one range to the value in another range
 # ------------------------------------------------------------------------------
 def interpolate(
@@ -1126,7 +1168,7 @@ def interpolate(
     Convert a value in one range to the value in another range
 
     Args:
-        val_int: The value to be converted
+        in_val: The value to be converted
         in_low: Lower bound of input range
         in_high: Upper bound of input range
         out_low: Lower bound of output range
