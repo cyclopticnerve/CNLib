@@ -51,8 +51,7 @@
    │     │     └─ [] window.py
    │     ├─ [] release.txt
    │     ├─ [] tree.html
-   │     ├─ [] tree.txt
-   │     └─ [] update_cnlib.txt
+   │     └─ [] tree.txt
    ├─ [] pyplate/
    │     ├─ [] private/
    │     │     └─ [] private.json
