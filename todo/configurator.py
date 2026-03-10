@@ -27,8 +27,8 @@ def load(dict_defs, dict_user=None, dict_subs=None, allow_conflicts=True,
     """
         Load the defaults dict, apply user values, and perform substitutions
 
-        Paramaters:
-            dict_defs [dict]: the dict of defaults
+        Args:
+            dict_defs: the dict of defaults
             dict_user [dict]: the dict of user settings
             dict_subs [dict]: the dict of substitutions to perform
                 Dict must be in the form of: {"${SUB}": "substitution_string"}
@@ -42,12 +42,12 @@ def load(dict_defs, dict_user=None, dict_subs=None, allow_conflicts=True,
             [dict]: a dict containing all merged keys and values, with
             substitutions applied
 
-        This function combines the defaults dict with the user dict, returning a
-        third dict containing the union of those two dicts. It also performs
-        substitutions using the specified dict_subs. Type conflicts between
-        the defaults dict and the user dict are handled by the allow_conflicts
-        parameter. User dict keys that are not present in the defaults dict will
-        be kept (but obviously not type-checked) if the allow_user_extras
+        This function combines the defaults dict with the user dict, returning
+        a third dict containing the union of those two dicts. It also performs
+        substitutions using the specified dict_subs. Type conflicts between the
+        defaults dict and the user dict are handled by the allow_conflicts
+        parameter. User dict keys that are not present in the defaults dict
+        will be kept (but obviously not type-checked) if the allow_user_extras
         parameter is True, otherwise they are discarded.
     """
 
