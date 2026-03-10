@@ -22,7 +22,19 @@ from cnlib import cnfunctions as F
 # Code to run when called from command line
 # ------------------------------------------------------------------------------
 
-RES = F.interpolate(-50, 0, -100, -255, 0)
-print(RES)
+# print(F.clamp(1, 0, 5))
+# print(F.clamp(1.0, 0, 5))
+
+# print(F.clamp(1, 0.0, 5))
+# print(F.clamp(1.0, 1.0, 5))
+
+# print(F.clamp(1, 0, 5.0))
+# print(F.clamp(1.0, 0, 5.0))
+
+# print(F.clamp(1, 0.0, 5.0))
+# print(F.clamp(1.0, 1.0, 5.0))
+
+# RES = F.interpolate(-50, 0, -100, -255, 0)
+# print(RES)
 
 # -)
