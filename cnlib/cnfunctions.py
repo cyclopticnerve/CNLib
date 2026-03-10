@@ -1125,33 +1125,34 @@ def get_underscore(domain, path_locale):
 # Constrain a value to an upper or lower value
 # ------------------------------------------------------------------------------
 def clamp(
-    val_in: float | int, val_low: float | int, val_high: float | int
-) -> float | int:
+    in_val: float, in_min: float, in_max: float) -> float:
     """
     Constrain a value to an upper or lower value
 
-    :param val_in: The value to be clamped
-    :type val_in: int
-    :param vals: The upper and lower clamp limits
-    :type vals: list[int]
-    :return: The value after being clamped
-    :rtype: int
+    Args:
+        in_val: The value to be converted
+        in_min: Lower bound of input range
+        in_max: Upper bound of input range
+
+    Returns:
+        The value clamped to the low and high values as a float
     """
 
-    # TODO: test this
-    # if any value is float, return float
-    # if all values are int, return int
+    # convert all inputs to floats (not done by type)
+    in_val = float(in_val)
+    in_min = float(in_min)
+    in_max = float(in_max)
 
-    # use_float = (
-    #     isinstance(val_in, float)
-    #     or isinstance(val_low, float)
-    #     or isinstance(val_high, float)
-    # )
+    # assume result is input
+    res = in_val
 
-    # val = max(val_low, min(val_in, val_high))
-    # return int/float
+    # if val > high, use high
+    res = min(res, in_max)
 
-    return max(val_low, min(val_in, val_high))
+    # if val < low, use low
+    res = max(res, in_min)
+
+    return res
 
 
 # ------------------------------------------------------------------------------
@@ -1159,45 +1160,54 @@ def clamp(
 # ------------------------------------------------------------------------------
 def interpolate(
     in_val: float,
-    in_low: float,
-    in_high: float,
-    out_low: float,
-    out_high: float,
+    in_min: float,
+    in_max: float,
+    out_min: float,
+    out_max: float,
 ) -> float:
     """
     Convert a value in one range to the value in another range
 
     Args:
         in_val: The value to be converted
-        in_low: Lower bound of input range
-        in_high: Upper bound of input range
-        out_low: Lower bound of output range
-        out_high: Upper bound of output range
+        in_min: Lower bound of input range
+        in_max: Upper bound of input range
+        out_min: Lower bound of output range
+        out_max: Upper bound of output range
 
     Returns:
         The interpolated value as a float
 
     Raises:
-        ValueError if the input value is outside the input range, or if in_low
-        is greater than in_high, or out_low is greater than out_high
+        ValueError: if the input value is outside the input range, or if in_min
+        is greater than in_max, or if out_min is greater than out_max
 
     This method converts a value in a range to it's corresponding value in
     another range. For example, given the values (50, 0, 100, 0, 255), it will
     return 127.5.
     """
 
-    # sanity checks
-    if in_low > in_high:
-        raise ValueError("in_low must be less than in_high")
-    if in_val < in_low or in_val > in_high:
-        raise ValueError("in_val must be between in_low and in_high")
+    # convert all values to floats
+    in_val = float(in_val)
+    in_min = float(in_min)
+    in_max = float(in_max)
+    out_min = float(out_min)
+    out_max = float(out_max)
 
-    # first get the spans of the ranges
-    in_diff = in_high - in_low
-    out_diff = out_high - out_low
+    # sanity checks
+    if in_min > in_max:
+        raise ValueError("in_min must be less than in_max")
+    if out_min > out_max:
+        raise ValueError("out_min must be less than out_max")
+    if in_val < in_min or in_val > in_max:
+        raise ValueError("in_val must be between in_min and in_max")
 
     # get how far into the range we are
-    in_pos = in_val - in_low
+    in_pos = in_val - in_min
+
+    # first get the spans of the ranges
+    in_diff = in_max - in_min
+    out_diff = out_max - out_min
 
     # then get in val as a percent of span
     in_pct = in_pos / in_diff
@@ -1206,7 +1216,7 @@ def interpolate(
     out_pos = out_diff * in_pct
 
     # get how far into the range we should be
-    out_val = out_pos + out_low
+    out_val = out_pos + out_min
 
     # done
     return out_val
