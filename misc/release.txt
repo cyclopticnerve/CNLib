@@ -13,9 +13,6 @@
 
 4. PyPlate
     4a. Update requirements.txt
-    4b. Update template/cli/requirements.txt
-    4c. Update template/gui/requirements.txt
+    4b. Update template/all/requirements.txt
     4d. pip uninstall cnlib
     4e. pip install -r requirements.txt
-        or
-    4e. pip install -e ../CNLib
