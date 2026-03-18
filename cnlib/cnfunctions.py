@@ -664,7 +664,8 @@ def load_paths_into_dict(paths, start_dict=None):
 
     Args:
         paths: The file path or list of file paths to load
-        start_dict: The starting dict and final dict after combining (default: None)
+        start_dict: The starting dict and final dict after combining (default:\
+        None)
 
     Returns:
         The final combined dictionary
@@ -824,7 +825,7 @@ def dialog(
             if inp.lower() == item.lower():
                 return item
 
-        # ------------------------------------------------------------------
+        # ----------------------------------------------------------------------
         # wrong answer
 
         # no loop, return blank
@@ -1047,7 +1048,7 @@ def printc(
     # get the close sequence (reset fg/bg/bold)
     color_end = "\033[0m"
 
-    # ------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
     # get the full string
     value = sep.join(values)
