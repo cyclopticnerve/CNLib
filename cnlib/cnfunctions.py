@@ -140,7 +140,6 @@ L_RULES_FALSE = [
     "false",
     "0",
     "",
-
 ]
 
 # ------------------------------------------------------------------------------
@@ -230,12 +229,13 @@ def pascal_case(a_str):
 # ------------------------------------------------------------------------------
 # Convert other values, like integers or strings, to bools
 # ------------------------------------------------------------------------------
-def bool(val):
+def bool(val, default=False) -> bool:
     """
     Convert other values, like integers or strings, to bools
 
     Args:
         val: The value to convert to a bool
+        default: Value to return if a conversion could not be made
 
     Returns:
         A boolean value converted from the argument
@@ -254,22 +254,20 @@ def bool(val):
 
     # first check if no conversion needed
     if val in (True, False):
-        return val
-    
+        return bool(val)
+
     # next check for strings
     if isinstance(val, str):
-            
+
         # case insensitive
         val = val.lower()
         rules_true = [item.lower() for item in L_RULES_TRUE]
 
         # return result
-        return val in rules_true
+        return bool(val in rules_true)
 
-    # test for floats
-    if isinstance(val, float):
-        val = round(val)
-
+    # return default lol
+    return default
 
 
 # ------------------------------------------------------------------------------
@@ -1124,8 +1122,7 @@ def get_underscore(domain, path_locale):
 # ------------------------------------------------------------------------------
 # Constrain a value to an upper or lower value
 # ------------------------------------------------------------------------------
-def clamp(
-    in_val: float, in_min: float, in_max: float) -> float:
+def clamp(in_val: float, in_min: float, in_max: float) -> float:
     """
     Constrain a value to an upper or lower value
 
