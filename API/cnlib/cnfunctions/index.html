@@ -123,6 +123,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.bool" class="nav-link">bool</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.clamp" class="nav-link">clamp</a>
               <ul class="nav flex-column">
               </ul>
@@ -139,15 +143,15 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.do_bool" class="nav-link">do_bool</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
             <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.dpretty" class="nav-link">dpretty</a>
               <ul class="nav flex-column">
               </ul>
             </li>
             <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.get_underscore" class="nav-link">get_underscore</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.interpolate" class="nav-link">interpolate</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -221,7 +225,7 @@
               </td>
             </tr>
             <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="do_bool(val) (cnlib.cnfunctions.do_bool)" href="#cnlib.cnfunctions.do_bool">do_bool</a></code></td>
+              <td><code><span title="cnlib.cnfunctions.do_bool">do_bool</span></code></td>
               <td>
                 <div class="doc-md-description">
                   <p>Convert other values, like integers or strings, to bools</p>
@@ -445,8 +449,129 @@
 <div class="doc doc-object doc-function">
 
 
+<h2 id="cnlib.cnfunctions.bool" class="doc doc-heading">
+            <code class="highlight language-python">bool(val)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Convert other values, like integers or strings, to bools</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>val</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The value to convert to a bool</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A boolean value converted from the argument</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Converts integers and strings to boolean values based on the rules. Works
+for bools (True/False), strings, ints, and floats.</p>
+<p>For bools, no conversion is necessary, and the original value is returned.
+For strings, if the string is "", "0", or "false" (case insensitive), the
+result is False. All other strings return True.
+For ints, if the value is 0, the result is False. All other values
+(including negative numbers) is True.
+For floats, the value is rounded to the nearest int before being tested. The
+result is then the same as for ints.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def bool(val):
+    """
+    Convert other values, like integers or strings, to bools
+
+    Args:
+        val: The value to convert to a bool
+
+    Returns:
+        A boolean value converted from the argument
+
+    Converts integers and strings to boolean values based on the rules. Works
+    for bools (True/False), strings, ints, and floats.
+
+    For bools, no conversion is necessary, and the original value is returned.
+    For strings, if the string is "", "0", or "false" (case insensitive), the
+    result is False. All other strings return True.
+    For ints, if the value is 0, the result is False. All other values
+    (including negative numbers) is True.
+    For floats, the value is rounded to the nearest int before being tested. The
+    result is then the same as for ints.
+    """
+
+    # first check if no conversion needed
+    if val in (True, False):
+        return val
+
+    # next check for strings
+    if isinstance(val, str):
+
+        # case insensitive
+        val = val.lower()
+        rules_true = [item.lower() for item in L_RULES_TRUE]
+
+        # return result
+        return val in rules_true
+
+    # test for floats
+    if isinstance(val, float):
+        val = round(val)</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h2 id="cnlib.cnfunctions.clamp" class="doc doc-heading">
-            <code class="highlight language-python">clamp(val_in, vals)</code>
+            <code class="highlight language-python">clamp(in_val, in_min, in_max)</code>
 
 </h2>
 
@@ -454,30 +579,125 @@
     <div class="doc doc-contents ">
 
         <p>Constrain a value to an upper or lower value</p>
-<p>:param val_in: The value to be clamped
-:type val_in: int
-:param vals: The upper and lower clamp limits
-:type vals: list[int]
-:return: The value after being clamped
-:rtype: int</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>in_val</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The value to be converted</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>in_min</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Lower bound of input range</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>in_max</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Upper bound of input range</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The value clamped to the low and high values as a float</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
             <details class="quote">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
-              <pre class="highlight"><code class="language-python">def clamp(val_in:int, vals:list[int]) -&gt; int:
+              <pre class="highlight"><code class="language-python">def clamp(
+    in_val: float, in_min: float, in_max: float) -&gt; float:
     """
     Constrain a value to an upper or lower value
 
-    :param val_in: The value to be clamped
-    :type val_in: int
-    :param vals: The upper and lower clamp limits
-    :type vals: list[int]
-    :return: The value after being clamped
-    :rtype: int
+    Args:
+        in_val: The value to be converted
+        in_min: Lower bound of input range
+        in_max: Upper bound of input range
+
+    Returns:
+        The value clamped to the low and high values as a float
     """
-    val_min = vals[0]
-    val_max = vals[1]
-    return max(val_min, min(val_in, val_max))</code></pre>
+
+    # convert all inputs to floats (not done by type)
+    in_val = float(in_val)
+    in_min = float(in_min)
+    in_max = float(in_max)
+
+    # assume result is input
+    res = in_val
+
+    # if val &gt; high, use high
+    res = min(res, in_max)
+
+    # if val &lt; low, use low
+    res = max(res, in_min)
+
+    return res</code></pre>
             </details>
     </div>
 
@@ -1116,98 +1336,6 @@ response or the dialog will loop forever.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="cnlib.cnfunctions.do_bool" class="doc doc-heading">
-            <code class="highlight language-python">do_bool(val)</code>
-
-</h2>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Convert other values, like integers or strings, to bools</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>val</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The value to convert to a bool</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>A boolean value converted from the argument</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-        <p>Converts integers and strings to boolean values based on the rules.</p>
-
-
-            <details class="quote">
-              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
-              <pre class="highlight"><code class="language-python">def do_bool(val):
-    """
-    Convert other values, like integers or strings, to bools
-
-    Args:
-        val: The value to convert to a bool
-
-    Returns:
-        A boolean value converted from the argument
-
-    Converts integers and strings to boolean values based on the rules.
-    """
-
-    # lower all test vals
-    rules_true = [item.lower() for item in L_RULES_TRUE]
-
-    # return result
-    return str(val).lower() in rules_true</code></pre>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
 <h2 id="cnlib.cnfunctions.dpretty" class="doc doc-heading">
             <code class="highlight language-python">dpretty(dict_print, indent_size=4, indent_level=0, label=None)</code>
 
@@ -1480,6 +1608,233 @@ response or the dialog will loop forever.</p>
     # init gettext
     t_translation = gettext.translation(domain, path_locale, fallback=True)
     return t_translation.gettext</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.interpolate" class="doc doc-heading">
+            <code class="highlight language-python">interpolate(in_val, in_min, in_max, out_min, out_max)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Convert a value in one range to the value in another range</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>in_val</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The value to be converted</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>in_min</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Lower bound of input range</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>in_max</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Upper bound of input range</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>out_min</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Lower bound of output range</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>out_max</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Upper bound of output range</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The interpolated value as a float</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the input value is outside the input range, or if in_min</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>This method converts a value in a range to it's corresponding value in
+another range. For example, given the values (50, 0, 100, 0, 255), it will
+return 127.5.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def interpolate(
+    in_val: float,
+    in_min: float,
+    in_max: float,
+    out_min: float,
+    out_max: float,
+) -&gt; float:
+    """
+    Convert a value in one range to the value in another range
+
+    Args:
+        in_val: The value to be converted
+        in_min: Lower bound of input range
+        in_max: Upper bound of input range
+        out_min: Lower bound of output range
+        out_max: Upper bound of output range
+
+    Returns:
+        The interpolated value as a float
+
+    Raises:
+        ValueError: if the input value is outside the input range, or if in_min
+        is greater than in_max, or if out_min is greater than out_max
+
+    This method converts a value in a range to it's corresponding value in
+    another range. For example, given the values (50, 0, 100, 0, 255), it will
+    return 127.5.
+    """
+
+    # convert all values to floats
+    in_val = float(in_val)
+    in_min = float(in_min)
+    in_max = float(in_max)
+    out_min = float(out_min)
+    out_max = float(out_max)
+
+    # sanity checks
+    if in_min &gt; in_max:
+        raise ValueError("in_min must be less than in_max")
+    if out_min &gt; out_max:
+        raise ValueError("out_min must be less than out_max")
+    if in_val &lt; in_min or in_val &gt; in_max:
+        raise ValueError("in_val must be between in_min and in_max")
+
+    # get how far into the range we are
+    in_pos = in_val - in_min
+
+    # first get the spans of the ranges
+    in_diff = in_max - in_min
+    out_diff = out_max - out_min
+
+    # then get in val as a percent of span
+    in_pct = in_pos / in_diff
+
+    # get out val as a percent of span and add start val
+    out_pos = out_diff * in_pct
+
+    # get how far into the range we should be
+    out_val = out_pos + out_min
+
+    # done
+    return out_val</code></pre>
             </details>
     </div>
 
@@ -2439,7 +2794,7 @@ Args:
         flush: Whether to force the output buffer to write immediately, rather
         than waiting for it to fill</p>
 <pre><code>This function is really handy for me when I run a program in debug mode. It
-just lets me wrap prints in context-aware statements
+just lets me wrap prints in context-aware statements.
 </code></pre>
 
 
@@ -2460,7 +2815,7 @@ just lets me wrap prints in context-aware statements
 
 
     This function is really handy for me when I run a program in debug mode. It
-    just lets me wrap prints in context-aware statements
+    just lets me wrap prints in context-aware statements.
     """
 
     if B_DEBUG:
