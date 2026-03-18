@@ -5,14 +5,5 @@
             "envManager": "ms-python.python:venv",
             "packageManager": "ms-python.python:pip"
         }
-    ],
-    "python.analysis.autoImportCompletions": true,
-    "editor.formatOnType": true,
-    "cSpell.words": [
-        "dpretty",
-        "fnfe",
-        "lpretty",
-        "printc",
-        "printd"
     ]
 }
