@@ -21,8 +21,8 @@ import shutil
 import sys
 
 # local imports
-import cnlib.cnfunctions as F
-from cnlib.cnvenv import CNVenv  # type: ignore
+import cnfunctions as F
+from cnvenv import CNVenv  # type: ignore
 
 # ------------------------------------------------------------------------------
 # Classes
@@ -111,14 +111,6 @@ class CNInstall:
 
     # NB: format param is path to icon
     S_DRY_DESK_ICON = "desktop_icon: {}"
-
-    # commands
-    # NB: format param is dir_venv
-    # S_CMD_CREATE = "python -Xfrozen_modules=off -m venv {}"
-    # # NB: format params are path to prj, path to venv, and path to reqs file
-    # S_CMD_INSTALL = "cd {};. {}/bin/activate;python -m pip install -r {}"
-    # # NB: format params are path to prj, path to venv
-    # S_CMD_VENV_ACTIVATE = "cd {};. {}/bin/activate"
 
     # regex for adding user's home to icon path
     R_ICON_SCH = r"^(Icon=)(.*)$"
@@ -454,14 +446,6 @@ class CNInstall:
 
         # show progress
         print(self.S_MSG_VENV_START, flush=True, end="")
-
-        # sanity check
-        # dir_venv = Path(dir_venv)
-        # if not dir_venv.is_absolute():
-        #     dir_venv = Path(dir_usr_inst) / dir_venv
-
-        # # the command to create a venv
-        # cmd = self.S_CMD_CREATE.format(dir_venv)
 
         # if it's a dry run, don't make venv
         if self._dry_run:
