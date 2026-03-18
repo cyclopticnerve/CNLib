@@ -57,7 +57,7 @@
         "DBG_I18N": true,
         "DBG_DOCS": true,
         "DBG_TREE": true,
-        "DBG_DIST": true
+        "DBG_DIST": false
     },
     "PUB_DIST": {
         "cnlib": "",
