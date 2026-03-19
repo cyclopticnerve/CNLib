@@ -1,9 +1,8 @@
 
-TODO: bool/clamp/interpolate: ins as any/int/float, out as int/float/bool
-
+DONE: bool/clamp/interpolate: in as any/int/float, out as int/float/bool
 DONE: no site if push fails - split mkdocs.bake()
 DONE: F.dialog fix button case issues (see template/install/install_base.py)
-also test for no default
+        also test for no default
 DONE: F.run needs capture_output, text, completed process object
         also make sure CNRunError has all props from fnf and cpe
         also test any manual sub runs if using F (spaceoddity, template)

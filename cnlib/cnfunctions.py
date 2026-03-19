@@ -227,50 +227,6 @@ def pascal_case(a_str):
 
 
 # ------------------------------------------------------------------------------
-# Convert other values, like integers or strings, to bools
-# ------------------------------------------------------------------------------
-def bool(val, default=False) -> bool:
-    """
-    Convert other values, like integers or strings, to bools
-
-    Args:
-        val: The value to convert to a bool
-        default: Value to return if a conversion could not be made
-
-    Returns:
-        A boolean value converted from the argument
-
-    Converts integers and strings to boolean values based on the rules. Works
-    for bools (True/False), strings, ints, and floats.
-
-    For bools, no conversion is necessary, and the original value is returned.
-    For strings, if the string is "", "0", or "false" (case insensitive), the
-    result is False. All other strings return True.
-    For ints, if the value is 0, the result is False. All other values
-    (including negative numbers) is True.
-    For floats, the value is rounded to the nearest int before being tested. The
-    result is then the same as for ints.
-    """
-
-    # first check if no conversion needed
-    if val in (True, False):
-        return bool(val)
-
-    # next check for strings
-    if isinstance(val, str):
-
-        # case insensitive
-        val = val.lower()
-        rules_true = [item.lower() for item in L_RULES_TRUE]
-
-        # return result
-        return bool(val in rules_true)
-
-    # return default lol
-    return default
-
-
-# ------------------------------------------------------------------------------
 # Pretty print a dict
 # ------------------------------------------------------------------------------
 def dpretty(dict_print, indent_size=4, indent_level=0, label=None):
@@ -1123,26 +1079,35 @@ def get_underscore(domain, path_locale):
 # ------------------------------------------------------------------------------
 # Constrain a value to an upper or lower value
 # ------------------------------------------------------------------------------
-def clamp(in_val: float, in_min: float, in_max: float) -> float:
+def clamp(val, in_min, in_max):
     """
     Constrain a value to an upper or lower value
 
     Args:
-        in_val: The value to be converted
+        val: The value to be converted
         in_min: Lower bound of input range
         in_max: Upper bound of input range
 
+    Raises:
+        ValueError: if min is greater than max
+
     Returns:
-        The value clamped to the low and high values as a float
+        The input value constrained to the low and high limits
+
+    Constrain an input value to a min/max value. This will return the input if
+    it falls in the range, or either in_min or in_max if the value is outside
+    that range. The return type (float or int) is the same as the type of the
+    parameter used for the return value, whether it is val, in_min, or in_max.
     """
 
-    # convert all inputs to floats (not done by type)
-    in_val = float(in_val)
-    in_min = float(in_min)
-    in_max = float(in_max)
+    # sanity checks
+    if in_min >= in_max:
+        raise ValueError("in_min must be less than in_max")
 
     # assume result is input
-    res = in_val
+    res = val
+
+# ------------------------------------------------------------------------------
 
     # if val > high, use high
     res = min(res, in_max)
@@ -1150,62 +1115,56 @@ def clamp(in_val: float, in_min: float, in_max: float) -> float:
     # if val < low, use low
     res = max(res, in_min)
 
+# ------------------------------------------------------------------------------
+
+    # return result
     return res
 
 
 # ------------------------------------------------------------------------------
 # Convert a value in one range to the value in another range
 # ------------------------------------------------------------------------------
-def interpolate(
-    in_val: float,
-    in_min: float,
-    in_max: float,
-    out_min: float,
-    out_max: float,
-) -> float:
+def interpolate(val, from_min, from_max, to_min, to_max):
     """
     Convert a value in one range to the value in another range
 
     Args:
-        in_val: The value to be converted
-        in_min: Lower bound of input range
-        in_max: Upper bound of input range
-        out_min: Lower bound of output range
-        out_max: Upper bound of output range
-
-    Returns:
-        The interpolated value as a float
+        val: The value to be converted
+        from_min: Lower bound of input range
+        from_max: Upper bound of input range
+        to_min: Lower bound of output range
+        to_max: Upper bound of output range
 
     Raises:
-        ValueError: if the input value is outside the input range, or if in_min
-        is greater than in_max, or if out_min is greater than out_max
+        ValueError: if the input value is outside the input range, or if
+        from_min is greater than from_max, or if to_min is greater than to_max
 
-    This method converts a value in a range to it's corresponding value in
+    Returns:
+        The input value as a number in the to_min/to_max range, as a float
+
+    This method converts a value in a range to its corresponding value in
     another range. For example, given the values (50, 0, 100, 0, 255), it will
-    return 127.5.
+    return 127.5. Note that the return type is always a float.
     """
 
-    # convert all values to floats
-    in_val = float(in_val)
-    in_min = float(in_min)
-    in_max = float(in_max)
-    out_min = float(out_min)
-    out_max = float(out_max)
-
     # sanity checks
-    if in_min > in_max:
-        raise ValueError("in_min must be less than in_max")
-    if out_min > out_max:
-        raise ValueError("out_min must be less than out_max")
-    if in_val < in_min or in_val > in_max:
-        raise ValueError("in_val must be between in_min and in_max")
+    val = clamp(val, from_min, from_max)
+    if from_min >= from_max:
+        raise ValueError("from_min must be less than from_max")
+    if to_min >= to_max:
+        raise ValueError("to_min must be less than to_max")
+
+    # assume result is input
+    res = val
+
+# ------------------------------------------------------------------------------
+
+    # first get the spans of the ranges (difference)
+    in_diff = from_max - from_min
+    out_diff = to_max - to_min
 
     # get how far into the range we are
-    in_pos = in_val - in_min
-
-    # first get the spans of the ranges
-    in_diff = in_max - in_min
-    out_diff = out_max - out_min
+    in_pos = val - from_min
 
     # then get in val as a percent of span
     in_pct = in_pos / in_diff
@@ -1214,10 +1173,12 @@ def interpolate(
     out_pos = out_diff * in_pct
 
     # get how far into the range we should be
-    out_val = out_pos + out_min
+    res = out_pos + to_min
 
-    # done
-    return out_val
+# ------------------------------------------------------------------------------
+
+    # return result
+    return res
 
 
 # -)
