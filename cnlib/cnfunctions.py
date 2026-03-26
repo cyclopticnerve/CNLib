@@ -1019,7 +1019,7 @@ def printc(*values, fg=0, bg=0, bold=False, **kwargs):
     # rejoin strings using newline
     final_str = "\n".join(wrapped_lines)
 
-    print(final_str, **kwargs)
+    print(final_str, kwargs)
 
 
 # ------------------------------------------------------------------------------
@@ -1039,7 +1039,7 @@ def printd(*values, **kwargs):
     """
 
     if B_DEBUG:
-        printc(*values, fg=C_FG_RED, bold=True, **kwargs)
+        printc(values, kwargs, fg=C_FG_RED, bold=True)
 
 
 # ------------------------------------------------------------------------------
@@ -1058,7 +1058,26 @@ def printe(*values, **kwargs):
     just lets me print statements to the error console only.
     """
 
-    printc(*values, file=sys.stderr, **kwargs)
+    printc(values, kwargs, file=sys.stderr)
+
+
+# ------------------------------------------------------------------------------
+# Print a string tand leave cursor in place
+# ------------------------------------------------------------------------------
+def printl(*values, **kwargs):
+    """
+    Print a string to the error console only
+
+    Args:
+        *values: A variable number of string arguments
+        **kwargs: The rest of the args to print()
+
+
+    This function is really handy for me when I run a program. It
+    prints statements and leaves the cursor at the end of the line.
+    """
+
+    printc(values, kwargs, end="", flush=True)
 
 
 # ------------------------------------------------------------------------------
