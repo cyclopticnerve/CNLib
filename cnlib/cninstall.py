@@ -74,7 +74,7 @@ class CNInstall:
     # strings for system requirements
 
     S_MSG_COPY_START = "Copying files... "
-    S_MSG_DEL_START = "Deleting files... "
+    S_MSG_UNINST_START = "Deleting files... "
     S_MSG_VENV_START = "Making venv folder... "
     S_MSG_REQS_START = "Installing requirements... "
     S_MSG_LIBS_START = "Installing libs... "
@@ -590,7 +590,7 @@ class CNInstall:
         """
 
         # show some info
-        print(self.S_MSG_DEL_START, flush=True, end="")
+        print(self.S_MSG_UNINST_START, flush=True, end="")
 
         # make pretty
         if self._dry_run:
