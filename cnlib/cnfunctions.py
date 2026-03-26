@@ -35,6 +35,7 @@ from pathlib import Path
 import re
 import shlex
 import subprocess
+import sys
 
 # ------------------------------------------------------------------------------
 # Constant strings
@@ -923,31 +924,23 @@ def comp_sem_ver(ver_old, ver_new):
 # ------------------------------------------------------------------------------
 # Print a string in color
 # ------------------------------------------------------------------------------
-def printc(
-    *values, sep=" ", end="\n", file=None, flush=False, fg=0, bg=0, bold=False
-):
+def printc(*values, fg=0, bg=0, bold=False, **kwargs):
     """
     Print a string in color
 
     Args:
         *values: A variable number of string arguments
-        sep: The string used to join *values (default: ' ')
-        end: The character(s) to print after the *values (default:'\\n')
-        file: The file object to print to or, if None, print to stdout \
-        (default: None)
-        flush: Whether to force the output buffer to write immediately, \
-            rather than waiting for it to fill
         fg: The foreground color of the text as a C_FG_XXX value (see below). \
         If 0, use default terminal color (default: 0)
         bg: The background color of the text as a C_FG_XXX value (see below). \
         If 0, use default terminal color (default: 0)
         bold: Whether the text is bold (duh) (default:False)
+        **kwargs: keyword args like print()
 
     This function prints something to the console, just like print(), but with
     COLOR! and BOLD!\n
-    The first five parameters are EXACTLY the same as print()
-    and the last three are as follows:\n
-    \n
+    The parameters are as follows:\n
+    *values: array of strings to be concatentaed\n
     fg: The foreground color of the text to print. This can be one of the
     following values:\n
     \n
@@ -974,6 +967,8 @@ def printc(
     C_BG_CYAN\n
     C_BG_WHITE\n
     \n
+    bold: A boolean value to enable or disable bold text\n
+    **kwargs: The rest of the args to print()\n
     A note about the background color:\n
     Setting the background color will (almost?) always set the foreground color
     to white. So no cyan text on a magenta background.
@@ -984,11 +979,11 @@ def printc(
     arr_opt = []
 
     # maybe set fg
-    if fg != 0:
+    if fg != C_FG_NONE:
         arr_opt.append(str(fg))
 
     # maybe set bg
-    if bg != 0:
+    if bg != C_BG_NONE:
         arr_opt.append(str(bg))
 
     # maybe set bold
@@ -1007,6 +1002,7 @@ def printc(
     # --------------------------------------------------------------------------
 
     # get the full string
+    sep = kwargs["sep"]
     value = sep.join(values)
 
     # split into lines
@@ -1023,24 +1019,19 @@ def printc(
     # rejoin strings using newline
     final_str = "\n".join(wrapped_lines)
 
-    print(final_str, sep=sep, end=end, file=file, flush=flush)
+    print(final_str, **kwargs)
 
 
 # ------------------------------------------------------------------------------
 # Print a string if the debug param is True
 # ------------------------------------------------------------------------------
-def printd(*values, sep=" ", end="\n", file=None, flush=False):
+def printd(*values, **kwargs):
     """
     Print a string if the debug param is True
 
     Args:
         *values: A variable number of string arguments
-        sep: The string used to join *values (default: ' ')
-        end: The character(s) to print after the *values (default:'\n')
-        file: The file object to print to or, if None, print to stdout
-        (default: None)
-        flush: Whether to force the output buffer to write immediately, rather
-        than waiting for it to fill
+        **kwargs: keyword args like print()
 
 
     This function is really handy for me when I run a program in debug mode. It
@@ -1048,15 +1039,26 @@ def printd(*values, sep=" ", end="\n", file=None, flush=False):
     """
 
     if B_DEBUG:
-        printc(
-            *values,
-            sep=sep,
-            end=end,
-            file=file,
-            flush=flush,
-            fg=C_FG_RED,
-            bold=True,
-        )
+        printc(*values, fg=C_FG_RED, bold=True, **kwargs)
+
+
+# ------------------------------------------------------------------------------
+# Print a string to the error console only
+# ------------------------------------------------------------------------------
+def printe(*values, **kwargs):
+    """
+    Print a string to the error console only
+
+    Args:
+        *values: A variable number of string arguments
+        **kwargs: The rest of the args to print()
+
+
+    This function is really handy for me when I run a program in debug mode. It
+    just lets me print statements to the error console only.
+    """
+
+    printc(*values, file=sys.stderr, **kwargs)
 
 
 # ------------------------------------------------------------------------------
@@ -1107,7 +1109,7 @@ def clamp(val, in_min, in_max):
     # assume result is input
     res = val
 
-# ------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------
 
     # if val > high, use high
     res = min(res, in_max)
@@ -1115,7 +1117,7 @@ def clamp(val, in_min, in_max):
     # if val < low, use low
     res = max(res, in_min)
 
-# ------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------
 
     # return result
     return res
@@ -1157,7 +1159,7 @@ def interpolate(val, from_min, from_max, to_min, to_max):
     # assume result is input
     res = val
 
-# ------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------
 
     # first get the spans of the ranges (difference)
     in_diff = from_max - from_min
@@ -1175,7 +1177,7 @@ def interpolate(val, from_min, from_max, to_min, to_max):
     # get how far into the range we should be
     res = out_pos + to_min
 
-# ------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------
 
     # return result
     return res
