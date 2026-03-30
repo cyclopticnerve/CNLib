@@ -22,13 +22,11 @@ from cnlib import cnfunctions as F
 # Code to run when called from command line
 # ------------------------------------------------------------------------------
 
-# print(F.clamp(-25, -100, -50))
-# print(F.clamp(-50, -100, 0))
-
-# print(F.interpolate(50.0, 0.0, 100.0, 0.0, 255.0))
-# print(F.interpolate(50, 0, 100, 0, 255))
-
-print(F.interpolate(-25, -100, -50, -255, 0))
-print(F.interpolate(-107, -100, -50, -255, 0))
+F.printc("Hello", "world")
+F.B_DEBUG = True
+F.printd("Hello", "world")
+F.printe("Hello", "world")
+F.printl("Hello", "world... ")
+print("farts")
 
 # -)
