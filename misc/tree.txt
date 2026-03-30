@@ -6,7 +6,6 @@
    ├─ [] cnlib/
    │     ├─ [] cnformatter.py
    │     ├─ [] cnfunctions.py
-   │     ├─ [] cninstall.py
    │     ├─ [] cnmkdocs.py
    │     ├─ [] cnpot.py
    │     ├─ [] cntree.py
@@ -16,7 +15,6 @@
    │     │     └─ [] cnlib/
    │     │           ├─ [] cnformatter.md
    │     │           ├─ [] cnfunctions.md
-   │     │           ├─ [] cninstall.md
    │     │           ├─ [] cnmkdocs.md
    │     │           ├─ [] cnpot.md
    │     │           ├─ [] cntree.md
@@ -59,6 +57,7 @@
    ├─ [] tests/
    │     └─ [] cnlib_test.py
    ├─ [] todo/
+   │     ├─ [] cninstall.py
    │     ├─ [] configurator.py
    │     └─ [] todo.txt
    ├─ [] .gitignore
