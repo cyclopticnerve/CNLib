@@ -55,10 +55,6 @@
 </li>
             
 <li>
-    <a href="../cninstall/" class="dropdown-item">cninstall.py</a>
-</li>
-            
-<li>
     <a href="../cnmkdocs/" class="dropdown-item">cnmkdocs.py</a>
 </li>
             
@@ -91,7 +87,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../cninstall/" class="nav-link">
+                                <a rel="next" href="../cnmkdocs/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -120,10 +116,6 @@
               </ul>
             </li>
             <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.CNRunError" class="nav-link">CNRunError</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.bool" class="nav-link">bool</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -449,129 +441,8 @@
 <div class="doc doc-object doc-function">
 
 
-<h2 id="cnlib.cnfunctions.bool" class="doc doc-heading">
-            <code class="highlight language-python">bool(val)</code>
-
-</h2>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Convert other values, like integers or strings, to bools</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>val</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The value to convert to a bool</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>A boolean value converted from the argument</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-        <p>Converts integers and strings to boolean values based on the rules. Works
-for bools (True/False), strings, ints, and floats.</p>
-<p>For bools, no conversion is necessary, and the original value is returned.
-For strings, if the string is "", "0", or "false" (case insensitive), the
-result is False. All other strings return True.
-For ints, if the value is 0, the result is False. All other values
-(including negative numbers) is True.
-For floats, the value is rounded to the nearest int before being tested. The
-result is then the same as for ints.</p>
-
-
-            <details class="quote">
-              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
-              <pre class="highlight"><code class="language-python">def bool(val):
-    """
-    Convert other values, like integers or strings, to bools
-
-    Args:
-        val: The value to convert to a bool
-
-    Returns:
-        A boolean value converted from the argument
-
-    Converts integers and strings to boolean values based on the rules. Works
-    for bools (True/False), strings, ints, and floats.
-
-    For bools, no conversion is necessary, and the original value is returned.
-    For strings, if the string is "", "0", or "false" (case insensitive), the
-    result is False. All other strings return True.
-    For ints, if the value is 0, the result is False. All other values
-    (including negative numbers) is True.
-    For floats, the value is rounded to the nearest int before being tested. The
-    result is then the same as for ints.
-    """
-
-    # first check if no conversion needed
-    if val in (True, False):
-        return val
-
-    # next check for strings
-    if isinstance(val, str):
-
-        # case insensitive
-        val = val.lower()
-        rules_true = [item.lower() for item in L_RULES_TRUE]
-
-        # return result
-        return val in rules_true
-
-    # test for floats
-    if isinstance(val, float):
-        val = round(val)</code></pre>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
 <h2 id="cnlib.cnfunctions.clamp" class="doc doc-heading">
-            <code class="highlight language-python">clamp(in_val, in_min, in_max)</code>
+            <code class="highlight language-python">clamp(val, in_min, in_max)</code>
 
 </h2>
 
@@ -594,10 +465,9 @@ result is then the same as for ints.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>in_val</code>
+                <code>val</code>
             </td>
             <td>
-                  <code><span title="float">float</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -613,7 +483,6 @@ result is then the same as for ints.</p>
                 <code>in_min</code>
             </td>
             <td>
-                  <code><span title="float">float</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -629,7 +498,6 @@ result is then the same as for ints.</p>
                 <code>in_max</code>
             </td>
             <td>
-                  <code><span title="float">float</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -638,6 +506,29 @@ result is then the same as for ints.</p>
             </td>
             <td>
                 <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if min is greater than max</p>
+              </div>
             </td>
           </tr>
       </tbody>
@@ -655,41 +546,52 @@ result is then the same as for ints.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="float">float</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The value clamped to the low and high values as a float</p>
+                <p>The input value constrained to the low and high limits</p>
               </div>
             </td>
           </tr>
       </tbody>
     </table>
+        <p>Constrain an input value to a min/max value. This will return the input if
+it falls in the range, or either in_min or in_max if the value is outside
+that range. The return type (float or int) is the same as the type of the
+parameter used for the return value, whether it is val, in_min, or in_max.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
-              <pre class="highlight"><code class="language-python">def clamp(
-    in_val: float, in_min: float, in_max: float) -&gt; float:
+              <pre class="highlight"><code class="language-python">def clamp(val, in_min, in_max):
     """
     Constrain a value to an upper or lower value
 
     Args:
-        in_val: The value to be converted
+        val: The value to be converted
         in_min: Lower bound of input range
         in_max: Upper bound of input range
 
+    Raises:
+        ValueError: if min is greater than max
+
     Returns:
-        The value clamped to the low and high values as a float
+        The input value constrained to the low and high limits
+
+    Constrain an input value to a min/max value. This will return the input if
+    it falls in the range, or either in_min or in_max if the value is outside
+    that range. The return type (float or int) is the same as the type of the
+    parameter used for the return value, whether it is val, in_min, or in_max.
     """
 
-    # convert all inputs to floats (not done by type)
-    in_val = float(in_val)
-    in_min = float(in_min)
-    in_max = float(in_max)
+    # sanity checks
+    if in_min &gt;= in_max:
+        raise ValueError("in_min must be less than in_max")
 
     # assume result is input
-    res = in_val
+    res = val
+
+# ------------------------------------------------------------------------------
 
     # if val &gt; high, use high
     res = min(res, in_max)
@@ -697,6 +599,9 @@ result is then the same as for ints.</p>
     # if val &lt; low, use low
     res = max(res, in_min)
 
+# ------------------------------------------------------------------------------
+
+    # return result
     return res</code></pre>
             </details>
     </div>
@@ -1322,7 +1227,7 @@ response or the dialog will loop forever.</p>
             if inp.lower() == item.lower():
                 return item
 
-        # ------------------------------------------------------------------
+        # ----------------------------------------------------------------------
         # wrong answer
 
         # no loop, return blank
@@ -1617,7 +1522,7 @@ response or the dialog will loop forever.</p>
 
 
 <h2 id="cnlib.cnfunctions.interpolate" class="doc doc-heading">
-            <code class="highlight language-python">interpolate(in_val, in_min, in_max, out_min, out_max)</code>
+            <code class="highlight language-python">interpolate(val, from_min, from_max, to_min, to_max)</code>
 
 </h2>
 
@@ -1640,10 +1545,9 @@ response or the dialog will loop forever.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>in_val</code>
+                <code>val</code>
             </td>
             <td>
-                  <code><span title="float">float</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1656,10 +1560,9 @@ response or the dialog will loop forever.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>in_min</code>
+                <code>from_min</code>
             </td>
             <td>
-                  <code><span title="float">float</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1672,10 +1575,9 @@ response or the dialog will loop forever.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>in_max</code>
+                <code>from_max</code>
             </td>
             <td>
-                  <code><span title="float">float</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1688,10 +1590,9 @@ response or the dialog will loop forever.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>out_min</code>
+                <code>to_min</code>
             </td>
             <td>
-                  <code><span title="float">float</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1704,10 +1605,9 @@ response or the dialog will loop forever.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>out_max</code>
+                <code>to_max</code>
             </td>
             <td>
-                  <code><span title="float">float</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1716,29 +1616,6 @@ response or the dialog will loop forever.</p>
             </td>
             <td>
                 <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="float">float</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The interpolated value as a float</p>
-              </div>
             </td>
           </tr>
       </tbody>
@@ -1760,69 +1637,82 @@ response or the dialog will loop forever.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>if the input value is outside the input range, or if in_min</p>
+                <p>if the input value is outside the input range, or if</p>
               </div>
             </td>
           </tr>
       </tbody>
     </table>
-        <p>This method converts a value in a range to it's corresponding value in
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The input value as a number in the to_min/to_max range, as a float</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>This method converts a value in a range to its corresponding value in
 another range. For example, given the values (50, 0, 100, 0, 255), it will
-return 127.5.</p>
+return 127.5. Note that the return type is always a float.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
-              <pre class="highlight"><code class="language-python">def interpolate(
-    in_val: float,
-    in_min: float,
-    in_max: float,
-    out_min: float,
-    out_max: float,
-) -&gt; float:
+              <pre class="highlight"><code class="language-python">def interpolate(val, from_min, from_max, to_min, to_max):
     """
     Convert a value in one range to the value in another range
 
     Args:
-        in_val: The value to be converted
-        in_min: Lower bound of input range
-        in_max: Upper bound of input range
-        out_min: Lower bound of output range
-        out_max: Upper bound of output range
-
-    Returns:
-        The interpolated value as a float
+        val: The value to be converted
+        from_min: Lower bound of input range
+        from_max: Upper bound of input range
+        to_min: Lower bound of output range
+        to_max: Upper bound of output range
 
     Raises:
-        ValueError: if the input value is outside the input range, or if in_min
-        is greater than in_max, or if out_min is greater than out_max
+        ValueError: if the input value is outside the input range, or if
+        from_min is greater than from_max, or if to_min is greater than to_max
 
-    This method converts a value in a range to it's corresponding value in
+    Returns:
+        The input value as a number in the to_min/to_max range, as a float
+
+    This method converts a value in a range to its corresponding value in
     another range. For example, given the values (50, 0, 100, 0, 255), it will
-    return 127.5.
+    return 127.5. Note that the return type is always a float.
     """
 
-    # convert all values to floats
-    in_val = float(in_val)
-    in_min = float(in_min)
-    in_max = float(in_max)
-    out_min = float(out_min)
-    out_max = float(out_max)
-
     # sanity checks
-    if in_min &gt; in_max:
-        raise ValueError("in_min must be less than in_max")
-    if out_min &gt; out_max:
-        raise ValueError("out_min must be less than out_max")
-    if in_val &lt; in_min or in_val &gt; in_max:
-        raise ValueError("in_val must be between in_min and in_max")
+    val = clamp(val, from_min, from_max)
+    if from_min &gt;= from_max:
+        raise ValueError("from_min must be less than from_max")
+    if to_min &gt;= to_max:
+        raise ValueError("to_min must be less than to_max")
+
+    # assume result is input
+    res = val
+
+# ------------------------------------------------------------------------------
+
+    # first get the spans of the ranges (difference)
+    in_diff = from_max - from_min
+    out_diff = to_max - to_min
 
     # get how far into the range we are
-    in_pos = in_val - in_min
-
-    # first get the spans of the ranges
-    in_diff = in_max - in_min
-    out_diff = out_max - out_min
+    in_pos = val - from_min
 
     # then get in val as a percent of span
     in_pct = in_pos / in_diff
@@ -1831,10 +1721,12 @@ return 127.5.</p>
     out_pos = out_diff * in_pct
 
     # get how far into the range we should be
-    out_val = out_pos + out_min
+    res = out_pos + to_min
 
-    # done
-    return out_val</code></pre>
+# ------------------------------------------------------------------------------
+
+    # return result
+    return res</code></pre>
             </details>
     </div>
 
@@ -1888,7 +1780,7 @@ return 127.5.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The starting dict and final dict after combining (default: None)</p>
+                <p>The starting dict and final dict after combining (default:        None)</p>
               </div>
             </td>
             <td>
@@ -1953,7 +1845,8 @@ return 127.5.</p>
 
     Args:
         paths: The file path or list of file paths to load
-        start_dict: The starting dict and final dict after combining (default: None)
+        start_dict: The starting dict and final dict after combining (default:\
+        None)
 
     Returns:
         The final combined dictionary
@@ -2745,7 +2638,7 @@ to white. So no cyan text on a magenta background.</p>
     # get the close sequence (reset fg/bg/bold)
     color_end = "\033[0m"
 
-    # ------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
     # get the full string
     value = sep.join(values)
