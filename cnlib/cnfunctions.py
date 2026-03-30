@@ -924,7 +924,16 @@ def comp_sem_ver(ver_old, ver_new):
 # ------------------------------------------------------------------------------
 # Print a string in color
 # ------------------------------------------------------------------------------
-def printc(*values, fg=0, bg=0, bold=False, **kwargs):
+def printc(
+    *values,
+    fg=C_FG_NONE,
+    bg=C_BG_NONE,
+    bold=False,
+    sep=" ",
+    end="\n",
+    file=None,
+    flush=False,
+):
     """
     Print a string in color
 
@@ -1002,7 +1011,6 @@ def printc(*values, fg=0, bg=0, bold=False, **kwargs):
     # --------------------------------------------------------------------------
 
     # get the full string
-    sep = kwargs["sep"]
     value = sep.join(values)
 
     # split into lines
@@ -1019,13 +1027,22 @@ def printc(*values, fg=0, bg=0, bold=False, **kwargs):
     # rejoin strings using newline
     final_str = "\n".join(wrapped_lines)
 
-    print(final_str, kwargs)
+    print(final_str, sep=sep, end=end, file=file, flush=flush)
 
 
 # ------------------------------------------------------------------------------
 # Print a string if the debug param is True
 # ------------------------------------------------------------------------------
-def printd(*values, **kwargs):
+def printd(
+    *values,
+    fg=C_FG_WHITE,
+    bg=C_BG_RED,
+    bold=True,
+    sep=" ",
+    end="\n",
+    file=None,
+    flush=False,
+):
     """
     Print a string if the debug param is True
 
@@ -1039,13 +1056,31 @@ def printd(*values, **kwargs):
     """
 
     if B_DEBUG:
-        printc(values, kwargs, fg=C_FG_RED, bold=True)
+        printc(
+            *values,
+            fg=fg,
+            bg=bg,
+            bold=bold,
+            sep=sep,
+            end=end,
+            file=file,
+            flush=flush,
+        )
 
 
 # ------------------------------------------------------------------------------
 # Print a string to the error console only
 # ------------------------------------------------------------------------------
-def printe(*values, **kwargs):
+def printe(
+    *values,
+    fg=C_FG_NONE,
+    bg=C_FG_NONE,
+    bold=False,
+    sep=" ",
+    end="\n",
+    file=sys.stderr,
+    flush=False,
+):
     """
     Print a string to the error console only
 
@@ -1058,13 +1093,31 @@ def printe(*values, **kwargs):
     just lets me print statements to the error console only.
     """
 
-    printc(values, kwargs, file=sys.stderr)
+    printc(
+        *values,
+        fg=fg,
+        bg=bg,
+        bold=bold,
+        sep=sep,
+        end=end,
+        file=file,
+        flush=flush,
+    )
 
 
 # ------------------------------------------------------------------------------
 # Print a string tand leave cursor in place
 # ------------------------------------------------------------------------------
-def printl(*values, **kwargs):
+def printl(
+    *values,
+    fg=C_FG_NONE,
+    bg=C_BG_NONE,
+    bold=False,
+    sep=" ",
+    end="",
+    file=None,
+    flush=True,
+):
     """
     Print a string to the error console only
 
@@ -1077,8 +1130,16 @@ def printl(*values, **kwargs):
     prints statements and leaves the cursor at the end of the line.
     """
 
-    printc(values, kwargs, end="", flush=True)
-
+    printc(
+        *values,
+        fg=fg,
+        bg=bg,
+        bold=bold,
+        sep=sep,
+        end=end,
+        file=file,
+        flush=flush,
+    )
 
 # ------------------------------------------------------------------------------
 # Return an underscore function for a module
