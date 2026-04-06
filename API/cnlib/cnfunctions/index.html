@@ -171,6 +171,14 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.printe" class="nav-link">printe</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.printl" class="nav-link">printl</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnfunctions.run" class="nav-link">run</a>
               <ul class="nav flex-column">
               </ul>
@@ -591,7 +599,7 @@ parameter used for the return value, whether it is val, in_min, or in_max.</p>
     # assume result is input
     res = val
 
-# ------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------
 
     # if val &gt; high, use high
     res = min(res, in_max)
@@ -599,7 +607,7 @@ parameter used for the return value, whether it is val, in_min, or in_max.</p>
     # if val &lt; low, use low
     res = max(res, in_min)
 
-# ------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------
 
     # return result
     return res</code></pre>
@@ -1705,7 +1713,7 @@ return 127.5. Note that the return type is always a float.</p>
     # assume result is input
     res = val
 
-# ------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------
 
     # first get the spans of the ranges (difference)
     in_diff = from_max - from_min
@@ -1723,7 +1731,7 @@ return 127.5. Note that the return type is always a float.</p>
     # get how far into the range we should be
     res = out_pos + to_min
 
-# ------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------
 
     # return result
     return res</code></pre>
@@ -2381,7 +2389,7 @@ debugging.</p>
 
 
 <h2 id="cnlib.cnfunctions.printc" class="doc doc-heading">
-            <code class="highlight language-python">printc(*values, sep=' ', end='\n', file=None, flush=False, fg=0, bg=0, bold=False)</code>
+            <code class="highlight language-python">printc(*values, fg=C_FG_NONE, bg=C_BG_NONE, bold=False, sep=' ', end='\n', file=None, flush=False)</code>
 
 </h2>
 
@@ -2419,66 +2427,6 @@ debugging.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>sep</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The string used to join *values (default: ' ')</p>
-              </div>
-            </td>
-            <td>
-                  <code>&#39; &#39;</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>end</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The character(s) to print after the *values (default:'\n')</p>
-              </div>
-            </td>
-            <td>
-                  <code>&#39;\n&#39;</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>file</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The file object to print to or, if None, print to stdout         (default: None)</p>
-              </div>
-            </td>
-            <td>
-                  <code>None</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>flush</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Whether to force the output buffer to write immediately,             rather than waiting for it to fill</p>
-              </div>
-            </td>
-            <td>
-                  <code>False</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
                 <code>fg</code>
             </td>
             <td>
@@ -2489,7 +2437,7 @@ debugging.</p>
               </div>
             </td>
             <td>
-                  <code>0</code>
+                  <code><span title="cnlib.cnfunctions.C_FG_NONE">C_FG_NONE</span></code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -2504,7 +2452,7 @@ debugging.</p>
               </div>
             </td>
             <td>
-                  <code>0</code>
+                  <code><span title="cnlib.cnfunctions.C_BG_NONE">C_BG_NONE</span></code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -2522,12 +2470,27 @@ debugging.</p>
                   <code>False</code>
             </td>
           </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**kwargs</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>keyword args like print()</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
       </tbody>
     </table>
         <p>This function prints something to the console, just like print(), but with
 COLOR! and BOLD!</p>
-<p>The first five parameters are EXACTLY the same as print()
-and the last three are as follows:</p>
+<p>The parameters are as follows:</p>
+<p>*values: array of strings to be concatentaed</p>
 <p>fg: The foreground color of the text to print. This can be one of the
 following values:</p>
 <p>C_FG_NONE (use the terminal default)</p>
@@ -2550,6 +2513,8 @@ be one of the following values:</p>
 <p>C_BG_MAGENTA</p>
 <p>C_BG_CYAN</p>
 <p>C_BG_WHITE</p>
+<p>bold: A boolean value to enable or disable bold text</p>
+<p>**kwargs: The rest of the args to print()</p>
 <p>A note about the background color:</p>
 <p>Setting the background color will (almost?) always set the foreground color
 to white. So no cyan text on a magenta background.</p>
@@ -2558,30 +2523,31 @@ to white. So no cyan text on a magenta background.</p>
             <details class="quote">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def printc(
-    *values, sep=" ", end="\n", file=None, flush=False, fg=0, bg=0, bold=False
+    *values,
+    fg=C_FG_NONE,
+    bg=C_BG_NONE,
+    bold=False,
+    sep=" ",
+    end="\n",
+    file=None,
+    flush=False,
 ):
     """
     Print a string in color
 
     Args:
         *values: A variable number of string arguments
-        sep: The string used to join *values (default: ' ')
-        end: The character(s) to print after the *values (default:'\\n')
-        file: The file object to print to or, if None, print to stdout \
-        (default: None)
-        flush: Whether to force the output buffer to write immediately, \
-            rather than waiting for it to fill
         fg: The foreground color of the text as a C_FG_XXX value (see below). \
         If 0, use default terminal color (default: 0)
         bg: The background color of the text as a C_FG_XXX value (see below). \
         If 0, use default terminal color (default: 0)
         bold: Whether the text is bold (duh) (default:False)
+        **kwargs: keyword args like print()
 
     This function prints something to the console, just like print(), but with
     COLOR! and BOLD!\n
-    The first five parameters are EXACTLY the same as print()
-    and the last three are as follows:\n
-    \n
+    The parameters are as follows:\n
+    *values: array of strings to be concatentaed\n
     fg: The foreground color of the text to print. This can be one of the
     following values:\n
     \n
@@ -2608,6 +2574,8 @@ to white. So no cyan text on a magenta background.</p>
     C_BG_CYAN\n
     C_BG_WHITE\n
     \n
+    bold: A boolean value to enable or disable bold text\n
+    **kwargs: The rest of the args to print()\n
     A note about the background color:\n
     Setting the background color will (almost?) always set the foreground color
     to white. So no cyan text on a magenta background.
@@ -2618,11 +2586,11 @@ to white. So no cyan text on a magenta background.</p>
     arr_opt = []
 
     # maybe set fg
-    if fg != 0:
+    if fg != C_FG_NONE:
         arr_opt.append(str(fg))
 
     # maybe set bg
-    if bg != 0:
+    if bg != C_BG_NONE:
         arr_opt.append(str(bg))
 
     # maybe set bold
@@ -2667,44 +2635,81 @@ to white. So no cyan text on a magenta background.</p>
 
 
 <h2 id="cnlib.cnfunctions.printd" class="doc doc-heading">
-            <code class="highlight language-python">printd(*values, sep=' ', end='\n', file=None, flush=False)</code>
+            <code class="highlight language-python">printd(*values, fg=C_FG_WHITE, bg=C_BG_RED, bold=True, sep=' ', end='\n', file=None, flush=False)</code>
 
 </h2>
 
 
     <div class="doc doc-contents ">
 
-        <pre><code>Print a string if the debug param is True
+        <p>Print a string if the debug param is True</p>
 
-Args:
-    *values: A variable number of string arguments
-    sep: The string used to join *values (default: ' ')
-    end: The character(s) to print after the *values (default:'
-</code></pre>
-<p>')
-        file: The file object to print to or, if None, print to stdout
-        (default: None)
-        flush: Whether to force the output buffer to write immediately, rather
-        than waiting for it to fill</p>
-<pre><code>This function is really handy for me when I run a program in debug mode. It
-just lets me wrap prints in context-aware statements.
-</code></pre>
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>*values</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A variable number of string arguments</p>
+              </div>
+            </td>
+            <td>
+                  <code>()</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**kwargs</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>keyword args like print()</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>This function is really handy for me when I run a program in debug mode. It
+just lets me wrap prints in context-aware statements.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
-              <pre class="highlight"><code class="language-python">def printd(*values, sep=" ", end="\n", file=None, flush=False):
+              <pre class="highlight"><code class="language-python">def printd(
+    *values,
+    fg=C_FG_WHITE,
+    bg=C_BG_RED,
+    bold=True,
+    sep=" ",
+    end="\n",
+    file=None,
+    flush=False,
+):
     """
     Print a string if the debug param is True
 
     Args:
         *values: A variable number of string arguments
-        sep: The string used to join *values (default: ' ')
-        end: The character(s) to print after the *values (default:'\n')
-        file: The file object to print to or, if None, print to stdout
-        (default: None)
-        flush: Whether to force the output buffer to write immediately, rather
-        than waiting for it to fill
+        **kwargs: keyword args like print()
 
 
     This function is really handy for me when I run a program in debug mode. It
@@ -2714,13 +2719,214 @@ just lets me wrap prints in context-aware statements.
     if B_DEBUG:
         printc(
             *values,
+            fg=fg,
+            bg=bg,
+            bold=bold,
             sep=sep,
             end=end,
             file=file,
             flush=flush,
-            fg=C_FG_RED,
-            bold=True,
         )</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.printe" class="doc doc-heading">
+            <code class="highlight language-python">printe(*values, fg=C_FG_NONE, bg=C_FG_NONE, bold=False, sep=' ', end='\n', file=sys.stderr, flush=False)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Print a string to the error console only</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>*values</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A variable number of string arguments</p>
+              </div>
+            </td>
+            <td>
+                  <code>()</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**kwargs</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The rest of the args to print()</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>This function is really handy for me when I run a program in debug mode. It
+just lets me print statements to the error console only.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def printe(
+    *values,
+    fg=C_FG_NONE,
+    bg=C_FG_NONE,
+    bold=False,
+    sep=" ",
+    end="\n",
+    file=sys.stderr,
+    flush=False,
+):
+    """
+    Print a string to the error console only
+
+    Args:
+        *values: A variable number of string arguments
+        **kwargs: The rest of the args to print()
+
+
+    This function is really handy for me when I run a program in debug mode. It
+    just lets me print statements to the error console only.
+    """
+
+    printc(
+        *values,
+        fg=fg,
+        bg=bg,
+        bold=bold,
+        sep=sep,
+        end=end,
+        file=file,
+        flush=flush,
+    )</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.cnfunctions.printl" class="doc doc-heading">
+            <code class="highlight language-python">printl(*values, fg=C_FG_NONE, bg=C_BG_NONE, bold=False, sep=' ', end='', file=None, flush=True)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Print a string to the error console only</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>*values</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A variable number of string arguments</p>
+              </div>
+            </td>
+            <td>
+                  <code>()</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**kwargs</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The rest of the args to print()</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>This function is really handy for me when I run a program. It
+prints statements and leaves the cursor at the end of the line.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
+              <pre class="highlight"><code class="language-python">def printl(
+    *values,
+    fg=C_FG_NONE,
+    bg=C_BG_NONE,
+    bold=False,
+    sep=" ",
+    end="",
+    file=None,
+    flush=True,
+):
+    """
+    Print a string to the error console only
+
+    Args:
+        *values: A variable number of string arguments
+        **kwargs: The rest of the args to print()
+
+
+    This function is really handy for me when I run a program. It
+    prints statements and leaves the cursor at the end of the line.
+    """
+
+    printc(
+        *values,
+        fg=fg,
+        bg=bg,
+        bold=bold,
+        sep=sep,
+        end=end,
+        file=file,
+        flush=flush,
+    )</code></pre>
             </details>
     </div>
 
