@@ -22,11 +22,15 @@ from cnlib import cnfunctions as F
 # Code to run when called from command line
 # ------------------------------------------------------------------------------
 
-F.printc("Hello", "world")
-F.B_DEBUG = True
-F.printd("Hello", "world")
-F.printe("Hello", "world")
-F.printl("Hello", "world... ")
-print("farts")
+D_DEF = {
+    "one": 1,
+    "two": 2,
+    "three": 3,
+    "five": 5
+}
+
+D_FIN = F.load_paths_into_dict("tests/cfg.json", D_DEF)
+
+F.pp(D_FIN)
 
 # -)
