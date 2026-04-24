@@ -480,7 +480,7 @@ def combine_dicts(dicts_new, dict_old=None):
         (default: None)
 
     Returns:
-        The updated dict_old, filled with updates from dict_new
+        A new dictionary, filled with items from dicts_new and dict_old
 
     This function takes key/value pairs from each of the new dicts and
     adds/overwrites these keys and values in dict_old, preserving any values
@@ -495,15 +495,15 @@ def combine_dicts(dicts_new, dict_old=None):
 
     # default return val
     if not dict_old:
-        dict_old = {}
+        dict_old_copy = {}
     else:
-        dict_old = dict(dict_old)
+        dict_old_copy = dict(dict_old)
 
     # sanity checks
     if not isinstance(dicts_new, list):
         dicts_new = [dicts_new]
     if len(dicts_new) == 0:
-        return dict_old
+        return dict_old_copy
 
     # go through the new dicts in order
     for dict_new in dicts_new:
@@ -515,15 +515,15 @@ def combine_dicts(dicts_new, dict_old=None):
             if isinstance(v, dict):
 
                 # recurse using the current key and value
-                dict_old[k] = combine_dicts(v, dict_old.get(k, None))
+                dict_old_copy[k] = combine_dicts(v, dict_old_copy.get(k, None))
                 continue
 
             # if the value is not a dict or a list
             # just copy value from one dict to the other
-            dict_old[k] = v
+            dict_old_copy[k] = v
 
-    # return the updated dict_old
-    return dict_old
+    # return the updated dict_old copy
+    return dict_old_copy
 
 
 # ------------------------------------------------------------------------------
@@ -944,12 +944,16 @@ def printc(
         bg: The background color of the text as a C_FG_XXX value (see below). \
         If 0, use default terminal color (default: 0)
         bold: Whether the text is bold (duh) (default:False)
-        **kwargs: keyword args like print()
+        sep: Character to join values (default: " ")
+        end: End character to print (default: "\n")
+        file: File to print to (if None, use sys.stdout) (default: None)
+        flush: True to print all characters in buffer at once, False to print
+        characters as they arrive in buffer
 
     This function prints something to the console, just like print(), but with
     COLOR! and BOLD!\n
     The parameters are as follows:\n
-    *values: array of strings to be concatentaed\n
+    *values: array of strings to be concatenated\n
     fg: The foreground color of the text to print. This can be one of the
     following values:\n
     \n
@@ -1048,8 +1052,16 @@ def printd(
 
     Args:
         *values: A variable number of string arguments
-        **kwargs: keyword args like print()
-
+        fg: The foreground color of the text as a C_FG_XXX value (see below). \
+        If 0, use default terminal color (default: 0)
+        bg: The background color of the text as a C_FG_XXX value (see below). \
+        If 0, use default terminal color (default: 0)
+        bold: Whether the text is bold (duh) (default:False)
+        sep: Character to join values (default: " ")
+        end: End character to print (default: "\n")
+        file: File to print to (if None, use sys.stdout) (default: None)
+        flush: True to print all characters in buffer at once, False to print
+        characters as they arrive in buffer
 
     This function is really handy for me when I run a program in debug mode. It
     just lets me wrap prints in context-aware statements.
@@ -1086,8 +1098,16 @@ def printe(
 
     Args:
         *values: A variable number of string arguments
-        **kwargs: The rest of the args to print()
-
+        fg: The foreground color of the text as a C_FG_XXX value (see below). \
+        If 0, use default terminal color (default: 0)
+        bg: The background color of the text as a C_FG_XXX value (see below). \
+        If 0, use default terminal color (default: 0)
+        bold: Whether the text is bold (duh) (default:False)
+        sep: Character to join values (default: " ")
+        end: End character to print (default: "\n")
+        file: File to print to (if None, use sys.stdout) (default: None)
+        flush: True to print all characters in buffer at once, False to print
+        characters as they arrive in buffer
 
     This function is really handy for me when I run a program in debug mode. It
     just lets me print statements to the error console only.
@@ -1106,7 +1126,7 @@ def printe(
 
 
 # ------------------------------------------------------------------------------
-# Print a string tand leave cursor in place
+# Print a string and leave cursor in place
 # ------------------------------------------------------------------------------
 def printl(
     *values,
@@ -1119,12 +1139,20 @@ def printl(
     flush=True,
 ):
     """
-    Print a string to the error console only
+    Print a string and leave cursor in place
 
     Args:
         *values: A variable number of string arguments
-        **kwargs: The rest of the args to print()
-
+        fg: The foreground color of the text as a C_FG_XXX value (see below). \
+        If 0, use default terminal color (default: 0)
+        bg: The background color of the text as a C_FG_XXX value (see below). \
+        If 0, use default terminal color (default: 0)
+        bold: Whether the text is bold (duh) (default:False)
+        sep: Character to join values (default: " ")
+        end: End character to print (default: "\n")
+        file: File to print to (if None, use sys.stdout) (default: None)
+        flush: True to print all characters in buffer at once, False to print
+        characters as they arrive in buffer
 
     This function is really handy for me when I run a program. It
     prints statements and leaves the cursor at the end of the line.
