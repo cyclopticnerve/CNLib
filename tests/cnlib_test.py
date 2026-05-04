@@ -15,22 +15,32 @@ A simple script to test a package from within the project itself
 # Imports
 # ------------------------------------------------------------------------------
 
+# system imports
+from time import sleep
+
 # local imports
-from cnlib import cnfunctions as F
+from cnlib.cndecorators import cnspin
 
 # ------------------------------------------------------------------------------
 # Code to run when called from command line
 # ------------------------------------------------------------------------------
 
-D_DEF = {
-    "one": 1,
-    "two": 2,
-    "three": 3,
-    "five": 5
-}
 
-D_FIN = F.load_paths_into_dict("tests/cfg.json", D_DEF)
+MSG = "Downloading new apod dict{} xxx"
+CHARS = CHARS = ["    ", ".   ", "..  ", "... "]
+LAST_MSG = "Downloading new apod dict... Done"
+INTERVAL = 1
 
-F.pp(D_FIN)
+# ------------------------------------------------------------------------------
+
+@cnspin.spin(MSG, CHARS, LAST_MSG, INTERVAL)
+def do_long(interval):
+
+    # NB: printing in this method is sketchy, probably don't do it
+    # print("do_long start", end="\r")
+    sleep(interval)
+    # print("do_long end", end="\r")
+
+do_long(5)
 
 # -)
