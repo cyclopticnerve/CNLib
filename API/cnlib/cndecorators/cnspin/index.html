@@ -7,17 +7,17 @@
         
         
         
-        <link rel="shortcut icon" href="../../../img/favicon.ico">
-        <title>cnformatter.py - CNLib</title>
-        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../../css/fontawesome.min.css" rel="stylesheet">
-        <link href="../../../css/brands.min.css" rel="stylesheet">
-        <link href="../../../css/solid.min.css" rel="stylesheet">
-        <link href="../../../css/v4-font-face.min.css" rel="stylesheet">
-        <link href="../../../css/base.css" rel="stylesheet">
+        <link rel="shortcut icon" href="../../../../img/favicon.ico">
+        <title>cnspin.py - CNLib</title>
+        <link href="../../../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../../../css/brands.min.css" rel="stylesheet">
+        <link href="../../../../css/solid.min.css" rel="stylesheet">
+        <link href="../../../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../../../css/base.css" rel="stylesheet">
         <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
         <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
-        <link href="../../../assets/_mkdocstrings.css" rel="stylesheet">
+        <link href="../../../../assets/_mkdocstrings.css" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script> 
     </head>
@@ -25,7 +25,7 @@
     <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="../../..">CNLib</a>
+                <a class="navbar-brand" href="../../../..">CNLib</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -36,7 +36,7 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="nav-item">
-                                <a href="../../.." class="nav-link">Home</a>
+                                <a href="../../../.." class="nav-link">Home</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">API</a>
@@ -47,27 +47,27 @@
     <ul class="dropdown-menu">
             
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">cnformatter.py</a>
+    <a href="../../cnformatter/" class="dropdown-item">cnformatter.py</a>
 </li>
             
 <li>
-    <a href="../cnfunctions/" class="dropdown-item">cnfunctions.py</a>
+    <a href="../../cnfunctions/" class="dropdown-item">cnfunctions.py</a>
 </li>
             
 <li>
-    <a href="../cnmkdocs/" class="dropdown-item">cnmkdocs.py</a>
+    <a href="../../cnmkdocs/" class="dropdown-item">cnmkdocs.py</a>
 </li>
             
 <li>
-    <a href="../cnpot/" class="dropdown-item">cnpot.py</a>
+    <a href="../../cnpot/" class="dropdown-item">cnpot.py</a>
 </li>
             
 <li>
-    <a href="../cntree/" class="dropdown-item">cntree.py</a>
+    <a href="../../cntree/" class="dropdown-item">cntree.py</a>
 </li>
             
 <li>
-    <a href="../cnvenv/" class="dropdown-item">cnvenv.py</a>
+    <a href="../../cnvenv/" class="dropdown-item">cnvenv.py</a>
 </li>
             
   <li class="dropdown-submenu">
@@ -75,7 +75,7 @@
     <ul class="dropdown-menu">
             
 <li>
-    <a href="../cndecorators/cnspin/" class="dropdown-item">cnspin.py</a>
+    <a href="./" class="dropdown-item active" aria-current="page">cnspin.py</a>
 </li>
     </ul>
   </li>
@@ -92,12 +92,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../../.." class="nav-link">
+                                <a rel="prev" href="../../cnvenv/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../cnfunctions/" class="nav-link">
+                                <a rel="next" class="nav-link disabled">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -119,13 +119,13 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#cnformatterpy" class="nav-link">cnformatter.py</a>
+            <li class="nav-item" data-bs-level="1"><a href="#cnspinpy" class="nav-link">cnspin.py</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnformatter" class="nav-link">cnformatter</a>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cndecorators.cnspin" class="nav-link">cnspin</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnformatter.CNFormatter" class="nav-link">CNFormatter</a>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cndecorators.cnspin.spin" class="nav-link">spin</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -136,17 +136,19 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="cnformatterpy">cnformatter.py</h1>
+<h1 id="cnspinpy">cnspin.py</h1>
 
 
 <div class="doc doc-object doc-module">
 
 
 
-<a id="cnlib.cnformatter"></a>
+<a id="cnlib.cndecorators.cnspin"></a>
     <div class="doc doc-contents first">
 
-        <p>A dummy class to combine multiple argparse formatters</p>
+        <p>A decorator to wrap a function in code to print a spinner somewhere in a status
+line.
+Heavily inspired by Dave Eddy (https://www.youtube.com/@yousuckatprogramming)</p>
 
 
 
@@ -165,23 +167,19 @@
 
 
 
-<div class="doc doc-object doc-class">
+
+<div class="doc doc-object doc-function">
 
 
-
-<h2 id="cnlib.cnformatter.CNFormatter" class="doc doc-heading">
-            <code>CNFormatter</code>
-
+<h2 id="cnlib.cndecorators.cnspin.spin" class="doc doc-heading">
+            <code class="highlight language-python">spin(msg, strs, last_msg, interval)</code>
 
 </h2>
 
 
     <div class="doc doc-contents ">
-            <p class="doc doc-class-bases">
-              Bases: <code><span title="argparse.RawTextHelpFormatter">RawTextHelpFormatter</span></code>, <code><span title="argparse.RawDescriptionHelpFormatter">RawDescriptionHelpFormatter</span></code></p>
 
-
-        <p>A dummy class to combine multiple argparse formatters</p>
+        <p>Main method</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -197,13 +195,14 @@
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>RawTextHelpFormatter</code>
+                <code>msg</code>
             </td>
             <td>
+                  <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Maintains whitespace for all sorts of help text,</p>
+                <p>The format string to display</p>
               </div>
             </td>
             <td>
@@ -212,13 +211,46 @@
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>RawDescriptionHelpFormatter</code>
+                <code>strs</code>
             </td>
             <td>
+                  <code><span title="list">list</span>[<span title="str">str</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Indicates that description and epilog are</p>
+                <p>the list of strings to rotate through when animating the spinner</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>last_msg</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The last message do display before restoring cursor</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>interval</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>the amount of time, in sconds, between animation frames</p>
               </div>
             </td>
             <td>
@@ -227,36 +259,90 @@
           </tr>
       </tbody>
     </table>
-        <p>A dummy class to combine multiple argparse formatters.</p>
+        <p>Use a format string like 'Downloading file{}' and a list of strings like
+'["", ".", "..", "..."]' and you will get a nice animated ellipsis. For the
+final message, use something like 'Downloading file: Done'. Note that
+formatting works better if the strings in sts are all the same length,
+especially when the spinner is not at the end of the line.</p>
+<p>This function will calculate the shortest space-padded string needed to
+clear the line each time the spinner redraws.</p>
 
 
-
-
-
-
-
-              <details class="quote">
-                <summary>Source code in <code>cnlib/cnformatter.py</code></summary>
-                <pre class="highlight"><code class="language-python">class CNFormatter(
-    argparse.RawTextHelpFormatter, argparse.RawDescriptionHelpFormatter
-):
+            <details class="quote">
+              <summary>Source code in <code>cnlib/cndecorators/cnspin.py</code></summary>
+              <pre class="highlight"><code class="language-python">def spin(msg: str, strs: list[str], last_msg: str, interval: float):
     """
-    A dummy class to combine multiple argparse formatters
+    Main method
 
-    Args:
-        RawTextHelpFormatter: Maintains whitespace for all sorts of help text,
-        including argument descriptions.
-        RawDescriptionHelpFormatter: Indicates that description and epilog are
-        already correctly formatted and should not be line-wrapped.
+    Arguments:
+        msg: The format string to display
+        strs: the list of strings to rotate through when animating the spinner
+        last_msg: The last message do display before restoring cursor
+        interval: the amount of time, in sconds, between animation frames
+        (accepts fraction time)
 
-    A dummy class to combine multiple argparse formatters.
-    """</code></pre>
-              </details>
+    Use a format string like 'Downloading file{}' and a list of strings like
+    '["", ".", "..", "..."]' and you will get a nice animated ellipsis. For the
+    final message, use something like 'Downloading file: Done'. Note that
+    formatting works better if the strings in sts are all the same length,
+    especially when the spinner is not at the end of the line.
 
+    This function will calculate the shortest space-padded string needed to
+    clear the line each time the spinner redraws.
+    """
+
+    # the name of the internal decorator and the name of the function we are
+    # decorating
+    def inner_spin(function):
+
+        # what to do before and after the real function
+        def wrapper(*args, **kwargs):
+
+            # NB: we need a try to capture as many errors as possible so we can
+            # restore the cursor
+            try:
+
+                # hide cursor
+                print("\033[?25l")
+
+                # rewrite array and last_msg to contain formatted/padded strs
+                strs_pad, last_msg_pad = _fix_len(msg, strs, last_msg)
+
+                # start spinner on new thread
+                t_spin = threading.Thread(
+                    target=_spinner, args=(strs_pad, interval)
+                )
+                t_spin.start()
+
+                # do the original function with same args
+                function(*args, **kwargs)
+
+                # set kill spinner flag
+                global STOP_SPINNER
+                STOP_SPINNER = True
+
+                # wait for thread before show cursor (prints newline?)
+                t_spin.join()
+
+                # NB: this is because turning the cursor back on prints a
+                # newline
+                print(last_msg_pad)
+                print("\033[?25h")  # show cursor
+
+            # failsafe (not good enough?)
+            except Exception as e:
+                print("\033[?25h")  # show cursor
+                print(e)
+
+        # this gives the new wrapped code to inner_spin
+        return wrapper
+
+    # this gives the new wrapped code to spin
+    return inner_spin</code></pre>
+            </details>
     </div>
 
 </div>
-
 
 
 
@@ -272,13 +358,13 @@
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
-        <script src="../../../js/bootstrap.bundle.min.js"></script>
+        <script src="../../../../js/bootstrap.bundle.min.js"></script>
         <script>
-            var base_url = "../../..",
+            var base_url = "../../../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../../../js/base.js"></script>
-        <script src="../../../search/main.js"></script>
+        <script src="../../../../js/base.js"></script>
+        <script src="../../../../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
