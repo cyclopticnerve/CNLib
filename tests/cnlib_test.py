@@ -19,7 +19,7 @@ A simple script to test a package from within the project itself
 from time import sleep
 
 # local imports
-from cnlib.cndecorators import cnspin
+from cnlib.cnspin import spin
 
 # ------------------------------------------------------------------------------
 # Code to run when called from command line
@@ -33,7 +33,7 @@ INTERVAL = 1
 
 # ------------------------------------------------------------------------------
 
-@cnspin.spin(MSG, CHARS, LAST_MSG, INTERVAL)
+@spin(MSG, CHARS, LAST_MSG, INTERVAL)
 def do_long(interval):
 
     # NB: printing in this method is sketchy, probably don't do it
