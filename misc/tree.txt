@@ -4,6 +4,8 @@
    │     ├─ [] settings.json
    │     └─ [] tasks.json
    ├─ [] cnlib/
+   │     ├─ [] cndecorators/
+   │     │     └─ [] cnspin.py
    │     ├─ [] cnformatter.py
    │     ├─ [] cnfunctions.py
    │     ├─ [] cnmkdocs.py
@@ -13,6 +15,8 @@
    ├─ [] docs/
    │     ├─ [] API/
    │     │     └─ [] cnlib/
+   │     │           ├─ [] cndecorators/
+   │     │           │     └─ [] cnspin.md
    │     │           ├─ [] cnformatter.md
    │     │           ├─ [] cnfunctions.md
    │     │           ├─ [] cnmkdocs.md
@@ -55,6 +59,7 @@
    │     │     └─ [] private.json
    │     └─ [] project.json
    ├─ [] tests/
+   │     ├─ [] cfg.json
    │     └─ [] cnlib_test.py
    ├─ [] todo/
    │     ├─ [] cninstall.py
