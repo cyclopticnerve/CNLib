@@ -4,23 +4,21 @@
    │     ├─ [] settings.json
    │     └─ [] tasks.json
    ├─ [] cnlib/
-   │     ├─ [] cndecorators/
-   │     │     └─ [] cnspin.py
    │     ├─ [] cnformatter.py
    │     ├─ [] cnfunctions.py
    │     ├─ [] cnmkdocs.py
    │     ├─ [] cnpot.py
+   │     ├─ [] cnspin.py
    │     ├─ [] cntree.py
    │     └─ [] cnvenv.py
    ├─ [] docs/
    │     ├─ [] API/
    │     │     └─ [] cnlib/
-   │     │           ├─ [] cndecorators/
-   │     │           │     └─ [] cnspin.md
    │     │           ├─ [] cnformatter.md
    │     │           ├─ [] cnfunctions.md
    │     │           ├─ [] cnmkdocs.md
    │     │           ├─ [] cnpot.md
+   │     │           ├─ [] cnspin.md
    │     │           ├─ [] cntree.md
    │     │           └─ [] cnvenv.md
    │     ├─ [] images/
