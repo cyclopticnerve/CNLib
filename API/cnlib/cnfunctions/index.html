@@ -63,22 +63,16 @@
 </li>
             
 <li>
+    <a href="../cnspin/" class="dropdown-item">cnspin.py</a>
+</li>
+            
+<li>
     <a href="../cntree/" class="dropdown-item">cntree.py</a>
 </li>
             
 <li>
     <a href="../cnvenv/" class="dropdown-item">cnvenv.py</a>
 </li>
-            
-  <li class="dropdown-submenu">
-    <a href="#" class="dropdown-item">Cndecorators</a>
-    <ul class="dropdown-menu">
-            
-<li>
-    <a href="../cndecorators/cnspin/" class="dropdown-item">cnspin.py</a>
-</li>
-    </ul>
-  </li>
     </ul>
   </li>
                                 </ul>
@@ -714,7 +708,7 @@ parameter used for the return value, whether it is val, in_min, or in_max.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The updated dict_old, filled with updates from dict_new</p>
+                <p>A new dictionary, filled with items from dicts_new and dict_old</p>
               </div>
             </td>
           </tr>
@@ -744,7 +738,7 @@ happen!!!</p>
         (default: None)
 
     Returns:
-        The updated dict_old, filled with updates from dict_new
+        A new dictionary, filled with items from dicts_new and dict_old
 
     This function takes key/value pairs from each of the new dicts and
     adds/overwrites these keys and values in dict_old, preserving any values
@@ -759,15 +753,15 @@ happen!!!</p>
 
     # default return val
     if not dict_old:
-        dict_old = {}
+        dict_old_copy = {}
     else:
-        dict_old = dict(dict_old)
+        dict_old_copy = dict(dict_old)
 
     # sanity checks
     if not isinstance(dicts_new, list):
         dicts_new = [dicts_new]
     if len(dicts_new) == 0:
-        return dict_old
+        return dict_old_copy
 
     # go through the new dicts in order
     for dict_new in dicts_new:
@@ -779,15 +773,15 @@ happen!!!</p>
             if isinstance(v, dict):
 
                 # recurse using the current key and value
-                dict_old[k] = combine_dicts(v, dict_old.get(k, None))
+                dict_old_copy[k] = combine_dicts(v, dict_old_copy.get(k, None))
                 continue
 
             # if the value is not a dict or a list
             # just copy value from one dict to the other
-            dict_old[k] = v
+            dict_old_copy[k] = v
 
-    # return the updated dict_old
-    return dict_old</code></pre>
+    # return the updated dict_old copy
+    return dict_old_copy</code></pre>
             </details>
     </div>
 
@@ -2406,128 +2400,86 @@ debugging.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Print a string in color</p>
+        <pre><code>Print a string in color
+
+Args:
+    *values: A variable number of string arguments
+    fg: The foreground color of the text as a C_FG_XXX value (see below).         If 0, use default terminal color (default: 0)
+    bg: The background color of the text as a C_FG_XXX value (see below).         If 0, use default terminal color (default: 0)
+    bold: Whether the text is bold (duh) (default:False)
+    sep: Character to join values (default: " ")
+    end: End character to print (default: "
+</code></pre>
+<p>")
+        file: File to print to (if None, use sys.stdout) (default: None)
+        flush: True to print all characters in buffer at once, False to print
+        characters as they arrive in buffer</p>
+<pre><code>This function prints something to the console, just like print(), but with
+COLOR! and BOLD!
+
+The parameters are as follows:
+
+*values: array of strings to be concatenated
+
+fg: The foreground color of the text to print. This can be one of the
+following values:
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>*values</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>A variable number of string arguments</p>
-              </div>
-            </td>
-            <td>
-                  <code>()</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>fg</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The foreground color of the text as a C_FG_XXX value (see below).         If 0, use default terminal color (default: 0)</p>
-              </div>
-            </td>
-            <td>
-                  <code><span title="cnlib.cnfunctions.C_FG_NONE">C_FG_NONE</span></code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>bg</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The background color of the text as a C_FG_XXX value (see below).         If 0, use default terminal color (default: 0)</p>
-              </div>
-            </td>
-            <td>
-                  <code><span title="cnlib.cnfunctions.C_BG_NONE">C_BG_NONE</span></code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>bold</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Whether the text is bold (duh) (default:False)</p>
-              </div>
-            </td>
-            <td>
-                  <code>False</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>**kwargs</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>keyword args like print()</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-        <p>This function prints something to the console, just like print(), but with
-COLOR! and BOLD!</p>
-<p>The parameters are as follows:</p>
-<p>*values: array of strings to be concatentaed</p>
-<p>fg: The foreground color of the text to print. This can be one of the
-following values:</p>
-<p>C_FG_NONE (use the terminal default)</p>
-<p>C_FG_BLACK</p>
-<p>C_FG_RED</p>
-<p>C_FG_GREEN</p>
-<p>C_FG_YELLOW</p>
-<p>C_FG_BLUE</p>
-<p>C_FG_MAGENTA</p>
-<p>C_FG_CYAN</p>
-<p>C_FG_WHITE</p>
-<p>bg: The background (or highlight) color of the text to print. This can
-be one of the following values:</p>
-<p>C_BG_NONE (use the terminal default)</p>
-<p>C_BG_BLACK</p>
-<p>C_BG_RED</p>
-<p>C_BG_GREEN</p>
-<p>C_BG_YELLOW</p>
-<p>C_BG_BLUE</p>
-<p>C_BG_MAGENTA</p>
-<p>C_BG_CYAN</p>
-<p>C_BG_WHITE</p>
-<p>bold: A boolean value to enable or disable bold text</p>
-<p>**kwargs: The rest of the args to print()</p>
-<p>A note about the background color:</p>
-<p>Setting the background color will (almost?) always set the foreground color
-to white. So no cyan text on a magenta background.</p>
+
+C_FG_NONE (use the terminal default)
+
+C_FG_BLACK
+
+C_FG_RED
+
+C_FG_GREEN
+
+C_FG_YELLOW
+
+C_FG_BLUE
+
+C_FG_MAGENTA
+
+C_FG_CYAN
+
+C_FG_WHITE
+
+
+
+bg: The background (or highlight) color of the text to print. This can
+be one of the following values:
+
+
+
+C_BG_NONE (use the terminal default)
+
+C_BG_BLACK
+
+C_BG_RED
+
+C_BG_GREEN
+
+C_BG_YELLOW
+
+C_BG_BLUE
+
+C_BG_MAGENTA
+
+C_BG_CYAN
+
+C_BG_WHITE
+
+
+
+bold: A boolean value to enable or disable bold text
+
+**kwargs: The rest of the args to print()
+
+A note about the background color:
+
+Setting the background color will (almost?) always set the foreground color
+to white. So no cyan text on a magenta background.
+</code></pre>
 
 
             <details class="quote">
@@ -2552,12 +2504,16 @@ to white. So no cyan text on a magenta background.</p>
         bg: The background color of the text as a C_FG_XXX value (see below). \
         If 0, use default terminal color (default: 0)
         bold: Whether the text is bold (duh) (default:False)
-        **kwargs: keyword args like print()
+        sep: Character to join values (default: " ")
+        end: End character to print (default: "\n")
+        file: File to print to (if None, use sys.stdout) (default: None)
+        flush: True to print all characters in buffer at once, False to print
+        characters as they arrive in buffer
 
     This function prints something to the console, just like print(), but with
     COLOR! and BOLD!\n
     The parameters are as follows:\n
-    *values: array of strings to be concatentaed\n
+    *values: array of strings to be concatenated\n
     fg: The foreground color of the text to print. This can be one of the
     following values:\n
     \n
@@ -2652,54 +2608,23 @@ to white. So no cyan text on a magenta background.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Print a string if the debug param is True</p>
+        <pre><code>Print a string if the debug param is True
 
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>*values</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>A variable number of string arguments</p>
-              </div>
-            </td>
-            <td>
-                  <code>()</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>**kwargs</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>keyword args like print()</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-        <p>This function is really handy for me when I run a program in debug mode. It
-just lets me wrap prints in context-aware statements.</p>
+Args:
+    *values: A variable number of string arguments
+    fg: The foreground color of the text as a C_FG_XXX value (see below).         If 0, use default terminal color (default: 0)
+    bg: The background color of the text as a C_FG_XXX value (see below).         If 0, use default terminal color (default: 0)
+    bold: Whether the text is bold (duh) (default:False)
+    sep: Character to join values (default: " ")
+    end: End character to print (default: "
+</code></pre>
+<p>")
+        file: File to print to (if None, use sys.stdout) (default: None)
+        flush: True to print all characters in buffer at once, False to print
+        characters as they arrive in buffer</p>
+<pre><code>This function is really handy for me when I run a program in debug mode. It
+just lets me wrap prints in context-aware statements.
+</code></pre>
 
 
             <details class="quote">
@@ -2719,8 +2644,16 @@ just lets me wrap prints in context-aware statements.</p>
 
     Args:
         *values: A variable number of string arguments
-        **kwargs: keyword args like print()
-
+        fg: The foreground color of the text as a C_FG_XXX value (see below). \
+        If 0, use default terminal color (default: 0)
+        bg: The background color of the text as a C_FG_XXX value (see below). \
+        If 0, use default terminal color (default: 0)
+        bold: Whether the text is bold (duh) (default:False)
+        sep: Character to join values (default: " ")
+        end: End character to print (default: "\n")
+        file: File to print to (if None, use sys.stdout) (default: None)
+        flush: True to print all characters in buffer at once, False to print
+        characters as they arrive in buffer
 
     This function is really handy for me when I run a program in debug mode. It
     just lets me wrap prints in context-aware statements.
@@ -2753,54 +2686,23 @@ just lets me wrap prints in context-aware statements.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Print a string to the error console only</p>
+        <pre><code>Print a string to the error console only
 
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>*values</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>A variable number of string arguments</p>
-              </div>
-            </td>
-            <td>
-                  <code>()</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>**kwargs</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The rest of the args to print()</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-        <p>This function is really handy for me when I run a program in debug mode. It
-just lets me print statements to the error console only.</p>
+Args:
+    *values: A variable number of string arguments
+    fg: The foreground color of the text as a C_FG_XXX value (see below).         If 0, use default terminal color (default: 0)
+    bg: The background color of the text as a C_FG_XXX value (see below).         If 0, use default terminal color (default: 0)
+    bold: Whether the text is bold (duh) (default:False)
+    sep: Character to join values (default: " ")
+    end: End character to print (default: "
+</code></pre>
+<p>")
+        file: File to print to (if None, use sys.stdout) (default: None)
+        flush: True to print all characters in buffer at once, False to print
+        characters as they arrive in buffer</p>
+<pre><code>This function is really handy for me when I run a program in debug mode. It
+just lets me print statements to the error console only.
+</code></pre>
 
 
             <details class="quote">
@@ -2820,8 +2722,16 @@ just lets me print statements to the error console only.</p>
 
     Args:
         *values: A variable number of string arguments
-        **kwargs: The rest of the args to print()
-
+        fg: The foreground color of the text as a C_FG_XXX value (see below). \
+        If 0, use default terminal color (default: 0)
+        bg: The background color of the text as a C_FG_XXX value (see below). \
+        If 0, use default terminal color (default: 0)
+        bold: Whether the text is bold (duh) (default:False)
+        sep: Character to join values (default: " ")
+        end: End character to print (default: "\n")
+        file: File to print to (if None, use sys.stdout) (default: None)
+        flush: True to print all characters in buffer at once, False to print
+        characters as they arrive in buffer
 
     This function is really handy for me when I run a program in debug mode. It
     just lets me print statements to the error console only.
@@ -2853,54 +2763,23 @@ just lets me print statements to the error console only.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Print a string to the error console only</p>
+        <pre><code>Print a string and leave cursor in place
 
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>*values</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>A variable number of string arguments</p>
-              </div>
-            </td>
-            <td>
-                  <code>()</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>**kwargs</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The rest of the args to print()</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-        <p>This function is really handy for me when I run a program. It
-prints statements and leaves the cursor at the end of the line.</p>
+Args:
+    *values: A variable number of string arguments
+    fg: The foreground color of the text as a C_FG_XXX value (see below).         If 0, use default terminal color (default: 0)
+    bg: The background color of the text as a C_FG_XXX value (see below).         If 0, use default terminal color (default: 0)
+    bold: Whether the text is bold (duh) (default:False)
+    sep: Character to join values (default: " ")
+    end: End character to print (default: "
+</code></pre>
+<p>")
+        file: File to print to (if None, use sys.stdout) (default: None)
+        flush: True to print all characters in buffer at once, False to print
+        characters as they arrive in buffer</p>
+<pre><code>This function is really handy for me when I run a program. It
+prints statements and leaves the cursor at the end of the line.
+</code></pre>
 
 
             <details class="quote">
@@ -2916,12 +2795,20 @@ prints statements and leaves the cursor at the end of the line.</p>
     flush=True,
 ):
     """
-    Print a string to the error console only
+    Print a string and leave cursor in place
 
     Args:
         *values: A variable number of string arguments
-        **kwargs: The rest of the args to print()
-
+        fg: The foreground color of the text as a C_FG_XXX value (see below). \
+        If 0, use default terminal color (default: 0)
+        bg: The background color of the text as a C_FG_XXX value (see below). \
+        If 0, use default terminal color (default: 0)
+        bold: Whether the text is bold (duh) (default:False)
+        sep: Character to join values (default: " ")
+        end: End character to print (default: "\n")
+        file: File to print to (if None, use sys.stdout) (default: None)
+        flush: True to print all characters in buffer at once, False to print
+        characters as they arrive in buffer
 
     This function is really handy for me when I run a program. It
     prints statements and leaves the cursor at the end of the line.
