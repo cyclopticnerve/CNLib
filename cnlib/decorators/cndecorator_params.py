@@ -44,7 +44,7 @@ def decorator(x, y):
     # --------------------------------------------------------------------------
     # Decoration implementation with no parameters
     # --------------------------------------------------------------------------
-    def decorator_inner(func):
+    def _decorator_inner(func):
         """
         Decoration implementation with no parameters
 
@@ -64,7 +64,7 @@ def decorator(x, y):
         print("decorator_inner before")
 
         # match any function signature
-        def wrap(*args, **kwargs):
+        def _wrap(*args, **kwargs):
 
             # do stuff before wrap
             print("wrap before")
@@ -93,13 +93,13 @@ def decorator(x, y):
 
         # return wrap func as new pointer for a_func
         # NB: this is the function that ultimately gets called
-        return wrap
+        return _wrap
 
     # do stuff after decorator
     print("decorator after")
 
     # return inner here
-    return decorator_inner
+    return _decorator_inner
 
 
 # ------------------------------------------------------------------------------
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     # decoration declaration
 
     @decorator(1, 2)
-    def a_func(x: float, y: float) -> float:
+    def _a_func(x: float, y: float) -> float:
         """docstring"""
         return x * y
 
@@ -121,7 +121,7 @@ if __name__ == "__main__":
 
     print("-")
     print("func before")
-    print(a_func(6, 7))
+    print(_a_func(6, 7))
     print("func after")
 
 # -)

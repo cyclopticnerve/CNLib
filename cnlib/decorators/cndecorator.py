@@ -79,7 +79,7 @@ if __name__ == "__main__":
     # decoration declaration
 
     @decorator
-    def a_func(x: float, y: float) -> float:
+    def _a_func(x: float, y: float) -> float:
         """docstring"""
         return x * y
 
@@ -88,7 +88,7 @@ if __name__ == "__main__":
 
     print("-")
     print("func before")
-    print(a_func(6, 7))
+    print(_a_func(6, 7))
     print("func after")
 
 # -)

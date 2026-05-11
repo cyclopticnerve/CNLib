@@ -167,7 +167,7 @@ def spin(msg: str, strs: list[str], last_msg: str, interval: float):
     # --------------------------------------------------------------------------
     # Decoration implementation with no parameters
     # --------------------------------------------------------------------------
-    def spin2(func):
+    def _spin2(func):
         """
         Decoration implementation with no parameters
 
@@ -184,7 +184,7 @@ def spin(msg: str, strs: list[str], last_msg: str, interval: float):
         """
 
         # match any function signature
-        def wrapper(*args, **kwargs):
+        def _wrapper(*args, **kwargs):
 
             # default result
             res = None
@@ -230,10 +230,10 @@ def spin(msg: str, strs: list[str], last_msg: str, interval: float):
 
         # return wrap func as new pointer for a_func
         # NB: this is the function that ultimately gets called
-        return wrapper
+        return _wrapper
 
     # return inner here
-    return spin2
+    return _spin2
 
 
 # ------------------------------------------------------------------------------
@@ -252,7 +252,7 @@ if __name__ == "__main__":
 
     # the wrapped function
     @spin(MSG, CHARS, LAST_MSG, INTERVAL)
-    def do_long(interval):
+    def _do_long(interval):
         """docstring"""
 
         # NB: printing in this method is sketchy, probably don't do it
@@ -260,6 +260,6 @@ if __name__ == "__main__":
         sleep(interval)
         # print("do_long end", end="\r")
 
-    do_long(5)
+    _do_long(5)
 
 # -)
