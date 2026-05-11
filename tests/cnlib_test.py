@@ -19,7 +19,7 @@ A simple script to test a package from within the project itself
 from time import sleep
 
 # local imports
-from cnlib.cnspin import spin
+from cnlib.decorators.cnspinner import spin
 
 # ------------------------------------------------------------------------------
 # Code to run when called from command line
@@ -35,6 +35,7 @@ INTERVAL = 1
 
 @spin(MSG, CHARS, LAST_MSG, INTERVAL)
 def do_long(interval):
+    """docstring"""
 
     # NB: printing in this method is sketchy, probably don't do it
     # print("do_long start", end="\r")
