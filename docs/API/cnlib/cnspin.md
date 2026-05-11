@@ -1,2 +1,0 @@
-# cnspin.py
-::: cnlib.cnspin
