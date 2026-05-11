@@ -4,21 +4,27 @@
    │     ├─ [] settings.json
    │     └─ [] tasks.json
    ├─ [] cnlib/
+   │     ├─ [] decorators/
+   │     │     ├─ [] cndecorator_params.py
+   │     │     ├─ [] cndecorator.py
+   │     │     └─ [] cnspinner.py
    │     ├─ [] cnformatter.py
    │     ├─ [] cnfunctions.py
    │     ├─ [] cnmkdocs.py
    │     ├─ [] cnpot.py
-   │     ├─ [] cnspin.py
    │     ├─ [] cntree.py
    │     └─ [] cnvenv.py
    ├─ [] docs/
    │     ├─ [] API/
    │     │     └─ [] cnlib/
+   │     │           ├─ [] decorators/
+   │     │           │     ├─ [] cndecorator_params.md
+   │     │           │     ├─ [] cndecorator.md
+   │     │           │     └─ [] cnspinner.md
    │     │           ├─ [] cnformatter.md
    │     │           ├─ [] cnfunctions.md
    │     │           ├─ [] cnmkdocs.md
    │     │           ├─ [] cnpot.md
-   │     │           ├─ [] cnspin.md
    │     │           ├─ [] cntree.md
    │     │           └─ [] cnvenv.md
    │     ├─ [] images/
@@ -57,7 +63,6 @@
    │     │     └─ [] private.json
    │     └─ [] project.json
    ├─ [] tests/
-   │     ├─ [] cfg.json
    │     └─ [] cnlib_test.py
    ├─ [] todo/
    │     ├─ [] cninstall.py
