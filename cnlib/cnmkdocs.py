@@ -283,7 +283,7 @@ class CNMkDocs:
         dir_docs_out = dir_prj / dir_docs
         dir_api_out = dir_docs_out / dir_api_out
 
-        # nuke it if it exists and we changed out mind
+        # nuke it if it exists and we changed our mind
         if not use_api and dir_api_out.exists():
             shutil.rmtree(dir_api_out)
             return
