@@ -133,10 +133,6 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#cnlib.decorators.cndecorator_params.a_func" class="nav-link">a_func</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
             <li class="nav-item" data-bs-level="2"><a href="#cnlib.decorators.cndecorator_params.decorator" class="nav-link">decorator</a>
               <ul class="nav flex-column">
               </ul>
@@ -177,31 +173,6 @@
 
 
 
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="cnlib.decorators.cndecorator_params.a_func" class="doc doc-heading">
-            <code class="highlight language-python">a_func(x, y)</code>
-
-</h2>
-
-
-    <div class="doc doc-contents ">
-
-        <p>docstring</p>
-
-
-            <details class="quote">
-              <summary>Source code in <code>cnlib/decorators/cndecorator_params.py</code></summary>
-              <pre class="highlight"><code class="language-python">@decorator(1, 2)
-def a_func(x: float, y: float) -&gt; float:
-    """docstring"""
-    return x * y</code></pre>
-            </details>
-    </div>
-
-</div>
 
 <div class="doc doc-object doc-function">
 
@@ -330,7 +301,7 @@ def a_func(x: float, y: float) -&gt; float:
     # --------------------------------------------------------------------------
     # Decoration implementation with no parameters
     # --------------------------------------------------------------------------
-    def decorator_inner(func):
+    def _decorator_inner(func):
         """
         Decoration implementation with no parameters
 
@@ -350,7 +321,7 @@ def a_func(x: float, y: float) -&gt; float:
         print("decorator_inner before")
 
         # match any function signature
-        def wrap(*args, **kwargs):
+        def _wrap(*args, **kwargs):
 
             # do stuff before wrap
             print("wrap before")
@@ -379,13 +350,13 @@ def a_func(x: float, y: float) -&gt; float:
 
         # return wrap func as new pointer for a_func
         # NB: this is the function that ultimately gets called
-        return wrap
+        return _wrap
 
     # do stuff after decorator
     print("decorator after")
 
     # return inner here
-    return decorator_inner</code></pre>
+    return _decorator_inner</code></pre>
             </details>
     </div>
 

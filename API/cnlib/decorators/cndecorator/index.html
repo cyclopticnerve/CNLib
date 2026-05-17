@@ -133,10 +133,6 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#cnlib.decorators.cndecorator.a_func" class="nav-link">a_func</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
             <li class="nav-item" data-bs-level="2"><a href="#cnlib.decorators.cndecorator.decorator" class="nav-link">decorator</a>
               <ul class="nav flex-column">
               </ul>
@@ -177,31 +173,6 @@
 
 
 
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="cnlib.decorators.cndecorator.a_func" class="doc doc-heading">
-            <code class="highlight language-python">a_func(x, y)</code>
-
-</h2>
-
-
-    <div class="doc doc-contents ">
-
-        <p>docstring</p>
-
-
-            <details class="quote">
-              <summary>Source code in <code>cnlib/decorators/cndecorator.py</code></summary>
-              <pre class="highlight"><code class="language-python">@decorator
-def a_func(x: float, y: float) -&gt; float:
-    """docstring"""
-    return x * y</code></pre>
-            </details>
-    </div>
-
-</div>
 
 <div class="doc doc-object doc-function">
 
@@ -301,6 +272,15 @@ def a_func(x: float, y: float) -&gt; float:
 
     # match any function signature
     def wrap(*args, **kwargs):
+        """
+        The one that does all the work
+
+        Arguments:
+            *args: List of all args that doe not have keywords (positional
+            args)
+            **kwargs: List of all args that do have keywords (foo=bar,
+            etc.)
+        """
 
         # do stuff before wrap
         print("wrap before")

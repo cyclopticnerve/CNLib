@@ -197,13 +197,24 @@ directory.</p>
 
             <details class="quote">
               <summary>Source code in <code>cnlib/decorators/cnspinner.py</code></summary>
-              <pre class="highlight"><code class="language-python">@spin(MSG, CHARS, LAST_MSG, INTERVAL)
+              <pre class="highlight"><code class="language-python">@spin("Downloading file")
 def do_long(interval):
     """docstring"""
 
-    # NB: printing in this method is sketchy, probably don't do it
-    # print("do_long start", end="\r")
-    sleep(interval)</code></pre>
+    # uncaught exception
+    # raise IOError("test")
+
+    sleep(interval)
+
+    # caught exception
+    try:
+        if ERR:
+            raise IOError("test")
+        return (True, None)
+    except IOError as e:
+        if DEBUG:
+            return (False, e)
+        return (False, None)</code></pre>
             </details>
     </div>
 
@@ -213,7 +224,7 @@ def do_long(interval):
 
 
 <h2 id="cnlib.decorators.cnspinner.spin" class="doc doc-heading">
-            <code class="highlight language-python">spin(msg, strs, last_msg, interval)</code>
+            <code class="highlight language-python">spin(msg)</code>
 
 </h2>
 
@@ -243,55 +254,7 @@ def do_long(interval):
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The format string to display</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>strs</code>
-            </td>
-            <td>
-                  <code><span title="list">list</span>[<span title="str">str</span>]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The list of strings to rotate through when animating the spinner</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>last_msg</code>
-            </td>
-            <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The last message do display before restoring cursor</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>interval</code>
-            </td>
-            <td>
-                  <code><span title="float">float</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The amount of time, in seconds, between animation frames</p>
+                <p>The message format to use</p>
               </div>
             </td>
             <td>
@@ -313,15 +276,17 @@ def do_long(interval):
       <tbody>
           <tr class="doc-section-item">
             <td>
+                  <code><span title="typing.Callable">Callable</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The method that matches <some_name>(some_func), which in turn returns</p>
+                <p>The function that matches <some_name>(some_func), which in turn returns</p>
               </div>
             </td>
           </tr>
           <tr class="doc-section-item">
             <td>
+                  <code><span title="typing.Callable">Callable</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -331,6 +296,7 @@ def do_long(interval):
           </tr>
           <tr class="doc-section-item">
             <td>
+                  <code><span title="typing.Callable">Callable</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -340,52 +306,39 @@ def do_long(interval):
           </tr>
       </tbody>
     </table>
-        <p>Use a format string like 'Downloading file{}' and a list of strings like
-'["", ".", "..", "..."]' and you will get a nice animated ellipsis. For the
-final message, use something like 'Downloading file: Done'. Note that
-formatting works better if the strings in sts are all the same length,
-especially when the spinner is not at the end of the line.</p>
-<p>This function will calculate the shortest space-padded string needed to
-clear the line each time the spinner redraws.</p>
+        <p>This function is the main entry point for the decorator, passing the
+function signature and parameters as they are called in code, as a hidden
+first param. It also passes the parameters passed to the decorator.</p>
 
 
             <details class="quote">
               <summary>Source code in <code>cnlib/decorators/cnspinner.py</code></summary>
-              <pre class="highlight"><code class="language-python">def spin(msg: str, strs: list[str], last_msg: str, interval: float):
+              <pre class="highlight"><code class="language-python">def spin(msg: str) -&gt; Callable:
     """
     Decoration implementation with params
 
-    Args:
-        msg: The format string to display
-        strs: The list of strings to rotate through when animating the spinner
-        last_msg: The last message do display before restoring cursor
-        interval: The amount of time, in seconds, between animation frames
-        (accepts fractional time)
+    Arguments:
+        msg: The message format to use
 
     Returns:
-        The method that matches &lt;some_name&gt;(some_func), which in turn returns
+        The function that matches &lt;some_name&gt;(some_func), which in turn returns
         wrapper(*args, ** kwargs), which is called instead of the decorated
         function
 
-    Use a format string like 'Downloading file{}' and a list of strings like
-    '["", ".", "..", "..."]' and you will get a nice animated ellipsis. For the
-    final message, use something like 'Downloading file: Done'. Note that
-    formatting works better if the strings in sts are all the same length,
-    especially when the spinner is not at the end of the line.
-
-    This function will calculate the shortest space-padded string needed to
-    clear the line each time the spinner redraws.
+    This function is the main entry point for the decorator, passing the
+    function signature and parameters as they are called in code, as a hidden
+    first param. It also passes the parameters passed to the decorator.
     """
 
     # do stuff before deco
 
     # rewrite array and last_msg to contain formatted/padded strs
-    strs_pad, last_pad = _fix_len(msg, strs, last_msg)
+    msgs_pad, last_pad = _fix_len(msg)
 
     # --------------------------------------------------------------------------
     # Decoration implementation with no parameters
     # --------------------------------------------------------------------------
-    def spin2(func):
+    def spin2(func: Callable) -&gt; Callable:
         """
         Decoration implementation with no parameters
 
@@ -397,54 +350,100 @@ clear the line each time the spinner redraws.</p>
             The function that matches wrapper(*args, ** kwargs), which is
             called instead of the decorated function
 
-
         Do some stuff before and after calling the original function.
         """
 
-        # match any function signature
-        def wrapper(*args, **kwargs):
+        # ----------------------------------------------------------------------
+        # The one that does all the work
+        # ----------------------------------------------------------------------
+        def wrapper(*args, **kwargs) -&gt; tuple[bool, Exception | None]:
+            """
+            The one that does all the work
 
-            # default result
-            res = None
+            Arguments:
+                *args: List of all args that do not have keywords (positional
+                args)
+                **kwargs: Dict of all args that do have keywords (foo=bar,
+                etc.)
+
+            Returns:
+                A tuple consisting of:
+                    bool: A boolean indicating whether the step was successful
+                    e: An error object if the step failed
+
+            This method does the real work, performing the before-call code,
+            the actual function, and the after-call code.
+            """
+
+            # create thread outside of try so we can get it in except
+            evt = Event()
+            t_spin = Thread(
+                target=_thread_spin, args=(evt, msgs_pad, F_INTERVAL)
+            )
 
             # NB: we need a try to capture as many errors as possible so we can
             # restore the cursor
             try:
 
+                # --------------------------------------------------------------
                 # do stuff before call
-                # hide cursor
-                print("\033[?25l", end="\r")
 
+                # hide cursor
+                print(S_HIDE_CURSOR, end="\r")
+
+                # --------------------------------------------------------------
                 # start spinner on new thread
-                t_spin = threading.Thread(
-                    target=_spinner, args=(strs_pad, interval)
-                )
                 t_spin.start()
 
+                # --------------------------------------------------------------
                 # do real call with args and store res
-                res = func(*args, **kwargs)
+                res, e = func(*args, **kwargs)
 
-                # do stuff after call
-
-                # set kill spinner flag
-                global STOP_SPINNER  # pylint: disable=W0603
-                STOP_SPINNER = True
-
-                # wait for thread before show cursor (prints newline?)
+                # --------------------------------------------------------------
+                # set flag and wait for thread
+                evt.set()
                 t_spin.join()
 
-                # NB: this is because turning the cursor back on prints a
-                # newline
-                print(last_pad)
-                print("\033[?25h", end="\r")  # show cursor
+                # --------------------------------------------------------------
+                # do stuff after call
+
+                # print last msg
+                print(last_pad, end="")
+                if res:
+                    # print green done
+                    F.printc(
+                        S_DONE_MSG,
+                        fg=S_DONE_FG,
+                        bg=S_DONE_BG,
+                        bold=S_DONE_BOLD,
+                    )
+                else:
+                    # print red fail/error
+                    F.printc(
+                        S_FAIL_MSG,
+                        fg=S_FAIL_FG,
+                        bg=S_FAIL_BG,
+                        bold=S_FAIL_BOLD,
+                    )
+                    if e:
+                        F.printd(str(e))
+
+                # show cursor
+                print(S_SHOW_CURSOR, end="")
 
             # failsafe (not good enough?)
             except Exception as e:  # pylint: disable=W0718
-                print("\033[?25h")  # show cursor
-                print(e)
 
-            # we are done
-            return res
+                # make sure we stop the thread
+                evt.set()
+                t_spin.join()
+
+                # show cursor and print error
+                print(S_SHOW_CURSOR, end="")  # show cursor
+                F.printd(str(e))
+
+            # throw away results
+            return (False, None)
 
         # return wrap func as new pointer for a_func
         # NB: this is the function that ultimately gets called
