@@ -12,7 +12,7 @@ project's source files and the config file "mkdocs.yml" to create MarkDown
 files in the "docs" folder. It then builds the html file structure in the
 "site" folder. It uses the "gh-deploy" program to publish the site to a
 remote-only branch. It then instructs GitHub Pages to auto-publish your docs at
-&lt;username&gt;.github.io/&lt;repo_name&gt; from that branch.
+<username>.github.io/<repo_name> from that branch.
 As much code/settings/constants as can be are reused from conf.py.
 """
 
@@ -164,7 +164,7 @@ class CNMkDocs:
     # --------------------------------------------------------------------------
     # Bake docs using mkdocs
     # --------------------------------------------------------------------------
-    def build_docs(self, p_dir_pp_venv, p_dir_prj):
+    def bake_docs(self, p_dir_pp_venv, p_dir_prj):
         """
         Bake docs using mkdocs
 
