@@ -1039,8 +1039,8 @@ def printc(
 # ------------------------------------------------------------------------------
 def printd(
     *values,
-    fg=C_FG_WHITE,
-    bg=C_BG_RED,
+    fg=C_FG_RED,
+    bg=C_BG_NONE,
     bold=True,
     sep=" ",
     end="\n",

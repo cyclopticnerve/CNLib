@@ -1,5 +1,5 @@
 
-TODO: how to do sub pkg (cnlib/cndecorators/cnspin.py)
+TODO: look at todo/cninstall.py/configurator.py
 
 DONE: bool/clamp/interpolate: in as any/int/float, out as int/float/bool
 DONE: no site if push fails - split mkdocs.bake()
@@ -11,3 +11,4 @@ DONE: F.run needs capture_output, text, completed process object
 DONE: function to get gettext
 DONE: cnvenv --exclude-editable in freeze
 DONE: CNlib docs online - no theme?
+DONE: how to do sub pkg (cnlib/cndecorators/cnspin.py)

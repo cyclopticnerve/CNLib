@@ -38,6 +38,15 @@ def decorator(func):
 
     # match any function signature
     def wrap(*args, **kwargs):
+        """
+        The one that does all the work
+
+        Arguments:
+            *args: List of all args that doe not have keywords (positional
+            args)
+            **kwargs: List of all args that do have keywords (foo=bar,
+            etc.)
+        """
 
         # do stuff before wrap
         print("wrap before")

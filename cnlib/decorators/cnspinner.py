@@ -19,15 +19,68 @@ directory.
 # ------------------------------------------------------------------------------
 
 # system imports
-import threading
+from threading import Thread, Event
 from time import sleep
+from typing import Any, Callable
+
+# venv imports
+from cnlib import cnfunctions as F
 
 # ------------------------------------------------------------------------------
-# Globals
+# Constants
 # ------------------------------------------------------------------------------
 
-# used to kill spinner thread
-STOP_SPINNER = False
+# ------------------------------------------------------------------------------
+# Strings
+
+# the current message, reset each time
+S_MSG = ""
+
+# dictionary keys
+S_KEY_FRAMES = "frames"
+S_KEY_INTERVAL = "interval"
+S_KEY_DONE = "done"
+S_KEY_FAIL = "fail"
+S_KEY_MSG = "msg"
+S_KEY_FG = "fg"
+S_KEY_BG = "bg"
+S_KEY_BOLD = "bold"
+
+# terminal escape commands
+S_HIDE_CURSOR = "\033[?25l"
+S_SHOW_CURSOR = "\033[?25h"
+
+# ------------------------------------------------------------------------------
+# Dictionaries
+
+# default spinner options
+
+# frames:   List of strings to rotate through when animating the spinner
+# interval: Amount of time, in seconds, between animation frames (accepts
+#           fractional time)
+# done:     Dict of stuff to print when done
+# fail:     Dict of stuff to print when failed
+# msg:      What to print after last_msg
+# fg:       Foreground color for pass/fail
+# bg:       Background color for pass/fail
+# bold:     True for bold in pass/fail
+
+D_SPIN = {
+    S_KEY_FRAMES: ["", ".", "..", "... "],
+    S_KEY_INTERVAL: 0.5,
+    S_KEY_DONE: {
+        S_KEY_MSG: "Done",
+        S_KEY_FG: F.C_FG_GREEN,
+        S_KEY_BG: F.C_BG_NONE,
+        S_KEY_BOLD: True,
+    },
+    S_KEY_FAIL: {
+        S_KEY_MSG: "Failed",
+        S_KEY_FG: F.C_FG_RED,
+        S_KEY_BG: F.C_BG_NONE,
+        S_KEY_BOLD: True,
+    },
+}
 
 # ------------------------------------------------------------------------------
 # Private functions
@@ -37,26 +90,29 @@ STOP_SPINNER = False
 # ------------------------------------------------------------------------------
 # The code to draw the spinner on a background thread
 # ------------------------------------------------------------------------------
-def _spinner(strs: list[str], interval: float):
+def _thread_spin(evt: Event, msgs: list[str], interval: float):
     """
     The code to draw the spinner on a background thread
 
     Arguments:
-        strs: List of strings to rotate through when animating the spinner
+        evt: Event object to control stopping the thread
+        msgs: List of strings to rotate through when animating the spinner
         interval: Amount of time, in seconds, between animation frames
         (accepts fractional time)
 
     This is a private function that handles the animation of the line.
+    Note that lines[] are formatted by _fix_len() from the msg strings and
+    frames passed to spin().
     """
 
     # start spinner and run until flag
-    while not STOP_SPINNER:
+    while not evt.is_set():
 
         # for each string in strs
-        for string in strs:
+        for msg in msgs:
 
-            # print message and put cursor at start
-            print(string, end="\r", flush=True)
+            # print message and put cursor back at start
+            print(msg, end="\r")
 
             # wait for interval
             sleep(interval)
@@ -65,64 +121,47 @@ def _spinner(strs: list[str], interval: float):
 # ------------------------------------------------------------------------------
 # Make sure all messages are the same length
 # ------------------------------------------------------------------------------
-def _fix_len(
-    msg: str, strs: list[str], last_msg: str
-) -> tuple[list[str], str]:
+def _fix_len(msg: str) -> list[str]:
     """
     Make sure all messages are the same length
 
-    Args:
-        msg: Format string to display
-        strs: List of strings to rotate through when animating the spinner
-        last_msg: Last message do display before restoring cursor (Usually has
-        no animation, shows a 'done' message)
+    Arguments:
+        msg: The format string to use as the mesage
 
     Returns:
-        list: A list of formatted, padded strings
-        str: The final padded last_msg
+        A tuple consisting of:
+            list: A list of formatted, padded strings
 
     A private function to make sure all message strings are the same length by
     padding them with trailing spaces. This is done to ensure the previous
     message gets completely overwritten, leaving no artifacts.
+
+    This function will calculate the shortest space-padded strings needed to
+    clear the line each time the spinner redraws.
     """
 
-    # start value for max
+    # get the strings of interest from the options dict
+    frames = D_SPIN[S_KEY_FRAMES]
+
+    # NB: this should be more flexible
+    msg = msg + "{}"
+    msgs = [msg.format(a_msg) for a_msg in frames]
+
+    # get len_max
     len_max = 0
 
-    # --------------------------------------------------------------------------
-    # format all strings
-
-    # first we make a list of formatted strings
-    new_strs = [msg.format(item) for item in strs]
-
-    # --------------------------------------------------------------------------
-    # get len_max
-
     # loop through strs
-    for string in new_strs:
-        len_new = len(string)
+    for a_msg in msgs:
+        len_new = len(a_msg)
         len_max = max(len_max, len_new)
 
-    # get max using last_msg
-    len_new = len(last_msg)
-    len_max = max(len_max, len_new)
-
-    # NB: len_max is now the length of the longest string after formatting
-    # (including last_msg)
-
-    # --------------------------------------------------------------------------
-    # pad strings and last_msg
-
-    # then we make a list of formatted/padded strings
-    strs_pad = [item.ljust(len_max) for item in new_strs]
-
-    # now we pad the last_msg
-    last_pad = last_msg.ljust(len_max)
+    # make a list of formatted/padded strings
+    msgs = [a_msg.ljust(len_max) for a_msg in msgs]
 
     # --------------------------------------------------------------------------
 
-    # and we outie
-    return strs_pad, last_pad
+    # and we Audi 5000
+    return msgs
 
 
 # ------------------------------------------------------------------------------
@@ -133,41 +172,29 @@ def _fix_len(
 # ------------------------------------------------------------------------------
 # Decoration implementation with params
 # ------------------------------------------------------------------------------
-def spin(msg: str, strs: list[str], last_msg: str, interval: float):
+def spin(msg: str) -> Callable:
     """
     Decoration implementation with params
 
-    Args:
-        msg: The format string to display
-        strs: The list of strings to rotate through when animating the spinner
-        last_msg: The last message do display before restoring cursor
-        interval: The amount of time, in seconds, between animation frames
-        (accepts fractional time)
+    Arguments:
+        msg: The format string to use as the message
 
     Returns:
-        The method that matches <some_name>(some_func), which in turn returns
+        The function that matches <some_name>(some_func), which in turn returns
         wrapper(*args, ** kwargs), which is called instead of the decorated
         function
 
-    Use a format string like 'Downloading file{}' and a list of strings like
-    '["", ".", "..", "..."]' and you will get a nice animated ellipsis. For the
-    final message, use something like 'Downloading file: Done'. Note that
-    formatting works better if the strings in sts are all the same length,
-    especially when the spinner is not at the end of the line.
-
-    This function will calculate the shortest space-padded string needed to
-    clear the line each time the spinner redraws.
+    This function is the main entry point for the decorator, passing the
+    function signature and parameters as they are called in code, as a hidden
+    first param. It also passes the parameters passed to the decorator.
     """
 
-    # do stuff before deco
-
-    # rewrite array and last_msg to contain formatted/padded strs
-    strs_pad, last_pad = _fix_len(msg, strs, last_msg)
+    # NB: do stuff before deco
 
     # --------------------------------------------------------------------------
     # Decoration implementation with no parameters
     # --------------------------------------------------------------------------
-    def _spin2(func):
+    def spin2(func: Callable) -> Callable:
         """
         Decoration implementation with no parameters
 
@@ -179,61 +206,120 @@ def spin(msg: str, strs: list[str], last_msg: str, interval: float):
             The function that matches wrapper(*args, ** kwargs), which is
             called instead of the decorated function
 
-
         Do some stuff before and after calling the original function.
         """
 
-        # match any function signature
-        def _wrapper(*args, **kwargs):
+        # ----------------------------------------------------------------------
+        # The one that does all the work
+        # ----------------------------------------------------------------------
+        def wrapper(*args, **kwargs) -> tuple[bool, Any]:
+            """
+            The one that does all the work
 
-            # default result
-            res = None
+            Arguments:
+                *args: List of all args that do not have keywords (positional
+                args)
+                **kwargs: Dict of all args that do have keywords (foo=bar,
+                etc.)
+
+            Returns:
+                A tuple consisting of:
+                    bool: A boolean indicating whether the step was successful
+                    Any: An error object if the step failed, or any value
+                    (including None) if the call succeeded
+
+            This method does the real work, performing the before-call code,
+            the actual function, and the after-call code.
+            """
+
+            # rewrite array to contain formatted/padded strs
+            msgs = _fix_len(msg)
+
+            # create thread outside of try so we can get it in except
+            evt = Event()
+            t_spin = Thread(
+                target=_thread_spin, args=(evt, msgs, D_SPIN[S_KEY_INTERVAL])
+            )
+
+            # default return values
+            res = False
+            obj = None
 
             # NB: we need a try to capture as many errors as possible so we can
             # restore the cursor
             try:
 
+                # --------------------------------------------------------------
                 # do stuff before call
-                # hide cursor
-                print("\033[?25l", end="\r")
 
+                # hide cursor
+                print(S_HIDE_CURSOR, end="\r")
+
+                # --------------------------------------------------------------
                 # start spinner on new thread
-                t_spin = threading.Thread(
-                    target=_spinner, args=(strs_pad, interval)
-                )
                 t_spin.start()
 
+                # --------------------------------------------------------------
                 # do real call with args and store res
-                res = func(*args, **kwargs)
+                res, obj = func(*args, **kwargs)
 
-                # do stuff after call
-
-                # set kill spinner flag
-                global STOP_SPINNER  # pylint: disable=W0603
-                STOP_SPINNER = True
-
-                # wait for thread before show cursor (prints newline?)
+                # --------------------------------------------------------------
+                # set flag and wait for thread
+                evt.set()
                 t_spin.join()
 
-                # NB: this is because turning the cursor back on prints a
-                # newline
-                print(last_pad)
-                print("\033[?25h", end="\r")  # show cursor
+                # --------------------------------------------------------------
+                # do stuff after call
+
+                # print last msg
+                last_msg = msgs[-1]
+                print(last_msg, end="")
+
+                # print done/fail
+                if res:
+                    # print green done
+                    a_dict = D_SPIN[S_KEY_DONE]
+                    F.printc(
+                        a_dict[S_KEY_MSG],
+                        fg=a_dict[S_KEY_FG],
+                        bg=a_dict[S_KEY_BG],
+                        bold=a_dict[S_KEY_BOLD],
+                    )
+                else:
+                    # print red fail/error
+                    a_dict = D_SPIN[S_KEY_FAIL]
+                    F.printc(
+                        a_dict[S_KEY_MSG],
+                        fg=a_dict[S_KEY_FG],
+                        bg=a_dict[S_KEY_BG],
+                        bold=a_dict[S_KEY_BOLD],
+                    )
+                    if obj and F.B_DEBUG:
+                        print(str(obj))
+
+                # show cursor
+                print(S_SHOW_CURSOR, end="")
 
             # failsafe (not good enough?)
             except Exception as e:  # pylint: disable=W0718
-                print("\033[?25h")  # show cursor
-                print(e)
 
-            # we are done
-            return res
+                # make sure we stop the thread
+                evt.set()
+                t_spin.join()
+
+                # show cursor and print error
+                print(S_SHOW_CURSOR, end="")  # show cursor
+                F.printd(str(e))
+
+            # throw away results
+            return (res, obj)
 
         # return wrap func as new pointer for a_func
         # NB: this is the function that ultimately gets called
-        return _wrapper
+        return wrapper
 
     # return inner here
-    return _spin2
+    return spin2
 
 
 # ------------------------------------------------------------------------------
@@ -242,24 +328,34 @@ def spin(msg: str, strs: list[str], last_msg: str, interval: float):
 if __name__ == "__main__":
     # Code to run when called from command line
 
-    # some constants to pass to the spinner
-    MSG = "Downloading new apod dict{}"
-    CHARS = ["", ".", "..", "..."]  # different lens
-    LAST_MSG = "Downloading new apod dict... Done"
-    INTERVAL = 0.2
+    # --------------------------------------------------------------------------
+
+    DEBUG = True
+    F.B_DEBUG = DEBUG
+    ERR = False
+
+    @spin("Downloading file")
+    def do_long(interval):
+        """docstring"""
+
+        # uncaught exception
+        # raise IOError("test")
+
+        sleep(interval)
+
+        # caught exception
+        try:
+            if ERR:
+                raise IOError("test")
+            return (True, None)
+        except IOError as e:
+            if DEBUG:
+                return (False, e)
+            return (False, None)
 
     # --------------------------------------------------------------------------
 
-    # the wrapped function
-    @spin(MSG, CHARS, LAST_MSG, INTERVAL)
-    def _do_long(interval):
-        """docstring"""
-
-        # NB: printing in this method is sketchy, probably don't do it
-        # print("do_long start", end="\r")
-        sleep(interval)
-        # print("do_long end", end="\r")
-
-    _do_long(5)
+    # do the thing
+    do_long(5)
 
 # -)
