@@ -254,7 +254,7 @@ def do_long(interval):
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The message format to use</p>
+                <p>The format string to use as the message</p>
               </div>
             </td>
             <td>
@@ -318,7 +318,7 @@ first param. It also passes the parameters passed to the decorator.</p>
     Decoration implementation with params
 
     Arguments:
-        msg: The message format to use
+        msg: The format string to use as the message
 
     Returns:
         The function that matches &lt;some_name&gt;(some_func), which in turn returns
@@ -330,10 +330,7 @@ first param. It also passes the parameters passed to the decorator.</p>
     first param. It also passes the parameters passed to the decorator.
     """
 
-    # do stuff before deco
-
-    # rewrite array and last_msg to contain formatted/padded strs
-    msgs_pad, last_pad = _fix_len(msg)
+    # NB: do stuff before deco
 
     # --------------------------------------------------------------------------
     # Decoration implementation with no parameters
@@ -375,10 +372,13 @@ first param. It also passes the parameters passed to the decorator.</p>
             the actual function, and the after-call code.
             """
 
+            # rewrite array to contain formatted/padded strs
+            msgs = _fix_len(msg)
+
             # create thread outside of try so we can get it in except
             evt = Event()
             t_spin = Thread(
-                target=_thread_spin, args=(evt, msgs_pad, F_INTERVAL)
+                target=_thread_spin, args=(evt, msgs, D_SPIN[S_KEY_INTERVAL])
             )
 
             # NB: we need a try to capture as many errors as possible so we can
@@ -408,22 +408,27 @@ first param. It also passes the parameters passed to the decorator.</p>
                 # do stuff after call
 
                 # print last msg
-                print(last_pad, end="")
+                last_msg = msgs[-1]
+                print(last_msg, end="")
+
+                # print done/fail
                 if res:
                     # print green done
+                    a_dict = D_SPIN[S_KEY_DONE]
                     F.printc(
-                        S_DONE_MSG,
-                        fg=S_DONE_FG,
-                        bg=S_DONE_BG,
-                        bold=S_DONE_BOLD,
+                        a_dict[S_KEY_MSG],
+                        fg=a_dict[S_KEY_FG],
+                        bg=a_dict[S_KEY_BG],
+                        bold=a_dict[S_KEY_BOLD],
                     )
                 else:
                     # print red fail/error
+                    a_dict = D_SPIN[S_KEY_FAIL]
                     F.printc(
-                        S_FAIL_MSG,
-                        fg=S_FAIL_FG,
-                        bg=S_FAIL_BG,
-                        bold=S_FAIL_BOLD,
+                        a_dict[S_KEY_MSG],
+                        fg=a_dict[S_KEY_FG],
+                        bg=a_dict[S_KEY_BG],
+                        bold=a_dict[S_KEY_BOLD],
                     )
                     if e:
                         F.printd(str(e))
