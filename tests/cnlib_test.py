@@ -25,23 +25,14 @@ from cnlib.decorators.cnspinner import spin
 # Code to run when called from command line
 # ------------------------------------------------------------------------------
 
-
-MSG = "Downloading new apod dict{} xxx"
-CHARS = CHARS = ["    ", ".   ", "..  ", "... "]
-LAST_MSG = "Downloading new apod dict... Done"
-INTERVAL = 1
-
-# ------------------------------------------------------------------------------
-
-@spin(MSG, CHARS, LAST_MSG, INTERVAL)
-def do_long(interval):
+@spin("Downloading file")
+def do_long():
     """docstring"""
 
-    # NB: printing in this method is sketchy, probably don't do it
-    # print("do_long start", end="\r")
-    sleep(interval)
-    # print("do_long end", end="\r")
+    sleep(5)
+    return (True, None)
 
-do_long(5)
+do_long()
+print("goodbye")
 
 # -)

@@ -26,6 +26,17 @@ from typing import Any, Callable
 # venv imports
 from cnlib import cnfunctions as F
 
+# NB: qnd to make sure all exits restore cursor
+import signal
+
+
+def _signal_handler(_sig, _frame):
+    """docstring"""
+    raise KeyboardInterrupt()
+
+
+signal.signal(signal.SIGINT, _signal_handler)
+
 # ------------------------------------------------------------------------------
 # Constants
 # ------------------------------------------------------------------------------
@@ -126,7 +137,7 @@ def _fix_len(msg: str) -> list[str]:
     Make sure all messages are the same length
 
     Arguments:
-        msg: The format string to use as the mesage
+        msg: The format string to use as the message
 
     Returns:
         A tuple consisting of:
@@ -286,7 +297,7 @@ def spin(msg: str) -> Callable:
                         bold=a_dict[S_KEY_BOLD],
                     )
                 else:
-                    # print red fail/error
+                    # print red fail
                     a_dict = D_SPIN[S_KEY_FAIL]
                     F.printc(
                         a_dict[S_KEY_MSG],
@@ -294,24 +305,24 @@ def spin(msg: str) -> Callable:
                         bg=a_dict[S_KEY_BG],
                         bold=a_dict[S_KEY_BOLD],
                     )
-                    if obj and F.B_DEBUG:
-                        print(str(obj))
+                    if obj:
+                        F.printd(str(obj))
 
                 # show cursor
                 print(S_SHOW_CURSOR, end="")
 
-            # failsafe (not good enough?)
-            except Exception as e:  # pylint: disable=W0718
+            # catch ctrl-c
+            except KeyboardInterrupt as e:
 
                 # make sure we stop the thread
                 evt.set()
                 t_spin.join()
 
                 # show cursor and print error
-                print(S_SHOW_CURSOR, end="")  # show cursor
+                print(S_SHOW_CURSOR)
                 F.printd(str(e))
 
-            # throw away results
+            # return real func's results
             return (res, obj)
 
         # return wrap func as new pointer for a_func
@@ -332,7 +343,7 @@ if __name__ == "__main__":
 
     DEBUG = True
     F.B_DEBUG = DEBUG
-    ERR = False
+    ERR = True
 
     @spin("Downloading file")
     def do_long(interval):
@@ -356,6 +367,6 @@ if __name__ == "__main__":
     # --------------------------------------------------------------------------
 
     # do the thing
-    do_long(5)
+    do_long(10)
 
 # -)
