@@ -353,7 +353,7 @@ first param. It also passes the parameters passed to the decorator.</p>
         # ----------------------------------------------------------------------
         # The one that does all the work
         # ----------------------------------------------------------------------
-        def wrapper(*args, **kwargs) -&gt; tuple[bool, Exception | None]:
+        def wrapper(*args, **kwargs) -&gt; tuple[bool, Any]:
             """
             The one that does all the work
 
@@ -366,7 +366,8 @@ first param. It also passes the parameters passed to the decorator.</p>
             Returns:
                 A tuple consisting of:
                     bool: A boolean indicating whether the step was successful
-                    e: An error object if the step failed
+                    Any: An error object if the step failed, or any value
+                    (including None) if the call succeeded
 
             This method does the real work, performing the before-call code,
             the actual function, and the after-call code.
@@ -380,6 +381,10 @@ first param. It also passes the parameters passed to the decorator.</p>
             t_spin = Thread(
                 target=_thread_spin, args=(evt, msgs, D_SPIN[S_KEY_INTERVAL])
             )
+
+            # default return values
+            res = False
+            obj = None
 
             # NB: we need a try to capture as many errors as possible so we can
             # restore the cursor
@@ -397,7 +402,7 @@ first param. It also passes the parameters passed to the decorator.</p>
 
                 # --------------------------------------------------------------
                 # do real call with args and store res
-                res, e = func(*args, **kwargs)
+                res, obj = func(*args, **kwargs)
 
                 # --------------------------------------------------------------
                 # set flag and wait for thread
@@ -422,7 +427,7 @@ first param. It also passes the parameters passed to the decorator.</p>
                         bold=a_dict[S_KEY_BOLD],
                     )
                 else:
-                    # print red fail/error
+                    # print red fail
                     a_dict = D_SPIN[S_KEY_FAIL]
                     F.printc(
                         a_dict[S_KEY_MSG],
@@ -430,25 +435,25 @@ first param. It also passes the parameters passed to the decorator.</p>
                         bg=a_dict[S_KEY_BG],
                         bold=a_dict[S_KEY_BOLD],
                     )
-                    if e:
-                        F.printd(str(e))
+                    if obj:
+                        F.printd(str(obj))
 
                 # show cursor
                 print(S_SHOW_CURSOR, end="")
 
-            # failsafe (not good enough?)
-            except Exception as e:  # pylint: disable=W0718
+            # catch ctrl-c
+            except KeyboardInterrupt as e:
 
                 # make sure we stop the thread
                 evt.set()
                 t_spin.join()
 
                 # show cursor and print error
-                print(S_SHOW_CURSOR, end="")  # show cursor
+                print(S_SHOW_CURSOR)
                 F.printd(str(e))
 
-            # throw away results
-            return (False, None)
+            # return real func's results
+            return (res, obj)
 
         # return wrap func as new pointer for a_func
         # NB: this is the function that ultimately gets called
