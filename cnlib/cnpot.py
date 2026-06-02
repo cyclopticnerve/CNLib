@@ -307,7 +307,7 @@ class CNPotPy:
 
             # run the command
             try:
-                F.run(cmd)
+                F.run(cmd, shell=True, capture_output=True)
             except F.CNRunError as e:
                 raise e
 
@@ -351,7 +351,7 @@ class CNPotPy:
         # run every clang through xgettext, joining it with the previous file
         # until we have a .pot file that contains every string (and only the
         # strings) in dict_clangs
-        # step 3: PROFIT! (hahaha that joke never gets old...)
+        # step 3: PROFIT! (ha ha ha that joke never gets old...)
 
         # get path to pot file
         file_pot = self._dir_pot / f"{self._str_domain}{self.S_EXT_POT}"
@@ -427,7 +427,7 @@ class CNPotPy:
 
             # do the final command
             try:
-                F.run(cmd, shell=True)
+                F.run(cmd, shell=True, capture_output=True)
             except F.CNRunError as e:
                 raise e
 
@@ -475,7 +475,7 @@ class CNPotPy:
             # update existing po file using latest pot
             cmd = self.S_CMD_MERGE_POS.format(file_po, file_pot)
             try:
-                F.run(cmd, capture_output=True)
+                F.run(cmd, shell=True, capture_output=True)
             except F.CNRunError as e:
                 raise e
 
@@ -511,7 +511,7 @@ class CNPotPy:
             # do the command
             cmd = self.S_CMD_MAKE_MOS.format(mo_file, file_po)
             try:
-                F.run(cmd)
+                F.run(cmd, shell=True, capture_output=True)
             except F.CNRunError as e:
                 raise e
 

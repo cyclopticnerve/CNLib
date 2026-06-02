@@ -65,7 +65,6 @@
    ├─ [] tests/
    │     └─ [] cnlib_test.py
    ├─ [] todo/
-   │     ├─ [] cninstall.py
    │     ├─ [] configurator.py
    │     └─ [] todo.txt
    ├─ [] .gitignore

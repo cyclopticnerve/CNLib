@@ -51,14 +51,6 @@
             "**/*.egg-info"
         ]
     },
-    "PUB_DBG": {
-        "DBG_GIT": true,
-        "DBG_VENV": true,
-        "DBG_I18N": true,
-        "DBG_DOCS": true,
-        "DBG_TREE": true,
-        "DBG_DIST": false
-    },
     "PUB_DIST": {
         "cnlib": "",
         "pyproject.toml": ""
