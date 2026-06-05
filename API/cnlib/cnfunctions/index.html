@@ -317,7 +317,9 @@
 
 
 
-  <div class="doc doc-children">
+
+<div class="doc doc-children">
+
 
 
 
@@ -342,6 +344,7 @@
               Bases: <code><span title="Exception">Exception</span></code></p>
 
 
+
         <p>A class to encapsulate run exceptions</p>
 
 
@@ -350,7 +353,8 @@
 
 
 
-              <details class="quote">
+
+              <details class="mkdocstrings-source">
                 <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
                 <pre class="highlight"><code class="language-python">class CNRunError(Exception):
     """
@@ -397,7 +401,8 @@
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
+
 
 
 
@@ -427,7 +432,7 @@
 :param output: Description</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def __init__(self, cmd, returncode, stdout, stderr, output):
     """
@@ -587,7 +592,7 @@ that range. The return type (float or int) is the same as the type of the
 parameter used for the return value, whether it is val, in_min, or in_max.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def clamp(val, in_min, in_max):
     """
@@ -739,7 +744,7 @@ dict has a key of "A" with a value of type "int", bad things will
 happen!!!</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def combine_dicts(dicts_new, dict_old=None):
     """
@@ -765,17 +770,16 @@ happen!!!</p>
     happen!!!
     """
 
-    # default return val
-    if not dict_old:
-        dict_old_copy = {}
-    else:
-        dict_old_copy = dict(dict_old)
-
     # sanity checks
     if not isinstance(dicts_new, list):
         dicts_new = [dicts_new]
     if len(dicts_new) == 0:
-        return dict_old_copy
+        return dict_old
+
+    # default return val
+    dict_old_copy = {}
+    if dict_old:
+        dict_old_copy = dict(dict_old)
 
     # go through the new dicts in order
     for dict_new in dicts_new:
@@ -790,7 +794,7 @@ happen!!!</p>
                 dict_old_copy[k] = combine_dicts(v, dict_old_copy.get(k, None))
                 continue
 
-            # if the value is not a dict or a list
+            # if the value is not a dict
             # just copy value from one dict to the other
             dict_old_copy[k] = v
 
@@ -883,7 +887,7 @@ happen!!!</p>
         <p>Compare two semantic versions.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def comp_sem_ver(ver_old, ver_new):
     """
@@ -1192,7 +1196,7 @@ So if the default is empty and loop is True, the user MUST enter a valid
 response or the dialog will loop forever.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def dialog(
     message, buttons, default="", loop=False, btn_sep="/", msg_fmt="{} [{}]: "
@@ -1351,10 +1355,9 @@ response or the dialog will loop forever.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>print</code>
+                <code>print process (default</code>
             </td>
             <td>
-                  <code>process (default</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1407,7 +1410,7 @@ response or the dialog will loop forever.</p>
         <p>Formats a dictionary nicely so it can be printed to the console.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def dpretty(dict_print, indent_size=4, indent_level=0, label=None):
     """
@@ -1525,7 +1528,7 @@ response or the dialog will loop forever.</p>
         <p>Return an underscore function for a module</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def get_underscore(domain, path_locale):
     """
@@ -1696,7 +1699,7 @@ another range. For example, given the values (50, 0, 100, 0, 255), it will
 return 127.5. Note that the return type is always a float.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def interpolate(val, from_min, from_max, to_min, to_max):
     """
@@ -1863,7 +1866,7 @@ return 127.5. Note that the return type is always a float.</p>
         <p>Load the dictionaries from all files and use combine_dicts to combine them.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def load_paths_into_dict(paths, start_dict=None):
     """
@@ -2013,10 +2016,9 @@ return 127.5. Note that the return type is always a float.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>print</code>
+                <code>print process (default</code>
             </td>
             <td>
-                  <code>process (default</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2069,7 +2071,7 @@ return 127.5. Note that the return type is always a float.</p>
         <p>Formats a list nicely so it can be printed to the console.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def lpretty(list_print, indent_size=4, indent_level=0, label=None):
     """
@@ -2216,7 +2218,7 @@ return 127.5. Note that the return type is always a float.</p>
 becomes "MyClass".</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def pascal_case(a_str):
     """
@@ -2361,7 +2363,7 @@ used to create true JSON-compatible strings. It should only be used for
 debugging.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def pp(obj, indent_size=4, label=None):
     """
@@ -2496,7 +2498,7 @@ to white. So no cyan text on a magenta background.
 </code></pre>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def printc(
     *values,
@@ -2615,7 +2617,7 @@ to white. So no cyan text on a magenta background.
 
 
 <h2 id="cnlib.cnfunctions.printd" class="doc doc-heading">
-            <code class="highlight language-python">printd(*values, fg=C_FG_WHITE, bg=C_BG_RED, bold=True, sep=' ', end='\n', file=None, flush=False)</code>
+            <code class="highlight language-python">printd(*values, fg=C_FG_RED, bg=C_BG_NONE, bold=True, sep=' ', end='\n', file=None, flush=False)</code>
 
 </h2>
 
@@ -2641,12 +2643,12 @@ just lets me wrap prints in context-aware statements.
 </code></pre>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def printd(
     *values,
-    fg=C_FG_WHITE,
-    bg=C_BG_RED,
+    fg=C_FG_RED,
+    bg=C_BG_NONE,
     bold=True,
     sep=" ",
     end="\n",
@@ -2719,7 +2721,7 @@ just lets me print statements to the error console only.
 </code></pre>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def printe(
     *values,
@@ -2796,7 +2798,7 @@ prints statements and leaves the cursor at the end of the line.
 </code></pre>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def printl(
     *values,
@@ -2936,7 +2938,7 @@ instead of having to convert a string to an array with shlex every time. It
 also combines FileNotFoundError and CalledProcessError into one CNRunError.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def run(cmd, shell=False, capture_output=False):
     """
@@ -3107,7 +3109,7 @@ also combines FileNotFoundError and CalledProcessError into one CNRunError.</p>
         <p>Save the dictionary to a file at all the specified locations.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnfunctions.py</code></summary>
               <pre class="highlight"><code class="language-python">def save_dict_into_paths(save_dict, paths):
     """

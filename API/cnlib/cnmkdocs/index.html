@@ -159,7 +159,7 @@ project's source files and the config file "mkdocs.yml" to create MarkDown
 files in the "docs" folder. It then builds the html file structure in the
 "site" folder. It uses the "gh-deploy" program to publish the site to a
 remote-only branch. It then instructs GitHub Pages to auto-publish your docs at
-&lt;username&gt;.github.io/&lt;repo_name&gt; from that branch.
+<username>.github.io/<repo_name> from that branch.
 As much code/settings/constants as can be are reused from conf.py.</p>
 
 
@@ -170,7 +170,9 @@ As much code/settings/constants as can be are reused from conf.py.</p>
 
 
 
-  <div class="doc doc-children">
+
+<div class="doc doc-children">
+
 
 
 
@@ -193,6 +195,7 @@ As much code/settings/constants as can be are reused from conf.py.</p>
     <div class="doc doc-contents ">
 
 
+
         <p>A class to handle making and baking documentation</p>
 
 
@@ -201,7 +204,8 @@ As much code/settings/constants as can be are reused from conf.py.</p>
 
 
 
-              <details class="quote">
+
+              <details class="mkdocstrings-source">
                 <summary>Source code in <code>cnlib/cnmkdocs.py</code></summary>
                 <pre class="highlight"><code class="language-python">class CNMkDocs:
     """
@@ -332,7 +336,7 @@ As much code/settings/constants as can be are reused from conf.py.</p>
     # --------------------------------------------------------------------------
     # Bake docs using mkdocs
     # --------------------------------------------------------------------------
-    def build_docs(self, p_dir_pp_venv, p_dir_prj):
+    def bake_docs(self, p_dir_pp_venv, p_dir_prj):
         """
         Bake docs using mkdocs
 
@@ -346,11 +350,11 @@ As much code/settings/constants as can be are reused from conf.py.</p>
         # build docs
 
         # format cmd using pdoc template dir, output dir, and start dir
-        cmd_docs = self.S_CMD_DOC_BUILD.format(p_dir_pp_venv, p_dir_prj)
+        cmd = self.S_CMD_DOC_BUILD.format(p_dir_pp_venv, p_dir_prj)
 
         # the command to run mkdocs
         try:
-            cp = F.run(cmd_docs, shell=True, capture_output=True)
+            cp = F.run(cmd, shell=True, capture_output=True)
             return cp
         except F.CNRunError as e:
             raise e
@@ -372,11 +376,11 @@ As much code/settings/constants as can be are reused from conf.py.</p>
         # deploy docs
 
         # format cmd using pdoc template dir, output dir, and start dir
-        cmd_docs = self.S_CMD_DOC_DEPLOY.format(p_dir_pp_venv, p_dir_prj)
+        cmd = self.S_CMD_DOC_DEPLOY.format(p_dir_pp_venv, p_dir_prj)
 
         # the command to run mkdocs
         try:
-            cp = F.run(cmd_docs, shell=True, capture_output=True)
+            cp = F.run(cmd, shell=True, capture_output=True)
             return cp
         except F.CNRunError as e:
             raise e
@@ -451,7 +455,7 @@ As much code/settings/constants as can be are reused from conf.py.</p>
         dir_docs_out = dir_prj / dir_docs
         dir_api_out = dir_docs_out / dir_api_out
 
-        # nuke it if it exists and we changed out mind
+        # nuke it if it exists and we changed our mind
         if not use_api and dir_api_out.exists():
             shutil.rmtree(dir_api_out)
             return
@@ -519,7 +523,8 @@ As much code/settings/constants as can be are reused from conf.py.</p>
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
+
 
 
 
@@ -546,7 +551,7 @@ of its properties, and any other code that needs to run to create a
 new object.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnmkdocs.py</code></summary>
               <pre class="highlight"><code class="language-python">def __init__(self):
     """
@@ -568,8 +573,8 @@ new object.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="cnlib.cnmkdocs.CNMkDocs.build_docs" class="doc doc-heading">
-            <code class="highlight language-python">build_docs(p_dir_pp_venv, p_dir_prj)</code>
+<h3 id="cnlib.cnmkdocs.CNMkDocs.bake_docs" class="doc doc-heading">
+            <code class="highlight language-python">bake_docs(p_dir_pp_venv, p_dir_prj)</code>
 
 </h3>
 
@@ -580,9 +585,9 @@ new object.</p>
         <p>Updates and deploys docs using mkdocs.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnmkdocs.py</code></summary>
-              <pre class="highlight"><code class="language-python">def build_docs(self, p_dir_pp_venv, p_dir_prj):
+              <pre class="highlight"><code class="language-python">def bake_docs(self, p_dir_pp_venv, p_dir_prj):
     """
     Bake docs using mkdocs
 
@@ -596,11 +601,11 @@ new object.</p>
     # build docs
 
     # format cmd using pdoc template dir, output dir, and start dir
-    cmd_docs = self.S_CMD_DOC_BUILD.format(p_dir_pp_venv, p_dir_prj)
+    cmd = self.S_CMD_DOC_BUILD.format(p_dir_pp_venv, p_dir_prj)
 
     # the command to run mkdocs
     try:
-        cp = F.run(cmd_docs, shell=True, capture_output=True)
+        cp = F.run(cmd, shell=True, capture_output=True)
         return cp
     except F.CNRunError as e:
         raise e</code></pre>
@@ -624,7 +629,7 @@ new object.</p>
         <p>Updates and deploys docs using mkdocs.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnmkdocs.py</code></summary>
               <pre class="highlight"><code class="language-python">def deploy_docs(self, p_dir_pp_venv, p_dir_prj):
     """
@@ -640,11 +645,11 @@ new object.</p>
     # deploy docs
 
     # format cmd using pdoc template dir, output dir, and start dir
-    cmd_docs = self.S_CMD_DOC_DEPLOY.format(p_dir_pp_venv, p_dir_prj)
+    cmd = self.S_CMD_DOC_DEPLOY.format(p_dir_pp_venv, p_dir_prj)
 
     # the command to run mkdocs
     try:
-        cp = F.run(cmd_docs, shell=True, capture_output=True)
+        cp = F.run(cmd, shell=True, capture_output=True)
         return cp
     except F.CNRunError as e:
         raise e</code></pre>
@@ -675,7 +680,7 @@ new object.</p>
 :param dir_img: Description</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnmkdocs.py</code></summary>
               <pre class="highlight"><code class="language-python">def make_docs(
     self,

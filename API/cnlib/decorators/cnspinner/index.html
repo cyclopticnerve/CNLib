@@ -137,6 +137,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cnlib.decorators.cnspinner.skip" class="nav-link">skip</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#cnlib.decorators.cnspinner.spin" class="nav-link">spin</a>
               <ul class="nav flex-column">
               </ul>
@@ -171,7 +175,9 @@ directory.</p>
 
 
 
-  <div class="doc doc-children">
+
+<div class="doc doc-children">
+
 
 
 
@@ -195,7 +201,7 @@ directory.</p>
         <p>docstring</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/decorators/cnspinner.py</code></summary>
               <pre class="highlight"><code class="language-python">@spin("Downloading file")
 def do_long(interval):
@@ -215,6 +221,85 @@ def do_long(interval):
         if DEBUG:
             return (False, e)
         return (False, None)</code></pre>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="cnlib.decorators.cnspinner.skip" class="doc doc-heading">
+            <code class="highlight language-python">skip(msg)</code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Print the skip message</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>msg</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Step name to print</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>cnlib/decorators/cnspinner.py</code></summary>
+              <pre class="highlight"><code class="language-python">def skip(msg: str):
+    """
+    Print the skip message
+
+    Arguments:
+        msg: Step name to print
+    """
+
+    msgs = _fix_len(msg)
+
+    last_msg = msgs[-1]
+    print(last_msg, end="")
+
+    # print yellow skip
+    a_dict = D_SPIN[S_KEY_SKIP]
+    F.printc(
+        a_dict[S_KEY_MSG],
+        fg=a_dict[S_KEY_FG],
+        bg=a_dict[S_KEY_BG],
+        bold=a_dict[S_KEY_BOLD],
+    )
+
+    # NB: "It's all for you, Damien!" : -t is the spawn of satan. who thought
+    # of this shit?
+
+    # a skipped function will not stop progress
+    return True</code></pre>
             </details>
     </div>
 
@@ -311,7 +396,7 @@ function signature and parameters as they are called in code, as a hidden
 first param. It also passes the parameters passed to the decorator.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/decorators/cnspinner.py</code></summary>
               <pre class="highlight"><code class="language-python">def spin(msg: str) -&gt; Callable:
     """
@@ -353,7 +438,7 @@ first param. It also passes the parameters passed to the decorator.</p>
         # ----------------------------------------------------------------------
         # The one that does all the work
         # ----------------------------------------------------------------------
-        def wrapper(*args, **kwargs) -&gt; tuple[bool, Any]:
+        def wrapper(*args, **kwargs) -&gt; Exception | None:
             """
             The one that does all the work
 
@@ -364,10 +449,8 @@ first param. It also passes the parameters passed to the decorator.</p>
                 etc.)
 
             Returns:
-                A tuple consisting of:
-                    bool: A boolean indicating whether the step was successful
-                    Any: An error object if the step failed, or any value
-                    (including None) if the call succeeded
+                Exception | None: An Exception if the function fails, or None
+                if the action was successful
 
             This method does the real work, performing the before-call code,
             the actual function, and the after-call code.
@@ -382,12 +465,10 @@ first param. It also passes the parameters passed to the decorator.</p>
                 target=_thread_spin, args=(evt, msgs, D_SPIN[S_KEY_INTERVAL])
             )
 
-            # default return values
-            res = False
-            obj = None
+            # set default value
+            err = None
 
-            # NB: we need a try to capture as many errors as possible so we can
-            # restore the cursor
+            # we need a try-except to capture ctrl-c to restore the cursor
             try:
 
                 # --------------------------------------------------------------
@@ -402,7 +483,9 @@ first param. It also passes the parameters passed to the decorator.</p>
 
                 # --------------------------------------------------------------
                 # do real call with args and store res
-                res, obj = func(*args, **kwargs)
+
+                # all funcs must be pass/fail (None=pass, Exception=fail)
+                err = func(*args, **kwargs)
 
                 # --------------------------------------------------------------
                 # set flag and wait for thread
@@ -417,7 +500,7 @@ first param. It also passes the parameters passed to the decorator.</p>
                 print(last_msg, end="")
 
                 # print done/fail
-                if res:
+                if not err:
                     # print green done
                     a_dict = D_SPIN[S_KEY_DONE]
                     F.printc(
@@ -435,8 +518,7 @@ first param. It also passes the parameters passed to the decorator.</p>
                         bg=a_dict[S_KEY_BG],
                         bold=a_dict[S_KEY_BOLD],
                     )
-                    if obj:
-                        F.printd(str(obj))
+                    F.printd(str(err))
 
                 # show cursor
                 print(S_SHOW_CURSOR, end="")
@@ -449,11 +531,11 @@ first param. It also passes the parameters passed to the decorator.</p>
                 t_spin.join()
 
                 # show cursor and print error
-                print(S_SHOW_CURSOR)
+                print(S_SHOW_CURSOR, end="")  # show cursor
                 F.printd(str(e))
 
-            # return real func's results
-            return (res, obj)
+            # return real func results
+            return err
 
         # return wrap func as new pointer for a_func
         # NB: this is the function that ultimately gets called
