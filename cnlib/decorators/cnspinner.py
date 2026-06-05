@@ -21,20 +21,21 @@ directory.
 # system imports
 from threading import Thread, Event
 from time import sleep
-from typing import Any, Callable
+from typing import Callable
 
 # venv imports
 from cnlib import cnfunctions as F
 
+# ------------------------------------------------------------------------------
 # NB: qnd to make sure all exits restore cursor
 import signal
 
-
+# make a signal handler that raises ctrl-c
 def _signal_handler(_sig, _frame):
     """docstring"""
     raise KeyboardInterrupt()
 
-
+# any interrupt calls above handler
 signal.signal(signal.SIGINT, _signal_handler)
 
 # ------------------------------------------------------------------------------
@@ -52,6 +53,7 @@ S_KEY_FRAMES = "frames"
 S_KEY_INTERVAL = "interval"
 S_KEY_DONE = "done"
 S_KEY_FAIL = "fail"
+S_KEY_SKIP = "skip"
 S_KEY_MSG = "msg"
 S_KEY_FG = "fg"
 S_KEY_BG = "bg"
@@ -69,6 +71,7 @@ S_SHOW_CURSOR = "\033[?25h"
 # frames:   List of strings to rotate through when animating the spinner
 # interval: Amount of time, in seconds, between animation frames (accepts
 #           fractional time)
+# skip:     Dict of stuff to print when skipped
 # done:     Dict of stuff to print when done
 # fail:     Dict of stuff to print when failed
 # msg:      What to print after last_msg
@@ -79,6 +82,12 @@ S_SHOW_CURSOR = "\033[?25h"
 D_SPIN = {
     S_KEY_FRAMES: ["", ".", "..", "... "],
     S_KEY_INTERVAL: 0.5,
+    S_KEY_SKIP: {
+        S_KEY_MSG: "Skipped",
+        S_KEY_FG: F.C_FG_YELLOW,
+        S_KEY_BG: F.C_BG_NONE,
+        S_KEY_BOLD: True,
+    },
     S_KEY_DONE: {
         S_KEY_MSG: "Done",
         S_KEY_FG: F.C_FG_GREEN,
@@ -156,7 +165,7 @@ def _fix_len(msg: str) -> list[str]:
 
     # NB: this should be more flexible
     msg = msg + "{}"
-    msgs = [msg.format(a_msg) for a_msg in frames]
+    msgs = [msg.format(frame) for frame in frames]
 
     # get len_max
     len_max = 0
@@ -174,11 +183,41 @@ def _fix_len(msg: str) -> list[str]:
     # and we Audi 5000
     return msgs
 
-
 # ------------------------------------------------------------------------------
 # Public functions
 # ------------------------------------------------------------------------------
 
+
+# ------------------------------------------------------------------------------
+# Print the skip message
+# ------------------------------------------------------------------------------
+def skip(msg: str):
+    """
+    Print the skip message
+
+    Arguments:
+        msg: Step name to print
+    """
+
+    msgs = _fix_len(msg)
+
+    last_msg = msgs[-1]
+    print(last_msg, end="")
+
+    # print yellow skip
+    a_dict = D_SPIN[S_KEY_SKIP]
+    F.printc(
+        a_dict[S_KEY_MSG],
+        fg=a_dict[S_KEY_FG],
+        bg=a_dict[S_KEY_BG],
+        bold=a_dict[S_KEY_BOLD],
+    )
+
+    # NB: "It's all for you, Damien!" : -t is the spawn of satan. who thought
+    # of this shit?
+
+    # a skipped function will not stop progress
+    return True
 
 # ------------------------------------------------------------------------------
 # Decoration implementation with params
@@ -223,7 +262,7 @@ def spin(msg: str) -> Callable:
         # ----------------------------------------------------------------------
         # The one that does all the work
         # ----------------------------------------------------------------------
-        def wrapper(*args, **kwargs) -> tuple[bool, Any]:
+        def wrapper(*args, **kwargs) -> Exception | None:
             """
             The one that does all the work
 
@@ -234,10 +273,8 @@ def spin(msg: str) -> Callable:
                 etc.)
 
             Returns:
-                A tuple consisting of:
-                    bool: A boolean indicating whether the step was successful
-                    Any: An error object if the step failed, or any value
-                    (including None) if the call succeeded
+                Exception | None: An Exception if the function fails, or None
+                if the action was successful
 
             This method does the real work, performing the before-call code,
             the actual function, and the after-call code.
@@ -252,12 +289,10 @@ def spin(msg: str) -> Callable:
                 target=_thread_spin, args=(evt, msgs, D_SPIN[S_KEY_INTERVAL])
             )
 
-            # default return values
-            res = False
-            obj = None
+            # set default value
+            err = None
 
-            # NB: we need a try to capture as many errors as possible so we can
-            # restore the cursor
+            # we need a try-except to capture ctrl-c to restore the cursor
             try:
 
                 # --------------------------------------------------------------
@@ -272,7 +307,9 @@ def spin(msg: str) -> Callable:
 
                 # --------------------------------------------------------------
                 # do real call with args and store res
-                res, obj = func(*args, **kwargs)
+
+                # all funcs must be pass/fail (None=pass, Exception=fail)
+                err = func(*args, **kwargs)
 
                 # --------------------------------------------------------------
                 # set flag and wait for thread
@@ -287,7 +324,7 @@ def spin(msg: str) -> Callable:
                 print(last_msg, end="")
 
                 # print done/fail
-                if res:
+                if not err:
                     # print green done
                     a_dict = D_SPIN[S_KEY_DONE]
                     F.printc(
@@ -305,8 +342,7 @@ def spin(msg: str) -> Callable:
                         bg=a_dict[S_KEY_BG],
                         bold=a_dict[S_KEY_BOLD],
                     )
-                    if obj:
-                        F.printd(str(obj))
+                    F.printd(str(err))
 
                 # show cursor
                 print(S_SHOW_CURSOR, end="")
@@ -319,11 +355,11 @@ def spin(msg: str) -> Callable:
                 t_spin.join()
 
                 # show cursor and print error
-                print(S_SHOW_CURSOR)
+                print(S_SHOW_CURSOR, end="")  # show cursor
                 F.printd(str(e))
 
-            # return real func's results
-            return (res, obj)
+            # return real func results
+            return err
 
         # return wrap func as new pointer for a_func
         # NB: this is the function that ultimately gets called

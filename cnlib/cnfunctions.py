@@ -493,17 +493,16 @@ def combine_dicts(dicts_new, dict_old=None):
     happen!!!
     """
 
-    # default return val
-    if not dict_old:
-        dict_old_copy = {}
-    else:
-        dict_old_copy = dict(dict_old)
-
     # sanity checks
     if not isinstance(dicts_new, list):
         dicts_new = [dicts_new]
     if len(dicts_new) == 0:
-        return dict_old_copy
+        return dict_old
+
+    # default return val
+    dict_old_copy = {}
+    if dict_old:
+        dict_old_copy = dict(dict_old)
 
     # go through the new dicts in order
     for dict_new in dicts_new:
@@ -518,7 +517,7 @@ def combine_dicts(dicts_new, dict_old=None):
                 dict_old_copy[k] = combine_dicts(v, dict_old_copy.get(k, None))
                 continue
 
-            # if the value is not a dict or a list
+            # if the value is not a dict
             # just copy value from one dict to the other
             dict_old_copy[k] = v
 

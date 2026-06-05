@@ -51,13 +51,23 @@
             "**/*.egg-info"
         ]
     },
-    "PUB_DBG": {
-        "DBG_GIT": true,
-        "DBG_VENV": true,
-        "DBG_I18N": true,
-        "DBG_DOCS": true,
-        "DBG_TREE": true,
-        "DBG_DIST": false
+    "PUB_ACT": {
+        "ACT_VENV": true,
+        "ACT_REQS": true,
+        "ACT_GIT": true,
+        "ACT_INST": true,
+        "ACT_PURGE": true,
+        "ACT_I18N": true,
+        "ACT_META": true,
+        "ACT_PLACE": true,
+        "ACT_EDIT": true,
+        "ACT_MAKE_DOCS": true,
+        "ACT_TREE": true,
+        "ACT_FREEZE": true,
+        "ACT_BAKE_DOCS": true,
+        "ACT_DEPLOY_DOCS": true,
+        "ACT_COMPRESS": true,
+        "ACT_REM_DIST": true
     },
     "PUB_DIST": {
         "cnlib": "",

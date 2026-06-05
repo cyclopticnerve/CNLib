@@ -31,6 +31,6 @@ requires-python = ">=3.10"
 homepage = "https://github.com/cyclopticnerve/CNLib"
 
 [tool.setuptools]
-packages = ["cnlib", "cnlib.decorators"]
+packages = ["cnlib", "cnlib.__pycache__", "cnlib.decorators", "cnlib.decorators.__pycache__"]
 
 # -)
