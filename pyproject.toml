@@ -12,7 +12,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "CNLib"
-version = "1.4.0"
+version = "1.4.1"
 description = "A Python library containing useful functions and classes"
 authors = [{ name = "cyclopticnerve", email = "cyclopticnerve@gmail.com" }]
 readme = "README.md"
@@ -31,6 +31,6 @@ requires-python = ">=3.10"
 homepage = "https://github.com/cyclopticnerve/CNLib"
 
 [tool.setuptools]
-packages = ["cnlib", "cnlib.__pycache__", "cnlib.decorators", "cnlib.decorators.__pycache__"]
+packages = ["cnlib", "cnlib.decorators"]
 
 # -)
