@@ -1,7 +1,8 @@
 1. Run PB on project
-    1a. Change DOCS_USE_RM to true
-    1b. Run PB
-    1c. Change version
+	1a. Make sure you are merged and checked out on main branch
+    1b. Change DOCS_USE_RM to true
+    1c. Run PB
+    1d. Change version
 
 2. Commit/Push
     2a. Commit & Push
