@@ -144,7 +144,7 @@ def _set_defaults(
     """
     Merge a user settings dict into a default settings dict
 
-    Paramaters:
+    Parameters:
         dict_defs [dict]: the dict containing the default values
         dict_user [dict]: the dict containing user values to be applied over
             defaults

@@ -174,7 +174,6 @@ def _fix_len(msg: str) -> list[str]:
     # NB: this should be more flexible
     msg = msg + "{}"
     msgs = [msg.format(frame) for frame in frames]
-    msgs = [msg.format(frame) for frame in frames]
 
     # get len_max
     len_max = 0
@@ -224,6 +223,7 @@ def skip(msg: str):
 
     # NB: "It's all for you, Damien!" : -t is the spawn of satan. who thought
     # of this shit?
+    # (-t uses PUB_ACT to determine which steps to skip)
 
     # a skipped function will not stop progress
     return True
@@ -271,7 +271,6 @@ def spin(msg: str) -> Callable:
         # ----------------------------------------------------------------------
         # The one that does all the work
         # ----------------------------------------------------------------------
-        def wrapper(*args, **kwargs) -> Exception | None:
         def wrapper(*args, **kwargs) -> Exception | None:
             """
             The one that does all the work
@@ -338,7 +337,6 @@ def spin(msg: str) -> Callable:
                 print(last_msg, end="")
 
                 # print done/fail
-                if not err:
                 if not err:
                     # print green done
                     a_dict = D_SPIN[S_KEY_DONE]
