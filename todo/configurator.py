@@ -13,42 +13,59 @@
 import json
 import re
 
+# TODO: add a clamping dict and do sanitize (like a schema)
+# dict {
+#      S_KEY_INT: [0, 50]
+#      S_KEY_STR: str,
+#      S_KEY_BOOL: bool,
+# }
+# https://www.geeksforgeeks.org/python/introduction-to-python-jsonschema/
+# for _validate_json
+# this does type checking
+# add sanitize after _validate_json (just for clamping)
+
+# TODO: make recursive (dicts of dicts/lists, lists of lists/dicts, etc.)
 
 # ------------------------------------------------------------------------------
 # Public methods
 # ------------------------------------------------------------------------------
 
+
 # ------------------------------------------------------------------------------
 # Load the defaults dict, apply user values, and perform substitutions
 # ------------------------------------------------------------------------------
-def load(dict_defs, dict_user=None, dict_subs=None, allow_conflicts=True,
-         allow_user_extras=False):
-
+def load(
+    dict_defs,
+    dict_user=None,
+    dict_subs=None,
+    allow_conflicts=True,
+    allow_user_extras=False,
+):
     """
-        Load the defaults dict, apply user values, and perform substitutions
+    Load the defaults dict, apply user values, and perform substitutions
 
-        Args:
-            dict_defs: the dict of defaults
-            dict_user [dict]: the dict of user settings
-            dict_subs [dict]: the dict of substitutions to perform
-                Dict must be in the form of: {"${SUB}": "substitution_string"}
-            allow_conflicts [bool]: if True, type conflicts in values are
-                resolved in favor of defaults. if False, any type conflict
-                raises an Exception
-            allow_user_extras [bool]: if True, user keys which do not appear in
-                defaults are kept. if False, extraneous user keys are removed
+    Args:
+        dict_defs: the dict of defaults
+        dict_user [dict]: the dict of user settings
+        dict_subs [dict]: the dict of substitutions to perform
+            Dict must be in the form of: {"${SUB}": "substitution_string"}
+        allow_conflicts [bool]: if True, type conflicts in values are
+            resolved in favor of defaults. if False, any type conflict
+            raises an Exception
+        allow_user_extras [bool]: if True, user keys which do not appear in
+            defaults are kept. if False, extraneous user keys are removed
 
-        Returns:
-            [dict]: a dict containing all merged keys and values, with
-            substitutions applied
+    Returns:
+        [dict]: a dict containing all merged keys and values, with
+        substitutions applied
 
-        This function combines the defaults dict with the user dict, returning
-        a third dict containing the union of those two dicts. It also performs
-        substitutions using the specified dict_subs. Type conflicts between the
-        defaults dict and the user dict are handled by the allow_conflicts
-        parameter. User dict keys that are not present in the defaults dict
-        will be kept (but obviously not type-checked) if the allow_user_extras
-        parameter is True, otherwise they are discarded.
+    This function combines the defaults dict with the user dict, returning
+    a third dict containing the union of those two dicts. It also performs
+    substitutions using the specified dict_subs. Type conflicts between the
+    defaults dict and the user dict are handled by the allow_conflicts
+    parameter. User dict keys that are not present in the defaults dict
+    will be kept (but obviously not type-checked) if the allow_user_extras
+    parameter is True, otherwise they are discarded.
     """
 
     # the default return dict
@@ -63,8 +80,9 @@ def load(dict_defs, dict_user=None, dict_subs=None, allow_conflicts=True,
 
         # validate and apply dict_user
         _validate_json(dict_user)
-        dict_res = _set_defaults(dict_defs, dict_user, allow_conflicts,
-                                 allow_user_extras)
+        dict_res = _set_defaults(
+            dict_defs, dict_user, allow_conflicts, allow_user_extras
+        )
 
     # apply substitutions
     if dict_subs is not None:
@@ -81,22 +99,22 @@ def load(dict_defs, dict_user=None, dict_subs=None, allow_conflicts=True,
 # Private methods
 # ------------------------------------------------------------------------------
 
+
 # ------------------------------------------------------------------------------
 # Validate the JSON of the specified dict
 # ------------------------------------------------------------------------------
 def _validate_json(dict_json):
-
     """
-        Validate the JSON of the specified dict
+    Validate the JSON of the specified dict
 
-        Parameters:
-            dict_json [dict]: the dict to validate
+    Parameters:
+        dict_json [dict]: the dict to validate
 
-        Raises:
-            Exception(str): if not valid JSON
+    Raises:
+        Exception(str): if not valid JSON
 
-        This method validates the specified dict by converting it to a string
-        and then back to a dictionary.
+    This method validates the specified dict by converting it to a string
+    and then back to a dictionary.
     """
 
     # turn dict to string
@@ -109,46 +127,51 @@ def _validate_json(dict_json):
 
     # throw error if not valid
     except Exception as error:
-        raise Exception(f'JSON validation error: {error}')
+        raise Exception(f"JSON validation error: {error}")
 
 
 # ------------------------------------------------------------------------------
 # Merge a user settings dict into a default settings dict
 # ------------------------------------------------------------------------------
-def _set_defaults(dict_defs, dict_user, allow_conflicts, allow_user_extras,
-                  dict_res=None, key_path=''):
-
+def _set_defaults(
+    dict_defs,
+    dict_user,
+    allow_conflicts,
+    allow_user_extras,
+    dict_res=None,
+    key_path="",
+):
     """
-        Merge a user settings dict into a default settings dict
+    Merge a user settings dict into a default settings dict
 
-        Paramaters:
-            dict_defs [dict]: the dict containing the default values
-            dict_user [dict]: the dict containing user values to be applied over
-                defaults
-            allow_conflicts [bool]: if True, type conflicts in values are
-                resolved in favor of defaults. if False, any type conflict
-                raises an Exception
-            dict_res [dict]: the resulting dict to be returned
-            key_path [str]: the path to the current key, used to track conflicts
+    Paramaters:
+        dict_defs [dict]: the dict containing the default values
+        dict_user [dict]: the dict containing user values to be applied over
+            defaults
+        allow_conflicts [bool]: if True, type conflicts in values are
+            resolved in favor of defaults. if False, any type conflict
+            raises an Exception
+        dict_res [dict]: the resulting dict to be returned
+        key_path [str]: the path to the current key, used to track conflicts
 
-        Returns:
-            [dict]: a dict containing all merged keys and values
+    Returns:
+        [dict]: a dict containing all merged keys and values
 
-        Raises:
-            Exception(str): if either dict_defs or dict_user is not a dict
-            Exception(str): if allow_conflicts is False and a type conflict
-                occurs
+    Raises:
+        Exception(str): if either dict_defs or dict_user is not a dict
+        Exception(str): if allow_conflicts is False and a type conflict
+            occurs
 
-        This method does the heavy lifting of merging two dictionaries and
-        checking for type mismatches and extraneous keys. It is also recursive
-        to allow for a deep merge in the case that a value is also a dictionary.
+    This method does the heavy lifting of merging two dictionaries and
+    checking for type mismatches and extraneous keys. It is also recursive
+    to allow for a deep merge in the case that a value is also a dictionary.
     """
 
     # check that we only pass dicts with at least one key
     if not isinstance(dict_defs, dict):
-        raise Exception('Parameter dict_defs is not a dict')
+        raise Exception("Parameter dict_defs is not a dict")
     if not isinstance(dict_user, dict):
-        raise Exception('Parameter dict_user is not a dict')
+        raise Exception("Parameter dict_user is not a dict")
 
     # start with defs
     if dict_res is None:
@@ -174,16 +197,21 @@ def _set_defaults(dict_defs, dict_user, allow_conflicts, allow_user_extras,
                     # NB: don't change key_path in this recursion, or else we
                     # can't get back to it when un-recursing (if that makes any
                     # sense)
-                    key_path_str = key_path + '/' + str(key)
+                    key_path_str = key_path + "/" + str(key)
 
                     # recurse using current values
-                    _set_defaults(dict_defs[key], dict_user[key],
-                                  allow_conflicts, allow_user_extras,
-                                  dict_res[key], key_path_str)
+                    _set_defaults(
+                        dict_defs[key],
+                        dict_user[key],
+                        allow_conflicts,
+                        allow_user_extras,
+                        dict_res[key],
+                        key_path_str,
+                    )
 
                 # TODO: lists? merge? overwrite?
                 # elif isinstance(dict_user[key], list):
-                
+
                 # if both types are not dict or list (but still match)
                 else:
 
@@ -200,13 +228,13 @@ def _set_defaults(dict_defs, dict_user, allow_conflicts, allow_user_extras,
                     # NB: don't change key_path in this recursion, or else we
                     # can't get back to it when un-recursing (if that makes any
                     # sense)
-                    key_path_str = key_path + '/' + str(key)
+                    key_path_str = key_path + "/" + str(key)
 
                     # raise an Exception with the key path and the two types
                     raise Exception(
-                        f"Conflict at {key_path_str}, " +
-                        f"defs type = {defs_val_type}, " +
-                        f"user type = {user_val_type}"
+                        f"Conflict at {key_path_str}, "
+                        + f"defs type = {defs_val_type}, "
+                        + f"user type = {user_val_type}"
                     )
 
                 # NB: if we DO allow conflicts to pass, nothing happens and the
@@ -224,40 +252,40 @@ def _set_defaults(dict_defs, dict_user, allow_conflicts, allow_user_extras,
 # Perform substitutions for keys/values in config file
 # --------------------------------------------------------------------------
 def _set_substitutions(dict_in, dict_subs):
+    """
+    Perform substitutions for keys/values in config file
+
+    Parameters:
+        dict_in [dict]: the dict where substitutions are to be performed
+        dict_subs [dict]: the dict of substitutions to perform
+
+    Returns:
+        [dict]: the dict with substitutions performed
+
+    Raises:
+        Exception(str): if key is not a valid substitution key
+
+    This method performs substitutions in the final dict's keys and values.
+    The dict must be in the form of: {"${SUB}": "substitution_string"}.
+    Note that if a replacement results in a duplicate key, the last key
+    that was defined (after substitutions) will supersede any previous keys
+    (see tests/test.py for more info).
+    Also note that substitutions are not recursive, so
+    {
+        "${FOO}": "bar",
+        "${BAZ}": "${FOO}"
+    }
+    will *not* do what you think it will. However,
+    {
+        "${BAZ}": "${FOO}",
+        "${FOO}": "bar"
+    }
+    will replace "${BAZ}" with "${FOO}", which will be replaced by "bar".
 
     """
-        Perform substitutions for keys/values in config file
 
-        Parameters:
-            dict_in [dict]: the dict where substitutions are to be performed
-            dict_subs [dict]: the dict of substitutions to perform
-
-        Returns:
-            [dict]: the dict with substitutions performed
-
-        Raises:
-            Exception(str): if key is not a valid substitution key
-
-        This method performs substitutions in the final dict's keys and values.
-        The dict must be in the form of: {"${SUB}": "substitution_string"}.
-        Note that if a replacement results in a duplicate key, the last key
-        that was defined (after substitutions) will supersede any previous keys
-        (see tests/test.py for more info).
-        Also note that substitutions are not recursive, so
-        {
-            "${FOO}": "bar",
-            "${BAZ}": "${FOO}"
-        }
-        will *not* do what you think it will. However, 
-        {
-            "${BAZ}": "${FOO}",
-            "${FOO}": "bar"
-        }
-        will replace "${BAZ}" with "${FOO}", which will be replaced by "bar".
-        
-    """
-
-    # TODO: replace vals in dict with keys to make recursive
+    # TODO: replace vals in dict with keys to make recursive until no more
+    # found
 
     # the default return dict
     # NB: if anything goes wrong, this is the dict we will return
@@ -271,16 +299,17 @@ def _set_substitutions(dict_in, dict_subs):
 
         # test if key is a valid sub
         if re.match(r"\${.*}", key):
-        
+
             # if it is valid, do whole string replace
             dict_str = dict_str.replace(key, val)
         else:
-            raise Exception(f'Substitution error: {key} incorrect format')
+            raise Exception(f"Substitution error: {key} incorrect format")
 
     # convert string to dict
     dict_res = json.loads(dict_str)
 
     # return dict with replacements
     return dict_res
+
 
 # -)

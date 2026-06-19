@@ -121,7 +121,7 @@ class CNVenv:
         # the command to create a venv
         cmd = self.S_CMD_CREATE.format(self._dir_venv)
         try:
-            F.run(cmd, shell=True)
+            F.run(cmd, shell=True, capture_output=True)
         except F.CNRunError as e:
             raise e
 
@@ -187,7 +187,7 @@ class CNVenv:
             self._dir_venv.parent, self._dir_venv.name, file_reqs
         )
         try:
-            F.run(cmd, shell=True)
+            F.run(cmd, shell=True, capture_output=True)
         except F.CNRunError as e:
             raise e
 
