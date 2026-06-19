@@ -26,15 +26,16 @@ from typing import Callable
 # venv imports
 from cnlib import cnfunctions as F
 
+# ------------------------------------------------------------------------------
 # NB: qnd to make sure all exits restore cursor
 import signal
 
-
+# make a signal handler that raises ctrl-c
 def _signal_handler(_sig, _frame):
     """docstring"""
     raise KeyboardInterrupt()
 
-
+# any interrupt calls above handler
 signal.signal(signal.SIGINT, _signal_handler)
 
 # ------------------------------------------------------------------------------
@@ -52,6 +53,7 @@ S_KEY_FRAMES = "frames"
 S_KEY_INTERVAL = "interval"
 S_KEY_DONE = "done"
 S_KEY_FAIL = "fail"
+S_KEY_SKIP = "skip"
 S_KEY_SKIP = "skip"
 S_KEY_MSG = "msg"
 S_KEY_FG = "fg"
@@ -71,6 +73,7 @@ S_SHOW_CURSOR = "\033[?25h"
 # interval: Amount of time, in seconds, between animation frames (accepts
 #           fractional time)
 # skip:     Dict of stuff to print when skipped
+# skip:     Dict of stuff to print when skipped
 # done:     Dict of stuff to print when done
 # fail:     Dict of stuff to print when failed
 # msg:      What to print after last_msg
@@ -81,6 +84,12 @@ S_SHOW_CURSOR = "\033[?25h"
 D_SPIN = {
     S_KEY_FRAMES: ["", ".", "..", "... "],
     S_KEY_INTERVAL: 0.5,
+    S_KEY_SKIP: {
+        S_KEY_MSG: "Skipped",
+        S_KEY_FG: F.C_FG_YELLOW,
+        S_KEY_BG: F.C_BG_NONE,
+        S_KEY_BOLD: True,
+    },
     S_KEY_SKIP: {
         S_KEY_MSG: "Skipped",
         S_KEY_FG: F.C_FG_YELLOW,
@@ -164,6 +173,7 @@ def _fix_len(msg: str) -> list[str]:
 
     # NB: this should be more flexible
     msg = msg + "{}"
+    msgs = [msg.format(frame) for frame in frames]
     msgs = [msg.format(frame) for frame in frames]
 
     # get len_max
@@ -262,6 +272,7 @@ def spin(msg: str) -> Callable:
         # The one that does all the work
         # ----------------------------------------------------------------------
         def wrapper(*args, **kwargs) -> Exception | None:
+        def wrapper(*args, **kwargs) -> Exception | None:
             """
             The one that does all the work
 
@@ -272,6 +283,8 @@ def spin(msg: str) -> Callable:
                 etc.)
 
             Returns:
+                Exception | None: An Exception if the function fails, or None
+                if the action was successful
                 Exception | None: An Exception if the function fails, or None
                 if the action was successful
 
@@ -290,9 +303,10 @@ def spin(msg: str) -> Callable:
 
             # set default value
             err = None
+            # set default value
+            err = None
 
-            # NB: we need a try to capture as many errors as possible so we can
-            # restore the cursor
+            # we need a try-except to capture ctrl-c to restore the cursor
             try:
 
                 # --------------------------------------------------------------
@@ -307,6 +321,8 @@ def spin(msg: str) -> Callable:
 
                 # --------------------------------------------------------------
                 # do real call with args and store res
+
+                # all funcs must be pass/fail (None=pass, Exception=fail)
                 err = func(*args, **kwargs)
 
                 # --------------------------------------------------------------
@@ -322,6 +338,7 @@ def spin(msg: str) -> Callable:
                 print(last_msg, end="")
 
                 # print done/fail
+                if not err:
                 if not err:
                     # print green done
                     a_dict = D_SPIN[S_KEY_DONE]
@@ -341,6 +358,7 @@ def spin(msg: str) -> Callable:
                         bold=a_dict[S_KEY_BOLD],
                     )
                     F.printd(str(err))
+                    F.printd(str(err))
 
                 # show cursor
                 print(S_SHOW_CURSOR, end="")
@@ -354,8 +372,11 @@ def spin(msg: str) -> Callable:
 
                 # show cursor and print error
                 print(S_SHOW_CURSOR, end="")  # show cursor
+                print(S_SHOW_CURSOR, end="")  # show cursor
                 F.printd(str(e))
 
+            # return real func results
+            return err
             # return real func results
             return err
 

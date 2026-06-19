@@ -1,7 +1,7 @@
 {
     "PUB_META": {
         "META_SHORT_DESC": "A Python library containing useful functions and classes",
-        "META_VERSION": "1.4.0",
+        "META_VERSION": "1.4.1",
         "META_KEYWORDS": [
             "python",
             "pyplate",
@@ -50,6 +50,24 @@
             "**/__pycache__",
             "**/*.egg-info"
         ]
+    },
+    "PUB_ACT": {
+        "ACT_VENV": true,
+        "ACT_REQS": true,
+        "ACT_GIT": true,
+        "ACT_INST": true,
+        "ACT_PURGE": true,
+        "ACT_I18N": true,
+        "ACT_META": true,
+        "ACT_PLACE": true,
+        "ACT_EDIT": true,
+        "ACT_MAKE_DOCS": true,
+        "ACT_TREE": true,
+        "ACT_FREEZE": true,
+        "ACT_BAKE_DOCS": true,
+        "ACT_DEPLOY_DOCS": true,
+        "ACT_COMPRESS": true,
+        "ACT_REM_DIST": true
     },
     "PUB_DIST": {
         "cnlib": "",

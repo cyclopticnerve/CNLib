@@ -46,14 +46,14 @@ class CNVenv:
     # --------------------------------------------------------------------------
 
     # NB format param is self._dir_venv
-    S_CMD_CREATE = "python -Xfrozen_modules=off -m venv {}"
+    S_CMD_CREATE = "python3 -Xfrozen_modules=off -m venv {}"
     # NB: format params are venv.parent, venv.name, path to reqs file
-    S_CMD_INSTALL = "cd {};. {}/bin/activate;python -m pip install -r {}"
+    S_CMD_INSTALL = "cd {};. {}/bin/activate;python3 -m pip install -r {}"
     # NB: format params are venv.parent, venv.name, path to reqs file
     S_CMD_FREEZE = (
         "cd {}; "
         ". {}/bin/activate; "
-        "python "
+        "python3 "
         "-Xfrozen_modules=off "
         "-m pip freeze "
         "-l --exclude-editable "
