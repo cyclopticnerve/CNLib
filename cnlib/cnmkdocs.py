@@ -178,11 +178,11 @@ class CNMkDocs:
         # build docs
 
         # format cmd using pdoc template dir, output dir, and start dir
-        cmd_docs = self.S_CMD_DOC_BUILD.format(p_dir_pp_venv, p_dir_prj)
+        cmd = self.S_CMD_DOC_BUILD.format(p_dir_pp_venv, p_dir_prj)
 
         # the command to run mkdocs
         try:
-            cp = F.run(cmd_docs, shell=True, capture_output=True)
+            cp = F.run(cmd, shell=True, capture_output=True)
             return cp
         except F.CNRunError as e:
             raise e
@@ -204,11 +204,11 @@ class CNMkDocs:
         # deploy docs
 
         # format cmd using pdoc template dir, output dir, and start dir
-        cmd_docs = self.S_CMD_DOC_DEPLOY.format(p_dir_pp_venv, p_dir_prj)
+        cmd = self.S_CMD_DOC_DEPLOY.format(p_dir_pp_venv, p_dir_prj)
 
         # the command to run mkdocs
         try:
-            cp = F.run(cmd_docs, shell=True, capture_output=True)
+            cp = F.run(cmd, shell=True, capture_output=True)
             return cp
         except F.CNRunError as e:
             raise e

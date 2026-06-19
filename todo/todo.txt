@@ -1,5 +1,6 @@
 
-TODO: look at todo/cninstall.py/configurator.py
+NEXT: look at configurator.py in todo
+NEXT: cntrace decorator with indent (chain decorators?)
 
 DONE: bool/clamp/interpolate: in as any/int/float, out as int/float/bool
 DONE: no site if push fails - split mkdocs.bake()

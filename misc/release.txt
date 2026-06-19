@@ -1,7 +1,8 @@
 1. Run PB on project
     1a. Change DOCS_USE_RM to true
-    1b. Run PB
-    1c. Change version
+    1b. Fix pyplate/project.json PUB_DBG
+    1c. Run PB
+    1d. Change version
 
 2. Commit/Push
     2a. Commit & Push
@@ -14,5 +15,9 @@
 4. PyPlate
     4a. Update requirements.txt
     4b. Update template/all/requirements.txt
-    4d. pip uninstall cnlib
-    4e. pip install -r requirements.txt
+    4c. pip install -r requirements.txt
+    4d. bake new pyplate
+    4e. test pyplate
+    4f. install new pyplate locally
+    4g. do pyplate release.txt
+
