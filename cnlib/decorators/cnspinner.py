@@ -26,15 +26,16 @@ from typing import Callable
 # venv imports
 from cnlib import cnfunctions as F
 
+# ------------------------------------------------------------------------------
 # NB: qnd to make sure all exits restore cursor
 import signal
 
-
+# make a signal handler that raises ctrl-c
 def _signal_handler(_sig, _frame):
     """docstring"""
     raise KeyboardInterrupt()
 
-
+# any interrupt calls above handler
 signal.signal(signal.SIGINT, _signal_handler)
 
 # ------------------------------------------------------------------------------
@@ -52,6 +53,7 @@ S_KEY_FRAMES = "frames"
 S_KEY_INTERVAL = "interval"
 S_KEY_DONE = "done"
 S_KEY_FAIL = "fail"
+S_KEY_SKIP = "skip"
 S_KEY_SKIP = "skip"
 S_KEY_MSG = "msg"
 S_KEY_FG = "fg"
@@ -71,6 +73,7 @@ S_SHOW_CURSOR = "\033[?25h"
 # interval: Amount of time, in seconds, between animation frames (accepts
 #           fractional time)
 # skip:     Dict of stuff to print when skipped
+# skip:     Dict of stuff to print when skipped
 # done:     Dict of stuff to print when done
 # fail:     Dict of stuff to print when failed
 # msg:      What to print after last_msg
@@ -81,6 +84,12 @@ S_SHOW_CURSOR = "\033[?25h"
 D_SPIN = {
     S_KEY_FRAMES: ["", ".", "..", "... "],
     S_KEY_INTERVAL: 0.5,
+    S_KEY_SKIP: {
+        S_KEY_MSG: "Skipped",
+        S_KEY_FG: F.C_FG_YELLOW,
+        S_KEY_BG: F.C_BG_NONE,
+        S_KEY_BOLD: True,
+    },
     S_KEY_SKIP: {
         S_KEY_MSG: "Skipped",
         S_KEY_FG: F.C_FG_YELLOW,
@@ -214,6 +223,7 @@ def skip(msg: str):
 
     # NB: "It's all for you, Damien!" : -t is the spawn of satan. who thought
     # of this shit?
+    # (-t uses PUB_ACT to determine which steps to skip)
 
     # a skipped function will not stop progress
     return True
@@ -274,6 +284,8 @@ def spin(msg: str) -> Callable:
             Returns:
                 Exception | None: An Exception if the function fails, or None
                 if the action was successful
+                Exception | None: An Exception if the function fails, or None
+                if the action was successful
 
             This method does the real work, performing the before-call code,
             the actual function, and the after-call code.
@@ -291,8 +303,7 @@ def spin(msg: str) -> Callable:
             # set default value
             err = None
 
-            # NB: we need a try to capture as many errors as possible so we can
-            # restore the cursor
+            # we need a try-except to capture ctrl-c to restore the cursor
             try:
 
                 # --------------------------------------------------------------
@@ -307,6 +318,8 @@ def spin(msg: str) -> Callable:
 
                 # --------------------------------------------------------------
                 # do real call with args and store res
+
+                # all funcs must be pass/fail (None=pass, Exception=fail)
                 err = func(*args, **kwargs)
 
                 # --------------------------------------------------------------

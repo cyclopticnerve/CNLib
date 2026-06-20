@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # ------------------------------------------------------------------------------
 # Project : CNLib                                                  /          \
 # Filename: develop.py                                            |     ()     |
@@ -92,8 +92,8 @@ class CNDevelop:
     # commands
 
     # NB: format param is dir_venv
-    S_CMD_CREATE = "python -m venv {}"
-    S_CMD_TYPE_INST = "cd {};. {}/bin/activate;python -m pip install -e ."
+    S_CMD_CREATE = "python3 -m venv {}"
+    S_CMD_TYPE_INST = "cd {};. {}/bin/activate;python3 -m pip install -e ."
 
     # --------------------------------------------------------------------------
     # Class methods

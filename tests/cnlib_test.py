@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # ------------------------------------------------------------------------------
 # Project : CNLib                                                  /          \
 # Filename: cnlib_test.py                                         |     ()     |
@@ -19,20 +19,26 @@ A simple script to test a package from within the project itself
 from time import sleep
 
 # local imports
-from cnlib.decorators.cnspinner import spin
+from cnlib import cnfunctions as F
+from cnlib.decorators import cnspinner as S
 
 # ------------------------------------------------------------------------------
 # Code to run when called from command line
 # ------------------------------------------------------------------------------
 
-@spin("Downloading file")
+F.B_DEBUG = True
+# ------------------------------------------------------------------------------
+
+# S.skip("Downloading file")
+@S.spin("Downloading file")
 def do_long():
     """docstring"""
 
-    sleep(5)
-    return (True, None)
+    sleep(2)
+    # return IOError("boobs")
+# ------------------------------------------------------------------------------
 
 do_long()
-print("goodbye")
+# print("goodbye")
 
 # -)
