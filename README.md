@@ -104,7 +104,7 @@ user@host:~/MyProject$ python3 -m pip uninstall cnlib
 See the full [documentation](https://cyclopticnerve.github.io/CNLib).
 
 ## Developing
-If you are developing this project, make sure you run the "develop.py" script
+If you are developing this project, make sure you run the 'develop.py' script
 first to create the proper virtual environment and install the requirements (if
 any).
 
