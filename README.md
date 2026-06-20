@@ -35,7 +35,7 @@ Version 1.4.1
 
 ## Requirements
 <!-- __RM_DEPS__ -->
-[Python 3.10+](https://python.org)
+[Python 3.14+](https://python.org)
 <!-- __RM_DEPS__ -->
 
 ## Downloading
@@ -49,7 +49,7 @@ release](https://github.com/cyclopticnerve/CNLib/releases/latest)
 2. Or you can clone the git repo to get the latest (and often broken) code from
    the main branch:
 ```bash
-$ git clone https://github.com/cyclopticnerve/CNLib
+user@host:~/Downloads$ git clone https://github.com/cyclopticnerve/CNLib
 ```
 
 ## Installing
@@ -59,20 +59,20 @@ Run these commands from your project directory.
 
 First make sure you have a venv and it is active:
 ```bash
-$  python -m venv .venv
-$ . .venv/bin/activate
+user@host:~/MyProject$  python3 -m venv .venv
+user@host:~/MyProject$ . .venv/bin/activate
 ```
 
 ### Manually
 
 If you downloaded the zip file:
 ```bash
-$ python -m pip install /path/to/cnlib-<version>.zip
+user@host:~/MyProject$ python3 -m pip install ~/Downloads/cnlib-<version>.zip
 ```
 
 Or if you cloned the repo:
 ```bash
-$ python -m pip install /path/to/CNLib
+user@host:~/MyProject$ python3 -m pip install ~/Downloads/CNLib
 ```
 
 ### Automagically
@@ -84,7 +84,7 @@ where \<tag\> is the tag you want, such as 'v0.0.1', etc.
 
 Then run:
 ```
-$ python -m pip install -r requirements.txt
+$ python3 -m pip install -r requirements.txt
 ```
 <!-- __RM_PKG__ -->
 
@@ -95,8 +95,8 @@ Read the full [documentation](https://cyclopticnerve.github.io/CNLib).
 <!-- __RM_PKG__ -->
 In your project folder:
 ```bash
-$ . .venv/bin/activate
-$ python -m pip uninstall cnlib
+user@host:~/MyProject$ . .venv/bin/activate
+user@host:~/MyProject$ python3 -m pip uninstall cnlib
 ```
 <!-- __RM_PKG__ -->
 
@@ -106,7 +106,7 @@ See the full [documentation](https://cyclopticnerve.github.io/CNLib).
 ## Developing
 If you are developing this project, make sure you run the "develop.py" script
 first to create the proper virtual environment and install the requirements (if
-any). 
+any).
 
 ## Notes
 10/10, no notes.
