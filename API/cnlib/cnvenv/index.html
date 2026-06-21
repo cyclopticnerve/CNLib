@@ -164,7 +164,9 @@
 
 
 
-  <div class="doc doc-children">
+
+<div class="doc doc-children">
+
 
 
 
@@ -185,6 +187,7 @@
 
 
     <div class="doc doc-contents ">
+
 
 
         <p>A class to make handling of venv folders easier</p>
@@ -234,7 +237,8 @@ in the project's venv folder.</p>
 
 
 
-              <details class="quote">
+
+              <details class="mkdocstrings-source">
                 <summary>Source code in <code>cnlib/cnvenv.py</code></summary>
                 <pre class="highlight"><code class="language-python">class CNVenv:
     """
@@ -254,14 +258,14 @@ in the project's venv folder.</p>
     # --------------------------------------------------------------------------
 
     # NB format param is self._dir_venv
-    S_CMD_CREATE = "python -Xfrozen_modules=off -m venv {}"
+    S_CMD_CREATE = "python3 -Xfrozen_modules=off -m venv {}"
     # NB: format params are venv.parent, venv.name, path to reqs file
-    S_CMD_INSTALL = "cd {};. {}/bin/activate;python -m pip install -r {}"
+    S_CMD_INSTALL = "cd {};. {}/bin/activate;python3 -m pip install -r {}"
     # NB: format params are venv.parent, venv.name, path to reqs file
     S_CMD_FREEZE = (
         "cd {}; "
         ". {}/bin/activate; "
-        "python "
+        "python3 "
         "-Xfrozen_modules=off "
         "-m pip freeze "
         "-l --exclude-editable "
@@ -329,7 +333,7 @@ in the project's venv folder.</p>
         # the command to create a venv
         cmd = self.S_CMD_CREATE.format(self._dir_venv)
         try:
-            F.run(cmd, shell=True)
+            F.run(cmd, shell=True, capture_output=True)
         except F.CNRunError as e:
             raise e
 
@@ -395,14 +399,15 @@ in the project's venv folder.</p>
             self._dir_venv.parent, self._dir_venv.name, file_reqs
         )
         try:
-            F.run(cmd, shell=True)
+            F.run(cmd, shell=True, capture_output=True)
         except F.CNRunError as e:
             raise e</code></pre>
               </details>
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
+
 
 
 
@@ -473,7 +478,7 @@ in the project's venv folder.</p>
 its properties, and any other code needed to create a new object.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnvenv.py</code></summary>
               <pre class="highlight"><code class="language-python">def __init__(self, dir_prj, dir_venv):
     """
@@ -520,7 +525,7 @@ its properties, and any other code needed to create a new object.</p>
         <p>Creates a new venv folder with the parameters provided at create time.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnvenv.py</code></summary>
               <pre class="highlight"><code class="language-python">def create(self):
     """
@@ -535,7 +540,7 @@ its properties, and any other code needed to create a new object.</p>
     # the command to create a venv
     cmd = self.S_CMD_CREATE.format(self._dir_venv)
     try:
-        F.run(cmd, shell=True)
+        F.run(cmd, shell=True, capture_output=True)
     except F.CNRunError as e:
         raise e</code></pre>
             </details>
@@ -589,7 +594,7 @@ its properties, and any other code needed to create a new object.</p>
 installation.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnvenv.py</code></summary>
               <pre class="highlight"><code class="language-python">def freeze(self, file_reqs):
     """
@@ -615,7 +620,7 @@ installation.</p>
         self._dir_venv.parent, self._dir_venv.name, file_reqs
     )
     try:
-        F.run(cmd, shell=True)
+        F.run(cmd, shell=True, capture_output=True)
     except F.CNRunError as e:
         raise e</code></pre>
             </details>
@@ -669,7 +674,7 @@ installation.</p>
 them in the dir_venv property.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnvenv.py</code></summary>
               <pre class="highlight"><code class="language-python">def install_reqs(self, file_reqs):
     """

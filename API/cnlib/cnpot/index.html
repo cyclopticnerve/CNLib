@@ -173,7 +173,9 @@ file (ie. "English", "Spanish"). I have tried to disambiguate this by using
 
 
 
-  <div class="doc doc-children">
+
+<div class="doc doc-children">
+
 
 
 
@@ -194,6 +196,7 @@ file (ie. "English", "Spanish"). I have tried to disambiguate this by using
 
 
     <div class="doc doc-contents ">
+
 
 
         <p>A class to handle making the different I18N files needed for a Python
@@ -236,7 +239,8 @@ for internationalizing a Python or PyGObject project.</p>
 
 
 
-              <details class="quote">
+
+              <details class="mkdocstrings-source">
                 <summary>Source code in <code>cnlib/cnpot.py</code></summary>
                 <pre class="highlight"><code class="language-python">class CNPotPy:
     """
@@ -502,7 +506,7 @@ for internationalizing a Python or PyGObject project.</p>
 
             # run the command
             try:
-                F.run(cmd)
+                F.run(cmd, shell=True, capture_output=True)
             except F.CNRunError as e:
                 raise e
 
@@ -546,7 +550,7 @@ for internationalizing a Python or PyGObject project.</p>
         # run every clang through xgettext, joining it with the previous file
         # until we have a .pot file that contains every string (and only the
         # strings) in dict_clangs
-        # step 3: PROFIT! (hahaha that joke never gets old...)
+        # step 3: PROFIT! (ha ha ha that joke never gets old...)
 
         # get path to pot file
         file_pot = self._dir_pot / f"{self._str_domain}{self.S_EXT_POT}"
@@ -622,7 +626,7 @@ for internationalizing a Python or PyGObject project.</p>
 
             # do the final command
             try:
-                F.run(cmd, shell=True)
+                F.run(cmd, shell=True, capture_output=True)
             except F.CNRunError as e:
                 raise e
 
@@ -670,7 +674,7 @@ for internationalizing a Python or PyGObject project.</p>
             # update existing po file using latest pot
             cmd = self.S_CMD_MERGE_POS.format(file_po, file_pot)
             try:
-                F.run(cmd, capture_output=True)
+                F.run(cmd, shell=True, capture_output=True)
             except F.CNRunError as e:
                 raise e
 
@@ -706,7 +710,7 @@ for internationalizing a Python or PyGObject project.</p>
             # do the command
             cmd = self.S_CMD_MAKE_MOS.format(mo_file, file_po)
             try:
-                F.run(cmd)
+                F.run(cmd, shell=True, capture_output=True)
             except F.CNRunError as e:
                 raise e
 
@@ -884,7 +888,8 @@ for internationalizing a Python or PyGObject project.</p>
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
+
 
 
 
@@ -1091,10 +1096,9 @@ are included as context.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>clang</code>
+                <code>clang (default</code>
             </td>
             <td>
-                  <code><span title="default">default</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1124,10 +1128,9 @@ If ths dict is empty or None, all files will be scanned
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>file</code>
+                <code>file structure in the project dir (default</code>
             </td>
             <td>
-                  <code>structure in the project dir (default</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1155,10 +1158,9 @@ If ths dict is empty or None, all files will be scanned
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>any</code>
+                <code>any initial .po files created (default</code>
             </td>
             <td>
-                  <code>initial .po files created (default</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1194,7 +1196,7 @@ If ths dict is empty or None, all files will be scanned
 its properties, and any other code needed to create a new object.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnpot.py</code></summary>
               <pre class="highlight"><code class="language-python">def __init__(
     self,
@@ -1345,7 +1347,7 @@ edited, or deleted. The ideal scenario is to run it just before the
 repo is synced, so that the .pot file is synced.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnpot.py</code></summary>
               <pre class="highlight"><code class="language-python">def main(self):
     """
@@ -1440,7 +1442,7 @@ This is the file that will be distributed with your app.</p>
 files in the po folder and creates a final .desktop file.</p>
 
 
-            <details class="quote">
+            <details class="mkdocstrings-source">
               <summary>Source code in <code>cnlib/cnpot.py</code></summary>
               <pre class="highlight"><code class="language-python">def make_desktop(self, dt_template, dt_out):
     """
@@ -1476,7 +1478,7 @@ files in the po folder and creates a final .desktop file.</p>
 
         # run the command
         try:
-            F.run(cmd)
+            F.run(cmd, shell=True, capture_output=True)
         except F.CNRunError as e:
             raise e</code></pre>
             </details>
