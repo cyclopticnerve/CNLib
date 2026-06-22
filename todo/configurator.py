@@ -21,8 +21,19 @@ import re
 # }
 # https://www.geeksforgeeks.org/python/introduction-to-python-jsonschema/
 # for _validate_json
-# this does type checking
-# add sanitize after _validate_json (just for clamping)
+# this does type checking for:
+# dicts (object), lists (array), str (string), ints/floats (number)
+# properties = keys
+# required is list of properties (keys)
+# add'l props is keys to keep even if not in schema (see allow_user_extras)
+# items prop is list entries
+
+# constraints:
+# enum (string/number), min/max (number), min/max len (str), pattern (str)
+
+# add sanitize after _validate_json (just for clamping)? or already done above?
+
+# substitutions
 
 # TODO: make recursive (dicts of dicts/lists, lists of lists/dicts, etc.)
 
@@ -35,6 +46,7 @@ import re
 # Load the defaults dict, apply user values, and perform substitutions
 # ------------------------------------------------------------------------------
 def load(
+    _dict_schema,
     dict_defs,
     dict_user=None,
     dict_subs=None,

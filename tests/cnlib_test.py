@@ -27,6 +27,7 @@ from cnlib.decorators import cnspinner as S
 # ------------------------------------------------------------------------------
 
 F.B_DEBUG = True
+
 # ------------------------------------------------------------------------------
 
 # S.skip("Downloading file")
@@ -35,7 +36,8 @@ def do_long():
     """docstring"""
 
     sleep(2)
-    # return IOError("boobs")
+    return IOError("boobs")
+
 # ------------------------------------------------------------------------------
 
 do_long()

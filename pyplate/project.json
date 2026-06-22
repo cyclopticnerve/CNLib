@@ -9,7 +9,7 @@
             "pybaker"
         ],
         "META_DEPS": {
-            "Python 3.10+": "https://python.org"
+            "Python 3.14+": "https://python.org"
         },
         "META_CATS": []
     },
@@ -23,13 +23,13 @@
             "docs",
             "i18n",
             "misc",
+            "pyplate",
             "site",
             "todo",
             "LICENSE.txt",
             "requirements.txt",
             "**/__pycache__",
-            "**/*.egg-info",
-            "pyplate"
+            "**/*.egg-info"
         ],
         "SKIP_CONTENTS": [
             "**/*.png",
@@ -38,13 +38,12 @@
             "**/*.ico"
         ],
         "SKIP_HEADER": [],
-        "SKIP_CODE": [
-            "conf"
-        ],
+        "SKIP_CODE": [],
         "SKIP_TREE": [
             ".git",
             ".venv*",
             ".VSCodeCounter",
+            "*.code-workspace",
             "dist",
             "site",
             "**/__pycache__",

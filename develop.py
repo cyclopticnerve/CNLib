@@ -23,6 +23,7 @@ This file is real ugly b/c we can't access the venv, so we do it manually.
 # NB: pure python
 # system imports
 import gettext
+import json
 import locale
 from pathlib import Path
 import subprocess
@@ -93,10 +94,15 @@ class CNDevelop:
 
     # NB: format param is dir_venv
     S_CMD_CREATE = "python3 -m venv {}"
-    S_CMD_TYPE_INST = "cd {};. {}/bin/activate;python3 -m pip install -e ."
+
+    # for pkg
+    S_CMD_INST = (
+        "cd {};. {}/bin/activate;python3 -m pip install -r {};"
+        "cd {};. {}/bin/activate;python3 -m pip install -e ."
+    )
 
     # --------------------------------------------------------------------------
-    # Class methods
+    # Public methods
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -114,6 +120,10 @@ class CNDevelop:
 
         # install reqs
         self._install_reqs()
+
+    # --------------------------------------------------------------------------
+    # Private methods
+    # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # Make venv for this program on user's computer
@@ -138,7 +148,10 @@ class CNDevelop:
         try:
             subprocess.run(cmd, shell=True, check=True)
             print(self.S_MSG_DONE)
-        except (FileNotFoundError, subprocess.CalledProcessError) as e:
+        except (
+            FileNotFoundError,
+            subprocess.CalledProcessError,
+        ) as e:
             print(self.S_MSG_FAIL)
             print()
             print(self.S_ERR_ERR, e)
@@ -164,15 +177,21 @@ class CNDevelop:
         print(self.S_MSG_REQS_START, end="", flush=True)
 
         # the cmd to install the reqs
-        # NB: for packages, the last fmt param is ignored (no reqs file)
-        cmd = self.S_CMD_TYPE_INST.format(
-            P_DIR_PRJ, self.S_NAME_VENV, self.S_FILE_REQS
+        cmd = self.S_CMD_INST.format(
+            P_DIR_PRJ,
+            self.S_NAME_VENV,
+            self.S_FILE_REQS,
+            P_DIR_PRJ,
+            self.S_NAME_VENV,
         )
         try:
             # NB: hide output
             subprocess.run(cmd, shell=True, check=True, capture_output=True)
             print(self.S_MSG_DONE)
-        except (FileNotFoundError, subprocess.CalledProcessError) as e:
+        except (
+            FileNotFoundError,
+            subprocess.CalledProcessError,
+        ) as e:
             print(self.S_MSG_FAIL)
             print()
             print(self.S_ERR_ERR, e)
