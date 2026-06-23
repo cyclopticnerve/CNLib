@@ -23,7 +23,6 @@ This file is real ugly b/c we can't access the venv, so we do it manually.
 # NB: pure python
 # system imports
 import gettext
-import json
 import locale
 from pathlib import Path
 import subprocess
@@ -63,7 +62,9 @@ class CNDevelop:
     """
     The class to use for developing a PyPlate program
 
-    This class performs the develop operation.
+    This class creates a virtual environment and fills it using
+    requirements.txt. For package projects, it also installs itself as
+    editable, for testing real-world installations.
     """
 
     # --------------------------------------------------------------------------
@@ -84,6 +85,8 @@ class CNDevelop:
     S_MSG_VENV_START = _("Making venv folder... ")
     # I18N: show the reqs step
     S_MSG_REQS_START = _("Installing requirements... ")
+    # I18N: show the self step
+    S_MSG_SELF_START = _("Installing self as editable... ")
 
     # errors
 
@@ -94,12 +97,10 @@ class CNDevelop:
 
     # NB: format param is dir_venv
     S_CMD_CREATE = "python3 -m venv {}"
-
-    # for pkg
-    S_CMD_INST = (
-        "cd {};. {}/bin/activate;python3 -m pip install -r {};"
-        "cd {};. {}/bin/activate;python3 -m pip install -e ."
-    )
+    # install reqs
+    S_CMD_INST_REQS = "cd {};. {}/bin/activate;python3 -m pip install -r {}"
+    # install self
+    S_CMD_INST_SELF = "cd {};. {}/bin/activate;python3 -m pip install -e ."
 
     # --------------------------------------------------------------------------
     # Public methods
@@ -121,6 +122,9 @@ class CNDevelop:
         # install reqs
         self._install_reqs()
 
+        # install self as editable
+        self._install_self()
+
     # --------------------------------------------------------------------------
     # Private methods
     # --------------------------------------------------------------------------
@@ -132,9 +136,6 @@ class CNDevelop:
         """
         Make venv for this program on user's computer
 
-        Raises:
-            subprocess.CalledProcessError if the venv creation fails
-
         Makes a .venv-XXX folder on the user's computer.
         """
 
@@ -143,19 +144,7 @@ class CNDevelop:
 
         # the command to create a venv
         cmd = self.S_CMD_CREATE.format(self.S_NAME_VENV)
-
-        # the cmd to create the venv
-        try:
-            subprocess.run(cmd, shell=True, check=True)
-            print(self.S_MSG_DONE)
-        except (
-            FileNotFoundError,
-            subprocess.CalledProcessError,
-        ) as e:
-            print(self.S_MSG_FAIL)
-            print()
-            print(self.S_ERR_ERR, e)
-            sys.exit(-1)
+        self._do_command(cmd)
 
     # --------------------------------------------------------------------------
     # Install requirements.txt
@@ -164,26 +153,48 @@ class CNDevelop:
         """
         Install requirements.txt
 
-        Raises:
-            subprocess.CalledProcessError if the reqs install fails
-
         Installs the contents of a requirements.txt file into the program's
         venv.
         """
-
-        # ----------------------------------------------------------------------
 
         # show progress
         print(self.S_MSG_REQS_START, end="", flush=True)
 
         # the cmd to install the reqs
-        cmd = self.S_CMD_INST.format(
+        cmd = self.S_CMD_INST_REQS.format(
             P_DIR_PRJ,
             self.S_NAME_VENV,
-            self.S_FILE_REQS,
-            P_DIR_PRJ,
-            self.S_NAME_VENV,
+            self.S_FILE_REQS
         )
+        self._do_command(cmd)
+
+    # --------------------------------------------------------------------------
+    # Install self as editable
+    # --------------------------------------------------------------------------
+    def _install_self(self):
+        """
+        Install self as editable
+
+        Installs the project as editable in the project's venv.
+        """
+
+        # ----------------------------------------------------------------------
+
+        # show progress
+        print(self.S_MSG_SELF_START, end="", flush=True)
+
+        # the cmd to install the reqs
+        cmd = self.S_CMD_INST_SELF.format(P_DIR_PRJ, self.S_NAME_VENV)
+        self._do_command(cmd)
+
+    # --------------------------------------------------------------------------
+    # Common code to run a shell command
+    # --------------------------------------------------------------------------
+    def _do_command(self, cmd):
+        """
+        Common code to run a shell command
+        """
+
         try:
             # NB: hide output
             subprocess.run(cmd, shell=True, check=True, capture_output=True)
@@ -196,7 +207,6 @@ class CNDevelop:
             print()
             print(self.S_ERR_ERR, e)
             sys.exit(-1)
-
 
 # ------------------------------------------------------------------------------
 # Code to run when called from command line
