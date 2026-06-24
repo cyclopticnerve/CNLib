@@ -72,4 +72,5 @@
    ├─ [] README.md
    ├─ [] develop.py
    ├─ [] mkdocs.yml
-   └─ [] pyproject.toml
+   ├─ [] pyproject.toml
+   └─ [] requirements.txt
