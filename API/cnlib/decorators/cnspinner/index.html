@@ -297,6 +297,7 @@ def do_long(interval):
 
     # NB: "It's all for you, Damien!" : -t is the spawn of satan. who thought
     # of this shit?
+    # (-t uses PUB_ACT to determine which steps to skip)
 
     # a skipped function will not stop progress
     return True</code></pre>
@@ -449,6 +450,8 @@ first param. It also passes the parameters passed to the decorator.</p>
                 etc.)
 
             Returns:
+                Exception | None: An Exception if the function fails, or None
+                if the action was successful
                 Exception | None: An Exception if the function fails, or None
                 if the action was successful
 
