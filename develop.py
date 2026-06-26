@@ -10,7 +10,7 @@
 """
 The develop script for this project
 
-THis file sets up a virtual environment for developing the project. The main
+This file sets up a virtual environment for developing the project. The main
 purpose is to get the venv name right.
 
 This file is real ugly b/c we can't access the venv, so we do it manually.
