@@ -34,6 +34,10 @@
         "__PP_DLG_ABOUT__": "dlg_about",
         "__PP_DIR_INSTALL__": "install",
         "__PP_FILE_INST_CFG__": "install.json",
+        "__PP_INST_PRE__": "pre_install.py",
+        "__PP_INST_POST__": "post_install.py",
+        "__PP_UNINST_PRE__": "pre_uninstall.py",
+        "__PP_UNINST_POST__": "post_uninstall.py",
         "__PP_DIR_DOCS__": "docs",
         "__PP_DIR_SITE__": "site"
     },

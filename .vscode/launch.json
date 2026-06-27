@@ -9,12 +9,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Pkg Test",
+            "name": "Curr Args",
             "type": "debugpy",
             "request": "launch",
-            "program": "tests/cnlib_test.py",
+            "program": "${file}",
             "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}"
+            "cwd": "${workspaceFolder}",
+            "args": "${command:pickArgs}"
         }
     ]
 }
