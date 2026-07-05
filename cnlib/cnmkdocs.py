@@ -236,6 +236,9 @@ class CNMkDocs:
 
             # create empty file
             if not use_rm:
+                # create a dummy file
+                # NB: i dont like this... what if dev deletes file to reset?
+                # we lose the instructions file
                 with open(path_index, "w", encoding=self.S_ENCODING) as a_file:
                     a_file.write("Coming soon...")
                 return

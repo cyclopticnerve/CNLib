@@ -28,12 +28,49 @@ file (ie. "English", "Spanish"). I have tried to disambiguate this by using
 
 # system imports
 from datetime import date
+import gettext
+import locale
 from pathlib import Path
 import re
 import shutil
 
-# my imports
+# local imports
 import cnlib.cnfunctions as F
+
+# ------------------------------------------------------------------------------
+# Functions
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# Return the underscore function
+# ------------------------------------------------------------------------------
+
+def underscore(domain, path):
+    """
+    Return the underscore function
+
+    Arguments:
+        domain: str
+        path: Path
+
+    A module-level method to create the underscore function (used by xgettext
+    to scrape translatable strings).
+    """
+
+    # in case we pass a Path object
+    path = str(path)
+
+    # fix locale (mostly for GUI)
+    locale.bindtextdomain(domain, path)
+
+    # get a translation object
+    translation = gettext.translation(domain, path, fallback=True)
+
+    # return object's gettext as underscore
+    # NB: do not use install() here, that would only put _ in this file's
+    # namespace. we want it in the caller's namespace, so return the func!
+    # it can then be inherited from there
+    return translation.gettext
 
 # ------------------------------------------------------------------------------
 # Classes

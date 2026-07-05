@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 # ------------------------------------------------------------------------------
 # Project : CNLib                                                  /          \
-# Filename: cnlib_test.py                                         |     ()     |
+# Filename: spinner.py                                            |     ()     |
 # Date    : 01/01/2026                                            |            |
 # Author  : cyclopticnerve                                        |   \____/   |
 # License : WTFPLv2                                                \          /
@@ -30,7 +30,7 @@ F.B_DEBUG = True
 
 # ------------------------------------------------------------------------------
 
-# S.skip("Downloading file")
+S.skip("Downloading file")
 @S.spin("Downloading file")
 def do_long():
     """docstring"""
@@ -41,6 +41,6 @@ def do_long():
 # ------------------------------------------------------------------------------
 
 do_long()
-# print("goodbye")
+print("goodbye")
 
 # -)

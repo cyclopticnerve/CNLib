@@ -6,43 +6,47 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.4.2\n"
+"Project-Id-Version: cnlib 0.0.0\n"
 "Report-Msgid-Bugs-To: cyclopticnerve@gmail.com\n"
-"POT-Creation-Date: 2026-06-25 14:13-0400\n"
+"POT-Creation-Date: 2026-07-02 13:03-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: en\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #. I18N: done with step
-#: /Documents/Projects/Python/CNLib/develop.py:81
+#: /home/dana/Documents/Projects/Python/CNLib/develop.py:81
 msgid "Done"
 msgstr ""
 
 #. I18N: step failed
-#: /Documents/Projects/Python/CNLib/develop.py:83
+#: /home/dana/Documents/Projects/Python/CNLib/develop.py:83
 msgid "Failed"
 msgstr ""
 
 #. I18N: show the venv step
-#: /Documents/Projects/Python/CNLib/develop.py:85
+#: /home/dana/Documents/Projects/Python/CNLib/develop.py:85
 msgid "Making venv folder... "
 msgstr ""
 
 #. I18N: show the reqs step
-#: /Documents/Projects/Python/CNLib/develop.py:87
+#: /home/dana/Documents/Projects/Python/CNLib/develop.py:87
 msgid "Installing requirements... "
 msgstr ""
 
 #. I18N: show the self step
-#: /Documents/Projects/Python/CNLib/develop.py:89
+#: /home/dana/Documents/Projects/Python/CNLib/develop.py:89
 msgid "Installing self as editable... "
 msgstr ""
 
 #. I18N: an error occurred
-#: /Documents/Projects/Python/CNLib/develop.py:94
+#: /home/dana/Documents/Projects/Python/CNLib/develop.py:94
 msgid "Error: "
+msgstr ""
+
+#: /home/dana/Documents/Projects/Python/CNLib/tests/pot.py:53
+msgid "Hello"
 msgstr ""

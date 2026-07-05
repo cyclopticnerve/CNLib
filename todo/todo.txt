@@ -1,4 +1,12 @@
 
+FIXME: for pkg (or any?) add reqs to toml deps
+FIXME: CNLIB NEEDS MKDOCS!!! WTF!!!
+no it depends on having pyplate installed, which depends on mkdocs
+
+TODO: .pot needs def lang in header (dev locale)
+TODO: .po needs lang in header (translator locale)
+TODO: check for 'which xgettext' and warn/quit if not found
+
 NEXT: look at configurator.py in todo
 NEXT: cntrace decorator with indent (chain decorators?)
 
