@@ -10,7 +10,7 @@
 Run GNU gettext tools to create i18n files for a project
 
 This class converts all marked strings in source files to i18n versions using
-xgettext, and creates .pot files in the locale directory. It also uses msgfmt
+xgettext, and creates .po files in the locale directory. It also uses msgfmt
 to convert .po files to .mo files.
 
 The class can handle all xgettext's supported file types by using each language
@@ -21,6 +21,8 @@ the input file (ie. "Python", "Glade") or the written language of the output
 file (ie. "English", "Spanish"). I have tried to disambiguate this by using
 "clang(s)" to refer to the former, and "wlang(s)" to refer to the latter.
 """
+
+    # FIXME: handle _("") (messes up .pot creation)
 
 # ------------------------------------------------------------------------------
 # Imports
@@ -50,8 +52,8 @@ def underscore(domain, path):
     Return the underscore function
 
     Arguments:
-        domain: str
-        path: Path
+        domain: the name of the program (or other stable name)
+        path: Path to the 'locale' folder (must be absolute)
 
     A module-level method to create the underscore function (used by xgettext
     to scrape translatable strings).
@@ -109,13 +111,15 @@ class CNPotPy:
     S_EXT_PO = ".po"
     S_EXT_MO = ".mo"
 
+    # NB: dir (-d) must contain LINGUAS file
+    # NB: LINGUAS must contain paths to .po files, relative to itself
+    # NB: format params are po dir, template file, and output file
+    S_CMD_DESK = "msgfmt --desktop --template={} -d {} -o {} "
     # shell commands to make po/mo
     # NB: format params are file_po and pot_file
     S_CMD_MERGE_POS = "msgmerge --update {} {} --backup=none"
     # NB: format params are mo_file and wlang_po
     S_CMD_MAKE_MOS = "msgfmt -o {} {}"
-    # NB: format params are po dir, template file, and output file
-    S_CMD_DESK = "msgfmt --desktop -d {} --template={} -o {} "
 
     # NB: format param is dir_prj
     S_ERR_NOT_ABS = "path {} is not absolute"
@@ -160,12 +164,11 @@ class CNPotPy:
         list_src,
         # out
         dir_pot,
-        dir_po,
+        dir_po,  # same as dir_linguas
         dir_locale,
         # optional in
         str_tag=None,
         dict_clangs=None,
-        list_wlangs=None,
         charset=S_ENCODING,
     ):
         """
@@ -185,20 +188,18 @@ class CNPotPy:
             list_src: Where to look for input files
 
             dir_pot: Directory to place master .pot file
-            dir_po: Directory to place .po file
+            dir_po: Directory to place .po files and LINGUAS
             dir_locale: Directory to place .mo files
 
             str_tag: Tag that starts a context comment (default: None)
                 If this string is empty or None, all comments above an entry
                 are included as context.
             dict_clangs: The dictionary of file extensions to scan for each
-            clang (default: None)
+                clang (default: None)
                 If ths dict is empty or None, all files will be scanned
                 (this is generally considered a "Very Bad Thing").
-            list_wlangs: A list of supported languages to ensure a complete
-            file structure in the project dir (default: None)
             charset: the charset to use as the default in the .pot file, and
-            any initial .po files created (default: "UTF-8")
+                any initial .po files created (default: "UTF-8")
 
         An example format for the dict_clangs arg is:
 
@@ -214,13 +215,6 @@ class CNPotPy:
                 ".desktop"
             ],
         }
-
-        An example format for list_wlangs is:
-        [
-            "en_US",
-            "de_DE.ISO_88591",
-            "es",
-        ]
 
         Initializes a new instance of the class, setting the default values of
         its properties, and any other code needed to create a new object.
@@ -263,15 +257,16 @@ class CNPotPy:
             dict_clangs = {}
         self._dict_clangs = dict(dict_clangs)
 
-        # fix up list_wlangs
-        if list_wlangs is None:
-            list_wlangs = []
-        self._list_wlangs = list(list_wlangs)
-
         # fix up charset
         if charset is None:
             charset = self.S_ENCODING
         self._charset = charset
+
+        # fix up list_wlangs
+        self._list_wlangs = self._get_wlangs()
+
+        # get path to pot file
+        self._file_pot = self._dir_pot / f"{self._str_domain}{self.S_EXT_POT}"
 
     # --------------------------------------------------------------------------
     # Public methods
@@ -297,13 +292,19 @@ class CNPotPy:
         # ----------------------------------------------------------------------
         # do the steps
 
-        # make sure all necessary dirs exist
-        self._make_wlang_dirs()
-
         try:
+            # make new absolute .pot file
             self._make_pot()
+
+            # # make po files for new langs, or new .po files for existing langs
             self._make_pos()
+
+            # # make sure all necessary dirs exist
             self._make_mos()
+
+            # # make .mo files for existing langs
+            # self._make_mos()
+
         except F.CNRunError as e:
             raise e
 
@@ -328,6 +329,12 @@ class CNPotPy:
         files in the po folder and creates a final .desktop file.
         """
 
+        # write the LINGUAS file
+        linguas_path = self._dir_po / self.S_FILE_LINGUAS
+        with open(linguas_path, "w", encoding=self.S_ENCODING) as f:
+            linguas_str = self._get_linguas()
+            f.write(linguas_str)
+
         # fix params to abs paths
         dt_template = Path(dt_template)
         if not dt_template.is_absolute():
@@ -340,7 +347,7 @@ class CNPotPy:
         if dt_template.exists():
 
             # build the command as a string
-            cmd = self.S_CMD_DESK.format(self._dir_po, dt_template, dt_out)
+            cmd = self.S_CMD_DESK.format(dt_template, self._dir_po, dt_out)
 
             # run the command
             try:
@@ -390,17 +397,14 @@ class CNPotPy:
         # strings) in dict_clangs
         # step 3: PROFIT! (ha ha ha that joke never gets old...)
 
-        # get path to pot file
-        file_pot = self._dir_pot / f"{self._str_domain}{self.S_EXT_POT}"
-
         # delete the existing .pot file (if it exists)
-        file_pot.unlink(missing_ok=True)
+        self._file_pot.unlink(missing_ok=True)
 
         # create a new, empty .pot file if it does not exist
         # NB: this allow us to use the -j flag without error (which would
         # happen if the current file to join does not exist)
-        file_pot.parent.mkdir(parents=True, exist_ok=True)
-        file_pot.touch(exist_ok=True)
+        self._file_pot.parent.mkdir(parents=True, exist_ok=True)
+        self._file_pot.touch(exist_ok=True)
 
         # get all paths for this domain
         # NB: or if no src list specified, scan ALL files
@@ -452,7 +456,7 @@ class CNPotPy:
                 # NB: note that you can fiddle with the -o, -d, and -p options
                 # here, but i find it's just better to use an abs path to the
                 # output file
-                f"-o {file_pot} "
+                f"-o {self._file_pot} "
                 # add -L for specific exts
                 f"-L {clang_name} "
             )
@@ -469,7 +473,7 @@ class CNPotPy:
                 raise e
 
             # fix CHARSET in pot
-            self._fix_pot_header(file_pot)
+            self._fix_pot_header(self._file_pot)
 
     # --------------------------------------------------------------------------
     # Merge any .po files in the pos folder with existing .po files
@@ -488,29 +492,18 @@ class CNPotPy:
 
         This new .po file should be sent to the translator for each wlang. Then
         when the translator sends back the translated .po file, place it in the
-        appropriate <dir_po>/<wlang> dir. Then run pybaker to create a new .mo
-        file.
+        appropriate dir. Then run pybaker -l to create a new .mo file.
         """
 
+        # get all wlangs to output
+        glob_po = f"**/*{self.S_EXT_PO}"
+        list_pos = list(self._dir_po.glob(glob_po))
+
         # for each wlang in the po folder
-        for wlang in self._list_wlangs:
-
-            # get the pot file we made in the last step
-            file_pot = self._dir_pot / f"{self._str_domain}{self.S_EXT_POT}"
-
-            # create or update the .po file
-            file_po = (
-                self._dir_po / f"{wlang}/{self._str_domain}{self.S_EXT_PO}"
-            )
-            file_po.parent.mkdir(parents=True, exist_ok=True)
-            if not file_po.exists():
-
-                # no po file, copy pot
-                shutil.copy(file_pot, file_po)
-                continue
+        for po in list_pos:
 
             # update existing po file using latest pot
-            cmd = self.S_CMD_MERGE_POS.format(file_po, file_pot)
+            cmd = self.S_CMD_MERGE_POS.format(po, self._file_pot)
             try:
                 F.run(cmd, shell=True, capture_output=True)
             except F.CNRunError as e:
@@ -538,7 +531,7 @@ class CNPotPy:
         for file_po in list_pos:
 
             # get wlang name
-            wlang = file_po.parent.name  # en, etc
+            wlang = self._get_wlang_from_file(file_po)
 
             # get .mo file (output)
             mo_dir = self._dir_locale / wlang / self.S_DIR_LC
@@ -551,42 +544,6 @@ class CNPotPy:
                 F.run(cmd, shell=True, capture_output=True)
             except F.CNRunError as e:
                 raise e
-
-    # --------------------------------------------------------------------------
-    # Make a list of all supported written language directories
-    # --------------------------------------------------------------------------
-    def _make_wlang_dirs(self):
-        """
-        Make a list of all supported written language directories
-
-        This writes the LINGUAS file, which is used for i18n'ing a .desktop
-        file.
-        """
-
-        # ----------------------------------------------------------------------
-
-        # make the main dirs
-        self._dir_pot.mkdir(parents=True, exist_ok=True)
-        self._dir_po.mkdir(parents=True, exist_ok=True)
-        self._dir_locale.mkdir(parents=True, exist_ok=True)
-
-        # make the LC dirs
-        for wlang in self._list_wlangs:
-
-            # make the locale/lang/LC_MESSAGES dir
-            mo_dir = self._dir_locale / wlang / self.S_DIR_LC
-            mo_dir.mkdir(parents=True, exist_ok=True)
-
-        # make LINGUAS file
-        linguas = ""
-        for wlang in self._list_wlangs:
-            # add each wlang to LINGUAS file
-            linguas += f"{wlang}/{self._str_domain} "
-
-        # write the LINGUAS file
-        linguas_path = self._dir_po / self.S_FILE_LINGUAS
-        with open(linguas_path, "w", encoding=self.S_ENCODING) as f:
-            f.write(linguas)
 
     # --------------------------------------------------------------------------
     # Scan the source dirs for files with certain extensions
@@ -674,6 +631,39 @@ class CNPotPy:
 
         # return the result
         return dict_res
+
+    # --------------------------------------------------------------------------
+    #
+    # --------------------------------------------------------------------------
+    def _get_wlangs(self):
+        """
+        docstring
+        """
+
+        # TODO: return all paths to .po
+        return ""
+
+    # --------------------------------------------------------------------------
+    #
+    # --------------------------------------------------------------------------
+    def _get_linguas(self):
+        """
+        docstring
+        """
+
+        # TODO: return all paths to .po rel to path of LINGUAS
+        return ""
+
+    # --------------------------------------------------------------------------
+    #
+    # --------------------------------------------------------------------------
+    def _get_wlang_from_file(self, file):
+        """
+        docstring
+        """
+
+        # TODO: return all paths to .po rel to path of LINGUAS
+        return ""
 
     # --------------------------------------------------------------------------
     # Set the header values for the pot which will carry over to each po
