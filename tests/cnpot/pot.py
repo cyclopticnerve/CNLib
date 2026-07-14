@@ -23,23 +23,36 @@ from cnlib import cnpot
 
 # ------------------------------------------------------------------------------
 
-# T_DIR_PRJ = Path(__file__).parents[1].resolve()
-# potpy = cnpot.CNPotPy(
-#     "cnlib",
-#     "0.0.0",
-#     "cyclopticnerve",
-#     "cyclopticnerve@gmail.com",
-#     T_DIR_PRJ,
-#     [T_DIR_PRJ],
-#     "i18n/pot",
-#     "i18n/po",
-#     "i18n/locale",
-#     "I18N",
-#     {"Python": [".py"]},
-#     ["en", "es"],
-#     "UTF-8"
-# )
-# potpy.main()
+P_DIR_PRJ = Path(__file__).parent.resolve()
+P_FILE_TMP = P_DIR_PRJ / "template.desktop"
+P_FILE_OUT = P_DIR_PRJ / "i18n/cnlib.desktop"
+
+POTPY = cnpot.CNPotPy(
+    # header
+    "cnlib",
+    "3.2.1",
+    "cyclopticnerve",
+    "cyclopticnerve@gmail.com",
+    # base prj dir
+    P_DIR_PRJ,
+    # in
+    [P_DIR_PRJ],
+    {"Python": [".py"],
+     "Desktop": [".desktop"]},
+    # out
+    "i18n",
+    "i18n/po",
+    "i18n/locale",
+    # optional in
+    "I18N",
+    "UTF-8"
+)
+
+POTPY.main()
+# POTPY.make_desktop(P_FILE_TMP, P_FILE_OUT)
+
+DIR_LOCALE = P_DIR_PRJ / "i18n/locale"
+_ = cnpot.underscore("cnlib", DIR_LOCALE)
 
 # ------------------------------------------------------------------------------
 # Code to run when called from command line
@@ -48,11 +61,10 @@ from cnlib import cnpot
 # test with:
 # $ LANGUAGE=xx ./pot.py
 
-P_DIR_PRJ = Path(__file__).parents[1].resolve()
-_ = cnpot.underscore("cnlib", P_DIR_PRJ / "i18n/locale")
-
-# ------------------------------------------------------------------------------
-
+# I18N: empty string
+print(_(""))
 print(_("Hello"))
+print(_("boobs"))
+
 
 # -)

@@ -1169,23 +1169,6 @@ def printl(
     )
 
 # ------------------------------------------------------------------------------
-# Return an underscore function for a module
-# ------------------------------------------------------------------------------
-def get_underscore(domain, path_locale):
-    """
-    Return an underscore function for a module
-    """
-
-    # fix locale (different than gettext stuff, mostly fixes GUI issues, but ok
-    # to use for CLI in the interest of common code)
-    locale.bindtextdomain(domain, path_locale)
-
-    # init gettext
-    t_translation = gettext.translation(domain, path_locale, fallback=True)
-    return t_translation.gettext
-
-
-# ------------------------------------------------------------------------------
 # Constrain a value to an upper or lower value
 # ------------------------------------------------------------------------------
 def clamp(val, in_min, in_max):
