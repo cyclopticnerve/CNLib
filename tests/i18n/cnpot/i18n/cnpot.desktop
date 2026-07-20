@@ -1,0 +1,25 @@
+# ------------------------------------------------------------------------------
+# Project : CNLib                                                  /          \
+# Filename: CNLib.desktop                                         |     ()     |
+# Date    : 07/14/2026                                            |            |
+# Author  : cyclopticnerve                                        |   \____/   |
+# License : WTFPLv2                                                \          /
+# ------------------------------------------------------------------------------
+
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=false
+Exec=cnlib
+StartupWMClass=cnlib.py
+# I18N: program name (do not translate)
+Name=MyCoolApp_template
+Icon=.local/share/cnlib/images/cnlib.png
+# I18N: short description
+Comment[es]=Spanish description
+Comment=Short description of MyCoolApp_template
+Categories=
+X-Desktop-File-Install-Version=0.26
+
+# -)

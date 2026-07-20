@@ -114,7 +114,7 @@ class CNPotPy:
     S_CMD_WHICH_XGT = "which xgettext"
     # NB: dir (-d) must contain LINGUAS file
     # NB: LINGUAS must contain paths to .po files, relative to itself
-    # NB: format params are po dir, template file, and output file
+    # NB: format params are template file, po dir, and output file
     S_CMD_DESK = "msgfmt --desktop --template={} -d {} -o {} "
     # shell commands to make po/mo
     # NB: format params are file_po and pot_file
@@ -165,13 +165,13 @@ class CNPotPy:
         dir_prj,
         # in
         list_src,
-        dict_clangs,
         # out
         dir_pot,
         dir_po,  # same as dir_linguas
         dir_locale,
         # optional in
         str_tag=None,
+        dict_clangs=None,
         charset=S_ENCODING,
     ):
         """
