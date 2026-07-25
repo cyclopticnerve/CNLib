@@ -2,8 +2,14 @@ from pathlib import Path
 import re
 import subprocess
 
-# FIXME: FUCK!! QUOTE PATHS TO TOOLS!!!
-# or use shlex.split
+# - import gettext/make _/write strings in code
+# 1. make pot
+# 2. update po's from pot
+# -. translate po's (send file out, get file back)
+# 3. convert po's to mo's
+# 4. make desktop
+
+# rinse, repeat when adding new strings or langs
 
 # ------------------------------------------------------------------------------
 # constants
@@ -15,6 +21,8 @@ S_EXT_DT = ".desktop"
 S_LC_MSG = "LC_MESSAGES"
 S_FILE_LINGUAS = "LINGUAS"
 
+S_ERR_NO_LANG = "no lang in file: {}"
+
 # NB: order of tags is important here (not in man!)
 C_MAKE_POT = "xgettext -c{} -o {} -j {}"
 C_UPDATE = "msgmerge --update {} {} --backup=none"
@@ -25,39 +33,57 @@ R_CHAR = r"(\"Content-Type:\s*text/plain;\s*charset=)(.*)(\\n\")"
 R_CHAR_REP = r"\g<1>{}\g<3>"
 R_LANG = r"\"Language:\s*(.*)\\n\""
 
-def potpy(path_prj, path_src, list_exts):
+
+def potpy(path_prj, path_src):
 
     # --------------------------------------------------------------------------
     # defaults for file structure
 
-    S_DOMAIN = path_prj.name
-    S_DIR_I18N = "i18n"
-    S_DIR_LOCALE = "locale"
-    S_DIR_POT = ""
-    S_DIR_PO = "po"
-    S_DIR_DESK = "src"
-    S_FILE_DESK_TMP = "template.desktop"
-    S_TAG = "i18n"
+    S_DOMAIN = path_prj.name  # p y
+    S_DIR_I18N = "i18n"  # ?
+    S_DIR_LOCALE = "locale"  # p y
+    S_DIR_POT = ""  # p y
+    S_DIR_PO = "po"  # p y
+    S_DIR_DESK = "src"  # na
+    S_FILE_DESK_TMP = "template.desktop"  # na
+    S_TAG = "I18N"  # p y
 
-    P_DIR_I18N = path_prj / S_DIR_I18N
-    P_DIR_LOCALE = P_DIR_I18N / S_DIR_LOCALE
-    P_DIR_POT = P_DIR_I18N / S_DIR_POT
-    P_DIR_PO = P_DIR_I18N / S_DIR_PO
-    P_DIR_DESK = path_prj / S_DIR_DESK
+    P_DIR_I18N = path_prj / S_DIR_I18N  # ?
+    P_DIR_LOCALE = P_DIR_I18N / S_DIR_LOCALE  # p y
+    P_DIR_POT = P_DIR_I18N / S_DIR_POT  # p y
+    P_DIR_PO = P_DIR_I18N / S_DIR_PO  # p y
+    P_DIR_DESK = path_prj / S_DIR_DESK  # na
 
-    P_FILE_POT = P_DIR_POT / f"{S_DOMAIN}{S_EXT_POT}"
-    P_FILE_MO = f"{S_DOMAIN}{S_EXT_MO}"
-    P_FILE_LINGUAS = P_DIR_PO / S_FILE_LINGUAS
-    P_FILE_DESK_TMP = P_DIR_DESK / S_FILE_DESK_TMP
-    P_FILE_DESK_OUT = P_DIR_I18N / f"{S_DOMAIN}{S_EXT_DT}"
+    P_FILE_POT = P_DIR_POT / f"{S_DOMAIN}{S_EXT_POT}"  # i
+    P_FILE_MO = f"{S_DOMAIN}{S_EXT_MO}"  # mo
+    P_FILE_LINGUAS = P_DIR_PO / S_FILE_LINGUAS  # d
+    P_FILE_DESK_TMP = P_DIR_DESK / S_FILE_DESK_TMP  # na
+    P_FILE_DESK_OUT = P_DIR_I18N / f"{S_DOMAIN}{S_EXT_DT}"  # na
 
+    #     str_author, Y
+    #     str_email, Y
+    #     str_version, Y
+    #     dir_prj, Y
+    #     list_src, Y
+
+    #     str_domain=None,  Y
+    #     str_tag=None, Y
+    #     charset=None, Y
+
+    #     dict_clangs=None,
+
+    #     # out
+    #     dir_pot, Y
+    #     dir_po, Y
+    #     dir_locale, Y
+
+    # ):
     # --------------------------------------------------------------------------
     # defaults for file extensions (merged with list_exts)
 
-    L_EXTS = [".py", ".desktop", ".glade", ".ui"]
-    # TODO: merge/set/dot with param
+    L_EXTS = [".py", ".desktop", ".glade", ".ui"]  # dict_clangs y
 
-    # ------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
     # housekeeping
 
     # nuke old pot
@@ -78,7 +104,8 @@ def potpy(path_prj, path_src, list_exts):
     glob_po = f"**/*{S_EXT_PO}"
     list_pos = list(P_DIR_PO.glob(glob_po, case_sensitive=False))
 
-    # ------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
     # step 1: make pot
 
     # get sources as space-separated string
@@ -89,16 +116,21 @@ def potpy(path_prj, path_src, list_exts):
         glob_src = f"**/*{ext}"
         list_src = list(path_src.glob(glob_src, case_sensitive=False))
         list_src = [str(item) for item in list_src]
-        list_src = [f"{item}" for item in list_src]
         list_src = " ".join(list_src)
 
         # extend source list
         str_src += f" {list_src}"
 
+    # strip leading/trailing whitespace
+    str_src = str_src.strip()
+
+    # --------------------------------------------------------------------------
+
     # do the thing
     cmd = C_MAKE_POT.format(S_TAG, str(P_FILE_POT), str_src)
     subprocess.run(cmd, shell=True, check=True)
 
+    # --------------------------------------------------------------------------
     # fix charset
 
     # read in file
@@ -114,18 +146,20 @@ def potpy(path_prj, path_src, list_exts):
     with open(P_FILE_POT, "w", encoding="UTF-8") as a_file:
         a_file.write(text)
 
-    # ------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
     # step 2: update po's from pot
 
     for item in list_pos:
         cmd = C_UPDATE.format(str(item), str(P_FILE_POT))
         subprocess.run(cmd, shell=True, check=True)
 
-    # ------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
     # DO TRANSLATION HERE
-    # ------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
-    # ------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
     # step 3: convert po's to mo's
 
     for item in list_pos:
@@ -141,6 +175,9 @@ def potpy(path_prj, path_src, list_exts):
             res = re.search(R_LANG, text)
             if res:
                 lang = res.group(1)
+            else:
+                print(S_ERR_NO_LANG.format(item))
+                continue
 
         # make file structure
         dir_mo = P_DIR_LOCALE / lang / S_LC_MSG
@@ -151,8 +188,12 @@ def potpy(path_prj, path_src, list_exts):
         cmd = C_MAKE_MOS.format(str(file_mo), str(item))
         subprocess.run(cmd, shell=True, check=True)
 
-    # ------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
     # step 4: make desktop
+
+    # --------------------------------------------------------------------------
+    # make LINGUAS file
 
     # get paths for LINGUAS file
     list_pos = [item.relative_to(P_DIR_PO) for item in list_pos]
@@ -166,6 +207,8 @@ def potpy(path_prj, path_src, list_exts):
     with open(P_FILE_LINGUAS, "w", encoding="UTF-8") as f:
         f.write(linguas_str)
 
+    # --------------------------------------------------------------------------
+
     # do the thing
     cmd = C_MAKE_DESK.format(
         str(P_FILE_DESK_TMP), str(P_DIR_PO), str(P_FILE_DESK_OUT)
@@ -173,5 +216,12 @@ def potpy(path_prj, path_src, list_exts):
     if P_FILE_DESK_TMP.exists():
         subprocess.run(cmd, shell=True, check=True)
 
+
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# do main
 if __name__ == "__main__":
-    pass
+
+    P_DIR_PRJ = Path(__file__).parent
+    P_DIR_SRC = P_DIR_PRJ / "src"
+    potpy(P_DIR_PRJ, P_DIR_SRC)

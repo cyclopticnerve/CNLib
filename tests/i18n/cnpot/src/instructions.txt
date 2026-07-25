@@ -1,9 +1,0 @@
-
-- import gettext/make _/write strings in code
-1. make pot
-2. update po's from pot
--. translate po's (send file out, get file back)
-3. convert po's to mo's
-4. make desktop
-
-rinse, repeat when adding new strings or langs

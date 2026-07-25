@@ -37,8 +37,10 @@ import re
 import cnlib.cnfunctions as F
 
 # ------------------------------------------------------------------------------
-# Functions
+# Module functions
 # ------------------------------------------------------------------------------
+
+# FIXME: all path params optional (default: built in rel to prj dir)
 
 # ------------------------------------------------------------------------------
 # Return the underscore function
@@ -71,6 +73,7 @@ def underscore(domain, path):
     return translation.gettext
 
 
+# get this module's i18n
 P_DIR_PRJ = Path(__file__).parent.resolve()
 _ = underscore("cnlib", P_DIR_PRJ / "i18n/locale")
 
@@ -99,53 +102,100 @@ class CNPotPy:
     # Class constants
     # --------------------------------------------------------------------------
 
-    # default encoding for .pot and .po files
-    S_ENCODING = "UTF-8"
     # this is the default subdir for GNU
-    S_DIR_LC = "LC_MESSAGES"
+    S_DIR_LC = "LC_MESSAGES"  # fixed
     # the file to store all wlang/domain names for .desktop files
-    S_FILE_LINGUAS = "LINGUAS"
+    S_FILE_LINGUAS = "LINGUAS"  # fixed
 
     # default file extensions
     S_EXT_POT = ".pot"
     S_EXT_PO = ".po"
     S_EXT_MO = ".mo"
 
+    # default i18n folder
+    S_DIR_I18N = "i18n" # rel to prj
+    # default folders (under dir_i18n)
+    S_DIR_LOCALE = "locale" # rel to i18n
+    S_DIR_PO = "po"  # rel to i18n
+
+    # default encoding for .pot and .po files
+    S_ENCODING = "UTF-8"  # p, def
+    # default comment tag
+    S_TAG = "I18N"  # p, def
+
+    # check if xgettext is installed
     S_CMD_WHICH_XGT = "which xgettext"
+    # call xgettext
+    # NB: params are... see below
+    S_CMD_XGT = (
+        "cd {}; "  # change to project dir for rel paths
+        "xgettext "  # call GNU tool
+        "-c{} "  # stop backpedaling for comments
+        "--package-name {} "  # fix meta
+        "--package-version {} "  # fix meta
+        "--msgid-bugs-address {} "  # fix meta
+        "-F "  # sort entries by file
+        "-j "  # append existing file
+        "-o {} "  # final name of output file (absolute or rel to cwd)
+        "-L {} "  # language of file from clangs
+        "{}" # list of quoted paths to src files for this clang
+    )
     # NB: dir (-d) must contain LINGUAS file
     # NB: LINGUAS must contain paths to .po files, relative to itself
     # NB: format params are template file, po dir, and output file
     S_CMD_DESK = "msgfmt --desktop --template={} -d {} -o {} "
     # shell commands to make po/mo
-    # NB: format params are file_po and pot_file
+    # NB: format params are file_po and file_pot
     S_CMD_MERGE_POS = "msgmerge --update {} {} --backup=none"
     # NB: format params are mo_file and wlang_po
     S_CMD_MAKE_MOS = "msgfmt -o {} {}"
 
+    # I18N: error message for project path is not absolute
+    S_ERR_ABS_PRJ = _("Project directory must be absolute path")
+    # I18N: error message for no xgettext
     S_ERR_NO_XGT = _("No xgettext, use 'sudo apt install gettext'")
-    # error message for no lang in po file
+    # I18N: error message for no lang in po file
     # NB: format param is file name
     S_ERR_NO_LANG = _("Error: no language set in po file: {}")
 
-    # header regexes
+    # meta regexes
     R_TITLE_SCH = r"# SOME DESCRIPTIVE TITLE."
+    # NB: format param is __PRJ_NAME_SMALL__
     R_TITLE_REP = r"# {} translation template"
 
     R_COPY_SCH = (
         r"(# Copyright \(C\) )(YEAR)( )(THE PACKAGE'S COPYRIGHT HOLDER)"
     )
+    # NB: format params are year and author param
     R_COPY_REP = r"\g<1>{}\g<3>{}"
 
     R_EMAIL_SCH = r"(# FIRST AUTHOR )(<EMAIL@ADDRESS>)(, )(YEAR)"
+    # NB: format params are email param and year
     R_EMAIL_REP = r"\g<1>{}\g<3>{}"
 
     R_VER_SCH = r"(\"Project-Id-Version: )(.*?)(\\n\")"
+    # NB: format param is version param
     R_VER_REP = r"\g<1>{}\g<3>"
 
     R_CHAR_SCH = r"(\"Content-Type: text/plain; charset=)(CHARSET)(.*)"
+    # NB: format param is charset param
     R_CHAR_REP = r"\g<1>{}\g<3>"
 
     R_LANG_SCH = r"(\"Language: )(.*?)(\\n\")"
+
+# ------------------------------------------------------------------------------
+
+    # dicts
+    D_DEF_CLANGS = {
+        "Python": [
+            ".py",
+        ],
+        "Glade": [
+            ".ui",
+            ".glade",
+        ],
+        "Desktop": [".desktop"],
+    }
 
     # --------------------------------------------------------------------------
     # Class methods
@@ -156,53 +206,56 @@ class CNPotPy:
     # --------------------------------------------------------------------------
     def __init__(
         self,
-        # header
-        str_domain,
-        str_version,
-        str_author,
-        str_email,
         # base prj dir
         dir_prj,
         # in
-        list_src,
+        list_src=None,
         # out
-        dir_pot,
-        dir_po,  # same as dir_linguas
-        dir_locale,
+        dir_i18n=None,
         # optional in
-        str_tag=None,
+        str_domain="",
+        str_version="",
+        str_author="",
+        str_email="",
+        str_tag="",
+        str_encoding="",
+        # append clangs
         dict_clangs=None,
-        charset=S_ENCODING,
     ):
         """
         Initialize the new object
 
         Args:
-            str_domain: The name of the domain (base name) for output files
-                This creates files like "<str_domain>.pot" and
-                "<str_domain>.mo", and is used in the .py scripts to bind a
-                domain to a locale folder
-            str_version: Version info to use in .pot/.po header
-            str_author: Author name to use in .pot/.po header
-            str_email: Email to use in .pot/.po header
+            dir_prj: The main project dir Path, used for relative paths. Can be
+            a string or a Path object, but it must be absolute.
 
-            dir_prj: The main project dir, used for relative paths
+            list_src: Where to look for input files. This can be a list of
+            directory or file paths. Entries can be strings or Path objects,
+            relative or absolute. Relative paths are resolved against dir_prj.
+            (default: None, scan dir_prj)
 
-            list_src: Where to look for input files
+            dir_i18n: Directory to place all i18 folders / files. Can be a
+            string or a path object, relative or absolute. Relative paths are
+            resolved against dir_prj. (default: None, dir_prj / S_DIR_I18N)
+
+            str_domain: The name of the domain (program name). This name should
+            be unique to you program. (default: "", use dir_prj.name)
+            str_version: Version info to use in .pot/.po header (default: "",
+            do not replace)
+            str_author: Author name to use in .pot/.po header (default: "", do
+            not replace)
+            str_email: Email to use in .pot/.po header (default: "", do not
+            replace)
+            str_tag: Tag that starts a context comment. If this string is empty
+            or None, all comments above an entry are included as context.
+            (default: "", use S_TAG)
+            str_encoding: the charset to use as the default in the .pot file,
+            and any initial .po files created (default: "", use S_ENCODING)
+
             dict_clangs: The dictionary of file extensions to scan for each
-                clang (default: None)
-                If ths dict is empty or None, all files will be scanned
-                (this is generally considered a "Very Bad Thing").
-
-            dir_pot: Directory to place master .pot file
-            dir_po: Directory to place .po files and LINGUAS file
-            dir_locale: Directory to place .mo files
-
-            str_tag: Tag that starts a context comment (default: None)
-                If this string is empty or None, all comments above an entry
-                are included as context.
-            charset: the charset to use as the default in the .pot file, and
-                any initial .po files created (default: "UTF-8")
+            clang. If ths dict is empty or None, all files will be scanned
+            (this is generally considered a "Very Bad Thing"). (default: None,
+            use example below)
 
         An example format for the dict_clangs arg is:
 
@@ -223,47 +276,103 @@ class CNPotPy:
         its properties, and any other code needed to create a new object.
         """
 
-        # set header info
-        self._str_domain = str_domain
-        self._str_version = str_version
-        self._str_author = str_author
-        self._str_email = str_email
+        # check base dir (required abs path)
+        dir_prj = Path(dir_prj)
+        if not dir_prj.is_absolute():
+            # BYE BYE!!!
+            print(self.S_ERR_ABS_PRJ)
+            raise (OSError(self.S_ERR_ABS_PRJ))
+        self._dir_prj = dir_prj
 
-        # set base props
-        self._dir_prj = Path(dir_prj)
-
-        # fix up in props
+        # check input props (required abs or rel to prj dir)
         if list_src is None:
-            list_src = []
+            list_src = [dir_prj]
+        # TODO: where/how quoted? and check relative
         self._list_src = list_src
-        if dict_clangs is None:
-            dict_clangs = {}
-        self._dict_clangs = dict_clangs
 
-        # set out props
-        self._dir_pot = Path(dir_pot)
-        if not self._dir_pot.is_absolute():
-            self._dir_pot = self._dir_prj / dir_pot
-        self._dir_po = Path(dir_po)
-        if not self._dir_po.is_absolute():
-            self._dir_po = self._dir_prj / dir_po
-        self._dir_locale = Path(dir_locale)
-        if not self._dir_locale.is_absolute():
-            self._dir_locale = self._dir_prj / dir_locale
+        # make file structure
+        if dir_i18n is None: # default
+            dir_i18n = dir_prj / self.S_DIR_I18N
+        else:
+            tmp_dir_i18n =
+            self._dir_i18n = Path(dir_i18n)
+            if not self._dir_i18n.is_absolute():
 
-        # set optional in props
+        # TODO: check relative
+# ------------------------------------------------------------------------------
 
-        # set comment tag
+        # get domain (optional)
+        if str_domain is None:
+            # use project name
+            str_domain = self._dir_prj.name
+        self._str_domain = str_domain
+
+        # set comment tag (optional)
         if str_tag is None:
-            str_tag = ""
+            str_tag = self.S_TAG
         self._str_tag = str_tag
 
-        # fix up charset
-        if charset is None:
-            charset = self.S_ENCODING
-        self._charset = charset
+        # fix up charset (optional)
+        if str_encoding is None:
+            str_encoding = self.S_ENCODING
+        self._encoding = str_encoding
+
+# ------------------------------------------------------------------------------
+
+        # get clangs
+        if dict_clangs is None:
+            dict_clangs = self.D_DEF_CLANGS
+        # FIXME: merge
+        self._dict_clangs = dict_clangs
+
+# ------------------------------------------------------------------------------
+
+        # set output props
+        if not dir_pot:
+            # make default
+            dir_pot = "i18n"
+            pass
+        else:
+            p_dir_pot = Path(dir_pot)
+            if not p_dir_pot.is_absolute():
+                # make abs, rel to prj dir
+                pass
+            else:
+                # pot path is ok, just go on
+                pass
+
+        dir_pot = Path(dir_pot)
+        if not dir_pot or not dir_pot.is_absolute():
+            self._dir_pot = self._dir_prj / dir_pot
+
+# ------------------------------------------------------------------------------
+
+        dir_po = Path(dir_pot)
+        if not dir_po or not dir_po.is_absolute():
+            self._dir_po = self._dir_prj / dir_po
+
+        dir_locale = Path(dir_locale)
+        if not dir_locale or not dir_locale.is_absolute():
+            self._dir_locale = self._dir_prj / dir_locale
 
         # ----------------------------------------------------------------------
+        # housekeeping
+
+        # delete the existing .pot file (if it exists)
+        self._file_pot.unlink(missing_ok=True)
+
+        # create a new, empty .pot file if it does not exist
+        # NB: this allow us to use the -j flag without error (which would
+        # happen if the current file to join does not exist)
+        self._file_pot.parent.mkdir(parents=True, exist_ok=True)
+        self._file_pot.touch(exist_ok=True)
+
+        # make file structure
+        self._dir_locale.mkdir(parents=True, exist_ok=True)
+        self._dir_po.mkdir(parents=True, exist_ok=True)
+
+        # fix up dict_clangs
+        self._dict_clangs = self._get_clangs()
 
         # fix up list_wlangs
         glob_po = f"**/*{self.S_EXT_PO}"
@@ -273,6 +382,11 @@ class CNPotPy:
 
         # get path to pot file
         self._file_pot = self._dir_pot / f"{self._str_domain}{self.S_EXT_POT}"
+
+        # required
+        self._str_author = str_author
+        self._str_email = str_email
+        self._str_version = str_version
 
     # --------------------------------------------------------------------------
     # Public methods
@@ -419,76 +533,74 @@ class CNPotPy:
         # delete the existing .pot file (if it exists)
         # create a new, empty .pot file (if it does not exist, which it
         # shouldn't, race conditions be damned... Python file operations are
-        # atomic, right? RIGHT???)
+        # atomic, right? Right?? RIGHT???)
         # run every clang through xgettext, joining it with the previous file
         # until we have a .pot file that contains every string (and only the
         # strings) in dict_clangs
         # step 3: PROFIT! (ha ha ha that joke never gets old...)
 
-        # delete the existing .pot file (if it exists)
-        self._file_pot.unlink(missing_ok=True)
-
-        # create a new, empty .pot file if it does not exist
-        # NB: this allow us to use the -j flag without error (which would
-        # happen if the current file to join does not exist)
-        self._file_pot.parent.mkdir(parents=True, exist_ok=True)
-        self._file_pot.touch(exist_ok=True)
-
-        # fix up dict_clangs
-        self._dict_clangs = self._get_clangs()
 
         # for each clang name / list of clang files
         for clang_name, clang_files in self._dict_clangs.items():
 
+            # sanity checks
             if not isinstance(clang_files, list):
                 clang_files = list(clang_files)
-
-            # sanity check
             if len(clang_files) == 0:
                 continue
 
             # get initial cmd
-            cmd = (
-                f"cd {self._dir_prj}; "
-                "xgettext "
-                # add any comments above string (or msgctxt in ui files)
-                # NB: check that all files have appropriate contexts/comments
-                # NB: also, no space after -c? weird right?
-                f"-c{self._str_tag} "
-                # fix some header values (the rest should be fixed in
-                # _fix_pot_header)
-                # copyright
-                # NB: if blank, file is public domain
-                # if not included, file is under same license as _str_appname
-                # "--copyright-holder "" "
-                # version
-                # | name | version | Project-Id-Version
-                # -----------------------------------
-                # |    0 |       0 | PACKAGE VERSION
-                # |    0 |       1 | PACKAGE VERSION
-                # |    1 |       0 | self._str_domain
-                # |    1 |       1 | self._str_domain self._str_version
-                f"--package-name {self._str_domain} "
-                f"--package-version {self._str_version} "
-                # author email
-                f"--msgid-bugs-address {self._str_email} "
-                # sort entries by file
-                "-F "
-                # don't add location info (hide path to source)
-                # "--no-location "
-                # append existing file
-                # NB: this is the key to running xgettext multiple times for
-                # one domain
-                # this allows us to set the -L option for different file types
-                # and still end up with one unified .pot file
-                "-j "
-                # final name of output file
-                # NB: note that you can fiddle with the -o, -d, and -p options
-                # here, but i find it's just better to use an abs path to the
-                # output file
-                f"-o {self._file_pot} "
-                # add -L for specific exts
-                f"-L {clang_name} "
+            # cmd = (
+            #     f"cd {self._dir_prj}; "
+            #     "xgettext "
+            #     # add any comments above string (or msgctxt in ui files)
+            #     # NB: check that all files have appropriate contexts/comments
+            #     # NB: also, no space after -c? weird right?
+            #     f"-c{self._str_tag} "
+            #     # fix some header values (the rest should be fixed in
+            #     # _fix_pot_header)
+            #     # copyright
+            #     # NB: if blank, file is public domain
+            #     # if not included, file is under same license as _str_appname
+            #     # "--copyright-holder "" "
+            #     # version
+            #     # | name | version | Project-Id-Version
+            #     # -----------------------------------
+            #     # |    0 |       0 | PACKAGE VERSION
+            #     # |    0 |       1 | PACKAGE VERSION
+            #     # |    1 |       0 | self._str_domain
+            #     # |    1 |       1 | self._str_domain self._str_version
+            #     f"--package-name {self._str_domain} "
+            #     f"--package-version {self._str_version} "
+            #     # author email
+            #     f"--msgid-bugs-address {self._str_email} "
+            #     # sort entries by file
+            #     "-F "
+            #     # don't add location info (hide path to source)
+            #     # "--no-location "
+            #     # append existing file
+            #     # NB: this is the key to running xgettext multiple times for
+            #     # one domain
+            #     # this allows us to set the -L option for different file types
+            #     # and still end up with one unified .pot file
+            #     "-j "
+            #     # final name of output file
+            #     # NB: note that you can fiddle with the -o, -d, and -p options
+            #     # here, but i find it's just better to use an abs path to the
+            #     # output file
+            #     f"-o {self._file_pot} "
+            #     # add -L for specific exts
+            #     f"-L {clang_name} "
+            # )
+
+            cmd = self.S_CMD_XGT.format(
+                self._dir_prj,
+                self._str_tag,
+                self._str_domain,
+                self._str_version,
+                self._str_email,
+                self._file_pot,
+                clang_name,
             )
 
             # add all input files
@@ -507,8 +619,8 @@ class CNPotPy:
 
         # make rest of folder structure (not necessary but helps new users
         # understand)
-        self._dir_locale.mkdir(parents=True, exist_ok=True)
-        self._dir_po.mkdir(parents=True, exist_ok=True)
+        # self._dir_locale.mkdir(parents=True, exist_ok=True)
+        # self._dir_po.mkdir(parents=True, exist_ok=True)
 
     # --------------------------------------------------------------------------
     # Merge any .po files in the pos folder with existing .pot file
@@ -751,7 +863,7 @@ class CNPotPy:
 
         # fix charset
         str_pattern = self.R_CHAR_SCH
-        str_rep = self.R_CHAR_REP.format(self._charset)
+        str_rep = self.R_CHAR_REP.format(self._encoding)
         text = re.sub(str_pattern, str_rep, text)
 
         # make all locations relative to project dir
