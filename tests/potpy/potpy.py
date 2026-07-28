@@ -14,14 +14,21 @@ import subprocess
 # ------------------------------------------------------------------------------
 # constants
 
+S_LC_MSG = "LC_MESSAGES"
+S_FILE_LINGUAS = "LINGUAS"
 S_EXT_POT = ".pot"
 S_EXT_PO = ".po"
 S_EXT_MO = ".mo"
-S_EXT_DT = ".desktop"
-S_LC_MSG = "LC_MESSAGES"
-S_FILE_LINGUAS = "LINGUAS"
+# S_EXT_DT = ".desktop" # na
 
-S_ERR_NO_LANG = "no lang in file: {}"
+S_DIR_I18N = "i18n"
+S_DIR_LOCALE = "locale"  #
+# S_DIR_POT = ""  #
+S_DIR_PO = "po"  #
+# S_DIR_DESK = "src"  # na
+# S_FILE_DESK_TMP = "template.desktop"  # na
+
+# S_ERR_NO_LANG = "no lang in file: {}"
 
 # NB: order of tags is important here (not in man!)
 C_MAKE_POT = "xgettext -c{} -o {} -j {}"
@@ -37,51 +44,31 @@ R_LANG = r"\"Language:\s*(.*)\\n\""
 def potpy(path_prj, path_src):
 
     # --------------------------------------------------------------------------
-    # defaults for file structure
+    # params to __init__
 
-    S_DOMAIN = path_prj.name  # p y
-    S_DIR_I18N = "i18n"  # ?
-    S_DIR_LOCALE = "locale"  # p y
-    S_DIR_POT = ""  # p y
-    S_DIR_PO = "po"  # p y
-    S_DIR_DESK = "src"  # na
-    S_FILE_DESK_TMP = "template.desktop"  # na
-    S_TAG = "I18N"  # p y
+    P_DIR_I18N = path_prj / S_DIR_I18N  #
+    S_DOMAIN = path_prj.name  #
+    # ver
+    # auth
+    # email
+    S_TAG = "I18N"  #
+    S_ENCODING = "UTF-8"
+    L_EXTS = [".py", ".desktop", ".glade", ".ui"]  #
 
-    P_DIR_I18N = path_prj / S_DIR_I18N  # ?
-    P_DIR_LOCALE = P_DIR_I18N / S_DIR_LOCALE  # p y
-    P_DIR_POT = P_DIR_I18N / S_DIR_POT  # p y
-    P_DIR_PO = P_DIR_I18N / S_DIR_PO  # p y
-    P_DIR_DESK = path_prj / S_DIR_DESK  # na
+    # figure out in __init__
+    P_DIR_LOCALE = P_DIR_I18N / S_DIR_LOCALE  #
+    P_DIR_POT = P_DIR_I18N  #
+    P_DIR_PO = P_DIR_I18N / S_DIR_PO  #
+    # P_DIR_DESK = path_prj / S_DIR_DESK  # na
 
-    P_FILE_POT = P_DIR_POT / f"{S_DOMAIN}{S_EXT_POT}"  # i
-    P_FILE_MO = f"{S_DOMAIN}{S_EXT_MO}"  # mo
-    P_FILE_LINGUAS = P_DIR_PO / S_FILE_LINGUAS  # d
-    P_FILE_DESK_TMP = P_DIR_DESK / S_FILE_DESK_TMP  # na
-    P_FILE_DESK_OUT = P_DIR_I18N / f"{S_DOMAIN}{S_EXT_DT}"  # na
+    P_FILE_POT = P_DIR_POT / f"{S_DOMAIN}{S_EXT_POT}"  #
+    P_FILE_MO = f"{S_DOMAIN}{S_EXT_MO}"  #
+    P_FILE_LINGUAS = P_DIR_PO / S_FILE_LINGUAS  #
+    # P_FILE_DESK_TMP = P_DIR_DESK / S_FILE_DESK_TMP  # na
+    # P_FILE_DESK_OUT = P_DIR_I18N / f"{S_DOMAIN}{S_EXT_DT}"  # na
 
-    #     str_author, Y
-    #     str_email, Y
-    #     str_version, Y
-    #     dir_prj, Y
-    #     list_src, Y
-
-    #     str_domain=None,  Y
-    #     str_tag=None, Y
-    #     charset=None, Y
-
-    #     dict_clangs=None,
-
-    #     # out
-    #     dir_pot, Y
-    #     dir_po, Y
-    #     dir_locale, Y
-
-    # ):
     # --------------------------------------------------------------------------
     # defaults for file extensions (merged with list_exts)
-
-    L_EXTS = [".py", ".desktop", ".glade", ".ui"]  # dict_clangs y
 
     # --------------------------------------------------------------------------
     # housekeeping
@@ -134,16 +121,16 @@ def potpy(path_prj, path_src):
     # fix charset
 
     # read in file
-    with open(P_FILE_POT, encoding="UTF-8") as a_file:
+    with open(P_FILE_POT, encoding=S_ENCODING) as a_file:
         text = a_file.read()
 
     # do replace
     str_pattern = R_CHAR
-    str_rep = R_CHAR_REP.format("UTF-8")
+    str_rep = R_CHAR_REP.format(S_ENCODING)
     text = re.sub(str_pattern, str_rep, text)
 
     # write out file
-    with open(P_FILE_POT, "w", encoding="UTF-8") as a_file:
+    with open(P_FILE_POT, "w", encoding=S_ENCODING) as a_file:
         a_file.write(text)
 
     # --------------------------------------------------------------------------
@@ -168,7 +155,7 @@ def potpy(path_prj, path_src):
         lang = item.stem
 
         # look in file
-        with open(item, encoding="UTF-8") as a_file:
+        with open(item, encoding=S_ENCODING) as a_file:
             text = a_file.read()
 
             # get lang in file
@@ -176,7 +163,7 @@ def potpy(path_prj, path_src):
             if res:
                 lang = res.group(1)
             else:
-                print(S_ERR_NO_LANG.format(item))
+                print("no_lang:{}".format(item))
                 continue
 
         # make file structure
@@ -204,7 +191,7 @@ def potpy(path_prj, path_src):
     linguas_str = " ".join(list_pos)
 
     # write to file
-    with open(P_FILE_LINGUAS, "w", encoding="UTF-8") as f:
+    with open(P_FILE_LINGUAS, "w", encoding=S_ENCODING) as f:
         f.write(linguas_str)
 
     # --------------------------------------------------------------------------
