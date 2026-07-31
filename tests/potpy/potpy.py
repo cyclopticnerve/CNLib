@@ -27,14 +27,15 @@ S_DIR_LOCALE = "locale"  #
 S_DIR_PO = "po"  #
 # S_DIR_DESK = "src"  # na
 # S_FILE_DESK_TMP = "template.desktop"  # na
-
+S_TAG = "I18N"  #
+S_ENCODING = "UTF-8"
 # S_ERR_NO_LANG = "no lang in file: {}"
 
 # NB: order of tags is important here (not in man!)
 C_MAKE_POT = "xgettext -c{} -o {} -j {}"
+C_MAKE_DESK = "msgfmt --desktop --template={} -d {} -o {}"
 C_UPDATE = "msgmerge --update {} {} --backup=none"
 C_MAKE_MOS = "msgfmt -o {} {}"
-C_MAKE_DESK = "msgfmt --desktop --template={} -d {} -o {}"
 
 R_CHAR = r"(\"Content-Type:\s*text/plain;\s*charset=)(.*)(\\n\")"
 R_CHAR_REP = r"\g<1>{}\g<3>"
@@ -51,8 +52,7 @@ def potpy(path_prj, path_src):
     # ver
     # auth
     # email
-    S_TAG = "I18N"  #
-    S_ENCODING = "UTF-8"
+
     L_EXTS = [".py", ".desktop", ".glade", ".ui"]  #
 
     # figure out in __init__
@@ -197,11 +197,11 @@ def potpy(path_prj, path_src):
     # --------------------------------------------------------------------------
 
     # do the thing
-    cmd = C_MAKE_DESK.format(
-        str(P_FILE_DESK_TMP), str(P_DIR_PO), str(P_FILE_DESK_OUT)
-    )
-    if P_FILE_DESK_TMP.exists():
-        subprocess.run(cmd, shell=True, check=True)
+    # cmd = C_MAKE_DESK.format(
+    #     str(P_FILE_DESK_TMP), str(P_DIR_PO), str(P_FILE_DESK_OUT)
+    # )
+    # if P_FILE_DESK_TMP.exists():
+    #     subprocess.run(cmd, shell=True, check=True)
 
 
 # ------------------------------------------------------------------------------
@@ -210,5 +210,5 @@ def potpy(path_prj, path_src):
 if __name__ == "__main__":
 
     P_DIR_PRJ = Path(__file__).parent
-    P_DIR_SRC = P_DIR_PRJ / "src"
+    P_DIR_SRC = P_DIR_PRJ # / "src"
     potpy(P_DIR_PRJ, P_DIR_SRC)

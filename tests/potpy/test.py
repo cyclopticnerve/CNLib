@@ -1,10 +1,9 @@
+#!/usr/bin/env python3
+
 from pathlib import Path
-import gettext
+from cnlib import cnpot
 
-S_DOMAIN = "test"
-P_DIR_LOC = Path(__file__).parent / "locale"
-
-t = gettext.translation(S_DOMAIN, P_DIR_LOC)
-_ = t.gettext
+P_DIR_PRJ = Path(__file__).parent.resolve()
+_ = cnpot.underscore("potpy", P_DIR_PRJ / "i18n/locale")
 
 print(_("Hello world!"))
