@@ -1,17 +1,10 @@
 
-FIXME: update for cnpot.underscore
-
 FIXME: for pkg (or any?) add reqs to toml deps
-FIXME: CNLIB NEEDS MKDOCS!!! WTF!!!
-no it depends on having pyplate installed, which depends on mkdocs
-
-TODO: .pot needs def lang in header (dev locale)
-TODO: .po needs lang in header (translator locale)
-TODO: check for 'which xgettext' and warn/quit if not found
+FIXME: depends on having pyplate installed, which depends on mkdocs
 
 NEXT: look at configurator.py in todo
-NEXT: cntrace decorator with indent (chain decorators?)
 
+DONE: check for 'which xgettext' and warn/quit (sudo apt install gettext)
 DONE: bool/clamp/interpolate: in as any/int/float, out as int/float/bool
 DONE: no site if push fails - split mkdocs.bake()
 DONE: F.dialog fix button case issues (see template/install/install_base.py)
@@ -22,4 +15,4 @@ DONE: F.run needs capture_output, text, completed process object
 DONE: function to get gettext
 DONE: cnvenv --exclude-editable in freeze
 DONE: CNlib docs online - no theme?
-DONE: how to do sub pkg (cnlib/cndecorators/cnspin.py)
+DONE: how to do sub pkg (cnlib/cndecorators/cnspinner.py)
