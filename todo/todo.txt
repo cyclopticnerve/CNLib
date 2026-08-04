@@ -15,4 +15,4 @@ DONE: F.run needs capture_output, text, completed process object
 DONE: function to get gettext
 DONE: cnvenv --exclude-editable in freeze
 DONE: CNlib docs online - no theme?
-DONE: how to do sub pkg (cnlib/cndecorators/cnspin.py)
+DONE: how to do sub pkg (cnlib/cndecorators/cnspinner.py)

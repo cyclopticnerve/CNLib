@@ -80,6 +80,7 @@ def underscore(domain: str, locale_dir: Path) -> Callable[[str], str]:
         raise OSError(S_ERR_LOCALE)
 
     # fix locale (mostly for GUI)
+    locale.setlocale(locale.LC_ALL, '')
     locale.bindtextdomain(domain, locale_dir)
 
     # get a translation object
@@ -148,11 +149,9 @@ class CNPotPy:
     # NB: params are... see below
     S_CMD_XGT = (
         "xgettext "  # call GNU tool
-        "--package-name {} "  # fix meta
-        "--package-version {} "  # fix meta
-        "--msgid-bugs-address {} "  # fix meta
+        "--package-name={} "  # str_domain (fixes license string)
         "-F "  # sort entries by file
-        "-j "  # append existing file
+        "-j "  # merge with existing file
         "-c{} "  # stop backpedaling for comments
         "-o {} "  # final name of output file (absolute or rel to cwd)
         "-L {} "  # language of file from clangs
@@ -312,9 +311,11 @@ class CNPotPy:
         self._str_domain = str_domain
 
         # just store args as props
+        # NB: if blank, leave blank
         self._str_version = str_version
         self._str_author = str_author
         self._str_email = str_email
+        # NB: if blank, use default
         self._str_tag = str_tag
         self._str_encoding = str_encoding
 
@@ -520,8 +521,6 @@ class CNPotPy:
             # get the cmd
             cmd = self.S_CMD_XGT.format(
                 self._str_domain,
-                self._str_version,
-                self._str_email,
                 self._str_tag,
                 f'"{str(self._path_pot)}"',
                 clang_name,
@@ -628,6 +627,12 @@ class CNPotPy:
         so they can be passed to xgettext.
         """
 
+        # reset dict when running main twice
+        # NB: this is because we are looping through sources,
+        # appending/extending the dict as we go, so need a fresh start each
+        # time
+        self._dict_clangs = {}
+
         # fix extensions
         for _clang, exts in self._dict_clangs_in.items():
 
@@ -700,18 +705,14 @@ class CNPotPy:
         Fix the list of po files by re-scanning po dir
         """
 
-        # TODO: send prj.pot to other person, get back prj.pot
-        # or some combination for prj/lang.pot/po
-
-        # drop this file in prj/i18n/po
-
-        # check lang/self.S_EXT_PO for all files dropped in dir_po
-        # just look in the po folder for po's
-        # also look for .pot and rename (you or translator never changed file ext)
-
         # fix up list_po every time main is run
         glob_po = f"**/*{self.S_EXT_PO}"
         self._list_po = list(self._path_po.glob(glob_po, case_sensitive=False))
+
+        # also look for pot files
+        glob_pot = f"**/*{self.S_EXT_POT}"
+        list_pot = list(self._path_po.glob(glob_pot, case_sensitive=False))
+        self._list_po.extend(list_pot)
 
         # for each po file
         for file_po in self._list_po:
@@ -725,7 +726,7 @@ class CNPotPy:
                 continue
 
             # check file name
-            if not file_po.stem == wlang:
+            if file_po.stem != wlang or file_po.suffix == self.S_EXT_POT:
                 parent_po = file_po.parent
                 new_file_po = parent_po / f"{wlang}{self.S_EXT_PO}"
                 file_po.rename(new_file_po)
@@ -742,8 +743,6 @@ class CNPotPy:
         Set the header values for the pot which will carry over to each po
         """
 
-# FIXME: for str values we do not give, DO NOT REPLACE!!!
-
         # open file and get contents
         with open(self._path_pot, encoding=self.S_ENCODING) as a_file:
             text = a_file.read()
@@ -753,23 +752,25 @@ class CNPotPy:
         str_rep = self.R_TITLE_REP.format(self._str_domain)
         text = re.sub(str_pattern, str_rep, text)
 
-        # replace copyright
-        str_pattern = self.R_COPY_SCH
-        year = date.today().year
-        str_rep = self.R_COPY_REP.format(year, self._str_author)
-        text = re.sub(str_pattern, str_rep, text)
+        # replace version number
+        if self._str_version != "":
+            str_pattern = self.R_VER_SCH
+            str_rep = self.R_VER_REP.format(self._str_version)
+            text = re.sub(str_pattern, str_rep, text)
+
+        # replace copyright (author)
+        if self._str_author != "":
+            str_pattern = self.R_COPY_SCH
+            year = date.today().year
+            str_rep = self.R_COPY_REP.format(year, self._str_author)
+            text = re.sub(str_pattern, str_rep, text)
 
         # replace email
-        str_pattern = self.R_EMAIL_SCH
-        email = self._str_email
-        year = date.today().year
-        str_rep = self.R_EMAIL_REP.format(email, year)
-        text = re.sub(str_pattern, str_rep, text)
-
-        # replace version number
-        str_pattern = self.R_VER_SCH
-        str_rep = self.R_VER_REP.format(self._str_version)
-        text = re.sub(str_pattern, str_rep, text)
+        if self._str_email != "":
+            str_pattern = self.R_EMAIL_SCH
+            year = date.today().year
+            str_rep = self.R_EMAIL_REP.format(self._str_email, year)
+            text = re.sub(str_pattern, str_rep, text)
 
         # fix charset
         str_pattern = self.R_CHAR_SCH

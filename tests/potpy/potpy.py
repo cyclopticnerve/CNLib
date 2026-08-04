@@ -2,7 +2,7 @@ from pathlib import Path
 import re
 import subprocess
 
-# - import gettext/make _/write strings in code
+# - import gettext, write strings in code
 # 1. make pot
 # 2. update po's from pot
 # -. translate po's (send file out, get file back)
@@ -19,14 +19,14 @@ S_FILE_LINGUAS = "LINGUAS"
 S_EXT_POT = ".pot"
 S_EXT_PO = ".po"
 S_EXT_MO = ".mo"
-# S_EXT_DT = ".desktop" # na
+S_EXT_DT = ".desktop" # na
 
 S_DIR_I18N = "i18n"
 S_DIR_LOCALE = "locale"  #
 # S_DIR_POT = ""  #
 S_DIR_PO = "po"  #
-# S_DIR_DESK = "src"  # na
-# S_FILE_DESK_TMP = "template.desktop"  # na
+S_DIR_DESK = "src"  # na
+S_FILE_DESK_TMP = "template.desktop"  # na
 S_TAG = "I18N"  #
 S_ENCODING = "UTF-8"
 # S_ERR_NO_LANG = "no lang in file: {}"
@@ -59,13 +59,13 @@ def potpy(path_prj, path_src):
     P_DIR_LOCALE = P_DIR_I18N / S_DIR_LOCALE  #
     P_DIR_POT = P_DIR_I18N  #
     P_DIR_PO = P_DIR_I18N / S_DIR_PO  #
-    # P_DIR_DESK = path_prj / S_DIR_DESK  # na
+    P_DIR_DESK = path_prj / S_DIR_DESK  # na
 
     P_FILE_POT = P_DIR_POT / f"{S_DOMAIN}{S_EXT_POT}"  #
     P_FILE_MO = f"{S_DOMAIN}{S_EXT_MO}"  #
-    P_FILE_LINGUAS = P_DIR_PO / S_FILE_LINGUAS  #
-    # P_FILE_DESK_TMP = P_DIR_DESK / S_FILE_DESK_TMP  # na
-    # P_FILE_DESK_OUT = P_DIR_I18N / f"{S_DOMAIN}{S_EXT_DT}"  # na
+    P_FILE_LINGUAS = P_DIR_PO / S_FILE_LINGUAS
+    P_FILE_DESK_TMP = P_DIR_DESK / S_FILE_DESK_TMP  # na
+    P_FILE_DESK_OUT = P_DIR_I18N / f"{S_DOMAIN}{S_EXT_DT}"  # na
 
     # --------------------------------------------------------------------------
     # defaults for file extensions (merged with list_exts)
@@ -197,11 +197,11 @@ def potpy(path_prj, path_src):
     # --------------------------------------------------------------------------
 
     # do the thing
-    # cmd = C_MAKE_DESK.format(
-    #     str(P_FILE_DESK_TMP), str(P_DIR_PO), str(P_FILE_DESK_OUT)
-    # )
-    # if P_FILE_DESK_TMP.exists():
-    #     subprocess.run(cmd, shell=True, check=True)
+    cmd = C_MAKE_DESK.format(
+        str(P_FILE_DESK_TMP), str(P_DIR_PO), str(P_FILE_DESK_OUT)
+    )
+    if P_FILE_DESK_TMP.exists():
+        subprocess.run(cmd, shell=True, check=True)
 
 
 # ------------------------------------------------------------------------------
