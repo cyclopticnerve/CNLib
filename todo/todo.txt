@@ -1,7 +1,8 @@
 
 FIXME: for pkg (or any?) add reqs to toml deps
-FIXME: depends on having pyplate installed, which depends on mkdocs
+FIXME: cnlib depends on having pyplate installed, which depends on mkdocs
 
+NEXT: CNLog: location, size, num files, funcs like printl
 NEXT: look at configurator.py in todo
 
 DONE: check for 'which xgettext' and warn/quit (sudo apt install gettext)
