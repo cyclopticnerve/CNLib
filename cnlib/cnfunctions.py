@@ -28,9 +28,7 @@ Functions:
 # ------------------------------------------------------------------------------
 
 # system imports
-import gettext
 import json
-import locale
 from pathlib import Path
 import re
 import shlex
