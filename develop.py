@@ -29,19 +29,16 @@ import subprocess
 import sys
 
 # ------------------------------------------------------------------------------
-# add parent dir to path
-P_DIR_PRJ = Path(__file__).parent.resolve()
-
-# ------------------------------------------------------------------------------
 # Globals
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# gettext stuff for CLI
-# NB: keep global
-# to test translations, run as foo@bar:$ LANGUAGE=xx ./develop.py
+# get prj dir path
+P_DIR_PRJ = Path(__file__).parent.resolve()
 
-# init gettext
+# ------------------------------------------------------------------------------
+# gettext stuff for CLI
+
 T_DOMAIN = "cnlib"
 T_DIR_LOCALE = P_DIR_PRJ / "i18n/locale"
 T_TRANSLATION = gettext.translation(T_DOMAIN, T_DIR_LOCALE, fallback=True)
@@ -49,6 +46,7 @@ _ = T_TRANSLATION.gettext
 
 # fix locale (different than gettext stuff, mostly fixes GUI issues, but ok to
 # use for CLI in the interest of common code)
+locale.setlocale(locale.LC_ALL, "")
 locale.bindtextdomain(T_DOMAIN, T_DIR_LOCALE)
 
 
