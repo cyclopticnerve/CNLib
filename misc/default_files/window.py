@@ -25,7 +25,7 @@ from pathlib import Path
 # ------------------------------------------------------------------------------
 # 3rd party imports
 
-import gi
+import gi  # type: ignore
 
 gi.require_version("Gtk", "3.0")
 
