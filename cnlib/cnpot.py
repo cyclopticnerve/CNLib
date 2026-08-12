@@ -80,7 +80,7 @@ def underscore(domain: str, locale_dir: Path) -> Callable[[str], str]:
         raise OSError(S_ERR_LOCALE)
 
     # fix locale (mostly for GUI)
-    locale.setlocale(locale.LC_ALL, '')
+    locale.setlocale(locale.LC_ALL, "")
     locale.bindtextdomain(domain, locale_dir)
 
     # get a translation object
@@ -200,6 +200,10 @@ class CNPotPy:
     # NB: format param is version param
     R_VER_REP = r"\g<1>{}\g<3>"
 
+    R_BUGS_SCH = r"(\"Report-Msgid-Bugs-To: )(.*?)(\\n\")"
+    # NB: format param is email param
+    R_BUGS_REP = r"\g<1>{}\g<3>"
+
     R_CHAR_SCH = r"(\"Content-Type: text/plain; charset=)(CHARSET)(.*)"
     # NB: format param is charset param
     R_CHAR_REP = r"\g<1>{}\g<3>"
@@ -237,7 +241,7 @@ class CNPotPy:
         str_tag: str = S_TAG,
         str_encoding: str = S_ENCODING,
         # append clangs
-        dict_clangs: dict[str, list[str]] = D_CLANGS,
+        dict_clangs: dict[str, list[str]] | None = None,
     ):
         """
         Initializes the new object
@@ -283,6 +287,7 @@ class CNPotPy:
         """
 
         # check prj_dir
+        path_prj = Path(path_prj)
         if not path_prj.is_absolute() or not path_prj.exists():
             # BYE BYE!!!
             raise OSError(self.S_ERR_ABS_PRJ)
@@ -291,6 +296,7 @@ class CNPotPy:
         # check list_src
         if list_src is None:
             list_src = [self._path_prj]
+        list_src = [Path(item) for item in list_src]
         list_src = [
             item if item.is_absolute() else self._path_prj / item
             for item in list_src
@@ -300,6 +306,7 @@ class CNPotPy:
         # check base of file structure
         if not path_i18n:
             path_i18n = path_prj / self.S_DIR_I18N
+        path_i18n = Path(path_i18n)
         if not path_i18n.is_absolute():
             path_i18n = path_prj / path_i18n
         self._path_i18n = path_i18n
@@ -324,6 +331,8 @@ class CNPotPy:
         self._path_po = self._path_i18n / self.S_DIR_PO
 
         # store clangs
+        if dict_clangs is None:
+            dict_clangs = self.D_CLANGS
         self._dict_clangs_in = dict_clangs
         self._dict_clangs = {}
 
