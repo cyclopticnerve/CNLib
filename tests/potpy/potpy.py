@@ -19,7 +19,7 @@ S_FILE_LINGUAS = "LINGUAS"
 S_EXT_POT = ".pot"
 S_EXT_PO = ".po"
 S_EXT_MO = ".mo"
-S_EXT_DT = ".desktop" # na
+S_EXT_DT = ".desktop"  # na
 
 S_DIR_I18N = "i18n"
 S_DIR_LOCALE = "locale"  #
@@ -210,5 +210,5 @@ def potpy(path_prj, path_src):
 if __name__ == "__main__":
 
     P_DIR_PRJ = Path(__file__).parent
-    P_DIR_SRC = P_DIR_PRJ # / "src"
+    P_DIR_SRC = P_DIR_PRJ  # / "src"
     potpy(P_DIR_PRJ, P_DIR_SRC)

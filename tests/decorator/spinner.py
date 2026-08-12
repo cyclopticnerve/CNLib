@@ -31,12 +31,15 @@ F.B_DEBUG = True
 # ------------------------------------------------------------------------------
 
 S.skip("Downloading file")
+
+
 @S.spin("Downloading file")
 def do_long():
     """docstring"""
 
     sleep(2)
     return IOError("boobs")
+
 
 # ------------------------------------------------------------------------------
 

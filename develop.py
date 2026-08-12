@@ -157,9 +157,7 @@ class CNDevelop:
 
         # the cmd to install the reqs
         cmd = self.S_CMD_INST_REQS.format(
-            P_DIR_PRJ,
-            self.S_NAME_VENV,
-            self.S_FILE_REQS
+            P_DIR_PRJ, self.S_NAME_VENV, self.S_FILE_REQS
         )
         self._do_command(cmd)
 
@@ -202,6 +200,7 @@ class CNDevelop:
             print()
             print(self.S_ERR_ERR, e)
             sys.exit(-1)
+
 
 # ------------------------------------------------------------------------------
 # Code to run when called from command line

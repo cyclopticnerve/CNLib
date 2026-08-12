@@ -25,17 +25,9 @@ from pathlib import Path
 # ------------------------------------------------------------------------------
 # 3rd party imports
 
-import gi  # type: ignore
-
+import gi  # pylint: disable=import-error # type: ignore
 gi.require_version("Gtk", "3.0")
-
-# pylint: disable=wrong-import-position
-# pylint: disable=no-name-in-module
-
-from gi.repository import Gtk  # type: ignore
-
-# pylint: enable=wrong-import-position
-# pylint: enable=no-name-in-module
+from gi.repository import Gtk  # pylint: disable=import-error, wrong-import-position # type: ignore
 
 # ------------------------------------------------------------------------------
 # Classes
@@ -106,8 +98,7 @@ class __PP_CLASS_WIN__(Gtk.ApplicationWindow):
         self.window = self.builder.get_object("__PP_CLASS_WIN__")
 
         # connect all control signals
-        self.builder.connect_signals(self)  # pylint: disable=no-member
-
+        self.builder.connect_signals(self)
         # connect window signals
         self.window.connect(self.S_ACTION_DELETE_EVENT, self._evt_win_delete)
         self.window.connect(self.S_ACTION_DESTROY, self._evt_win_destroy)

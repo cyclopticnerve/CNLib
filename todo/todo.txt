@@ -1,7 +1,10 @@
 
+FIXME: no i18n for any module (no place to install locale dir)
+what about develop.py?
 FIXME: for pkg (or any?) add reqs to toml deps
 FIXME: cnlib depends on having pyplate installed, which depends on mkdocs
 
+NEXT: cnpot plurals?
 NEXT: CNLog: location, size, num files, funcs like printl
 NEXT: look at configurator.py in todo
 

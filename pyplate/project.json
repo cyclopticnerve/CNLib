@@ -80,28 +80,6 @@
             "cnlib"
         ]
     },
-    "PUB_I18N": {
-        "DOMAIN": "cnlib",
-        "SOURCES": [
-            "cnlib",
-            "develop.py"
-        ],
-        "CLANGS": {
-            "Python": [
-                ".py"
-            ],
-            "Glade": [
-                ".ui",
-                ".glade"
-            ],
-            "Desktop": [
-                ".desktop"
-            ]
-        },
-        "WLANGS": [
-            "en"
-        ],
-        "CHARSET": "UTF-8"
-    },
+    "PUB_I18N": {},
     "PUB_INST": {}
 }

@@ -28,12 +28,14 @@ from cnlib import cnfunctions as F
 
 # ------------------------------------------------------------------------------
 # NB: qnd to make sure all exits restore cursor
-import signal
+import signal  # pylint: disable=wrong-import-order
+
 
 # make a signal handler that raises ctrl-c
 def _signal_handler(_sig, _frame):
     """docstring"""
     raise KeyboardInterrupt()
+
 
 # any interrupt calls above handler
 signal.signal(signal.SIGINT, _signal_handler)
@@ -53,7 +55,6 @@ S_KEY_FRAMES = "frames"
 S_KEY_INTERVAL = "interval"
 S_KEY_DONE = "done"
 S_KEY_FAIL = "fail"
-S_KEY_SKIP = "skip"
 S_KEY_SKIP = "skip"
 S_KEY_MSG = "msg"
 S_KEY_FG = "fg"
@@ -191,6 +192,7 @@ def _fix_len(msg: str) -> list[str]:
     # and we Audi 5000
     return msgs
 
+
 # ------------------------------------------------------------------------------
 # Public functions
 # ------------------------------------------------------------------------------
@@ -227,6 +229,7 @@ def skip(msg: str):
 
     # a skipped function will not stop progress
     return True
+
 
 # ------------------------------------------------------------------------------
 # Decoration implementation with params

@@ -7,7 +7,6 @@
 # ------------------------------------------------------------------------------
 
 # pylint: disable=too-many-lines
-
 """
 A collection of common functions used by CN software
 
@@ -467,7 +466,7 @@ def pp(obj, indent_size=4, label=None):
 # ------------------------------------------------------------------------------
 # Update a dictionary with entries from another dict
 # ------------------------------------------------------------------------------
-def combine_dicts(dicts_new, dict_old=None):
+def combine_dicts(dicts_new, dict_old):
     """
     Update a dictionary with entries from another dict
 
@@ -1165,6 +1164,7 @@ def printl(
         file=file,
         flush=flush,
     )
+
 
 # ------------------------------------------------------------------------------
 # Constrain a value to an upper or lower value
