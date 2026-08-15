@@ -133,13 +133,13 @@ class CNPotPy:
     S_EXT_MO = ".mo"
 
     # default i18n folder
-    S_DIR_I18N = "i18n"
+    # S_DIR_I18N = "i18n"
     # default folders (under path_i18n)
     S_DIR_LOCALE = "locale"
     S_DIR_PO = "po"
 
     # default comment tag
-    S_TAG = "I18N"
+    # S_TAG = "I18N"
     # default encoding for .pot and .po files
     S_ENCODING = "UTF-8"
 
@@ -167,19 +167,22 @@ class CNPotPy:
     # NB: format params are file_mo and file_po
     S_CMD_MAKE_MOS = "msgfmt -o {} {}"
 
-    # I18N: error message for project path is not absolute
-    S_ERR_ABS_PRJ = _("Project directory must be absolute path")
-    # I18N: error message for desktop template is not absolute
-    S_ERR_DESK_TMP = _(
+    # error message for project path is not absolute
+    S_ERR_ABS_PRJ = "Project directory must be absolute path"
+    # error message for desktop template is not absolute
+    S_ERR_DESK_TMP = (
         "Desktop template file must be absolute path and it must exist"
     )
-    # I18N: error message for desktop output is not absolute
-    S_ERR_DESK_OUT = _("Desktop output file path must be absolute")
-    # I18N: error message for no xgettext
-    S_ERR_NO_XGT = _("No xgettext, use 'sudo apt install gettext'")
-    # I18N: error message for no lang in po file
+    # error message for desktop output is not absolute
+    S_ERR_DESK_OUT = "Desktop output file path must be absolute"
+    # error message for no xgettext
+    S_ERR_NO_XGT = "No xgettext, use 'sudo apt install gettext'"
+    # error message for no lang in po file
     # NB: format param is file name
-    S_ERR_NO_LANG = _("No language set in po file: {}")
+    S_ERR_NO_LANG = "No language set in po file: {}"
+    # error for empty string
+    # NB: format param is file name
+    S_ERR_EMPTY_TRANS = "empty translation value: {}"
 
     # meta regexes
     R_TITLE_SCH = r"# SOME DESCRIPTIVE TITLE."
@@ -209,13 +212,14 @@ class CNPotPy:
     R_CHAR_REP = r"\g<1>{}\g<3>"
 
     R_LANG_SCH = r"(\"Language: )(.*?)(\\n\")"
+    R_EMPTY_SCH = r"_\([\'\"]\s*[\'\"]\)"
 
-    # dicts
-    D_CLANGS = {
-        "Python": [".py"],
-        "Glade": [".ui", ".glade"],
-        "Desktop": [".desktop"],
-    }
+    # # dicts
+    # D_CLANGS = {
+    #     "Python": [".py"],
+    #     "Glade": [".ui", ".glade"],
+    #     "Desktop": [".desktop"],
+    # }
 
     # --------------------------------------------------------------------------
     # Class methods
@@ -228,17 +232,17 @@ class CNPotPy:
         self,
         # base prj dir
         path_prj: Path,
+        # out
+        path_i18n: Path, #| None = None,
         # in
         list_src: list[Path] | None = None,
-        # out
-        path_i18n: Path | None = None,
         # optional in
         str_domain: str = "",
         str_version: str = "",
         str_author: str = "",
         str_email: str = "",
         # use defaults for tag and encoding
-        str_tag: str = S_TAG,
+        str_tag: str = "",#S_TAG,
         str_encoding: str = S_ENCODING,
         # append clangs
         dict_clangs: dict[str, list[str]] | None = None,
@@ -293,6 +297,14 @@ class CNPotPy:
             raise OSError(self.S_ERR_ABS_PRJ)
         self._path_prj = path_prj
 
+        # check base of file structure
+        # if not path_i18n:
+        #     path_i18n = path_prj / self.S_DIR_I18N
+        path_i18n = Path(path_i18n)
+        if not path_i18n.is_absolute():
+            path_i18n = path_prj / path_i18n
+        self._path_i18n = path_i18n
+
         # check list_src
         if list_src is None:
             list_src = [self._path_prj]
@@ -302,14 +314,6 @@ class CNPotPy:
             for item in list_src
         ]
         self._list_src = list_src
-
-        # check base of file structure
-        if not path_i18n:
-            path_i18n = path_prj / self.S_DIR_I18N
-        path_i18n = Path(path_i18n)
-        if not path_i18n.is_absolute():
-            path_i18n = path_prj / path_i18n
-        self._path_i18n = path_i18n
 
         # get domain
         if not str_domain:
@@ -332,7 +336,7 @@ class CNPotPy:
 
         # store clangs
         if dict_clangs is None:
-            dict_clangs = self.D_CLANGS
+            dict_clangs = {}#self.D_CLANGS
         self._dict_clangs_in = dict_clangs
         self._dict_clangs = {}
 
@@ -526,6 +530,14 @@ class CNPotPy:
             # convert list of paths to quoted string
             list_clang_files = [f'"{str(item)}"' for item in clang_files]
             str_clang_files = " ".join(list_clang_files)
+
+            # scan every file for _("") or _('')
+            for item in list_clang_files:
+                with open(item, encoding=self.S_ENCODING) as a_file:
+                    text = a_file.read()
+                    res = re.search(self.R_EMPTY_SCH, text)
+                    if res:
+                        print(self.S_ERR_EMPTY_TRANS.format(item))
 
             # get the cmd
             cmd = self.S_CMD_XGT.format(
