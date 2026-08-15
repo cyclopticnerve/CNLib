@@ -33,6 +33,7 @@ import re
 import shlex
 import subprocess
 import sys
+from typing import Any
 
 # ------------------------------------------------------------------------------
 # Constant strings
@@ -611,14 +612,14 @@ def run(cmd, shell=False, capture_output=False):
 # ------------------------------------------------------------------------------
 # Combines dictionaries from all found paths
 # ------------------------------------------------------------------------------
-def load_paths_into_dict(paths, start_dict=None):
+def load_paths_into_dict(paths, start_dict=None) -> dict[str, Any]:
     """
     Combines dictionaries from all found paths
 
     Args:
-        paths: The file path or list of file paths to load
-        start_dict: The starting dict and final dict after combining (default:\
-        None)
+        paths: The file path or list of file paths to load start_dict: The
+        starting dict and final dict after combining (default: None)
+        start_dict: The initial dict to start combining
 
     Returns:
         The final combined dictionary
