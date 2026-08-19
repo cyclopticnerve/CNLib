@@ -53,20 +53,16 @@ class CNVenv:
     S_CMD_FREEZE = (
         "cd {}; "
         ". {}/bin/activate; "
-        "python3 "
-        "-Xfrozen_modules=off "
-        "-m pip freeze "
-        "-l --exclude-editable "
-        "--require-virtualenv "
-        "> "
-        "{}"
+        "python3 -Xfrozen_modules=off -m "
+        "pip freeze -l --exclude-editable --require-virtualenv "
+        "> {}"
     )
 
     # error messages
     # NB: format param is dir_prj
-    S_ERR_NOT_ABS = "path {} is not absolute"
+    S_ERR_NOT_ABS = "Path {} is not absolute"
     # NB: format param is dir_prj
-    S_ERR_NOT_DIR = "path {} is not a directory"
+    S_ERR_NOT_DIR = "Path {} is not a directory"
 
     # --------------------------------------------------------------------------
     # Class methods
