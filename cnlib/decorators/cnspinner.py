@@ -382,7 +382,9 @@ def spin(msg: str) -> Callable:
                 F.printd(str(e))
 
             # return real func results
-            return res
+            # NB: fucking ugly (why does Python have casts? casting is a poor
+            # man's fix)
+            return bool(res)
 
         # return wrap func as new pointer for a_func
         # NB: this is the function that ultimately gets called
