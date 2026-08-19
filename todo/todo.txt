@@ -1,4 +1,7 @@
 
+FIXME: trace spinner ctl-c to restore cursor
+FIXME: spinner ret code? restore cursor on fail/skip/err? trap ctl-c?
+
 FIXME: for pkg (or any?) add reqs to toml deps
 FIXME: cnlib depends on having pyplate installed, which depends on mkdocs
 

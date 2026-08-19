@@ -6,6 +6,8 @@
 # License : WTFPLv2                                                \          /
 # ------------------------------------------------------------------------------
 
+""" docstring"""
+
 # ------------------------------------------------------------------------------
 # Imports
 # ------------------------------------------------------------------------------
@@ -13,6 +15,7 @@
 import json
 import re
 
+# we could verify against schema and then do clamping/typing/sanitize
 # TODO: add a clamping dict and do sanitize (like a schema)
 # dict {
 #      S_KEY_INT: [0, 50]
@@ -36,6 +39,14 @@ import re
 # substitutions
 
 # TODO: make recursive (dicts of dicts/lists, lists of lists/dicts, etc.)
+
+# compare all top level
+#   object: deep compare?
+#   list: deep compare?
+#   str: overwrite?
+#   num: overwrite?
+#   bool: overwrite?
+# typecheck vals? (keys always strs)
 
 # ------------------------------------------------------------------------------
 # Public methods
@@ -139,7 +150,7 @@ def _validate_json(dict_json):
 
     # throw error if not valid
     except Exception as error:
-        raise Exception(f"JSON validation error: {error}")
+        raise OSError(f"JSON validation error: {error}") from error
 
 
 # ------------------------------------------------------------------------------
@@ -181,9 +192,9 @@ def _set_defaults(
 
     # check that we only pass dicts with at least one key
     if not isinstance(dict_defs, dict):
-        raise Exception("Parameter dict_defs is not a dict")
+        raise OSError("Parameter dict_defs is not a dict")
     if not isinstance(dict_user, dict):
-        raise Exception("Parameter dict_user is not a dict")
+        raise OSError("Parameter dict_user is not a dict")
 
     # start with defs
     if dict_res is None:
@@ -243,7 +254,7 @@ def _set_defaults(
                     key_path_str = key_path + "/" + str(key)
 
                     # raise an Exception with the key path and the two types
-                    raise Exception(
+                    raise OSError(
                         f"Conflict at {key_path_str}, "
                         + f"defs type = {defs_val_type}, "
                         + f"user type = {user_val_type}"
@@ -315,7 +326,7 @@ def _set_substitutions(dict_in, dict_subs):
             # if it is valid, do whole string replace
             dict_str = dict_str.replace(key, val)
         else:
-            raise Exception(f"Substitution error: {key} incorrect format")
+            raise OSError(f"Substitution error: {key} incorrect format")
 
     # convert string to dict
     dict_res = json.loads(dict_str)

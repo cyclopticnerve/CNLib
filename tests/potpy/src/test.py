@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+""" docstring """
+
 # ------------------------------------------------------------------------------
 # 10 lines
 
@@ -15,6 +17,9 @@
 # locale.bindtextdomain(S_DOMAIN, P_DIR_LOCALE)
 # translation = gettext.translation(S_DOMAIN, P_DIR_LOCALE, fallback=True)
 # _ = translation.gettext
+
+# a_str = translation.gettext("Hello world!")
+# print(a_str)
 
 # ------------------------------------------------------------------------------
 # 12 lines
@@ -50,4 +55,6 @@ _ = cnpot.underscore(S_DOMAIN, P_DIR_LOCALE)
 
 # ------------------------------------------------------------------------------
 
-print(_("Hello world!"))
+# I18N: a test string
+a_str = _("Hello world!")
+print(a_str)
