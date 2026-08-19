@@ -11,8 +11,8 @@ This module creates a tree of the specified directory, with paths being ignored
 by the filter list and names being formatted according to the specified
 formats. It creates both text and HTML versions. The HTML version has the
 ability to display checkboxes that show the state of each item as either
-checked, unchecked, or indeterminate, according to their child checkboxes'
-values.
+checked, unchecked, or partially checked, according to their child checkboxes'
+states.
 """
 
 # TODO: only do check event on load if item has no children
