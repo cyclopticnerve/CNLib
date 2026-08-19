@@ -1,7 +1,4 @@
 
-FIXME: trace spinner ctl-c to restore cursor
-FIXME: spinner ret code? restore cursor on fail/skip/err? trap ctl-c?
-
 FIXME: for pkg (or any?) add reqs to toml deps
 FIXME: cnlib depends on having pyplate installed, which depends on mkdocs
 
@@ -9,6 +6,8 @@ NEXT: cnpot plurals?
 NEXT: CNLog: location, size, num files, funcs like printl
 NEXT: look at configurator.py in todo
 
+DONE: trace spinner ctl-c to restore cursor
+DONE: spinner ret code? restore cursor on fail/skip/err? trap ctl-c?
 DONE: no i18n for any module (no place to install locale dir)
 DONE: check for 'which xgettext' and warn/quit (sudo apt install gettext)
 DONE: bool/clamp/interpolate: in as any/int/float, out as int/float/bool
