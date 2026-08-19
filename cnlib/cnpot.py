@@ -42,8 +42,7 @@ import cnlib.cnfunctions as F
 # Module constants
 # ------------------------------------------------------------------------------
 
-# NB: cannot be i18n'd (chicken/egg)
-S_ERR_DOMAIN = "no domain"
+S_ERR_DOMAIN = "No domain"
 S_ERR_LOCALE = "locale_dir must be an absolute Path"
 
 # ------------------------------------------------------------------------------
@@ -92,11 +91,6 @@ def underscore(domain: str, locale_dir: Path) -> Callable[[str], str]:
     # it can then be inherited from there
     return translation.gettext
 
-
-# get this module's i18n
-P_DIR_PRJ = Path(__file__).parent.resolve()
-_ = underscore("cnlib", P_DIR_PRJ / "i18n/locale")
-
 # ------------------------------------------------------------------------------
 # Classes
 # ------------------------------------------------------------------------------
@@ -132,14 +126,10 @@ class CNPotPy:
     S_EXT_PO = ".po"
     S_EXT_MO = ".mo"
 
-    # default i18n folder
-    # S_DIR_I18N = "i18n"
     # default folders (under path_i18n)
     S_DIR_LOCALE = "locale"
     S_DIR_PO = "po"
 
-    # default comment tag
-    # S_TAG = "I18N"
     # default encoding for .pot and .po files
     S_ENCODING = "UTF-8"
 
@@ -152,7 +142,7 @@ class CNPotPy:
         "--package-name={} "  # str_domain (fixes license string)
         "-F "  # sort entries by file
         "-j "  # merge with existing file
-        "-c{} "  # stop backpedaling for comments
+        "-c{} "  # stop backpedaling for comments (str_tag)
         "-o {} "  # final name of output file (absolute or rel to cwd)
         "-L {} "  # language of file from clangs
         "{}"  # list of quoted paths to src files for this clang
@@ -214,12 +204,12 @@ class CNPotPy:
     R_LANG_SCH = r"(\"Language: )(.*?)(\\n\")"
     R_EMPTY_SCH = r"_\([\'\"]\s*[\'\"]\)"
 
-    # # dicts
-    # D_CLANGS = {
-    #     "Python": [".py"],
-    #     "Glade": [".ui", ".glade"],
-    #     "Desktop": [".desktop"],
-    # }
+    # dicts
+    D_CLANGS = {
+        "Python": [".py"],
+        "Glade": [".ui", ".glade"],
+        "Desktop": [".desktop"],
+    }
 
     # --------------------------------------------------------------------------
     # Class methods
@@ -235,7 +225,7 @@ class CNPotPy:
         # out
         path_i18n: Path, #| None = None,
         # in
-        list_src: list[Path] | None = None,
+        list_src: list[Path],
         # optional in
         str_domain: str = "",
         str_version: str = "",
@@ -279,8 +269,9 @@ class CNPotPy:
             and any initial .po files created (default: S_ENCODING)
 
             dict_clangs: The dictionary of file extensions to scan for each
-            clang. If ths dict is empty, all files with extensions
-            known to xgettext will be scanned. (default: D_CLANGS)
+            clang. For each entry, the key is a clang known to xgettext. The
+            value is a list of file extensions associated with that clang. If
+            ths dict is empty, no files will be scanned. (default: D_CLANGS)
 
         Raises:
             OSError: If path_prj is not absolute
@@ -298,8 +289,6 @@ class CNPotPy:
         self._path_prj = path_prj
 
         # check base of file structure
-        # if not path_i18n:
-        #     path_i18n = path_prj / self.S_DIR_I18N
         path_i18n = Path(path_i18n)
         if not path_i18n.is_absolute():
             path_i18n = path_prj / path_i18n
@@ -326,7 +315,6 @@ class CNPotPy:
         self._str_version = str_version
         self._str_author = str_author
         self._str_email = str_email
-        # NB: if blank, use default
         self._str_tag = str_tag
         self._str_encoding = str_encoding
 
@@ -336,7 +324,7 @@ class CNPotPy:
 
         # store clangs
         if dict_clangs is None:
-            dict_clangs = {}#self.D_CLANGS
+            dict_clangs = self.D_CLANGS
         self._dict_clangs_in = dict_clangs
         self._dict_clangs = {}
 
@@ -528,7 +516,7 @@ class CNPotPy:
                 continue
 
             # convert list of paths to quoted string
-            list_clang_files = [f'"{str(item)}"' for item in clang_files]
+            list_clang_files = [f"{str(item)}" for item in clang_files]
             str_clang_files = " ".join(list_clang_files)
 
             # scan every file for _("") or _('')
