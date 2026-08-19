@@ -7,7 +7,8 @@
 # ------------------------------------------------------------------------------
 
 """
-The base file for a decorator with parameters
+The template file for a decorator with parameters.
+THIS IS A TEMPLATE, NOT A BASE CLASS!!!
 
 """
 
