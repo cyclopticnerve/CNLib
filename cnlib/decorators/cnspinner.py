@@ -31,10 +31,10 @@ from cnlib import cnfunctions as F
 import signal  # pylint: disable=wrong-import-order
 
 
-# make a signal handler that raises ctrl-c
+# qnd to make sure all exits restore cursor
 def _signal_handler(_sig, _frame):
-    """docstring"""
-    raise KeyboardInterrupt()
+    """ qnd to make sure all exits restore cursor """
+    raise OSError("Keyboard interrupt (Ctrl-C)")
 
 
 # any interrupt calls above handler
@@ -74,7 +74,6 @@ S_SHOW_CURSOR = "\033[?25h"
 # interval: Amount of time, in seconds, between animation frames (accepts
 #           fractional time)
 # skip:     Dict of stuff to print when skipped
-# skip:     Dict of stuff to print when skipped
 # done:     Dict of stuff to print when done
 # fail:     Dict of stuff to print when failed
 # msg:      What to print after last_msg
@@ -85,12 +84,6 @@ S_SHOW_CURSOR = "\033[?25h"
 D_SPIN = {
     S_KEY_FRAMES: ["", ".", "..", "... "],
     S_KEY_INTERVAL: 0.5,
-    S_KEY_SKIP: {
-        S_KEY_MSG: "Skipped",
-        S_KEY_FG: F.C_FG_YELLOW,
-        S_KEY_BG: F.C_BG_NONE,
-        S_KEY_BOLD: True,
-    },
     S_KEY_SKIP: {
         S_KEY_MSG: "Skipped",
         S_KEY_FG: F.C_FG_YELLOW,
@@ -223,8 +216,8 @@ def skip(msg: str):
         bold=a_dict[S_KEY_BOLD],
     )
 
-    # NB: "It's all for you, Damien!" : -t is the spawn of satan. who thought
-    # of this shit?
+    # NB: "It's all for you, Damien!"
+    # -t is the spawn of satan. who thought of this shit?
     # (-t uses PUB_ACT to determine which steps to skip)
 
     # a skipped function will not stop progress
@@ -274,7 +267,7 @@ def spin(msg: str) -> Callable:
         # ----------------------------------------------------------------------
         # The one that does all the work
         # ----------------------------------------------------------------------
-        def wrapper(*args, **kwargs) -> Exception | None:
+        def wrapper(*args, **kwargs) -> bool:
             """
             The one that does all the work
 
@@ -285,10 +278,10 @@ def spin(msg: str) -> Callable:
                 etc.)
 
             Returns:
-                Exception | None: An Exception if the function fails, or None
-                if the action was successful
-                Exception | None: An Exception if the function fails, or None
-                if the action was successful
+                bool: True if the function is successful, False if not
+
+            Raises:
+                OSError if the function fails
 
             This method does the real work, performing the before-call code,
             the actual function, and the after-call code.
@@ -304,7 +297,7 @@ def spin(msg: str) -> Callable:
             )
 
             # set default value
-            err = None
+            res = True
 
             # we need a try-except to capture ctrl-c to restore the cursor
             try:
@@ -322,8 +315,12 @@ def spin(msg: str) -> Callable:
                 # --------------------------------------------------------------
                 # do real call with args and store res
 
-                # all funcs must be pass/fail (None=pass, Exception=fail)
-                err = func(*args, **kwargs)
+                # all funcs must be pass/fail (default: True)
+                res = func(*args, **kwargs)
+
+                # no return (None) assumed True
+                if res is None:
+                    res = True
 
                 # --------------------------------------------------------------
                 # set flag and wait for thread
@@ -338,7 +335,7 @@ def spin(msg: str) -> Callable:
                 print(last_msg, end="")
 
                 # print done/fail
-                if not err:
+                if res:
                     # print green done
                     a_dict = D_SPIN[S_KEY_DONE]
                     F.printc(
@@ -356,24 +353,36 @@ def spin(msg: str) -> Callable:
                         bg=a_dict[S_KEY_BG],
                         bold=a_dict[S_KEY_BOLD],
                     )
-                    F.printd(str(err))
 
                 # show cursor
                 print(S_SHOW_CURSOR, end="")
 
-            # catch ctrl-c
-            except KeyboardInterrupt as e:
+            # catch ALL exceptions to print fail and restore cursor
+            except Exception as e:  # pylint: disable=broad-exception-caught
 
                 # make sure we stop the thread
                 evt.set()
                 t_spin.join()
 
+                # print last msg
+                last_msg = msgs[-1]
+                print(last_msg, end="")
+
+                # print red fail
+                a_dict = D_SPIN[S_KEY_FAIL]
+                F.printc(
+                    a_dict[S_KEY_MSG],
+                    fg=a_dict[S_KEY_FG],
+                    bg=a_dict[S_KEY_BG],
+                    bold=a_dict[S_KEY_BOLD],
+                )
+
                 # show cursor and print error
-                print(S_SHOW_CURSOR, end="")  # show cursor
+                print(S_SHOW_CURSOR, end="")
                 F.printd(str(e))
 
             # return real func results
-            return err
+            return res
 
         # return wrap func as new pointer for a_func
         # NB: this is the function that ultimately gets called
@@ -391,32 +400,24 @@ if __name__ == "__main__":
 
     # --------------------------------------------------------------------------
 
-    DEBUG = True
-    F.B_DEBUG = DEBUG
-    ERR = True
+    F.B_DEBUG = True
 
-    @spin("Downloading file")
-    def do_long(interval):
+    skip("Skip downloading file")
+
+    @spin("Real downloading file")
+    def do_long():
         """docstring"""
 
-        # uncaught exception
-        # raise IOError("test")
+        sleep(2)  # do something
 
-        sleep(interval)
-
-        # caught exception
-        try:
-            if ERR:
-                raise IOError("test")
-            return (True, None)
-        except IOError as e:
-            if DEBUG:
-                return (False, e)
-            return (False, None)
+        # return True  # success
+        # return False  # fail
+        raise IOError("boobs")  # return fail w/ error string
 
     # --------------------------------------------------------------------------
 
     # do the thing
-    do_long(10)
+    do_long()
+    print("goodbye")
 
 # -)
