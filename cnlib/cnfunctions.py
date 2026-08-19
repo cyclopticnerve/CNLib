@@ -50,13 +50,13 @@ B_DEBUG = False
 S_ERR_NOT_DICT = "dpretty object is not a dict"
 S_ERR_NOT_LIST = "lpretty object is not a list"
 S_ERR_NOT_DICT_OR_LIST = "pp object is not a dict or list"
-S_ERR_SHELL = "shell process failed"
+S_ERR_SHELL = "Shell process failed"
 # NB: format param is dict file path
-S_ERR_NOT_EXIST = "dict file '{}' does not exist"
+S_ERR_NOT_EXIST = "Dict file '{}' does not exist"
 # NB: format param is dict file path
-S_ERR_NOT_VALID = "dict file '{}' is not a valid JSON file"
+S_ERR_NOT_VALID = "Dict file '{}' is not a valid JSON file"
 # NB: format param is dict file path
-S_ERR_NOT_CREATE = "dict file '{}' could not be created"
+S_ERR_NOT_CREATE = "Dict file '{}' could not be created"
 S_ERR_VERSION = "One or both version numbers are invalid"
 # NB: format param is file path
 S_ERR_NOT_FOUND = "File {} not found"
