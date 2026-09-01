@@ -7,7 +7,7 @@
 # ------------------------------------------------------------------------------
 
 """
-A decorator to print a spinner somewhere in a status line
+A decorator to print a spinner in a status line
 Heavily inspired by Dave Eddy (https://www.youtube.com/@yousuckatprogramming)
 
 For decorator templates, see cndecorator.py and cndecorator_params.py in this
@@ -19,26 +19,13 @@ directory.
 # ------------------------------------------------------------------------------
 
 # system imports
+import signal
 from threading import Thread, Event
 from time import sleep
 from typing import Callable
 
-# venv imports
+# local imports
 from cnlib import cnfunctions as F
-
-# ------------------------------------------------------------------------------
-# NB: qnd to make sure all exits restore cursor
-import signal  # pylint: disable=wrong-import-order
-
-
-# qnd to make sure all exits restore cursor
-def _signal_handler(_sig, _frame):
-    """ qnd to make sure all exits restore cursor """
-    raise OSError("Keyboard interrupt (Ctrl-C)")
-
-
-# any interrupt calls above handler
-signal.signal(signal.SIGINT, _signal_handler)
 
 # ------------------------------------------------------------------------------
 # Constants
@@ -47,23 +34,26 @@ signal.signal(signal.SIGINT, _signal_handler)
 # ------------------------------------------------------------------------------
 # Strings
 
-# the current message, reset each time
-S_MSG = ""
-
 # dictionary keys
 S_KEY_FRAMES = "frames"
 S_KEY_INTERVAL = "interval"
+S_KEY_SKIP = "skip"
 S_KEY_DONE = "done"
 S_KEY_FAIL = "fail"
-S_KEY_SKIP = "skip"
-S_KEY_MSG = "msg"
+S_KEY_RES = "result"
 S_KEY_FG = "fg"
-S_KEY_BG = "bg"
-S_KEY_BOLD = "bold"
 
 # terminal escape commands
 S_HIDE_CURSOR = "\033[?25l"
 S_SHOW_CURSOR = "\033[?25h"
+S_CLEAR_LINE = "\033[0K"
+
+# message format
+# NB: format params are message and frame
+S_MSG_FMT = "{}{} "
+
+# errors
+S_ERR_CTRL_C = "Keyboard interrupt (Ctrl-C)"
 
 # ------------------------------------------------------------------------------
 # Dictionaries
@@ -76,31 +66,24 @@ S_SHOW_CURSOR = "\033[?25h"
 # skip:     Dict of stuff to print when skipped
 # done:     Dict of stuff to print when done
 # fail:     Dict of stuff to print when failed
-# msg:      What to print after last_msg
+
+# result:   What to print after msg
 # fg:       Foreground color for pass/fail
-# bg:       Background color for pass/fail
-# bold:     True for bold in pass/fail
 
 D_SPIN = {
-    S_KEY_FRAMES: ["", ".", "..", "... "],
+    S_KEY_FRAMES: ["", ".", "..", "..."],
     S_KEY_INTERVAL: 0.5,
     S_KEY_SKIP: {
-        S_KEY_MSG: "Skipped",
-        S_KEY_FG: F.C_FG_YELLOW,
-        S_KEY_BG: F.C_BG_NONE,
-        S_KEY_BOLD: True,
+        S_KEY_RES: "Skipped",
+        S_KEY_FG: F.C_FG_YELLOW
     },
     S_KEY_DONE: {
-        S_KEY_MSG: "Done",
-        S_KEY_FG: F.C_FG_GREEN,
-        S_KEY_BG: F.C_BG_NONE,
-        S_KEY_BOLD: True,
+        S_KEY_RES: "Done",
+        S_KEY_FG: F.C_FG_GREEN
     },
     S_KEY_FAIL: {
-        S_KEY_MSG: "Failed",
-        S_KEY_FG: F.C_FG_RED,
-        S_KEY_BG: F.C_BG_NONE,
-        S_KEY_BOLD: True,
+        S_KEY_RES: "Failed",
+        S_KEY_FG: F.C_FG_RED
     },
 }
 
@@ -108,83 +91,58 @@ D_SPIN = {
 # Private functions
 # ------------------------------------------------------------------------------
 
+# ------------------------------------------------------------------------------
+# Trap SIGINT (Ctrl-C) to restore cursor
+# ------------------------------------------------------------------------------
+def _signal_handler(_sig, _frame):
+    """
+    Trap SIGINT (Ctrl-C) to restore cursor
+    """
+
+    # raise an error that says ctrl-c was pressed
+    raise OSError(S_ERR_CTRL_C)
 
 # ------------------------------------------------------------------------------
 # The code to draw the spinner on a background thread
 # ------------------------------------------------------------------------------
-def _thread_spin(evt: Event, msgs: list[str], interval: float):
+def _thread_spin(evt: Event, msg: str):
     """
     The code to draw the spinner on a background thread
 
     Arguments:
         evt: Event object to control stopping the thread
-        msgs: List of strings to rotate through when animating the spinner
-        interval: Amount of time, in seconds, between animation frames
-        (accepts fractional time)
+        msg: Tell the user what is happening
 
     This is a private function that handles the animation of the line.
-    Note that lines[] are formatted by _fix_len() from the msg strings and
-    frames passed to spin().
     """
+
+    # get animation frames and interval between frames from local dict
+    frames = D_SPIN[S_KEY_FRAMES]
+    interval = D_SPIN[S_KEY_INTERVAL]
+
+    # hide cursor, cursor stays
+    print(S_HIDE_CURSOR, end="")
 
     # start spinner and run until flag
     while not evt.is_set():
 
-        # for each string in strs
-        for msg in msgs:
+        # for each frame of animation
+        for frame in frames:
 
-            # print message and put cursor back at start
-            print(msg, end="\r")
+            # clear current line, cursor stays
+            print(S_CLEAR_LINE, end="")
+
+            # print msg and frame, cursor to line start
+            # NB: the \r is here because S_CLEAR_LINE clears to the right of
+            # the cursor
+            a_str = S_MSG_FMT.format(msg, frame)
+            print(a_str, end="\r")
 
             # wait for interval
             sleep(interval)
 
-
-# ------------------------------------------------------------------------------
-# Make sure all messages are the same length
-# ------------------------------------------------------------------------------
-def _fix_len(msg: str) -> list[str]:
-    """
-    Make sure all messages are the same length
-
-    Arguments:
-        msg: The format string to use as the message
-
-    Returns:
-        A tuple consisting of:
-            list: A list of formatted, padded strings
-
-    A private function to make sure all message strings are the same length by
-    padding them with trailing spaces. This is done to ensure the previous
-    message gets completely overwritten, leaving no artifacts.
-
-    This function will calculate the shortest space-padded strings needed to
-    clear the line each time the spinner redraws.
-    """
-
-    # get the strings of interest from the options dict
-    frames = D_SPIN[S_KEY_FRAMES]
-
-    # NB: this should be more flexible
-    msg = msg + "{}"
-    msgs = [msg.format(frame) for frame in frames]
-
-    # get len_max
-    len_max = 0
-
-    # loop through strs
-    for a_msg in msgs:
-        len_new = len(a_msg)
-        len_max = max(len_max, len_new)
-
-    # make a list of formatted/padded strings
-    msgs = [a_msg.ljust(len_max) for a_msg in msgs]
-
-    # --------------------------------------------------------------------------
-
-    # and we Audi 5000
-    return msgs
-
+    # show cursor, cursor stays
+    print(S_SHOW_CURSOR, end="")
 
 # ------------------------------------------------------------------------------
 # Public functions
@@ -202,27 +160,21 @@ def skip(msg: str):
         msg: Step name to print
     """
 
-    msgs = _fix_len(msg)
+    # get last frame
+    frames = D_SPIN[S_KEY_FRAMES]
+    frame = frames[-1]
 
-    last_msg = msgs[-1]
-    print(last_msg, end="")
+    # print message and last frame
+    a_str = S_MSG_FMT.format(msg, frame)
+    print(a_str, end="")
 
     # print yellow skip
     a_dict = D_SPIN[S_KEY_SKIP]
     F.printc(
-        a_dict[S_KEY_MSG],
+        a_dict[S_KEY_RES],
         fg=a_dict[S_KEY_FG],
-        bg=a_dict[S_KEY_BG],
-        bold=a_dict[S_KEY_BOLD],
+        bold=True,
     )
-
-    # NB: "It's all for you, Damien!"
-    # -t is the spawn of satan. who thought of this shit?
-    # (-t uses PUB_ACT to determine which steps to skip)
-
-    # a skipped function will not stop progress
-    return True
-
 
 # ------------------------------------------------------------------------------
 # Decoration implementation with params
@@ -232,7 +184,7 @@ def spin(msg: str) -> Callable:
     Decoration implementation with params
 
     Arguments:
-        msg: The format string to use as the message
+        msg: The string to use as the message
 
     Returns:
         The function that matches <some_name>(some_func), which in turn returns
@@ -243,8 +195,6 @@ def spin(msg: str) -> Callable:
     function signature and parameters as they are called in code, as a hidden
     first param. It also passes the parameters passed to the decorator.
     """
-
-    # NB: do stuff before deco
 
     # --------------------------------------------------------------------------
     # Decoration implementation with no parameters
@@ -267,7 +217,7 @@ def spin(msg: str) -> Callable:
         # ----------------------------------------------------------------------
         # The one that does all the work
         # ----------------------------------------------------------------------
-        def wrapper(*args, **kwargs) -> bool:
+        def wrapper(*args, **kwargs):
             """
             The one that does all the work
 
@@ -277,114 +227,82 @@ def spin(msg: str) -> Callable:
                 **kwargs: Dict of all args that do have keywords (foo=bar,
                 etc.)
 
-            Returns:
-                bool: True if the function is successful, False if not
-
-            Raises:
-                OSError if the function fails
-
             This method does the real work, performing the before-call code,
             the actual function, and the after-call code.
             """
 
-            # rewrite array to contain formatted/padded strs
-            msgs = _fix_len(msg)
-
             # create thread outside of try so we can get it in except
             evt = Event()
             t_spin = Thread(
-                target=_thread_spin, args=(evt, msgs, D_SPIN[S_KEY_INTERVAL])
+                target=_thread_spin, args=(evt, msg)
             )
 
-            # set default value
-            res = True
+            # start spinner on new thread
+            t_spin.start()
 
-            # we need a try-except to capture ctrl-c to restore the cursor
+            # store error if raised
+            err = None
+
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+
+            # try to run the real function and see if it passes/fails
+            # yes, or no and why
             try:
-
-                # --------------------------------------------------------------
-                # do stuff before call
-
-                # hide cursor
-                print(S_HIDE_CURSOR, end="\r")
-
-                # --------------------------------------------------------------
-                # start spinner on new thread
-                t_spin.start()
-
-                # --------------------------------------------------------------
-                # do real call with args and store res
-
-                # all funcs must be pass/fail (default: True)
-                res = func(*args, **kwargs)
-
-                # no return (None) assumed True
-                if res is None:
-                    res = True
-
-                # --------------------------------------------------------------
-                # set flag and wait for thread
-                evt.set()
-                t_spin.join()
-
-                # --------------------------------------------------------------
-                # do stuff after call
-
-                # print last msg
-                last_msg = msgs[-1]
-                print(last_msg, end="")
-
-                # print done/fail
-                if res:
-                    # print green done
-                    a_dict = D_SPIN[S_KEY_DONE]
-                    F.printc(
-                        a_dict[S_KEY_MSG],
-                        fg=a_dict[S_KEY_FG],
-                        bg=a_dict[S_KEY_BG],
-                        bold=a_dict[S_KEY_BOLD],
-                    )
-                else:
-                    # print red fail
-                    a_dict = D_SPIN[S_KEY_FAIL]
-                    F.printc(
-                        a_dict[S_KEY_MSG],
-                        fg=a_dict[S_KEY_FG],
-                        bg=a_dict[S_KEY_BG],
-                        bold=a_dict[S_KEY_BOLD],
-                    )
-
-                # show cursor
-                print(S_SHOW_CURSOR, end="")
+                func(*args, **kwargs)
 
             # catch ALL exceptions to print fail and restore cursor
+            # NB: we are not interested in handling the error here, we just
+            # need to know IF it happened
+            # we will re-raise it to let the real function handle it
             except Exception as e:  # pylint: disable=broad-exception-caught
+                err = e
 
-                # make sure we stop the thread
-                evt.set()
-                t_spin.join()
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
-                # print last msg
-                last_msg = msgs[-1]
-                print(last_msg, end="")
+            # do these regardless of result
+
+            # stop animation thread
+            evt.set()
+            t_spin.join()
+
+            # get last frame
+            frames = D_SPIN[S_KEY_FRAMES]
+            frame = frames[-1]
+
+            # print message and last frame
+            a_str = S_MSG_FMT.format(msg, frame)
+            print(a_str, end="")
+
+            # ------------------------------------------------------------------
+            # do these based on result
+
+            # only thing that fails is explicit False or error
+            # if res is False or isinstance(res, Exception):
+            if err:
 
                 # print red fail
                 a_dict = D_SPIN[S_KEY_FAIL]
                 F.printc(
-                    a_dict[S_KEY_MSG],
+                    a_dict[S_KEY_RES],
                     fg=a_dict[S_KEY_FG],
-                    bg=a_dict[S_KEY_BG],
-                    bold=a_dict[S_KEY_BOLD],
+                    bold=True,
+                )
+                # print error if F.B_DEBUG is True
+                F.printd(str(err))
+            else:
+
+                # print green done
+                a_dict = D_SPIN[S_KEY_DONE]
+                F.printc(
+                    a_dict[S_KEY_RES],
+                    fg=a_dict[S_KEY_FG],
+                    bold=True,
                 )
 
-                # show cursor and print error
-                print(S_SHOW_CURSOR, end="")
-                F.printd(str(e))
-
-            # return real func results
-            # NB: fucking ugly (why does Python have casts? casting is a poor
-            # man's fix)
-            return bool(res)
+            # return None (pass) or Exception (fail)
+            return err
 
         # return wrap func as new pointer for a_func
         # NB: this is the function that ultimately gets called
@@ -393,6 +311,9 @@ def spin(msg: str) -> Callable:
     # return inner here
     return spin2
 
+# any interrupt calls above handler
+signal.signal(signal.SIGINT, _signal_handler)
+
 
 # ------------------------------------------------------------------------------
 # Code to run when called from command line
@@ -400,26 +321,34 @@ def spin(msg: str) -> Callable:
 if __name__ == "__main__":
     # Code to run when called from command line
 
-    # --------------------------------------------------------------------------
-
     F.B_DEBUG = True
 
-    skip("Skip downloading file")
+    # --------------------------------------------------------------------------
 
     @spin("Real downloading file")
     def do_long():
         """docstring"""
 
-        sleep(2)  # do something
+        # sleep(10)  # do something
 
-        # return True  # success
-        # return False  # fail
-        raise IOError("boobs")  # return fail w/ error string
+        # try:
+        # F.run("ls", shell=True)
+        # F.run("boogers")
+        # except F.CNRunError as e:
+        #     # NB: re-raise error so wrapper knows it failed
+        #     raise e
+
+        # raise OSError("error: boobs")
 
     # --------------------------------------------------------------------------
 
     # do the thing
-    do_long()
-    print("goodbye")
+    skip("Skip downloading file")
+    ERR = do_long()
+    if ERR:
+        print("oops")
+    else:
+        print("ok")
+    # print("goodbye")
 
 # -)

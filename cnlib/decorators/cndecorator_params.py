@@ -1,9 +1,9 @@
 # ------------------------------------------------------------------------------
-# Project : CNLib                                                  /          \
-# Filename: cndecorator_params.py                                 |     ()     |
-# Date    : 05/10/2026                                            |            |
-# Author  : cyclopticnerve                                        |   \____/   |
-# License : WTFPLv2                                                \          /
+# Project : __PP_NAME_PRJ_BIG__                                    /          \
+# Filename:                                                       |     ()     |
+# Date    : __PP_DATE__                                           |            |
+# Author  : __PP_AUTHOR__                                         |   \____/   |
+# License : __PP_LICENSE_NAME__                                    \          /
 # ------------------------------------------------------------------------------
 
 """

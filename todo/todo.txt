@@ -1,4 +1,5 @@
 
+FIXME: test all modules with F.B_DEGUG = True
 FIXME: for pkg (or any?) add reqs to toml deps
 FIXME: cnlib depends on having pyplate installed, which depends on mkdocs
 

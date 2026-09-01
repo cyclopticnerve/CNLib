@@ -425,14 +425,14 @@ def lpretty(list_print, indent_size=4, indent_level=0, label=None):
 
 
 # ------------------------------------------------------------------------------
-# Pretty print a list or dictionary
+# Pretty format a list or dictionary (or a scalar)
 # ------------------------------------------------------------------------------
-def pp(obj, indent_size=4, label=None):
+def pf(obj, indent_size=4, label=None):
     """
-    Pretty print a dictionary or list
+    Pretty format a dictionary or list (or a scalar)
 
     Args:
-        obj: The dictionary or list to print
+        obj: The dictionary, list, scalar to print
         indent_size: The number of spaces to use for each indent level
         (default: 4)
         label: The string to use as a label (default: None)
@@ -458,10 +458,42 @@ def pp(obj, indent_size=4, label=None):
     elif isinstance(obj, list):
         result = lpretty(obj, indent_size, 0, label)
     else:
-        raise OSError(S_ERR_NOT_DICT_OR_LIST)
+        # raise OSError(S_ERR_NOT_DICT_OR_LIST)
+        result = str(obj)
 
+    # return the result
+    return result
+
+# ------------------------------------------------------------------------------
+# Pretty print a list or dictionary
+# ------------------------------------------------------------------------------
+def pp(obj, indent_size=4, label=None):
+    """
+    Pretty print a dictionary or list
+
+    Args:
+        obj: The dictionary or list to print
+        indent_size: The number of spaces to use for each indent level
+        (default: 4)
+        label: The string to use as a label (default: None)
+
+    Returns:
+        The object formatted for printing
+
+    Raises:
+        OSError if the first param is not a dict or list
+
+    Formats a dictionary or list nicely and prints it to the console. Note that
+    this method includes magic commas in the output, and therefore cannot be
+    used to create true JSON-compatible strings. It should only be used for
+    debugging.
+    """
+
+    # run params through pf to get a string
+    res = pf(obj, indent_size, label)
+    
     # print the result
-    print(result)
+    print(res)
 
 
 # ------------------------------------------------------------------------------
@@ -1045,7 +1077,7 @@ def printd(
     flush=False,
 ):
     """
-    Print a string if the debug param is True
+    Print a string if the B_DEBUG var is True
 
     Args:
         *values: A variable number of string arguments
