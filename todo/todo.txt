@@ -1,12 +1,12 @@
 
 FIXME: test all modules with F.B_DEGUG = True
 FIXME: for pkg (or any?) add reqs to toml deps
-FIXME: cnlib depends on having pyplate installed, which depends on mkdocs
 
 NEXT: cnpot plurals?
 NEXT: CNLog: location, size, num files, funcs like printl
-NEXT: look at configurator.py in todo
+NEXT: look at tests/configurator.py
 
+DONE: cnlib depends on having pyplate installed, which depends on mkdocs
 DONE: trace spinner ctl-c to restore cursor
 DONE: spinner ret code? restore cursor on fail/skip/err? trap ctl-c?
 DONE: no i18n for any module (no place to install locale dir)
