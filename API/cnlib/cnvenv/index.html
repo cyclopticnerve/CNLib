@@ -55,10 +55,6 @@
 </li>
             
 <li>
-    <a href="../cnmkdocs/" class="dropdown-item">cnmkdocs.py</a>
-</li>
-            
-<li>
     <a href="../cnpot/" class="dropdown-item">cnpot.py</a>
 </li>
             
@@ -75,15 +71,15 @@
     <ul class="dropdown-menu">
             
 <li>
+    <a href="../decorators/cndebug/" class="dropdown-item">cndebug.py</a>
+</li>
+            
+<li>
     <a href="../decorators/cndecorator/" class="dropdown-item">cndecorator.py</a>
 </li>
             
 <li>
     <a href="../decorators/cndecorator_params/" class="dropdown-item">cndecorator_params.py</a>
-</li>
-            
-<li>
-    <a href="../decorators/cnspinner/" class="dropdown-item">cnspinner.py</a>
 </li>
     </ul>
   </li>
@@ -105,7 +101,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../decorators/cndecorator/" class="nav-link">
+                                <a rel="next" href="../decorators/cndebug/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -265,20 +261,16 @@ in the project's venv folder.</p>
     S_CMD_FREEZE = (
         "cd {}; "
         ". {}/bin/activate; "
-        "python3 "
-        "-Xfrozen_modules=off "
-        "-m pip freeze "
-        "-l --exclude-editable "
-        "--require-virtualenv "
-        "&gt; "
-        "{}"
+        "python3 -Xfrozen_modules=off -m "
+        "pip freeze -l --exclude-editable --require-virtualenv "
+        "&gt; {}"
     )
 
     # error messages
     # NB: format param is dir_prj
-    S_ERR_NOT_ABS = "path {} is not absolute"
+    S_ERR_NOT_ABS = "Path {} is not absolute"
     # NB: format param is dir_prj
-    S_ERR_NOT_DIR = "path {} is not a directory"
+    S_ERR_NOT_DIR = "Path {} is not a directory"
 
     # --------------------------------------------------------------------------
     # Class methods
