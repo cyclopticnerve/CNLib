@@ -5,12 +5,11 @@
    │     └─ [] tasks.json
    ├─ [] cnlib/
    │     ├─ [] decorators/
+   │     │     ├─ [] cndebug.py
    │     │     ├─ [] cndecorator_params.py
-   │     │     ├─ [] cndecorator.py
-   │     │     └─ [] cnspinner.py
+   │     │     └─ [] cndecorator.py
    │     ├─ [] cnformatter.py
    │     ├─ [] cnfunctions.py
-   │     ├─ [] cnmkdocs.py
    │     ├─ [] cnpot.py
    │     ├─ [] cntree.py
    │     └─ [] cnvenv.py
@@ -18,12 +17,11 @@
    │     ├─ [] API/
    │     │     └─ [] cnlib/
    │     │           ├─ [] decorators/
+   │     │           │     ├─ [] cndebug.md
    │     │           │     ├─ [] cndecorator_params.md
-   │     │           │     ├─ [] cndecorator.md
-   │     │           │     └─ [] cnspinner.md
+   │     │           │     └─ [] cndecorator.md
    │     │           ├─ [] cnformatter.md
    │     │           ├─ [] cnfunctions.md
-   │     │           ├─ [] cnmkdocs.md
    │     │           ├─ [] cnpot.md
    │     │           ├─ [] cntree.md
    │     │           └─ [] cnvenv.md
@@ -34,15 +32,10 @@
    │     └─ [] index.md
    ├─ [] i18n/
    │     ├─ [] locale/
-   │     │     └─ [] en/
-   │     │           └─ [] LC_MESSAGES/
-   │     │                 └─ [] cnlib.mo
+   │     │     └─ [] ABOUT
    │     ├─ [] po/
-   │     │     ├─ [] en/
-   │     │     │     └─ [] cnlib.po
-   │     │     └─ [] LINGUAS
-   │     └─ [] pot/
-   │           └─ [] cnlib.pot
+   │     │     └─ [] ABOUT
+   │     └─ [] cnlib.pot
    ├─ [] images/
    │     └─ [] cnlib.png
    ├─ [] misc/
@@ -63,9 +56,8 @@
    │     │     └─ [] private.json
    │     └─ [] project.json
    ├─ [] tests/
-   │     └─ [] cnlib_test.py
+   │     └─ [] configurator.py
    ├─ [] todo/
-   │     ├─ [] configurator.py
    │     └─ [] todo.txt
    ├─ [] .gitignore
    ├─ [] LICENSE.txt
