@@ -1,7 +1,7 @@
 {
     "PUB_META": {
         "META_SHORT_DESC": "A Python library containing useful functions and classes",
-        "META_VERSION": "1.5.1",
+        "META_VERSION": "1.6.0",
         "META_KEYWORDS": [
             "python",
             "pyplate",
@@ -80,6 +80,26 @@
             "cnlib"
         ]
     },
-    "PUB_I18N": {},
+    "PUB_I18N": {
+        "SOURCES": [
+            "cnlib",
+            "develop.py"
+        ],
+        "OUTPUT": "i18n",
+        "TAG": "I18N",
+        "CHARSET": "UTF-8",
+        "CLANGS": {
+            "Python": [
+                ".py"
+            ],
+            "Glade": [
+                ".ui",
+                ".glade"
+            ],
+            "Desktop": [
+                ".desktop"
+            ]
+        }
+    },
     "PUB_INST": {}
 }
