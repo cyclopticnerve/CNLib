@@ -30,8 +30,8 @@
             "requirements.txt",
             "**/__pycache__",
             "**/*.egg-info",
-            "cnlib/cndecorators/cndecorator.py",
-            "cnlib/cndecorators/cndecorator_params.py"
+            "**/cndecorator.py",
+            "**/cndecorator_params.py"
         ],
         "SKIP_CONTENTS": [
             "**/*.png",
