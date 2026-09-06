@@ -30,12 +30,6 @@
    │     ├─ [] img/
    │     │     └─ [] favicon.ico
    │     └─ [] index.md
-   ├─ [] i18n/
-   │     ├─ [] locale/
-   │     │     └─ [] ABOUT
-   │     ├─ [] po/
-   │     │     └─ [] ABOUT
-   │     └─ [] cnlib.pot
    ├─ [] images/
    │     └─ [] cnlib.png
    ├─ [] misc/
