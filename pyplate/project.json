@@ -29,7 +29,9 @@
             "LICENSE.txt",
             "requirements.txt",
             "**/__pycache__",
-            "**/*.egg-info"
+            "**/*.egg-info",
+            "cnlib/cndecorators/cndecorator.py",
+            "cnlib/cndecorators/cndecorator_params.py"
         ],
         "SKIP_CONTENTS": [
             "**/*.png",
