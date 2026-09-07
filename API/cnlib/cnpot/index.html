@@ -1,150 +1,118 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        
-        
-        <link rel="shortcut icon" href="../../../img/favicon.ico">
-        <title>cnpot.py - CNLib</title>
-        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../../css/fontawesome.min.css" rel="stylesheet">
-        <link href="../../../css/brands.min.css" rel="stylesheet">
-        <link href="../../../css/solid.min.css" rel="stylesheet">
-        <link href="../../../css/v4-font-face.min.css" rel="stylesheet">
-        <link href="../../../css/base.css" rel="stylesheet">
-        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
-        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
-        <link href="../../../assets/_mkdocstrings.css" rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
-    </head>
-
-    <body>
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href="../../..">CNLib</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
-                        <!-- Main navigation -->
-                        <ul class="nav navbar-nav">
-                            <li class="nav-item">
-                                <a href="../../.." class="nav-link">Home</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">API</a>
-                                <ul class="dropdown-menu">
-                                    
-  <li class="dropdown-submenu">
-    <a href="#" class="dropdown-item">Cnlib</a>
-    <ul class="dropdown-menu">
-            
-<li>
-    <a href="../cnformatter/" class="dropdown-item">cnformatter.py</a>
-</li>
-            
-<li>
-    <a href="../cnfunctions/" class="dropdown-item">cnfunctions.py</a>
-</li>
-            
-<li>
-    <a href="./" class="dropdown-item active" aria-current="page">cnpot.py</a>
-</li>
-            
-<li>
-    <a href="../cntree/" class="dropdown-item">cntree.py</a>
-</li>
-            
-<li>
-    <a href="../cnvenv/" class="dropdown-item">cnvenv.py</a>
-</li>
-            
-  <li class="dropdown-submenu">
-    <a href="#" class="dropdown-item">Decorators</a>
-    <ul class="dropdown-menu">
-            
-<li>
-    <a href="../decorators/cndebug/" class="dropdown-item">cndebug.py</a>
-</li>
-            
-<li>
-    <a href="../decorators/cndecorator/" class="dropdown-item">cndecorator.py</a>
-</li>
-            
-<li>
-    <a href="../decorators/cndecorator_params/" class="dropdown-item">cndecorator_params.py</a>
-</li>
-    </ul>
-  </li>
-    </ul>
-  </li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                    <ul class="nav navbar-nav ms-md-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
-                                <i class="fa fa-search"></i> Search
-                            </a>
-                        </li>
-                            <li class="nav-item">
-                                <a rel="prev" href="../cnfunctions/" class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../cntree/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
-    </div>
-
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>cnpot.py - CNLib</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../assets/_mkdocstrings.css" rel="stylesheet" />
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
-        <ul class="nav flex-column">
-            
-            <li class="nav-item" data-bs-level="1"><a href="#cnpotpy" class="nav-link">cnpot.py</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnpot" class="nav-link">cnpot</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnpot.CNPotPy" class="nav-link">CNPotPy</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#cnlib.cnpot.underscore" class="nav-link">underscore</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-        </ul>
-    </div>
-</div></div>
-                    <div class="col-md-9" role="main">
+      <script>
+        // Current page data
+        var mkdocs_page_name = "cnpot.py";
+        var mkdocs_page_input_path = "API/cnlib/cnpot.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
 
-<h1 id="cnpotpy">cnpot.py</h1>
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> CNLib
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" >Cnlib</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../cnformatter/">cnformatter.py</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../cnfunctions/">cnfunctions.py</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">cnpot.py</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnpot">cnpot</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnpot.CNPotPy">CNPotPy</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#cnlib.cnpot.CNPotPy.__init__">__init__</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#cnlib.cnpot.CNPotPy.main">main</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#cnlib.cnpot.CNPotPy.make_desktop">make_desktop</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#cnlib.cnpot.underscore">underscore</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../cntree/">cntree.py</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../cnvenv/">cnvenv.py</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Decorators</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../decorators/cndebug/">cndebug.py</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../decorators/cndecorator/">cndecorator.py</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../decorators/cndecorator_params/">cndecorator_params.py</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">CNLib</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">API</li>
+          <li class="breadcrumb-item">Cnlib</li>
+      <li class="breadcrumb-item active">cnpot.py</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="cnpotpy">cnpot.py</h1>
 
 
 <div class="doc doc-object doc-module">
@@ -239,8 +207,7 @@ for internationalizing a CLI or GUI project.</p>
 
 
 
-
-              <details class="mkdocstrings-source">
+              <details class="quote">
                 <summary>Source code in <code>cnlib/cnpot.py</code></summary>
                 <pre class="highlight"><code class="language-python">class CNPotPy:
     """
@@ -997,293 +964,180 @@ for internationalizing a CLI or GUI project.</p>
         <p>Initializes the new object</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>path_prj</code>
-            </td>
-            <td>
-                  <code><span title="pathlib.Path">Path</span></code>
-            </td>
-            <td>
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>path_prj</code></b>
+                  (<code><span title="pathlib.Path">Path</span></code>)
+              –
               <div class="doc-md-description">
                 <p>The main project dir Path, used for relative paths. This</p>
               </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>list_src</code>
-            </td>
-            <td>
-                  <code><span title="list">list</span>[<span title="pathlib.Path">Path</span>]</code>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>list_src</code></b>
+                  (<code><span title="list">list</span>[<span title="pathlib.Path">Path</span>]</code>)
+              –
               <div class="doc-md-description">
                 <p>Where to look for input files. This can be a list of</p>
               </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>Relative paths are resolved against path_prj. (default</code>
-            </td>
-            <td>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>Relative paths are resolved against path_prj. (default</code></b>
+              –
               <div class="doc-md-description">
                 <p>None, use</p>
               </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>path_i18n</code>
-            </td>
-            <td>
-                  <code><span title="pathlib.Path">Path</span></code>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>path_i18n</code></b>
+                  (<code><span title="pathlib.Path">Path</span></code>)
+              –
               <div class="doc-md-description">
                 <p>Directory to place all i18 folders / files. Can be</p>
               </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>(default</code>
-            </td>
-            <td>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>(default</code></b>
+              –
               <div class="doc-md-description">
                 <p>None, use path_prj / S_DIR_I18N)</p>
               </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>str_domain</code>
-            </td>
-            <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>str_domain</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;&#39;</code>
+)
+              –
               <div class="doc-md-description">
                 <p>The name of the domain (program name). This name should</p>
               </div>
-            </td>
-            <td>
-                  <code>&#39;&#39;</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>be unique to you program. (default</code>
-            </td>
-            <td>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>be unique to you program. (default</code></b>
+              –
               <div class="doc-md-description">
                 <p>"", use path_prj.name)</p>
               </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>str_version</code>
-            </td>
-            <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>str_version</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;&#39;</code>
+)
+              –
               <div class="doc-md-description">
                 <p>Version info to use in .pot/.po header (default: "",</p>
               </div>
-            </td>
-            <td>
-                  <code>&#39;&#39;</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>str_author</code>
-            </td>
-            <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>str_author</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;&#39;</code>
+)
+              –
               <div class="doc-md-description">
                 <p>Author name to use in .pot/.po header (default: "", do</p>
               </div>
-            </td>
-            <td>
-                  <code>&#39;&#39;</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>str_email</code>
-            </td>
-            <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>str_email</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;&#39;</code>
+)
+              –
               <div class="doc-md-description">
                 <p>Email to use in .pot/.po header (default: "", do not</p>
               </div>
-            </td>
-            <td>
-                  <code>&#39;&#39;</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>str_tag</code>
-            </td>
-            <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>str_tag</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;&#39;</code>
+)
+              –
               <div class="doc-md-description">
                 <p>Tag that starts a context comment. If this string is</p>
               </div>
-            </td>
-            <td>
-                  <code>&#39;&#39;</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>(default</code>
-            </td>
-            <td>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>(default</code></b>
+              –
               <div class="doc-md-description">
                 <p>S_TAG)</p>
               </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>str_encoding</code>
-            </td>
-            <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>str_encoding</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code><span title="cnlib.cnpot.CNPotPy.S_ENCODING">S_ENCODING</span></code>
+)
+              –
               <div class="doc-md-description">
                 <p>the charset to use as the default in the .pot file,</p>
               </div>
-            </td>
-            <td>
-                  <code><span title="cnlib.cnpot.CNPotPy.S_ENCODING">S_ENCODING</span></code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>and any initial .po files created (default</code>
-            </td>
-            <td>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>and any initial .po files created (default</code></b>
+              –
               <div class="doc-md-description">
                 <p>S_ENCODING)</p>
               </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>dict_clangs</code>
-            </td>
-            <td>
-                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="list">list</span>[<span title="str">str</span>]] | None</code>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>dict_clangs</code></b>
+                  (<code><span title="dict">dict</span>[<span title="str">str</span>, <span title="list">list</span>[<span title="str">str</span>]] | None</code>, default:
+                      <code>None</code>
+)
+              –
               <div class="doc-md-description">
                 <p>The dictionary of file extensions to scan for each</p>
               </div>
-            </td>
-            <td>
-                  <code>None</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>ths dict is empty, no files will be scanned. (default</code>
-            </td>
-            <td>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>ths dict is empty, no files will be scanned. (default</code></b>
+              –
               <div class="doc-md-description">
                 <p>D_CLANGS)</p>
               </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Raises:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
                   <code><span title="OSError">OSError</span></code>
-            </td>
-            <td>
+              –
               <div class="doc-md-description">
                 <p>If path_prj is not absolute</p>
               </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-        <p>Initializes a new instance of the class, setting the default values of
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <p>Initializes a new instance of the class, setting the default values of
 its properties, and any other code needed to create a new object.</p>
 
 
@@ -1429,38 +1283,35 @@ its properties, and any other code needed to create a new object.</p>
         <p>Run the program and make or update the files</p>
 
 
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Raises:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
                   <code><span title="OSError">OSError</span></code>
-            </td>
-            <td>
+              –
               <div class="doc-md-description">
                 <p>If xgettext not found</p>
               </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
+            </li>
+            <li>
                   <code><a class="autorefs autorefs-internal" title="CNRunError (cnlib.cnfunctions.CNRunError)" href="../cnfunctions/#cnlib.cnfunctions.CNRunError">CNRunError</a></code>
-            </td>
-            <td>
+              –
               <div class="doc-md-description">
                 <p>If anything fails</p>
               </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-        <p>Main method of the class, performing its steps. This method can (and
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <p>Main method of the class, performing its steps. This method can (and
 should) be run, in Mayor Tweed's words, "early and often". You should
 run it every time a source file that contains i18n strings is added,
 edited, or deleted. The ideal scenario is to run it just before the
@@ -1538,95 +1389,74 @@ repo is synced, so that the .pot file is synced.</p>
         <p>Localize the desktop file using all available wlangs</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>dt_template</code>
-            </td>
-            <td>
-                  <code><span title="pathlib.Path">Path</span></code>
-            </td>
-            <td>
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>dt_template</code></b>
+                  (<code><span title="pathlib.Path">Path</span></code>)
+              –
               <div class="doc-md-description">
                 <p>File containing the default information to include in</p>
               </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>dt_out</code>
-            </td>
-            <td>
-                  <code><span title="pathlib.Path">Path</span></code>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>dt_out</code></b>
+                  (<code><span title="pathlib.Path">Path</span></code>)
+              –
               <div class="doc-md-description">
                 <p>Location of the i18n'ed desktop file. This is the file that</p>
               </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Raises:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
                   <code><span title="OSError">OSError</span></code>
-            </td>
-            <td>
+              –
               <div class="doc-md-description">
                 <p>If template Path is None or not absolute or does not exist</p>
               </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
+            </li>
+            <li>
                   <code><span title="OSError">OSError</span></code>
-            </td>
-            <td>
+              –
               <div class="doc-md-description">
                 <p>if output Path is None or not absolute</p>
               </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
+            </li>
+            <li>
                   <code><a class="autorefs autorefs-internal" title="CNRunError (cnlib.cnfunctions.CNRunError)" href="../cnfunctions/#cnlib.cnfunctions.CNRunError">CNRunError</a></code>
-            </td>
-            <td>
+              –
               <div class="doc-md-description">
                 <p>If the make fails</p>
               </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-        <p>Takes a template desktop file and applies all i18n'ed info from all .po
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <p>Takes a template desktop file and applies all i18n'ed info from all .po
 files in the po folder and creates a final .desktop file.</p>
 
 
@@ -1707,6 +1537,7 @@ files in the po folder and creates a final .desktop file.</p>
 
     </div>
 
+
 </div>
 
 
@@ -1724,108 +1555,90 @@ files in the po folder and creates a final .desktop file.</p>
         <p>Returns the underscore function</p>
 
 
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>domain</code>
-            </td>
-            <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>domain</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
               <div class="doc-md-description">
                 <p>Name of the program (or other stable name)</p>
               </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>locale_dir</code>
-            </td>
-            <td>
-                  <code><span title="pathlib.Path">Path</span></code>
-            </td>
-            <td>
+            </li>
+            <li>
+              <b><code>locale_dir</code></b>
+                  (<code><span title="pathlib.Path">Path</span></code>)
+              –
               <div class="doc-md-description">
                 <p>Path to the 'locale' folder (must be absolute)</p>
               </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
                   <code><span title="typing.Callable">Callable</span>[[<span title="str">str</span>], <span title="str">str</span>]</code>
-            </td>
-            <td>
+              –
               <div class="doc-md-description">
                 <p>The gettext method for the domain and locale_dir</p>
               </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Raises:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
                   <code><span title="OSError">OSError</span></code>
-            </td>
-            <td>
+              –
               <div class="doc-md-description">
                 <p>The domain is None or empty</p>
               </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
+            </li>
+            <li>
                   <code><span title="OSError">OSError</span></code>
-            </td>
-            <td>
+              –
               <div class="doc-md-description">
                 <p>The locale_dir is None or not absolute</p>
               </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-        <p>A module method to create the underscore function (used by xgettext to
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <p>A module method to create the underscore function (used by xgettext to
 scrape translatable strings).</p>
 
 
@@ -1879,82 +1692,52 @@ scrape translatable strings).</p>
 
     </div>
 
-</div></div>
-            </div>
-        </div>
-
-        <footer class="col-md-12">
-            <hr>
-            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
-        <script src="../../../js/bootstrap.bundle.min.js"></script>
-        <script>
-            var base_url = "../../..",
-                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
-        </script>
-        <script src="../../../js/base.js"></script>
-        <script src="../../../search/main.js"></script>
-
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
-                <form>
-                    <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="help shortcut"><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td class="next shortcut"><kbd>n</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td class="prev shortcut"><kbd>p</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td class="search shortcut"><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
 </div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../cnfunctions/" class="btn btn-neutral float-left" title="cnfunctions.py"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../cntree/" class="btn btn-neutral float-right" title="cntree.py">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
 
-    </body>
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../cnfunctions/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../cntree/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
 </html>
