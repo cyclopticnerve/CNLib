@@ -1,6 +1,9 @@
 
-FIXME: test all modules with F.B_DEGUG = True
-FIXME: for pkg (or any?) add reqs to toml deps
+FIXME develop.py??? it is +x
+
+TODO: test all modules with F.B_DEGUG = True
+TODO: harden all params with typing and path is abs/rel
+TODO: what is cnformatter's use?
 
 NEXT: cnpot plurals?
 NEXT: CNLog: location, size, num files, funcs like printl

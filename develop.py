@@ -1,6 +1,6 @@
-#! /usr/bin/env python3
+#!/usr/bin/env python3
 # ------------------------------------------------------------------------------
-# Project : CNLib                                                  /          \
+# Package :CNLib                                                  /          \
 # Filename: develop.py                                            |     ()     |
 # Date    : 01/01/2026                                            |            |
 # Author  : cyclopticnerve                                        |   \____/   |
@@ -8,19 +8,16 @@
 # ------------------------------------------------------------------------------
 
 """
-The develop script for this project
+The develop script for this project.
 
 This file sets up a virtual environment for developing the project. The main
 purpose is to get the venv name right.
-
-This file is real ugly b/c we can't access the venv, so we do it manually.
 """
 
 # ------------------------------------------------------------------------------
 # Imports
 # ------------------------------------------------------------------------------
 
-# NB: pure python
 # system imports
 import gettext
 import locale
@@ -29,180 +26,122 @@ import subprocess
 import sys
 
 # ------------------------------------------------------------------------------
-# Globals
+# Constants
 # ------------------------------------------------------------------------------
 
-# ------------------------------------------------------------------------------
 # get prj dir path
 P_DIR_PRJ = Path(__file__).parent.resolve()
 
-# ------------------------------------------------------------------------------
 # gettext stuff for CLI
-
-T_DOMAIN = "cnlib"
-T_DIR_LOCALE = P_DIR_PRJ / "i18n/locale"
-T_TRANSLATION = gettext.translation(T_DOMAIN, T_DIR_LOCALE, fallback=True)
-_ = T_TRANSLATION.gettext
+S_DOMAIN = "cnlib"
+P_DIR_LOCALE = P_DIR_PRJ / "i18n/locale"
+TRANSLATION = gettext.translation(S_DOMAIN, P_DIR_LOCALE, fallback=True)
+_ = TRANSLATION.gettext
 
 # fix locale (different than gettext stuff, mostly fixes GUI issues, but ok to
 # use for CLI in the interest of common code)
 locale.setlocale(locale.LC_ALL, "")
-locale.bindtextdomain(T_DOMAIN, T_DIR_LOCALE)
+locale.bindtextdomain(S_DOMAIN, P_DIR_LOCALE)
+
+# folder and file names
+S_NAME_VENV = ".venv-cnlib"
+S_FILE_REQS = "requirements.txt"
+
+# messages
+
+# I18N: done with step
+S_MSG_DONE = _("Done")
+# I18N: step failed
+S_MSG_FAIL = _("Failed")
+# I18N: show the venv step
+S_MSG_VENV_START = _("Making venv folder... ")
+# I18N: show the reqs step
+S_MSG_REQS_START = _("Installing requirements... ")
+
+# errors
+
+# I18N: an error occurred
+S_ERR_ERROR = _("Error: ")
+
+# commands
+
+# NB: format param is dir_venv
+S_CMD_CREATE = "python3 -m venv {}"
+# install reqs/self
+S_CMD_TYPE_INST = (
+    # NB: format params are P_DIR_PRJ, S_NAME_VENV, S_FILE_REQS
+    "cd {};. {}/bin/activate;python3 -m pip install -r {};"
+    # NB: format params are P_DIR_PRJ, S_NAME_VENV
+    "cd {};. {}/bin/activate;python3 -m pip install -e ."
+)
 
 # ------------------------------------------------------------------------------
-# Classes
+# Private functions
 # ------------------------------------------------------------------------------
 
+
 # ------------------------------------------------------------------------------
-# The class to use for developing
+# Make a virtual environment for this program on the user's computer
 # ------------------------------------------------------------------------------
-class CNDevelop:
+def _make_venv():
     """
-    The class to use for developing a PyPlate program
-
-    This class creates a virtual environment and fills it using
-    requirements.txt. For package projects, it also installs itself as
-    editable, for testing real-world installations.
+    Make a virtual environment for this program on the user's computer.
     """
 
-    # --------------------------------------------------------------------------
-    # Class constants
-    # --------------------------------------------------------------------------
+    # show progress
+    print(S_MSG_VENV_START, flush=True, end="")
 
-    # venv and reqs names
-    S_NAME_VENV = ".venv-cnlib"
-    S_FILE_REQS = "requirements.txt"
+    # the command to create a venv
+    cmd = S_CMD_CREATE.format(S_NAME_VENV)
+    _do_command(cmd)
 
-    # messages
 
-    # I18N: done with step
-    S_MSG_DONE = _("Done")
-    # I18N: step failed
-    S_MSG_FAIL = _("Failed")
-    # I18N: show the venv step
-    S_MSG_VENV_START = _("Making venv folder... ")
-    # I18N: show the reqs step
-    S_MSG_REQS_START = _("Installing requirements... ")
-    # I18N: show the self step
-    S_MSG_SELF_START = _("Installing self as editable... ")
+# ------------------------------------------------------------------------------
+# IInstall the project's requirements.txt
+# ------------------------------------------------------------------------------
+def _install_reqs():
+    """
+    Install the project's requirements.txt.
+    """
 
-    # errors
+    # show progress
+    print(S_MSG_REQS_START, flush=True, end="")
 
-    # I18N: an error occurred
-    S_ERR_ERR = _("Error: ")
+    # the cmd to install the reqs
+    # NB: for apps, the last two fmt params are ignored (no self install)
+    cmd = S_CMD_TYPE_INST.format(
+        P_DIR_PRJ,
+        S_NAME_VENV,
+        S_FILE_REQS,  # for reqs
+        P_DIR_PRJ,
+        S_NAME_VENV,  # for self
+    )
+    _do_command(cmd)
 
-    # commands
 
-    # NB: format param is dir_venv
-    S_CMD_CREATE = "python3 -m venv {}"
-    # install reqs
-    S_CMD_INST_REQS = "cd {};. {}/bin/activate;python3 -m pip install -r {}"
-    # install self
-    S_CMD_INST_SELF = "cd {};. {}/bin/activate;python3 -m pip install -e ."
+# ------------------------------------------------------------------------------
+# Common code to run a shell command
+# ------------------------------------------------------------------------------
+def _do_command(cmd: str):
+    """
+    Common code to run a shell command.
 
-    # --------------------------------------------------------------------------
-    # Public methods
-    # --------------------------------------------------------------------------
+    Parameters:
+        cmd (str): Command to run.
 
-    # --------------------------------------------------------------------------
-    # Run the program
-    # --------------------------------------------------------------------------
-    def main(self):
-        """
-        Run the program
+    This function is just a wrapper around subprocess, to make it a little
+    easier to call and return.
+    """
 
-        Runs the developer install operation.
-        """
-
-        # make the venv on the user's comp
-        self._make_venv()
-
-        # install reqs
-        self._install_reqs()
-
-        # install self as editable
-        self._install_self()
-
-    # --------------------------------------------------------------------------
-    # Private methods
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # Make venv for this program on user's computer
-    # --------------------------------------------------------------------------
-    def _make_venv(self):
-        """
-        Make venv for this program on user's computer
-
-        Makes a .venv-XXX folder on the user's computer.
-        """
-
-        # show progress
-        print(self.S_MSG_VENV_START, flush=True, end="")
-
-        # the command to create a venv
-        cmd = self.S_CMD_CREATE.format(self.S_NAME_VENV)
-        self._do_command(cmd)
-
-    # --------------------------------------------------------------------------
-    # Install requirements.txt
-    # --------------------------------------------------------------------------
-    def _install_reqs(self):
-        """
-        Install requirements.txt
-
-        Installs the contents of a requirements.txt file into the program's
-        venv.
-        """
-
-        # show progress
-        print(self.S_MSG_REQS_START, end="", flush=True)
-
-        # the cmd to install the reqs
-        cmd = self.S_CMD_INST_REQS.format(
-            P_DIR_PRJ, self.S_NAME_VENV, self.S_FILE_REQS
-        )
-        self._do_command(cmd)
-
-    # --------------------------------------------------------------------------
-    # Install self as editable
-    # --------------------------------------------------------------------------
-    def _install_self(self):
-        """
-        Install self as editable
-
-        Installs the project as editable in the project's venv.
-        """
-
-        # ----------------------------------------------------------------------
-
-        # show progress
-        print(self.S_MSG_SELF_START, end="", flush=True)
-
-        # the cmd to install the reqs
-        cmd = self.S_CMD_INST_SELF.format(P_DIR_PRJ, self.S_NAME_VENV)
-        self._do_command(cmd)
-
-    # --------------------------------------------------------------------------
-    # Common code to run a shell command
-    # --------------------------------------------------------------------------
-    def _do_command(self, cmd):
-        """
-        Common code to run a shell command
-        """
-
-        try:
-            # NB: hide output
-            subprocess.run(cmd, shell=True, check=True, capture_output=True)
-            print(self.S_MSG_DONE)
-        except (
-            FileNotFoundError,
-            subprocess.CalledProcessError,
-        ) as e:
-            print(self.S_MSG_FAIL)
-            print()
-            print(self.S_ERR_ERR, e)
-            sys.exit(-1)
+    try:
+        # NB: hide output
+        subprocess.run(cmd, shell=True, check=True, capture_output=True)
+        print(S_MSG_DONE)
+    except (FileNotFoundError, subprocess.CalledProcessError) as e:
+        print(S_MSG_FAIL)
+        print()
+        print(S_ERR_ERROR, e)
+        sys.exit(1)
 
 
 # ------------------------------------------------------------------------------
@@ -212,12 +151,15 @@ if __name__ == "__main__":
     # Code to run when called from command line
 
     # This is the top level code of the program, called when the Python file is
-    # invoked from the command line.
+    # invoked from the command line, rather than imported.
 
-    # create an instance of the class
-    inst = CNDevelop()
+    # This file should NEVER be imported, but only run from the command line.
+    # it is marked as runnable in Linux.
 
-    # run the instance
-    inst.main()
+    # make the venv on the user's comp
+    _make_venv()
+
+    # install reqs
+    _install_reqs()
 
 # -)

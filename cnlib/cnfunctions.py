@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Project : CNLib                                                  /          \
+# Package :CNLib                                                  /          \
 # Filename: cnfunctions.py                                        |     ()     |
 # Date    : 02/21/2024                                            |            |
 # Author  : cyclopticnerve                                        |   \____/   |
@@ -7,6 +7,7 @@
 # ------------------------------------------------------------------------------
 
 # pylint: disable=too-many-lines
+
 """
 A collection of common functions used by CN software
 
@@ -123,23 +124,6 @@ R_VERSION_GROUP_MIN = 2
 R_VERSION_GROUP_REV = 3
 R_VERSION_GROUP_PRE = 4
 R_VERSION_GROUP_META = 5
-
-# ------------------------------------------------------------------------------
-# lists
-
-# if it is in this list, it is True, else false
-# NB: test is case insensitive
-L_RULES_TRUE = [
-    "true",
-    "1",
-    "yes",
-    "y",
-]
-L_RULES_FALSE = [
-    "false",
-    "0",
-    "",
-]
 
 # ------------------------------------------------------------------------------
 # Public classes
@@ -464,6 +448,7 @@ def pf(obj, indent_size=4, label=None):
     # return the result
     return result
 
+
 # ------------------------------------------------------------------------------
 # Pretty print a list or dictionary
 # ------------------------------------------------------------------------------
@@ -491,7 +476,7 @@ def pp(obj, indent_size=4, label=None):
 
     # run params through pf to get a string
     res = pf(obj, indent_size, label)
-    
+
     # print the result
     print(res)
 
@@ -621,7 +606,7 @@ def run(cmd, shell=False, capture_output=False):
     # cmd = "ls -l", shell = False: pass
     # cmd = "ls -l", shell = True: pass
 
-    # check if first item is bin, if shell false
+    # check if file not found
     except FileNotFoundError as fnfe:
         # NB: fnfe already has a nice __str__, so use that in the stderr
         # also output = stdout, which is kinda pointless for this error
@@ -1230,7 +1215,7 @@ def clamp(val, in_min, in_max):
     # assume result is input
     res = val
 
-    # ------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
     # if val > high, use high
     res = min(res, in_max)
@@ -1238,7 +1223,7 @@ def clamp(val, in_min, in_max):
     # if val < low, use low
     res = max(res, in_min)
 
-    # ------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
     # return result
     return res
@@ -1298,7 +1283,7 @@ def interpolate(val, from_min, from_max, to_min, to_max):
     # get how far into the range we should be
     res = out_pos + to_min
 
-    # ------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
     # return result
     return res

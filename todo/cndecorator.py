@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Project : __PP_NAME_PRJ_BIG__                                    /          \
+# Package :__PP_NAME_PRJ_BIG__                                    /          \
 # Filename:                                                       |     ()     |
 # Date    : __PP_DATE__                                           |            |
 # Author  : __PP_AUTHOR__                                         |   \____/   |
@@ -67,7 +67,7 @@ def decorator(func):
 
         # ------------------------------------------------------------------
 
-        key="_foob"
+        key = "_foob"
 
         kwargs = dict(kwargs)
         kwargs[key] = 7

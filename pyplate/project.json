@@ -31,7 +31,8 @@
             "**/__pycache__",
             "**/*.egg-info",
             "**/cndecorator.py",
-            "**/cndecorator_params.py"
+            "**/cndecorator_params.py",
+            "tree.txt"
         ],
         "SKIP_CONTENTS": [
             "**/*.png",
@@ -75,33 +76,13 @@
         "pyproject.toml": ""
     },
     "PUB_DOCS": {
-        "DOCS_THEME": "",
+        "DOCS_THEME": "readthedocs",
         "DOCS_USE_RM": true,
         "DOCS_MAKE_API": true,
         "DOCS_DIR_API": [
             "cnlib"
         ]
     },
-    "PUB_I18N": {
-        "SOURCES": [
-            "cnlib",
-            "develop.py"
-        ],
-        "OUTPUT": "i18n",
-        "TAG": "I18N",
-        "CHARSET": "UTF-8",
-        "CLANGS": {
-            "Python": [
-                ".py"
-            ],
-            "Glade": [
-                ".ui",
-                ".glade"
-            ],
-            "Desktop": [
-                ".desktop"
-            ]
-        }
-    },
+    "PUB_I18N": {},
     "PUB_INST": {}
 }

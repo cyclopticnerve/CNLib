@@ -1,2 +1,0 @@
-# cnfunctions.py
-::: cnlib.cnfunctions

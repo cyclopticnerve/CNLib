@@ -1,0 +1,48 @@
+source
+------
+
+get underscore function
+put i18n strings in code
+
+first run
+---------
+
+run i18n.py
+
+----------------------------------------
+manual steps
+
+send .pot to translator
+
+get back .pot, rename to "es.po" and put it in po dir
+or
+change "Language: \n" to "Language: es\n" in .pot
+
+NB: at least one of the above two steps is required
+NB: the other will be inferred and fixed accordingly
+----------------------------------------
+
+run cnpot.py
+test with "LANGUAGE=es python3 -m cnpot_source"
+
+adding new strings
+------------------
+
+put i18n strings in code
+run cnpot.py
+
+send .po to translator
+
+translate strings in "es.po"
+run cnpot.py
+test with "LANGUAGE=es python3 -m cnpot_test"
+
+----------------------------------------
+----------------------------------------
+
+first run
+src.py > xgettext > base.pot > wlang.po > msgfmt > base.mo
+
+add new strings in src.py
+for each wlang
+    src.py > xgettext > base.pot > msgmerge > wlang.po > msgfmt > base.mo

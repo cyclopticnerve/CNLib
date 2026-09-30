@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Project : CNLib                                                  /          \
+# Package :CNLib                                                  /          \
 # Filename: mkdocs.yml                                            |     ()     |
 # Date    : 01/01/2026                                            |            |
 # Author  : cyclopticnerve                                        |   \____/   |
@@ -7,7 +7,7 @@
 # ------------------------------------------------------------------------------
 
 site_name: CNLib
-theme: 
+theme: readthedocs
 docs_dir: docs
 site_dir: site
 plugins:

@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Project : CNLib                                                  /          \
+# Package :CNLib                                                  /          \
 # Filename: cntree.py                                             |     ()     |
 # Date    : 08/06/2023                                            |            |
 # Author  : cyclopticnerve                                        |   \____/   |
@@ -9,17 +9,30 @@
 """
 This module creates a tree of the specified directory, with paths being ignored
 by the filter list and names being formatted according to the specified
-formats. It creates both text and HTML versions. The HTML version has the
-ability to display checkboxes that show the state of each item as either
-checked, unchecked, or partially checked, according to their child checkboxes'
-states.
+formats. (like 'tree' but customized file/folder names). It creates both text
+and HTML versions.
+
+The HTML version has the ability to display checkboxes that show the state of
+each item as either checked, unchecked, or partially checked, according to
+their child checkboxes' states.
+But of course, it doesn't work. Or more precisely, it does not save across
+open/close.
 """
+
+# TODO: fix name replacement
+# TODO: problems with recursive replacement
+# TODO: ells do not line up sometimes? see above (recursion)
 
 # TODO: only do check event on load if item has no children
 # start bottom up?
 # https://www.cssscript.com/demo/tree-view-checkboxes/
 
-# TODO: empty lines for readability?
+# TODO: empty lines for readability? (text)
+# every new dir adds an empty line above it, with pipes and same indentation
+# TODO: empty div for readability? (html)
+# every new dir adds an empty div above it, with pipes and same indentation
+# TODO: make new tree, compare to old, keep checked status (both)
+# TODO: add all init props as cmd line opts
 
 # ------------------------------------------------------------------------------
 # Imports
@@ -55,36 +68,40 @@ class CNTree:
     # --------------------------------------------------------------------------
 
     # console/terminal values for the individual prefix/connector chars
-    S_CHAR_VERT = "\u2502"  # vertical join (pipe)
-    S_CHAR_HORZ = "\u2500"  # horizontal join (full-width dash)
-    S_CHAR_TEE = "\u251c"  # tee join (not last item)
-    S_CHAR_ELL = "\u2514"  # elbow join (last item)
+    S_CHAR_VERT = "\u2502"  # vertical join (pipe "|")
+    S_CHAR_HORZ = "\u2500"  # horizontal join (full-width dash "--")
+    S_CHAR_TEE = "\u251c"  # tee join (not last item "T")
+    S_CHAR_ELL = "\u2514"  # elbow join (last item "L")
     S_CHAR_SPACE = " "  # single space char
 
     # char sequences for the prefix/connector char sets
     # NB: these must always be equal length
     S_PREFIX_VERT = f"{S_CHAR_VERT}{S_CHAR_SPACE}"  # next level ("| ")
     S_PREFIX_NONE = f"{S_CHAR_SPACE}{S_CHAR_SPACE}"  # skip level ("  ")
-    S_CONNECTOR_TEE = f"{S_CHAR_TEE}{S_CHAR_HORZ}"  # next sub item ("T-")
-    S_CONNECTOR_ELL = f"{S_CHAR_ELL}{S_CHAR_HORZ}"  # last sub item ("L-")
+    S_CONNECTOR_TEE = (
+        f"{S_CHAR_TEE}{S_CHAR_HORZ}{S_CHAR_HORZ}"  # next sub item ("T--")
+    )
+    S_CONNECTOR_ELL = (
+        f"{S_CHAR_ELL}{S_CHAR_HORZ}{S_CHAR_HORZ}"  # last sub item ("L--")
+    )
 
     # the default directory/file name formats
     # NB: NAME alone is used for the top level directory name
     # DIR is used for subdirectories and should have a leading space to
     # separate it from the prefix and/or connector
     # FILE has the same purpose as DIR, but for files (DUH!)
-    S_FORMAT_NAME = "$NAME"
-    S_FORMAT_DIR = f" {S_FORMAT_NAME}/"
-    S_FORMAT_FILE = f" {S_FORMAT_NAME}"
+    S_TOKEN = "$NAME"
+    S_FORMAT_DIR = f" {S_TOKEN}/"
+    S_FORMAT_FILE = f" {S_TOKEN}"
 
     # error messages
     # NB: format param is dir_prj
-    S_ERR_NOT_ABS = "path {} is not absolute"
+    S_ERR_NOT_ABS = "Path {} is not absolute"
     # NB: format param is dir_prj
-    S_ERR_NOT_DIR = "path {} is not a directory"
+    S_ERR_NOT_DIR = "Path {} is not a directory"
 
     # custom sorting order
-    S_SORT_ORDER = "_."  # sort first char of name in this order (above ord)
+    S_SORT_ORDER = "_-."  # sort first char of name in this order (above ord)
 
     # style the html lists
     S_DEF_CSS = """ul {
@@ -256,13 +273,13 @@ class CNTree:
         self,
         start_dir,
         filter_list=None,
-        fmt_name="",
+        token="",
         dir_format="",
         file_format="",
         dirs_only=False,
+        ignore_case=True,
         sort=True,
         sort_files=False,
-        ignore_case=False,
         css=None,
     ):
         """
@@ -272,6 +289,8 @@ class CNTree:
             start_dir: String or Path to the root directory of the tree
             filter_list: List of directory/file names to filter out (default:
             None)
+            token: The string in dir_format and file_format to be replaced
+            the actual folder or file name (default: "$NAME")
             dir_format: Format to use for directories (default:"$NAME/")
             file_format: Format to use for files (default: "$NAME")
             dirs_only: Only list directories (default: False)
@@ -279,7 +298,7 @@ class CNTree:
             sort_files: If True, sort files above dirs, or if False, sort dirs
             above files (Ignored if sort is False) (default: False)
             ignore_case: If True, sort entries regardless of case, or if False,
-            uppercase alpha characters take precedence (default: False)
+            uppercase alpha characters take precedence (default: True)
             css: Custom css string to use for HTML output
 
         Creates a tree from the given start directory.
@@ -297,13 +316,13 @@ class CNTree:
         paths, or globs.
 
         The format strings for directory and file names will have the value
-        of "fmt_name" replaced by the directory or file name.
+        of "token" replaced by the directory or file name.
 
-        Example: (assuming "fmt_name" is set to "$NAME")
+        Example: (assuming "token" is set to "$NAME")
 
-            dir_format = " [] $NAME/"
+            dir_format = " [ ] $NAME/"
             item.name = "Foo"
-            result = " [] Foo/"
+            result = " [ ] Foo/"
 
         Also, leading spaces in dir_format, when applied to the start_dir
         name, will be left-trimmed to make the tree start at the first
@@ -326,16 +345,16 @@ class CNTree:
         if self._filter_list is None:
             self._filter_list = []
 
-        self._fmt_name = self.S_FORMAT_NAME
-        if fmt_name and self._fmt_name in fmt_name:
-            self._fmt_name = fmt_name
+        self._token = self.S_TOKEN
+        if token and self._token in token:
+            self._token = token
 
         self._dir_format = self.S_FORMAT_DIR
-        if dir_format and self._fmt_name in dir_format:
+        if dir_format and self._token in dir_format:
             self._dir_format = dir_format
 
         self._file_format = self.S_FORMAT_FILE
-        if file_format and self._fmt_name in file_format:
+        if file_format and self._token in file_format:
             self._file_format = file_format
 
         self._dirs_only = dirs_only
@@ -343,8 +362,9 @@ class CNTree:
         self._sort = sort
         self._sort_files = sort_files
 
+        self._css = self.S_DEF_CSS
         if not css:
-            self._css = self.S_DEF_CSS
+            self._css = css
 
         # create private props
         self._root_lead = ""
@@ -403,6 +423,97 @@ class CNTree:
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # Gets the filter_list from paths or globs
+    # --------------------------------------------------------------------------
+    def _get_filter_list(self):
+        """
+        Gets the filter_list from paths or globs
+
+        Converts entries in filter_list to absolute Path objects relative
+        to start_dir. Globs are acceptable.
+        """
+
+        # sanity check
+        if self._filter_list is None:
+            return
+
+        # do glob
+        list_filter = []
+        for item in self._filter_list:
+            res = list(self._start_dir.glob(item))
+            list_filter.extend(res)
+
+        # set result
+        self._filter_list = list_filter
+
+    # --------------------------------------------------------------------------
+    # Gets the leads (extra spaces) before each entry in the tree
+    # --------------------------------------------------------------------------
+    def _get_leads(self):
+        """
+        Gets the leads (extra spaces) before each entry in the tree
+
+        Calculates how many spaces should be presented before each entry in
+        the tree. The root folder should have no spaces (left-aligned) and
+        each subsequent entry should add the number of spaces in a
+        directory's format name. This allows us to align the connector with
+        the first character of the FORMAT_NAME variable, skipping things like
+        checkbox brackets.
+        """
+
+        # get the leads (extra indents to line up the pipes/tees/ells)
+        # NB: we don't care about file leads, nothing goes under a file
+
+        # get the root's format with no leading spaces
+        root_fmt = self._dir_format.lstrip()
+
+        # set root lead as string
+        root_lead_count = root_fmt.find(self.S_TOKEN)
+        self._root_lead = " " * root_lead_count
+
+        # set directory lead as string
+        dir_lead_count = self._dir_format.find(self.S_TOKEN)
+        self._dir_lead = " " * dir_lead_count
+
+    # --------------------------------------------------------------------------
+    # Gets the sort order for custom sorting by name
+    # --------------------------------------------------------------------------
+    def _get_sort_order(self):
+        """
+        Gets the sort order for custom sorting by name
+
+        This just fixes a personal quirk of mine. The default sorting order
+        in Python sorts names starting with a dot (.) above a name starting
+        with an underscore (_) (as per string.printable), which for me is
+        dependant on my locale, en_US, YMMV. This does not match my IDE,
+        VSCode, and I want the tree to match my File Explorer in my IDE. So
+        to fix this, I created a custom sorter that reverses that. It's not
+        really necessary, but it does the job.
+
+        This function creates a dict in the form of:
+        {char:index[, ...]}
+        where:
+        char is the character in the SORT_ORDER string
+        index is the ordinal of that char (starting at the lowest negative
+        ordinal)
+        so that:
+        SORT_ORDER = "_."
+        results in:
+        self._sort_order = {"_": -2, ".": -1}
+
+        most of this came from:
+        https://stackoverflow.com/questions/75301122/how-can-i-change-how-python-sort-deals-with-punctuation
+        """
+
+        # get length of string to count backwards
+        sort_len = len(self.S_SORT_ORDER)
+
+        # for each char in string
+        for index, char in enumerate(self.S_SORT_ORDER):
+            # make a dict entry for the char and its new ord
+            self._sort_order[char] = index - sort_len
+
+    # --------------------------------------------------------------------------
     # Adds the root to the tree
     # --------------------------------------------------------------------------
     def _add_root(self):
@@ -415,7 +526,7 @@ class CNTree:
 
         # format the root directory name to a display name and add it
         fmt_root = self._dir_format.lstrip()
-        rep_name = fmt_root.replace(self._fmt_name, self._start_dir.name)
+        rep_name = fmt_root.replace(self._token, self._start_dir.name)
 
         # setup text file
         self._tree.append(rep_name)
@@ -501,7 +612,7 @@ class CNTree:
             fmt = self._dir_format if an_item.is_dir() else self._file_format
 
             # replace name in format string
-            rep_name = fmt.replace(self.S_FORMAT_NAME, an_item.name)
+            rep_name = fmt.replace(self.S_TOKEN, an_item.name)
 
             # add the item to the tree
             self._tree.append(
@@ -556,97 +667,6 @@ class CNTree:
             self.html += self.S_ENTRY_CLOSE.format(indent)
 
     # --------------------------------------------------------------------------
-    # Gets the filter_list from paths or globs
-    # --------------------------------------------------------------------------
-    def _get_filter_list(self):
-        """
-        Gets the filter_list from paths or globs
-
-        Converts entries in filter_list to absolute Path objects relative
-        to start_dir. Globs are acceptable.
-        """
-
-        # sanity check
-        if self._filter_list is None:
-            return
-
-        # do glob
-        list_filter = []
-        for item in self._filter_list:
-            res = list(self._start_dir.glob(item))
-            list_filter.extend(res)
-
-        # set result
-        self._filter_list = list_filter
-
-    # --------------------------------------------------------------------------
-    # Gets the leads (extra spaces) before each entry in the tree
-    # --------------------------------------------------------------------------
-    def _get_leads(self):
-        """
-        Gets the leads (extra spaces) before each entry in the tree
-
-        Calculates how many spaces should be presented before each entry in
-        the tree. The root folder should have no spaces (left-aligned) and
-        each subsequent entry should add the number of spaces in a
-        directory's format name. This allows us to align the connector with
-        the first character of the FORMAT_NAME variable, skipping things like
-        checkbox brackets.
-        """
-
-        # get the leads (extra indents to line up the pipes/tees/ells)
-        # NB: we don't care about file leads, nothing goes under a file
-
-        # get the root's format with no leading spaces
-        root_fmt = self._dir_format.lstrip()
-
-        # set root lead as string
-        root_lead_count = root_fmt.find(self.S_FORMAT_NAME)
-        self._root_lead = " " * root_lead_count
-
-        # set directory lead as string
-        dir_lead_count = self._dir_format.find(self.S_FORMAT_NAME)
-        self._dir_lead = " " * dir_lead_count
-
-    # --------------------------------------------------------------------------
-    # Gets the sort order for custom sorting by name
-    # --------------------------------------------------------------------------
-    def _get_sort_order(self):
-        """
-        Gets the sort order for custom sorting by name
-
-        This just fixes a personal quirk of mine. The default sorting order
-        in Python sorts names starting with a dot (.) above a name starting
-        with an underscore (_) (as per string.printable), which for me is
-        dependant on my locale, en_US, YMMV. This does not match my IDE,
-        VSCode, and I want the tree to match my File Explorer in my IDE. So
-        to fix this, I created a custom sorter that reverses that. It's not
-        really necessary, but it does the job.
-
-        This function creates a dict in the form of:
-        {char:index[, ...]}
-        where:
-        char is the character in the SORT_ORDER string
-        index is the ordinal of that char (starting at the lowest negative
-        ordinal)
-        so that:
-        SORT_ORDER = "_."
-        results in:
-        self._sort_order = {"_": -2, ".": -1}
-
-        most of this came from:
-        https://stackoverflow.com/questions/75301122/how-can-i-change-how-python-sort-deals-with-punctuation
-        """
-
-        # get length of string to count backwards
-        sort_len = len(self.S_SORT_ORDER)
-
-        # for each char in string
-        for index, char in enumerate(self.S_SORT_ORDER):
-            # make a dict entry for the char and its new ord
-            self._sort_order[char] = index - sort_len
-
-    # --------------------------------------------------------------------------
     # Sorts items in the item list according to the item name
     # --------------------------------------------------------------------------
     def _sort_by_name(self, item):
@@ -664,6 +684,9 @@ class CNTree:
         based on it's value)
         """
 
+        # NB: smalls before caps (or something before nothing)
+        # .vscode should come before .VSCodeCounter
+        # dif-details.md should come before diff.csv
         # check if we need to lowercase based on the build_tree param
         tmp_item = item.name
         if self._ignore_case:
@@ -688,13 +711,30 @@ if __name__ == "__main__":
     # This is the top level code of the program, called when the Python file is
     # invoked from the command line.
 
-    a_start_dir = Path(__file__).parents[1] / "tests"
+    a_start_dir = Path(__file__).parents[1].resolve()  #  / "CNLib"
+    a_token = " [ ]$NAME"  # what to replace $NAME with
 
-    cntree = CNTree(a_start_dir)
+    cntree = CNTree(
+        a_start_dir,
+        filter_list=[
+            "**/.venv*",
+            ".git",
+            #     "**/__pycache__",
+            #     ".VSCodeCounter",
+            #     "**/*.egg-info",
+            #     "dist",
+            #     "docs",
+            #     "site",
+        ],
+        # token=a_token,
+        # dir_format=f"{a_token}/",
+        # file_format=f"{a_token}"
+    )
     cntree.make_tree()
 
     print()
-    print(cntree.html)
+    print(cntree.text)
+    # print(cntree.html)
     print()
 
 # -)

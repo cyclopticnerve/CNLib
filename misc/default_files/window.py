@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Project : __PP_NAME_PRJ_BIG__                                    /          \
+# Package :__PP_NAME_PRJ_BIG__                                    /          \
 # Filename: __PP_FILE_WIN__.py                                    |     ()     |
 # Date    : __PP_DATE__                                           |            |
 # Author  : __PP_AUTHOR__                                         |   \____/   |
@@ -26,8 +26,11 @@ from pathlib import Path
 # 3rd party imports
 
 import gi  # pylint: disable=import-error # type: ignore
+
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk  # pylint: disable=import-error, wrong-import-position # type: ignore
+from gi.repository import (
+    Gtk,
+)  # pylint: disable=import-error, wrong-import-position # type: ignore
 
 # ------------------------------------------------------------------------------
 # Classes
