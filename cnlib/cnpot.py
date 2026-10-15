@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Package :CNLib                                                  /          \
+# Package : CNLib                                                  /          \
 # Filename: cnpot.py                                              |     ()     |
 # Date    : 03/14/2024                                            |            |
 # Author  : cyclopticnerve                                        |   \____/   |
@@ -40,10 +40,6 @@ from typing import Callable
 # cnlib imports
 import cnlib.cnfunctions as F
 
-# TODO: __new__: type hints for params and ret val
-# TODO: __init__: document source_paths
-# TODO: __init__: document methods
-
 # ------------------------------------------------------------------------------
 # Public classes
 # ------------------------------------------------------------------------------
@@ -68,6 +64,7 @@ class CNPotPy:
     # Strings
     # --------------------------------------------------------------------------
 
+    # --------------------------------------------------------------------------
     # commands
 
     # check if xgettext is installed
@@ -75,35 +72,58 @@ class CNPotPy:
     # call xgettext
     # NB: format params are... see below
     _S_CMD_XGT = (
-        "xgettext "  # call GNU tool
-        "--package-name={} "  # fix license string (param is self._domain)
-        "-F "  # sort entries by file
-        "-j "  # merge with existing file
-        "-c{} "  # stop backpedaling for comments (param is self._tag)
-        "-o {} "  # output file (param is self._path_pot)
-        "-L {} "  # language of file to be scanned (param is current clang)
-        "{}"  # path(s) to src files (param is str_clang_files)
+        # call GNU tool
+        "xgettext "
+        # output file
+        # NB: param is self._path_pot (as quoted string)
+        "--output={} "
+        # language of file to be scanned
+        # NB: param is clang_name
+        "--language={} "
+        # join with existing .pot file
+        "--join-existing "
+        # comment handling (see docs)
+        # NB: param is self._tag
+        "--add-comments={} "
+        # sort entries by file
+        "--sort-by-file "
+        # fix license string
+        # NB: param is self._domain
+        "--package-name={} "
+        # set version number
+        # NB: param is self._version
+        "--package-version={} "
+        # set email address for bugs
+        # NB: param is self._email
+        "--msgid-bugs-address={} "
+        # path(s) to src files
+        # NB: param is str_clang_files
+        "{}"
     )
     # shell commands to make po/mo
     # NB: format params are file_po and self._path_pot
+    # NB: no backup! DANGER WILL ROBINSON! -- fuck im old
     _S_CMD_MERGE_POS = "msgmerge --update --backup=none {} {}"
     # NB: format params are file_mo and file_po
-    _S_CMD_MAKE_MOS = "msgfmt -o {} {}"
-    # NB: dir (-d) must contain LINGUAS file
+    _S_CMD_MAKE_MOS = "msgfmt --output-file={} {}"
+    # NB: -d must contain LINGUAS file (it's already path to _path_po)
     # NB: LINGUAS must contain paths to .po files, relative to dir_po (no ext)
-    # NB: format params are self._desk_in, self._desk_out, and self._po_path
-    _S_CMD_DESK = "msgfmt --desktop --template={} -o {} -d {}"
+    # NB: format params are path_desk_in, path_desk_out, path_po
+    _S_CMD_DESK = "msgfmt --desktop --template={} --output-file={} -d {}"
 
+    # --------------------------------------------------------------------------
     # dirs
 
     # fixed GNU dir under locale dir
     _S_DIR_LC = "LC_MESSAGES"
 
+    # --------------------------------------------------------------------------
     # files
 
     # fixed GNU file to store all wlang names for .desktop files
     _S_FILE_LINGUAS = "LINGUAS"
 
+    # --------------------------------------------------------------------------
     # exts
 
     # fixed GNU file extensions
@@ -111,44 +131,41 @@ class CNPotPy:
     _S_EXT_PO = ".po"
     _S_EXT_MO = ".mo"
 
+    # --------------------------------------------------------------------------
     # errors
 
     # error message for project path is not absolute
-    _S_ERR_ABS_PRJ = (
-        "Project directory must be absolute path and it must exist"
-    )
-    _S_ERR_DESK_TMP = (
-        # error message for desktop template is not absolute
-        "Desktop template file must be absolute path and it must exist"
-    )
-    # error message for desktop output is not absolute
-    _S_ERR_DESK_OUT = "Desktop output file path must be absolute"
+    # NB: format param is project_path
+    _S_ERR_PRJ_NO_PATH = "ERROR: project_path does not exist: {}"
     # error message for no xgettext
-    _S_ERR_NO_XGT = "No xgettext, use 'sudo apt install gettext'"
-    # error message for no lang in po file
+    _S_ERR_NO_XGT = "ERROR: No xgettext, use 'sudo apt install gettext'"
+
+    # --------------------------------------------------------------------------
+    # warnings
+
+    # warning message for source does not exist
+    # NB: format param is source path
+    _S_WARN_NO_SRC = "WARNING: The source path does not exist: {}"
+    # warning message for no lang in po file
     # NB: format param is file name
-    _S_ERR_NO_LANG = "No language set in po file: {}"
-    # error for empty string
-    # NB: format param is file name
-    _S_ERR_EMPTY_TRANS = "Empty translation value: {}"
-    # fixed strings for error messages
-    _S_ERR_DOMAIN = "No domain"
-    _S_ERR_I18N_DIR = "i18n_path must be an absolute Path"
+    _S_WARN_NO_LANG = "WARNING: No language set in po file: {}"
+    # warning for empty string
+    # NB: format params are file path and line number
+    _S_WARN_EMPTY_TRANS = "WARNING: Empty translation value: {}:{}"
 
-    # defaults of my personal choosing (deal with it)
-
-    # default tag (also a param)
-    _S_TAG = "I18N"
-
-    # default encoding for .pot and .po files (also a param)
-    _S_ENCODING = "UTF-8"
+    # --------------------------------------------------------------------------
+    # default params of my personal choosing (deal with it)
 
     # default base folder for all i18n stuff (under prj)
-    _S_DIR_I18N = "i18n"
+    # NB: this is the only name that is not a param, since it can be specified
+    # in __init__'s i18n_path
+    _S_DEF_DIR_I18N = "i18n"
     # default name of locale dir (under i18n_path)
-    _S_DIR_LOCALE = "locale"
-    # def dir name for user-editable translations (under i18n_path)
-    _S_DIR_PO = "po"
+    _S_DEF_DIR_LOCALE = "locale"
+    # default dir name for po files (under i18n_path)
+    _S_DEF_DIR_PO = "po"
+    # default encoding for .pot and .po files
+    _S_DEF_ENCODING = "UTF-8"
 
     # --------------------------------------------------------------------------
     # Regex strings
@@ -156,41 +173,30 @@ class CNPotPy:
 
     # title
     _R_TITLE_SCH = r"# SOME DESCRIPTIVE TITLE."
-    # NB: format param is __PRJ_NAME_SMALL__
+    # NB: format param is self._domain
     _R_TITLE_REP = r"# {} translation template"
-
     # copyright
     _R_COPY_SCH = (
         r"(# Copyright \(C\) )(YEAR)( )(THE PACKAGE'S COPYRIGHT HOLDER)"
     )
-    # NB: format params are year and author param
+    # NB: format params are current year and author param
     _R_COPY_REP = r"\g<1>{}\g<3>{}"
-
-    # email
-    _R_EMAIL_SCH = r"(# FIRST AUTHOR )(<EMAIL@ADDRESS>)(, )(YEAR)"
-    # NB: format params are email param and year
-    _R_EMAIL_REP = r"\g<1>{}\g<3>{}"
-
-    # project version
-    _R_VER_SCH = r"(\"Project-Id-Version: )(.*?)(\\n\")"
-    # NB: format param is version param
-    _R_VER_REP = r"\g<1>{}\g<3>"
-
-    # bugs email
-    _R_BUGS_SCH = r"(\"Report-Msgid-Bugs-To: )(.*?)(\\n\")"
-    # NB: format param is email param
-    _R_BUGS_REP = r"\g<1>{}\g<3>"
-
-    # charset
-    _R_CHAR_SCH = r"(\"Content-Type: text/plain; charset=)(CHARSET)(.*)"
-    # NB: format param is charset param
-    _R_CHAR_REP = r"\g<1>{}\g<3>"
-
-    # wlang
+    # author email
+    _R_AUTH_SCH = r"(# FIRST AUTHOR )(<EMAIL@ADDRESS>)(, )(YEAR)"
+    # NB: format params are email param and current year
+    _R_AUTH_REP = r"\g<1>{}\g<3>{}"
+    # wlang inside file
     _R_LANG_SCH = r"(\"Language: )(.*?)(\\n\")"
-
     # empty translation string (borks .pot output)
     _R_EMPTY_SCH = r"^[^#]*_\([\"|'] *[\"|']\)"
+
+    # --------------------------------------------------------------------------
+    # Lists
+    # --------------------------------------------------------------------------
+
+    # list of extensions to search for empty translations (i.e. '_("")')
+    # NB: this makes searching a little more efficient
+    _L_EMPTY_TRANS = ["Python"]
 
     # --------------------------------------------------------------------------
     # Dictionaries
@@ -207,6 +213,7 @@ class CNPotPy:
     # Objects
     # --------------------------------------------------------------------------
 
+    # singleton instance
     _O_INST = None
 
     # --------------------------------------------------------------------------
@@ -216,24 +223,26 @@ class CNPotPy:
     # --------------------------------------------------------------------------
     # Create a new object from a class
     # --------------------------------------------------------------------------
+    # NB: type hinting here is IMPOSSIBRUUUU!!!
     def __new__(cls, *args, **kwargs):
         """
         Create a new object from a class.
 
-        This is the usual implementation of a singleton class in Python.
+        This is the usual implementation of a singleton class in Python. Note
+        that *args and **kwargs are unused, but necessary. Python is weird lol.
 
         Args:
-            cls: The class name/type/??? of the object to create.
+            cls: The class type of the object to create.
             *args: A list of all the positional arguments to the class' creator
-            function.
+                function.
             **kwargs: A dictionary of all the keyword arguments to the class'
-            creator function.
+                creator function.
 
         Returns:
-            An new or existing object of the specified class.
+            A new or existing object of the specified class.
         """
 
-        # this is our first instance
+        # if no previous instance
         if not cls._O_INST:
 
             # create an instance
@@ -247,23 +256,26 @@ class CNPotPy:
     # --------------------------------------------------------------------------
     def __init__(
         self,
+        # ----------------------------------------------------------------------
         # input
         # start dir (for relative paths)
         project_path: Path,
         # list of input folders/files (abs/rel Path)
         source_paths: list[Path] | None = None,
         # set clangs (override default, NOT combine)
-        clangs: dict[str, list[str]] | None = None,
+        clangs_dict: dict[str, list[str]] | None = None,
+        # ----------------------------------------------------------------------
         # output
         # output dir
         i18n_path: Path | None = None,
         # locale dir under output dir
-        locale_path: Path | None = None,
+        locale_name: str | None = None,
         # po dir under output dir
-        po_path: Path | None = None,
-        # meta
-        # .mo file name
+        po_name: str | None = None,
+        # .pot/.mo file name
         domain: str | None = None,
+        # ----------------------------------------------------------------------
+        # meta
         # project version
         version: str | None = None,
         # project author
@@ -272,8 +284,7 @@ class CNPotPy:
         email: str | None = None,
         # tag to stop regressive context search
         tag: str | None = None,
-        # file encoding
-        encoding: str | None = None,
+        # ----------------------------------------------------------------------
         # desktop stuff
         # path to template desktop
         desk_in_path: Path | None = None,
@@ -283,167 +294,222 @@ class CNPotPy:
         """
         Initialize the new object.
 
-        Initializes a new instance of the class, setting the default values of
-        its properties, and any other code needed to create a new object.
+        Initializes a new instance of the class, setting the specified or
+        default values of its properties, and any other code needed to create a
+        new object.
 
         Args:
-            project_path: The main project dir Path, used for relative paths.
-                This Path must be absolute.
-            i18n_path: The directory to place all i18n folders/files. Can be
-                relative or absolute. A relative path is resolved against
-                project_path. (default: None, use project_path / _S_DIR_I18N)
-            source_paths:
-                # TODO: more info
+            project_path: The main project Path, used for relative paths. This
+                Path is required. If the Path is relative, is it resolved
+                against the current working directory.
+            source_paths: The list of Paths to folders and files to be scanned.
+                Consider this a 'whitelist'. Paths can be absolute or relative
+                to project_path. Paths can also be folders or files.
+                (default: None, use project_path)
+            clangs_dict: The dictionary of file extensions to scan for each
+                clang. For each entry, the key is a clang known to xgettext.
+                The value is a list of file extensions associated with that
+                clang. (default: None, use self._D_CLANGS)
+            i18n_path: The directory to place all i18n folders/files. Path can
+                be absolute or relative to project_path. (default: None, use
+                project_path / "i18n")
+            locale_name: The name of the locale folder under i18n_path.
+                (default: None, use "locale")
+            po_name: The name of the po folder under i18n_path. (default: None,
+                use "po")
             domain: The name of the domain (program name). This name should
-                be unique to you program. (default: None, use project_path.name)
+                be unique to you program. (default: None, use
+                project_path.name)
             version: Version info to use in .pot/.po header. (default: None,
                 do not replace)
             author: Author name to use in .pot/.po header. (default: None, do
                 not replace)
             email: Email to use in .pot/.po header. (default: None, do not
                 replace)
-            tag: Tag that starts a context comment. If this string is
-                empty, all comments above the string are included as context,
-                until a blank or non-comment line is found. (default: None, use
-                _S_TAG)
-            encoding: The charset to use as the default in the .pot file, and
-                any initial .po files created. (default: None, use _S_ENCODING)
-            clangs: The dictionary of file extensions to scan for each
-                clang. For each entry, the key is a clang known to xgettext.
-                The value is a list of file extensions associated with that
-                clang. If ths dict is empty, no files will be scanned.
-                (default: _D_CLANGS)
-            desk_in_path: The path to the desktop template file. Can be absolute
-                or relative to project_path. (default: None, do not use)
-            desk_out: The path to the desktop output file. Can be absolute
-                or relative to project_path. (default: None, do not use)
-
-        # TODO: document methods
+            tag: String that signifies a context comment. If the value is None,
+                no comments are included. If the value is an empty string (""),
+                all comments above the string are included as context, until a
+                blank or non-comment line is found. Any other value will
+                include all preceding comment lines that include "tag", until a
+                blank or non-comment line is found. (default: None, no
+                comments)
+            desk_in_path: The path to the desktop template file. Path can be
+                absolute or relative to project_path. Ignored if desk_out_path
+                is None. (default: None, do not use)
+            desk_out_path: The path to the desktop output file. Path can be
+                absolute or relative to project_path. Ignored if desk_in_path
+                is None. (default: None, do not use)
 
         Raises:
-            ValueError: If project_path is not absolute
-
+            ValueError: If project_path does not exist.
         """
 
+        # ----------------------------------------------------------------------
         # sanitize all params
 
         # ----------------------------------------------------------------------
-
         # input
 
+        # ----------------------------------------------------------------------
         # check project_path
-        if (
-            not project_path
-            or not project_path.is_absolute()
-            or not project_path.exists()
-        ):
-            raise ValueError(self._S_ERR_ABS_PRJ)
-        self._project_path = project_path
 
+        # if path is relative, make it abs rel to cwd
+        project_path = project_path.resolve()
+
+        # check if path is abs and exists
+        if not project_path.exists():
+            raise ValueError(self._S_ERR_PRJ_NO_PATH.format(project_path))
+
+        # project_path is ok, keep going
+        self._path_project = project_path
+
+        # ----------------------------------------------------------------------
         # check source_paths
+
+        # get default source paths (none or empty list)
         if not source_paths:
-            source_paths = [self._project_path]
+            source_paths = [self._path_project]
+
+        # make source_paths absolute
         source_paths = [
-            item if item.is_absolute() else self._project_path / item
+            item if item.is_absolute() else self._path_project / item
             for item in source_paths
         ]
-        self._source_paths = source_paths
 
+        # store source_paths
+        self._list_sources = source_paths
+
+        # ----------------------------------------------------------------------
         # check clangs
-        if not clangs:  # True if param is None or def or not present or {}
-            clangs = self._D_CLANGS
+
+        # get default clangs (none or empty dict)
+        if not clangs_dict:
+            clangs_dict = self._D_CLANGS
 
         # add leading dot if necessary
-        for clang, exts in clangs.items():
+        for clang, exts in clangs_dict.items():
 
             # check for leading dot
             exts = [
                 f".{ext}" if not ext.startswith(".") else ext for ext in exts
             ]
-            clangs[clang] = exts
+            clangs_dict[clang] = exts
 
         # clangs is fixed, use it
-        self._clangs = clangs
+        self._dict_clangs = clangs_dict
 
         # ----------------------------------------------------------------------
-
         # output
 
-        # check i18n_path
+        # ----------------------------------------------------------------------
+        # check i18n_path (none or rel)
         if not i18n_path:
-            i18n_path = self._project_path / self._S_DIR_I18N
+            i18n_path = self._path_project / self._S_DEF_DIR_I18N
         if not i18n_path.is_absolute():
-            i18n_path = self._project_path / i18n_path
-        self._i18n_path = i18n_path
-
-        # check locale path
-        if not locale_path:
-            locale_path = self._i18n_path / self._S_DIR_LOCALE
-        if not locale_path.is_absolute():
-            locale_path = self._i18n_path / locale_path
-        self._locale_path = locale_path
-
-        # check po path
-        if not po_path:
-            po_path = self._project_path / self._S_DIR_PO
-        if not po_path.is_absolute():
-            po_path = self._project_path / po_path
-        self._po_path = po_path
+            i18n_path = self._path_project / i18n_path
+        self._path_i18n = i18n_path
 
         # ----------------------------------------------------------------------
+        # make locale path (none or empty)
+        if not locale_name:
+            locale_name = self._S_DEF_DIR_LOCALE
+        self._path_locale = self._path_i18n / locale_name
 
-        # meta
+        # ----------------------------------------------------------------------
+        # make po path (none or empty)
+        if not po_name:
+            po_name = self._S_DEF_DIR_PO
+        self._path_po = self._path_i18n / po_name
 
-        # get domain
+        # ----------------------------------------------------------------------
+        # get domain (none or empty)
         if not domain:
-            # use project name
-            domain = self._project_path.name
+            domain = self._path_project.name
         self._domain = domain
 
-        # just store args as props
+        # ----------------------------------------------------------------------
+        # meta
+
+        # just store args as props (none/empty/whatever)
         self._version = version
         self._author = author
         self._email = email
 
-        # NB: when testing strings, "if not foo" will return True if the string
-        # is None or "".
-        # "if foo is None" will return True if the string is None, but False if
-        # the string is ""
+        # NB: when testing strings:
+        # "if not foo" will return True if the string is None or "".
+        # "if foo is None" will return True if the string is None, not  ""
+        # "if foo" returns True if foo is not None and is not ""
+
+        # TODO: test this
+        # None: use no comments
+        # "": use all comments
 
         # get tag
-        if tag is None:  # not "", only None
-            tag = self._S_TAG
+        if tag is None:
+            tag = ""
+        elif tag == "":
+            tag = None
         self._tag = tag
 
-        # get encoding
-        if encoding is None:  # not "", only None
-            encoding = self._S_ENCODING
-        self._encoding = encoding
+        # ----------------------------------------------------------------------
+        # desktop stuff
 
-        # check desk_in_path
-        if desk_in_path:
-            if not desk_in_path.is_absolute():
-                desk_in_path = self._project_path / desk_in_path
-        self._desk_in_path = desk_in_path
+        # we have something in, make it absolute
+        if desk_in_path and not desk_in_path.is_absolute():
+            desk_in_path = self._path_project / desk_in_path
+        # store abs path or None
+        self._path_desk_in = desk_in_path
 
-        # check desk_out_path
-        if desk_out_path:
-            if not desk_out_path.is_absolute():
-                desk_out_path = self._project_path / desk_out_path
-        self._desk_out_path = desk_out_path
+        # we have something out, make it absolute
+        if desk_out_path and not desk_out_path.is_absolute():
+            desk_out_path = self._path_project / desk_out_path
+        # store abs path or None
+        self._path_desk_out = desk_out_path
 
         # ----------------------------------------------------------------------
 
         # make refs to folder structure (but DO NOT create)
-        self._path_pot = self._i18n_path / f"{self._domain}{self._S_EXT_POT}"
+        self._path_pot = self._path_i18n / f"{self._domain}{self._S_EXT_POT}"
         self._file_mo = f"{self._domain}{self._S_EXT_MO}"
-        self._file_linguas = self._po_path / self._S_FILE_LINGUAS
+        self._path_linguas = self._path_po / self._S_FILE_LINGUAS
 
         # store files to search
         self._dict_files = {}
 
         # default list of po files
         self._list_po = []
+
+        # ----------------------------------------------------------------------
+
+        print()
+
+        print("----- input -----")
+        print("self._path_project:", self._path_project)
+        F.pp(self._list_sources, label="self._list_sources")
+        # F.pp("self._list_sources:", self._list_sources)
+        F.pp(self._dict_clangs, label="self._dict_clangs")
+        # print("self._dict_clangs:", self._dict_clangs)
+
+        print("----- output -----")
+        print("self._path_i18n:", self._path_i18n)
+        print("self._path_locale:", self._path_locale)
+        print("self._path_po:", self._path_po)
+        print("self._domain:", self._domain)
+
+        print("----- meta -----")
+        print("self._version:", self._version)
+        print("self._author:", self._author)
+        print("self._email:", self._email)
+        print("self._tag:", self._tag)
+
+        print("----- desktop -----")
+        print("self._path_desk_in:", self._path_desk_in)
+        print("self._path_desk_out:", self._path_desk_out)
+
+        print("----- paths -----")
+        print("self._path_pot:", self._path_pot)
+        print("self._file_mo:", self._file_mo)
+        print("self._path_linguas:", self._path_linguas)
 
     # --------------------------------------------------------------------------
     # Public methods
@@ -456,27 +522,30 @@ class CNPotPy:
         """
         Return the underscore function.
 
+        This is the function that source files import and use to mark strings
+        as translatable. See tests/cnpot_test/src/python/source.py for an
+        example.
+
         Returns:
             The gettext method to be used in Python source files.
         """
 
-        # fix locale (mostly for GUI)
+        # TODO: maybe make this a module level func so no obj needed
+
+        # fix locale (mostly for GUI?)
         locale.setlocale(locale.LC_ALL, "")
-        locale.bindtextdomain(self._domain, self._locale_path)
+        locale.bindtextdomain(self._domain, self._path_locale)
 
         # get a translation object
         translation = gettext.translation(
-            self._domain, self._locale_path, fallback=True
+            self._domain, self._path_locale, fallback=True
         )
 
         # return translation object's gettext method
-        # NB: do not use install() here, that would only put _ in this file's
-        # namespace. we want it in the caller's namespace, so return the func!
-        # it can then be imported in the caller
         return translation.gettext
 
     # --------------------------------------------------------------------------
-    # Run the program and make or update the files
+    # Run the main method to make or update the files
     # --------------------------------------------------------------------------
     def main(self):
         """
@@ -485,41 +554,35 @@ class CNPotPy:
         The main method of the class, performing its steps. This method can
         (and should) be run, in Mayor Tweed's words, "early and often". You
         should run it every time a source file that contains i18n strings is
-        added, edited, or deleted. The ideal scenario is to run it just before
-        the repo is synced, so that the .pot file is synced.
+        added, edited, or deleted. You should also run it after a language .po
+        file is added, edited, or deleted.
 
         Raises:
-            cnlib.cnfunctions.CNError: If xgettext is not found or fails
+            OSError: If xgettext cannot be found.
+            cnlib.cnfunctions.CNRunError: If any of the main steps fails.
         """
 
         # sanity check for xgettext
+        # NB: keep this here because we can still create an object to use it's
+        # underscore method, even if we have no xgt (xgt only used to make)
         try:
             F.run(self._S_CMD_WHICH_XGT, capture_output=True)
         except F.CNRunError as e:
-            raise e
-
-        # TODO: don't like this, blacklist instead
-        # but delete later in do_desktop
-
-        # kill old final desktop to prevent scanning
-        # if self._desk_out:
-        #     self._desk_out.unlink(missing_ok=True)
-        #     self._desk_out.parent.mkdir(parents=True, exist_ok=True)
+            raise OSError(self._S_ERR_NO_XGT) from e
 
         # fix up source_paths every time main is run
         self._dict_files = self._get_dict_files()
-        F.pp(self._dict_files)
 
         # fix up po list every time main is run
-        self._list_po = self._get_list_po()
+        self._list_po = self._get_list_pos()
+
+        # make file structure on first run
+        self._make_file_struct()
 
         # ----------------------------------------------------------------------
         # do the steps
 
         try:
-
-            # do some housekeeping (mostly file structure stuff)
-            self._make_file_struct()
 
             # make new .pot file
             self._make_pot()
@@ -533,19 +596,202 @@ class CNPotPy:
             # make desktop if template present
             self._make_desktop()
 
-        # check for error, let someone else handle it
+        # send errors up to caller
         except F.CNRunError as e:
             raise e
 
-    # what is the try/exc/why
-    # and when to catch/raise/wrap
-    # same as testing and stuff that i cant wrap my head around
     # --------------------------------------------------------------------------
     # Private methods
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # Scan the source list for files with certain extensions
+    # Create a .pot file in the i18n folder
+    # --------------------------------------------------------------------------
+    def _make_pot(self):
+        """
+        Create a .pot file in the i18n folder.
+
+        Parses the files for each clang, creating a unified .pot file, which is
+        created as "i18n/<domain>.pot".
+
+        Raises:
+            cnlib.cnfunctions.CNRunError: If the make fails.
+        """
+
+        # for each clang name / list of clang files
+        for clang_name, clang_files in self._dict_files.items():
+
+            # sanity check (None or empty)
+            if not clang_files:
+                continue
+
+            # check for empty translations strings
+            # NB: makes empty search more efficient
+            if clang_name in self._L_EMPTY_TRANS:
+                self._check_empty_trans(clang_files)
+
+            # convert list of paths to quoted string
+            list_clang_files = [f'"{str(item)}"' for item in clang_files]
+            str_clang_files = " ".join(list_clang_files)
+
+            # get the cmd
+            cmd = self._S_CMD_XGT.format(
+                # make path into quoted string
+                f'"{str(self._path_pot)}"',  # output
+                clang_name,  # language
+                self._tag,  # --add-comments
+                self._domain,  # --package-name
+                self._version,  # --package-version
+                self._email,  # --msgid-bugs-address
+                str_clang_files,  # list of quoted files to scan
+            )
+
+            # do the final command
+            try:
+                F.run(cmd, capture_output=True)
+            except F.CNRunError as e:
+                raise e
+
+            # fix copyright/email/version in pot
+            self._fix_pot_header()
+
+    # --------------------------------------------------------------------------
+    # Merge any .po files in the po folder with new/existing .pot file
+    # --------------------------------------------------------------------------
+    def _make_pos(self):
+        """
+        Merge any .po files in the po folder with new/existing .pot file.
+
+        Whenever a new .pot file is generated using _make_pot, this method will
+        produce a new .po file for each wlang that contains the difference
+        between the new .pot file and the existing .po file.
+
+        This new .po file should be sent to the translator for each wlang. Then
+        when the translator sends back the translated .po file, place it in the
+        po directory. Then run main() to create a new .mo file.
+
+        Raises:
+            cnlib.cnfunctions.CNRunError: If the make fails.
+        """
+
+        # sanity check (None or empty)
+        if not self._list_po:
+            return
+
+        # quote erthin
+        q_path_pot = f'"{str(self._path_pot)}"'
+
+        # for each wlang in the po folder
+        for file_po in self._list_po:
+
+            # quote erthin
+            q_file_po = f'"{str(file_po)}"'
+
+            # update existing po file using latest pot
+            cmd = self._S_CMD_MERGE_POS.format(q_file_po, q_path_pot)
+            try:
+                F.run(cmd, capture_output=True)
+            except F.CNRunError as e:
+                raise e
+
+    # --------------------------------------------------------------------------
+    # Create .mo files for all .po files and put them in the locale folder
+    # --------------------------------------------------------------------------
+    def _make_mos(self):
+        """
+        Create .mo files for all .po files and put them in the locale folder.
+
+        Seriously, that's it. Just keep .mo files updated with .po files.
+
+        Raises:
+            cnlib.cnfunctions.CNRunError: If the make fails.
+        """
+
+        # nuke whole locale dir and recreate
+        shutil.rmtree(self._path_locale)
+        self._path_locale.mkdir(parents=True, exist_ok=True)
+
+        # sanity check
+        if not self._list_po:
+            return
+
+        # for each wlang
+        for file_po in self._list_po:
+
+            # get .mo dir (output)
+            dir_mo = self._path_locale / file_po.stem / self._S_DIR_LC
+            dir_mo.mkdir(parents=True, exist_ok=True)
+            file_mo = dir_mo / self._file_mo
+
+            # quote erthin
+            q_file_mo = f'"{str(file_mo)}"'
+            q_file_po = f'"{str(file_po)}"'
+
+            # do the command
+            cmd = self._S_CMD_MAKE_MOS.format(q_file_mo, q_file_po)
+            try:
+                F.run(cmd, capture_output=True)
+            except F.CNRunError as e:
+                raise e
+
+    # --------------------------------------------------------------------------
+    # Localize the desktop file
+    # --------------------------------------------------------------------------
+    def _make_desktop(self):
+        """
+        Localize the desktop file.
+
+        Takes a template desktop file and applies all i18n'ed info from all .po
+        files in the po folder and creates a final desktop file. AFAIK the
+        only entries that are i18n'ed are Name (which you should mark with a
+        comment that says "DO NOT TRANSLATE", since you almost never want to
+        i18n it) and Comment, which is a short description of your program,
+        usually used in start menu tooltips and the like.
+
+        Raises:
+            cnlib.cnfunctions.CNRunError: If the make fails.
+        """
+
+        # sanity checks
+
+        # fail silently if no input/output
+        if not self._path_desk_in or not self._path_desk_out:
+            return
+
+        # ----------------------------------------------------------------------
+
+        # write the LINGUAS file
+        list_po_lang = [item.stem for item in self._list_po]
+
+        # make all entries into one long space separated string
+        str_linguas = " ".join(list_po_lang)
+
+        # write to linguas file
+        with open(self._path_linguas, "w", encoding=self._S_DEF_ENCODING) as f:
+            f.write(str_linguas)
+
+        # ----------------------------------------------------------------------
+
+        # quote erthin
+        q_path_desk_in = f'"{self._path_desk_in}"'
+        q_path_desk_out = f'"{self._path_desk_out}"'
+        q_path_po = f'"{self._path_po}"'
+
+        # do the thing
+        cmd = self._S_CMD_DESK.format(
+            q_path_desk_in, q_path_desk_out, q_path_po
+        )
+        try:
+            F.run(cmd, capture_output=True)
+        except F.CNRunError as e:
+            raise e
+
+    # --------------------------------------------------------------------------
+    # Helper methods
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # Scan the source_paths list for files with certain extensions
     # --------------------------------------------------------------------------
     def _get_dict_files(self) -> dict[str, list[Path]]:
         """
@@ -573,34 +819,38 @@ class CNPotPy:
             A dictionary of file paths for each clang.
         """
 
-        # TODO: need a way to ignore prj.desktop when scanning
-
         # we will eventually return a new dict
         dict_res = {}
 
         # ----------------------------------------------------------------------
 
         # for each clang name / list of exts
-        for clang, exts in self._clangs.items():
+        for clang, exts in self._dict_clangs.items():
 
             # get res list for clang
             dict_res[clang] = []
 
-            # for each item in source_paths
-            for src in self._source_paths:
+            # add globs here for recursive search
+            # NB: we already fixed dot in __init__
+            glob_exts = [f"**/*{ext}" for ext in exts]
 
-                # sanity check (we may list source_paths that don't exist yet)
-                if not src.exists():
-                    continue
+            # for each item in source_paths
+            for src in self._list_sources:
+
+                # TODO: do we need this?
+                # # sanity check (we may have source_paths that don't exist yet)
+                # if not src.exists():
+
+                #     # warn, but do not fail
+                #     F.printc(
+                #         self._S_WARN_NO_SRC.format(src),
+                #         fg=F.C_FG_YELLOW,
+                #         bold=True,
+                #     )
+                #     continue
 
                 # src is dir
                 if src.is_dir():
-                    # add globs here for dir search
-                    # NB: we already fixed dot in __init__
-                    glob_exts = [
-                        f"**/*{ext}" if not ext.startswith("**/*") else ext
-                        for ext in exts
-                    ]
 
                     # for each clang ext
                     for glob_ext in glob_exts:
@@ -614,363 +864,234 @@ class CNPotPy:
                         dict_res[clang].extend(glob_res)
 
                 # src is file
-                else:
+                elif src.is_file():
 
-                    # file, check ext
+                    # check ext
                     for ext in exts:
                         if src.suffix == ext:
+                            # update result lang's val
                             dict_res[clang].append(src)
+                            break
 
         # ----------------------------------------------------------------------
-        # remove duplicates from each res list
 
+        # remove duplicates from each res list
+        # NB: user may specify dir and file in dir
         for clang, paths in dict_res.items():
             dict_res[clang] = list(set(paths))
+
+        # prune final desktop if present
+        if self._path_desk_out:
+            for clang, paths in dict_res.items():
+                if self._path_desk_out in paths:
+                    paths.remove(self._path_desk_out)
 
         # ----------------------------------------------------------------------
         # return the final result
         return dict_res
 
     # --------------------------------------------------------------------------
-    # Fix the list of po files by re-scanning po dir
+    # Fix the list of po files by re-scanning the po dir
     # --------------------------------------------------------------------------
-    def _get_list_po(self):
+    def _get_list_pos(self) -> list[Path]:
         """
-        Fix the list of po files by re-scanning po dir
+        Fix the list of po files by re-scanning the po dir.
+
+        This function returns a list of valid .po files in the po directory. It
+        also attempts to fix the filenames by using the "Language" attribute
+        inside the file if it is not already the filename.
+
+        Returns:
+            The list of .po files.
         """
 
-        res_list = []
+        # ----------------------------------------------------------------------
+
         # fix up list_po every time main is run
         glob_po = f"**/*{self._S_EXT_PO}"
-        res_list = list(self._po_path.glob(glob_po, case_sensitive=False))
+        list_res = list(self._path_po.glob(glob_po, case_sensitive=False))
 
-        # also look for pot files
-        glob_pot = f"**/*{self._S_EXT_POT}"
-        list_pot = list(self._po_path.glob(glob_pot, case_sensitive=False))
-        res_list.extend(list_pot)
+        # ----------------------------------------------------------------------
 
         # for each po file
-        for file_po in res_list:
+        for file_po in list_res:
 
             # get wlang name
             wlang = self._get_wlang_from_file(file_po)
 
             # check for no lang
             if not wlang:
-                print(self._S_ERR_NO_LANG.format(file_po))
+
+                # warn, but do not fail
+                F.printc(
+                    self._S_WARN_NO_LANG.format(file_po),
+                    fg=F.C_FG_YELLOW,
+                    bold=True,
+                )
                 continue
 
             # check file name
-            if file_po.stem != wlang or file_po.suffix == self._S_EXT_POT:
-                parent_po = file_po.parent
-                new_file_po = parent_po / f"{wlang}{self._S_EXT_PO}"
+            if file_po.stem != wlang:
+                new_file_po = file_po.parent / f"{wlang}{self._S_EXT_PO}"
                 file_po.rename(new_file_po)
 
-        # fix up list_po after possible rename
-        glob_po = f"**/*{self._S_EXT_PO}"
-        res_list = list(self._po_path.glob(glob_po, case_sensitive=False))
+        # ----------------------------------------------------------------------
 
-        return res_list
+        # fix up list_po after possible rename
+        list_res = list(self._path_po.glob(glob_po, case_sensitive=False))
+
+        # return final list of po files
+        return list_res
 
     # --------------------------------------------------------------------------
-    # Do the basics of setting up i18n for a project
+    # Set up the initial file structure
     # --------------------------------------------------------------------------
     def _make_file_struct(self):
         """
-        Do the basics of setting up i18n for a project
+        Set up the initial file structure.
+
+        Seriously. That's it.
         """
 
-        # ----------------------------------------------------------------------
-        # housekeeping
-
         # make dirs
-        self._i18n_path.mkdir(parents=True, exist_ok=True)
-        self._locale_path.mkdir(parents=True, exist_ok=True)
-        self._po_path.mkdir(parents=True, exist_ok=True)
+        self._path_i18n.mkdir(parents=True, exist_ok=True)
+        self._path_locale.mkdir(parents=True, exist_ok=True)
+        self._path_po.mkdir(parents=True, exist_ok=True)
 
-        # delete the existing .pot file (if it exists)
+        # NB: mucking with the location string makes weird shit happen
+        # so just start with an empty file every time
         self._path_pot.unlink(missing_ok=True)
 
         # create a new, empty .pot file if it does not exist
         # NB: this allow us to use the -j flag without error (which would
-        # happen if the current file to join does not exist)
-        self._path_pot.touch(exist_ok=True)
-
-    # --------------------------------------------------------------------------
-    # Create a .pot file in the pot folder
-    # --------------------------------------------------------------------------
-    def _make_pot(self):
-        """
-        Create a .pot file in the pot folder
-
-        Raises:
-            cnlib.cnfunctions.CNRunError: If the make fails
-
-        Parses the files for each clang, creating a unified .pot file, which is
-        placed in "<dir_pot>/<domain>.pot".
-        """
-
-        # for each clang name / list of clang files
-        for clang_name, clang_files in self._dict_files.items():
-
-            # sanity check
-            if not clang_name or len(clang_files) == 0:
-                continue
-
-            # convert list of paths to quoted string
-            list_clang_files = [f"{str(item)}" for item in clang_files]
-            str_clang_files = " ".join(list_clang_files)
-
-            # scan every file for _("") or _('')
-            for item in list_clang_files:
-                with open(item, encoding=self._S_ENCODING) as a_file:
-                    text = a_file.read()
-                    res = re.search(self._R_EMPTY_SCH, text)
-                    if res:
-                        print(self._S_ERR_EMPTY_TRANS.format(item), res)
-
-            # get the cmd
-            cmd = self._S_CMD_XGT.format(
-                self._domain,
-                self._tag,
-                f'"{str(self._path_pot)}"',
-                clang_name,
-                str_clang_files,
-            )
-
-            # do the final command
-            try:
-                F.run(cmd, shell=True, capture_output=True)
-            except F.CNRunError as e:
-                raise e
-
-        # fix short desc/copyright/email/version/charset in pot
-        self._fix_pot_header()
-
-    # --------------------------------------------------------------------------
-    # Helper functions
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # Merge any .po files in the po folder with new/existing .pot file
-    # --------------------------------------------------------------------------
-    def _make_pos(self):
-        """
-        Merge any .po files in the po folder with new/existing .pot file
-
-        Raises:
-            cnlib.cnfunctions.CNRunError: If the update fails
-
-        Whenever a new .pot file is generated using _make_pot, this method will
-        produce a new .po file for each wlang that contains the difference
-        between the new .pot file and the existing .po file.
-
-        This new .po file should be sent to the translator for each wlang. Then
-        when the translator sends back the translated .po file, place it in the
-        appropriate dir. Then run potpy.main to create a new .mo file.
-        """
-
-        # for each wlang in the po folder
-        for file_po in self._list_po:
-
-            # update existing po file using latest pot
-            cmd = self._S_CMD_MERGE_POS.format(file_po, self._path_pot)
-            try:
-                F.run(cmd, shell=True, capture_output=True)
-            except F.CNRunError as e:
-                raise e
-
-    # --------------------------------------------------------------------------
-    # Create .mo files for all .po files in the locale folder
-    # --------------------------------------------------------------------------
-    def _make_mos(self):
-        """
-        Create .mo files for all .po files
-
-        Raises:
-            cnlib.cnfunctions.CNRunError if the make fails
-
-        Makes all the required .mo files for all the .po files in the po dir
-        """
-
-        # for each wlang
-        for file_po in self._list_po:
-
-            # get .mo file (output)
-            dir_mo = self._locale_path / file_po.stem / self._S_DIR_LC
-
-            # nuke old mo/recreate
-            if dir_mo.exists():
-                shutil.rmtree(dir_mo)
-            dir_mo.mkdir(parents=True, exist_ok=True)
-            file_mo = dir_mo / self._file_mo
-
-            # do the command
-            cmd = self._S_CMD_MAKE_MOS.format(file_mo, file_po)
-            try:
-                F.run(cmd, shell=True, capture_output=True)
-            except F.CNRunError as e:
-                raise e
-
-    # --------------------------------------------------------------------------
-    # Localize the desktop file using all available pos
-    # --------------------------------------------------------------------------
-    def _make_desktop(self):  # , dt_template: Path, dt_out: Path):
-        """
-        Localize the desktop file using all available pos
-
-        Arguments:
-            dt_template: File containing the default information to include in
-            the desktop file. This is the file that we use as a template when
-            modifying metadata. This Path must be absolute.
-            dt_out: Location of the i18n'ed desktop file. This is the file that
-            will be distributed with your app. This Path must be absolute, but
-            the file does not need to exist (if it does, it will be
-            overwritten).
-
-        Raises:
-            OSError: If template Path is None or not absolute or does not exist
-            OSError: if output Path is None or not absolute
-            cnlib.cnfunctions.CNRunError: If the make fails
-
-        Takes a template desktop file and applies all i18n'ed info from all .po
-        files in the po folder and creates a final .desktop file.
-        """
-
-        # sanity check
-        if not self._desk_in_path:
-            return
-
-        if (
-            not self._desk_in_path.is_absolute()
-            or not self._desk_in_path.exists()
-        ):
-            raise OSError(self._S_ERR_DESK_TMP)
-        # if not dt_out or not dt_out.is_absolute():
-        #     raise OSError(self._S_ER_R_DESK_OUT)
-
-        # # kill old final desktop to prevent scanning
-        # if self._desk_out:
-        #     self._desk_out.unlink(missing_ok=True)
-        #     self._desk_out.parent.mkdir(parents=True, exist_ok=True)
-
-        # update pot/po with strings from .desktop file
-        # self.main()
-
-        # write the LINGUAS file
-
-        # get rel paths to all po files as strings
-        # NB: self_list_po recalculated on run main
-        list_po_str = [
-            str(item.relative_to(self._po_path)) for item in self._list_po
-        ]
-
-        # remove exts from all po files
-        list_po_lang = [
-            item.removesuffix(self._S_EXT_PO) for item in list_po_str
-        ]
-
-        # make all entries into one long space separated string
-        str_linguas = " ".join(list_po_lang)
-
-        # write to linguas file
-        with open(self._file_linguas, "w", encoding=self._S_ENCODING) as f:
-            f.write(str_linguas)
-
-        # do the thing
-        cmd = self._S_CMD_DESK.format(
-            self._desk_in_path, self._desk_out_path, self._po_path
-        )
-        try:
-            F.run(cmd, shell=True, capture_output=True)
-        except F.CNRunError as e:
-            raise e
-
-    # --------------------------------------------------------------------------
-    # Set the header values for the pot which will carry over to each po
-    # --------------------------------------------------------------------------
-    def _fix_pot_header(self):
-        """
-        Set the header values for the pot which will carry over to each po
-        """
-
-        # open file and get contents
-        with open(self._path_pot, encoding=self._S_ENCODING) as a_file:
-            text = a_file.read()
-
-        # replace short description
-        str_pattern = self._R_TITLE_SCH
-        str_rep = self._R_TITLE_REP.format(self._domain)
-        text = re.sub(str_pattern, str_rep, text)
-
-        # replace version number
-        if self._version != "":
-            str_pattern = self._R_VER_SCH
-            str_rep = self._R_VER_REP.format(self._version)
-            text = re.sub(str_pattern, str_rep, text)
-
-        # replace copyright (author)
-        if self._author != "":
-            str_pattern = self._R_COPY_SCH
-            year = date.today().year
-            str_rep = self._R_COPY_REP.format(year, self._author)
-            text = re.sub(str_pattern, str_rep, text)
-
-        # replace email
-        if self._email != "":
-            str_pattern = self._R_EMAIL_SCH
-            year = date.today().year
-            str_rep = self._R_EMAIL_REP.format(self._email, year)
-            text = re.sub(str_pattern, str_rep, text)
-
-            str_pattern = self._R_BUGS_SCH
-            str_rep = self._R_BUGS_REP.format(self._email)
-            text = re.sub(str_pattern, str_rep, text)
-
-        # fix charset
-        str_pattern = self._R_CHAR_SCH
-        str_rep = self._R_CHAR_REP.format(self._encoding)
-        text = re.sub(str_pattern, str_rep, text)
-
-        # make all locations relative to project dir
-        rep = str(self._project_path) + "/"
-        text = text.replace(rep, "")
-
-        # save file
-        with open(self._path_pot, "w", encoding=self._S_ENCODING) as a_file:
-            a_file.write(text)
+        # happen if the initial file does not exist)
+        self._path_pot.touch()
 
     # --------------------------------------------------------------------------
     # Get language code from inside file
     # --------------------------------------------------------------------------
     def _get_wlang_from_file(self, file_po: Path) -> str:
         """
-        Get language code from inside file
-
-        Arguments:
-            file_po: Path to the language file inside po folder
-
-        Returns:
-            The language string inside the file, or None
+        Get language code from inside file.
 
         Get the language code inside the file and use that to determine
         language (rather than the file name).
+
+        Args:
+            file_po: Path to the language file inside po folder.
+
+        Returns:
+            The language string inside the file, or an empty string.
         """
 
         # open file and get contents
-        with open(file_po, "r", encoding=self._S_ENCODING) as a_file:
+        with open(file_po, encoding=self._S_DEF_ENCODING) as a_file:
             text = a_file.read()
 
-        # find regex match and return
+        # find regex match and set result
         str_pattern = self._R_LANG_SCH
         res = re.search(str_pattern, text)
         if res:
-            lang = res.group(2)
-            if len(lang):
-                return res.group(2)
+            return res.group(2)
 
-        # no lang
+        # return default
         return ""
+
+    # --------------------------------------------------------------------------
+    # Check if any files contain empty translation strings
+    # --------------------------------------------------------------------------
+    def _check_empty_trans(self, clang_files):
+        """
+        Check if any files contain empty translation strings.
+
+        Search each file in the clangs_file list to see if any of them contain
+        an empty translation string (i.e. _("")) and warn with the file name
+        and line number. Empty translation strings are reserved for xgettext
+        use and will mess up your .pot file's header. Only supports Python
+        files.
+
+        Args:
+            clang_files: The list of files to search.
+        """
+
+        # TODO: doesn't handle multi-line docstrings
+        # do read(), replace triple matches with ""
+        # save text to tmp file
+        # then split into lines to look for split
+
+        # TODO: also doesn't handle desktop or gui files
+
+        # scan every file for _("") or _('')
+        for item in clang_files:
+
+            # get lines as list
+            with open(item, encoding=self._S_DEF_ENCODING) as a_file:
+                lines = a_file.readlines()
+
+            # for each line
+            for index, line in enumerate(lines):
+
+                # only care about code portion
+                res_split = F.split_line(line)
+                code = res_split[0]
+
+                # no code, don't care
+                if not code:
+                    continue
+
+                # find empty translation
+                res = re.search(self._R_EMPTY_SCH, code)
+
+                #  found empty
+                if res:
+
+                    # warn, but do not fail
+                    F.printc(
+                        self._S_WARN_EMPTY_TRANS.format(item, index + 1),
+                        fg=F.C_FG_YELLOW,
+                        bold=True,
+                    )
+
+    # --------------------------------------------------------------------------
+    # Set the header values for the pot which will carry over to each po
+    # --------------------------------------------------------------------------
+    def _fix_pot_header(self):
+        """
+        Set the header values for the pot which will carry over to each po.
+        """
+
+        # open file and get contents
+        with open(self._path_pot, encoding=self._S_DEF_ENCODING) as a_file:
+            text = a_file.read()
+
+        # replace SOME DESCRIPTIVE TITLE.
+        str_pattern = self._R_TITLE_SCH
+        str_rep = self._R_TITLE_REP.format(self._domain)
+        text = re.sub(str_pattern, str_rep, text)
+
+        # replace copyright holder
+        if self._author:
+            str_pattern = self._R_COPY_SCH
+            year = date.today().year
+            str_rep = self._R_COPY_REP.format(year, self._author)
+            text = re.sub(str_pattern, str_rep, text)
+
+        # replace first author email
+        if self._email:
+            str_pattern = self._R_AUTH_SCH
+            year = date.today().year
+            str_rep = self._R_AUTH_REP.format(self._email, year)
+            text = re.sub(str_pattern, str_rep, text)
+
+        # make all locations relative to project dir
+        rep = str(self._path_project) + "/"
+        text = text.replace(rep, "")
+
+        # save file
+        with open(
+            self._path_pot, "w", encoding=self._S_DEF_ENCODING
+        ) as a_file:
+            a_file.write(text)
 
 
 # ------------------------------------------------------------------------------
@@ -982,45 +1103,96 @@ if __name__ == "__main__":
     # This is the top level code of the program, called when the Python file is
     # invoked from the command line.
 
-    # get some paths to test folder so we can test in-situ
+    # get path to test folder so we can test in-situ
     DIR_START = Path(__file__).parents[1].resolve()  # "CNLib"
     PRJ_PATH = DIR_START / "tests/cnpot_test"
 
     # create an object
-    cnpot = CNPotPy(
-        # input
-        # project_path (start of all rel paths)
-        # NB: if you want this to be cwd, pass Path("")
-        project_path=PRJ_PATH,
-        # NB: to scan ALL of project path, use None, or default, or []
-        # to scan ALL prj dir and more, must include project_path or Path("")
-        source_paths=[
-            PRJ_PATH,
-            Path("src/python/source.py"),
-        ],
-        clangs={},  # or None or don't use
-        # output
-        # ------------------------------------------------------------------------------
-        i18n_path=PRJ_PATH / "i18n",  # abs or rel to project_path
-        # i18n_path=Path("")
-        locale_dir="locale",  # name of folder under i18n
-        po_dir="po",
-        # ------------------------------------------------------------------------------
-        # meta
-        domain="cnlib",
-        version="0.0.1",
-        author="cyclopticnerve",
-        email="cyclopticnerve@gmail.com",
-        tag="I18N",
-        encoding="UTF-8",
-        # desktop stuff
-        desk_in_path=Path("src/desktop/template.desktop"),
-        desk_out_path=Path("src/desktop/cnpot_test.desktop"),
-    )
+    try:
+        potpy = CNPotPy(
+            # ------------------------------------------------------------------
+            # input
 
-    cnpot.main()
+            # project_path (ALL OTHER REL PATHS REL TO THIS!!!)
+            # NB: if you pass "" or ".", use cwd
+            # if you pass a rel path, it is resolved against cwd
+            # if it is abs, use as-is
+            # project_path=Path(""),  # CNLib
+            # project_path=Path("."),  # CNLib
+            # project_path=Path("tests/cnpot_test"),
+            # project_path=Path("tests/foo"),
+            project_path=PRJ_PATH,
 
-# -)
+            # NB: to scan ALL of project_path, use default, or None, or []
+            # source_paths=,
+            # source_paths=None,
+            # source_paths=[],
+            # source_paths=[PRJ_PATH, Path("src/python/source.py")],
+            # source_paths=[Path("src/python/source.py")],
+            # source_paths=[PRJ_PATH],
+
+            # clangs_dict=,
+            # clangs_dict=None,
+            # clangs_dict={},  # or None or don't use
+            # clangs_dict={
+            #     "Foo": ["bar"]
+            # },
+
+            # ------------------------------------------------------------------
+
+            # ------------------------------------------------------------------
+            # ------------------------------------------------------------------
+            # output
+            # i18n_path=,
+            # i18n_path=None,
+            # i18n_path="",
+            # i18n_path="i18n2"  # rel to project_path
+            i18n_path=PRJ_PATH / "i18n2",  # abs or rel to project_path
+
+            # locale_name=,
+            # locale_name=None
+            # locale_name="",
+            locale_name="locale2",  # name of folder under i18n
+
+            # po_name=,
+            # po_name=None,
+            # po_name="",
+            po_name="po2",  # name of folder under i18n
+
+            # domain=,
+            # domain=None,
+            # domain="",
+            domain="cnlib2",
+
+            # ------------------------------------------------------------------
+            # meta
+            # version="0.0.1",
+            # author="cyclopticnerve",
+            # email="cyclopticnerve@gmail.com",
+            # NB: None = no comments, "" = all comments, "<tag>" = comments
+            # that contain tag
+            # tag="",
+
+            # ------------------------------------------------------------------
+            # desktop stuff
+            # NB: paths must be absolute or relative to project_path
+            # desk_in_path=Path("src/desktop/template.desktop"),
+            # desk_out_path=Path("src/desktop/cnpot_test.desktop"),
+        )
+
+        potpy.main()
+
+    # init throws error if project_path is not abs or not exist
+    except ValueError as e:
+        F.printc(e, fg=F.C_FG_RED, bold=True)
+
+    # main raises OSError if xgt not found
+    except OSError as e:
+        print(e)
+
+    # main raises CNRunError if any step fails
+    except F.CNRunError as e:
+        print(e)
 
 # yes, or no and why
 # has a different meaning than
@@ -1030,3 +1202,5 @@ if __name__ == "__main__":
 # yes | (no & why)
 # vs
 # (yes | no) & why
+
+# -)

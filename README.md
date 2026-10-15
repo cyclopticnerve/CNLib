@@ -10,6 +10,12 @@
 
 ## "It mostly works" ™©®
 
+[![No-AI](images/no_ai.png)](https://notbyai.fyi/)<br>
+**No AI was used to generate this code.**<br>
+Maybe to answer some questions, but that's it.
+
+***
+
 [![License: WTFPLv2](https://img.shields.io/badge/License-WTFPL-brightgreen.svg)](http://www.wtfpl.net)
 
 <!-- __RM_SHORT_DESC__ -->
@@ -38,6 +44,7 @@ Version 1.6.0
 
 <!-- __RM_DEPS__ -->
 [Python 3.14+](https://python.org)
+[GNU gettext](https://www.gnu.org/software/gettext)
 <!-- __RM_DEPS__ -->
 
 ## Downloading

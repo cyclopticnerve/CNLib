@@ -80,6 +80,9 @@ I_VER_SAME = 0
 I_VER_NEWER = 1
 I_VER_ERROR = -2
 
+# split_line constants
+I_GROUP_COMM = 1
+
 # ------------------------------------------------------------------------------
 # colors
 
@@ -124,6 +127,9 @@ R_VERSION_GROUP_MIN = 2
 R_VERSION_GROUP_REV = 3
 R_VERSION_GROUP_PRE = 4
 R_VERSION_GROUP_META = 5
+
+# split_lines
+R_SPLIT_HASH = r"[\'\"].*?[\'\"]|(#.*)"
 
 # ------------------------------------------------------------------------------
 # Public classes
@@ -570,8 +576,8 @@ def run(cmd, shell=False, capture_output=False):
     # if not shell, split into bin/cli options
     # NB: if shell, we only want the stuff after ["sh", "-c"], which is what
     # would be typed at the command prompt (i.e. all one long command string)
-    if not shell:
-        cmd = shlex.split(cmd)
+    # if not shell:
+    cmd = shlex.split(cmd)
 
     # get result of running the shell command or bubble up an error
     try:
@@ -605,6 +611,15 @@ def run(cmd, shell=False, capture_output=False):
     # cmd = "cd /", shell = True: pass
     # cmd = "ls -l", shell = False: pass
     # cmd = "ls -l", shell = True: pass
+
+    # external (ls):
+    # which returns location
+    # works with -c
+    # works without -c
+
+    # internal (cd):
+    # which returns no location
+    # does not work with -c
 
     # check if file not found
     except FileNotFoundError as fnfe:
@@ -809,22 +824,24 @@ def dialog(
 # ------------------------------------------------------------------------------
 def comp_sem_ver(ver_old, ver_new):
     """
-    Compare two semantic versions
+    Compare two semantic versions.
 
     Args:
         ver_old: The old version to compare
         ver_new: The new version to compare
 
     Returns:
-        An integer showing the relationship between the two version
-
-    Compare two semantic versions.
+        An integer showing the relationship between the two versions.
+        0: Both versions are equal.
+        1: ver_new is newer than ver_old
+        -1: ver_new is older than ver_new
+        -2: There was an error parsing one or both versions
     """
 
     # sanity checks
-    if not ver_old or ver_old == "":
+    if not ver_old:
         return I_VER_ERROR
-    if not ver_new or ver_new == "":
+    if not ver_new:
         return I_VER_ERROR
     if ver_old == ver_new:
         return I_VER_SAME
@@ -1027,6 +1044,9 @@ def printc(
     color_end = "\033[0m"
 
     # --------------------------------------------------------------------------
+
+    # convert all values to strings (if possible)
+    values = [str(value) for value in values]
 
     # get the full string
     value = sep.join(values)
@@ -1287,6 +1307,89 @@ def interpolate(val, from_min, from_max, to_min, to_max):
 
     # return result
     return res
+
+
+# ------------------------------------------------------------------------------
+# Split a line into code and/or comment
+# ------------------------------------------------------------------------------
+def split_line(line: str) -> tuple[str | None, str | None]:
+    """
+    Split a line into code and/or comment.
+
+    For the given line, split it into code and comment portions. Since it only
+    parses a single line at a time, it does not handle multi-line docstrings,
+    but single-line docstrings are reported as comments.
+
+    Also, it is pretty dumb and may choke on edge cases.
+
+    It has two main uses:
+
+    1: Prevent false positives when using regex, by only searching code,
+    not comments.
+
+    2: Enable searching of #pragma-like switches embedded in comments, by
+    only searching in comments.
+
+    Args:
+        line: The line to search/split.
+
+    Returns:
+        A tuple of the code and comment parts of a line. Either or both values
+        may be a string or None.
+    """
+
+    # --------------------------------------------------------------------------
+    # get rid of spaces/newlines
+    line = line.strip()
+
+    # --------------------------------------------------------------------------
+    # check for blank lines
+    if line == "":
+        return (None, None)
+
+    # --------------------------------------------------------------------------
+    # check for comment-only lines
+    if line.startswith("#"):
+        return (None, line)
+
+    # --------------------------------------------------------------------------
+    # check for single-line docstrings
+    if line.startswith(r'"""'):
+        return (None, line)
+
+    # --------------------------------------------------------------------------
+    # split the line into code and comm
+
+    # we will split the line into two parts
+    # NB: default result is code = whole line, comm = None
+    code = line
+    comm = None
+
+    # --------------------------------------------------------------------------
+
+    # there may be multiple matches per line (of quoted strings anyway)
+    matches = re.finditer(R_SPLIT_HASH, line)
+
+    # for each match
+    for match in matches:
+
+        # if no comment, nothing to do (default is code = line)
+        if not match.group(I_GROUP_COMM):
+            continue
+
+        # if we have a comment, split the line there
+        split_pos = match.start(I_GROUP_COMM)
+
+        # get code portion (stripped)
+        code = line[:split_pos].strip() if not code == "" else None
+
+        # get comment portion (stripped)
+        comm = line[split_pos:].strip() if not comm == "" else comm
+
+    # --------------------------------------------------------------------------
+
+    # return the tuple
+    return (code, comm)
 
 
 # -)

@@ -4,45 +4,44 @@ source
 get underscore function
 put i18n strings in code
 
+----------------------------------------
+
 first run
 ---------
 
-run i18n.py
+run i18n.py (create file structure and .pot)
 
 ----------------------------------------
-manual steps
 
-send .pot to translator
+add a new wlang
+---------------
 
-get back .pot, rename to "es.po" and put it in po dir
-or
-change "Language: \n" to "Language: es\n" in .pot
+copy .pot to po dir and rename <lang>.po (i.e. es.po for Spanish)
 
-NB: at least one of the above two steps is required
-NB: the other will be inferred and fixed accordingly
+translate <lang>.po
+run i18n.py (updates .mo in locale/<lang>/LC_MESSAGES)
+
+test with "LANGUAGE=<lang> python3 source.py"
+
 ----------------------------------------
-
-run cnpot.py
-test with "LANGUAGE=es python3 -m cnpot_source"
 
 adding new strings
 ------------------
 
 put i18n strings in code
-run cnpot.py
+run i18n.py (updates .pot and all .po files)
 
-send .po to translator
+translate <lang>.po
+run i18n.py (updates .mo in locale/<lang>/LC_MESSAGES)
 
-translate strings in "es.po"
-run cnpot.py
-test with "LANGUAGE=es python3 -m cnpot_test"
+test with "LANGUAGE=<lang> python3 source.py"
 
 ----------------------------------------
 ----------------------------------------
 
-first run
-src.py > xgettext > base.pot > wlang.po > msgfmt > base.mo
+first run/add wlang
+src.py -> xgettext -> base.pot -> <lang>.po -> msgfmt -> base.mo
 
 add new strings in src.py
 for each wlang
-    src.py > xgettext > base.pot > msgmerge > wlang.po > msgfmt > base.mo
+    src.py -> xgettext -> base.pot -> msgmerge -> <lang>.po > msgfmt -> base.mo

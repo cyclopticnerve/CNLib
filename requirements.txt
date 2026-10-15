@@ -1,0 +1,1 @@
+-e git+https://github.com/cyclopticnerve/CNLib.git@66dc88a6b09b13338f427a6afeedb4615cd59192#egg=CNLib

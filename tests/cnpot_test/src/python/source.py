@@ -11,13 +11,13 @@ from tests.cnpot_test.helpers.i18n import _
 
 # ------------------------------------------------------------------------------
 
-# use underscore function (this comment SHOULD NOT appear in the .pot file when
-# tag=I18N)
-# I18N: context for string (this comment SHOULD appear in the .pot file when
-# tag=I18N)
+# use underscore function (this comment SHOULD NOT appear in the .pot file)
+# I18N: context for string (this comment SHOULD appear in the .pot file)
+# NB: other comment
 string = _("Hello")
 print(string)
 
+# I18N: does this comment appear? NO!
 # NB: commented strings are ignored by xgettext (it's SMRT!)
 # string2 = _("Not in .pot file")
 
