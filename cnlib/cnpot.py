@@ -1105,7 +1105,7 @@ if __name__ == "__main__":
 
     # get path to test folder so we can test in-situ
     DIR_START = Path(__file__).parents[1].resolve()  # "CNLib"
-    PRJ_PATH = DIR_START / "tests/cnpot_test"
+    # PRJ_PATH = DIR_START / "tests/cnpot_test"
 
     # create an object
     try:
@@ -1121,7 +1121,8 @@ if __name__ == "__main__":
             # project_path=Path("."),  # CNLib
             # project_path=Path("tests/cnpot_test"),
             # project_path=Path("tests/foo"),
-            project_path=PRJ_PATH,
+            project_path=DIR_START,
+            # project_path=PRJ_PATH,
 
             # NB: to scan ALL of project_path, use default, or None, or []
             # source_paths=,
@@ -1147,22 +1148,22 @@ if __name__ == "__main__":
             # i18n_path=None,
             # i18n_path="",
             # i18n_path="i18n2"  # rel to project_path
-            i18n_path=PRJ_PATH / "i18n2",  # abs or rel to project_path
+            # i18n_path=PRJ_PATH / "i18n2",  # abs or rel to project_path
 
             # locale_name=,
             # locale_name=None
             # locale_name="",
-            locale_name="locale2",  # name of folder under i18n
+            # locale_name="locale2",  # name of folder under i18n
 
             # po_name=,
             # po_name=None,
             # po_name="",
-            po_name="po2",  # name of folder under i18n
+            # po_name="po2",  # name of folder under i18n
 
             # domain=,
             # domain=None,
             # domain="",
-            domain="cnlib2",
+            # domain="cnlib2",
 
             # ------------------------------------------------------------------
             # meta
