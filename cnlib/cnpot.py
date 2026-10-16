@@ -83,18 +83,18 @@ class CNPotPy:
         # join with existing .pot file
         "--join-existing "
         # comment handling (see docs)
-        # NB: param is self._tag
+        # NB: param is self._str_tag
         "--add-comments={} "
         # sort entries by file
         "--sort-by-file "
         # fix license string
-        # NB: param is self._domain
+        # NB: param is self._str_domain
         "--package-name={} "
         # set version number
-        # NB: param is self._version
+        # NB: param is self._str_version
         "--package-version={} "
         # set email address for bugs
-        # NB: param is self._email
+        # NB: param is self._str_email
         "--msgid-bugs-address={} "
         # path(s) to src files
         # NB: param is str_clang_files
@@ -145,7 +145,7 @@ class CNPotPy:
 
     # warning message for source does not exist
     # NB: format param is source path
-    _S_WARN_NO_SRC = "WARNING: The source path does not exist: {}"
+    _S_WARN_NO_SRC = "WARNING: source_path does not exist: {}"
     # warning message for no lang in po file
     # NB: format param is file name
     _S_WARN_NO_LANG = "WARNING: No language set in po file: {}"
@@ -173,7 +173,7 @@ class CNPotPy:
 
     # title
     _R_TITLE_SCH = r"# SOME DESCRIPTIVE TITLE."
-    # NB: format param is self._domain
+    # NB: format param is self._str_domain
     _R_TITLE_REP = r"# {} translation template"
     # copyright
     _R_COPY_SCH = (
@@ -376,8 +376,24 @@ class CNPotPy:
             for item in source_paths
         ]
 
+        # check if all sources exist
+        tmp_src_paths = []
+        for source_path in source_paths:
+
+            # does exist, add
+            if source_path.exists():
+                tmp_src_paths.append(source_path)
+
+            # no exist, warn, but do not fail
+            else:
+                F.printc(
+                    self._S_WARN_NO_SRC.format(source_path),
+                    fg=F.C_FG_YELLOW,
+                    bold=True,
+                )
+
         # store source_paths
-        self._list_sources = source_paths
+        self._list_sources = tmp_src_paths
 
         # ----------------------------------------------------------------------
         # check clangs
@@ -425,20 +441,15 @@ class CNPotPy:
         # get domain (none or empty)
         if not domain:
             domain = self._path_project.name
-        self._domain = domain
+        self._str_domain = domain
 
         # ----------------------------------------------------------------------
         # meta
 
         # just store args as props (none/empty/whatever)
-        self._version = version
-        self._author = author
-        self._email = email
-
-        # NB: when testing strings:
-        # "if not foo" will return True if the string is None or "".
-        # "if foo is None" will return True if the string is None, not  ""
-        # "if foo" returns True if foo is not None and is not ""
+        self._str_version = version
+        self._str_author = author
+        self._str_email = email
 
         # TODO: test this
         # None: use no comments
@@ -449,7 +460,7 @@ class CNPotPy:
             tag = ""
         elif tag == "":
             tag = None
-        self._tag = tag
+        self._str_tag = tag
 
         # ----------------------------------------------------------------------
         # desktop stuff
@@ -469,15 +480,15 @@ class CNPotPy:
         # ----------------------------------------------------------------------
 
         # make refs to folder structure (but DO NOT create)
-        self._path_pot = self._path_i18n / f"{self._domain}{self._S_EXT_POT}"
-        self._file_mo = f"{self._domain}{self._S_EXT_MO}"
+        self._path_pot = self._path_i18n / f"{self._str_domain}{self._S_EXT_POT}"
+        self._file_mo = f"{self._str_domain}{self._S_EXT_MO}"
         self._path_linguas = self._path_po / self._S_FILE_LINGUAS
 
         # store files to search
-        self._dict_files = {}
+        self._dict_src_files = {}
 
         # default list of po files
-        self._list_po = []
+        self._list_pos = []
 
         # ----------------------------------------------------------------------
 
@@ -486,21 +497,19 @@ class CNPotPy:
         print("----- input -----")
         print("self._path_project:", self._path_project)
         F.pp(self._list_sources, label="self._list_sources")
-        # F.pp("self._list_sources:", self._list_sources)
         F.pp(self._dict_clangs, label="self._dict_clangs")
-        # print("self._dict_clangs:", self._dict_clangs)
 
         print("----- output -----")
         print("self._path_i18n:", self._path_i18n)
         print("self._path_locale:", self._path_locale)
         print("self._path_po:", self._path_po)
-        print("self._domain:", self._domain)
+        print("self._str_domain:", self._str_domain)
 
         print("----- meta -----")
-        print("self._version:", self._version)
-        print("self._author:", self._author)
-        print("self._email:", self._email)
-        print("self._tag:", self._tag)
+        print("self._str_version:", self._str_version)
+        print("self._str_author:", self._str_author)
+        print("self._str_email:", self._str_email)
+        print("self._str_tag:", self._str_tag)
 
         print("----- desktop -----")
         print("self._path_desk_in:", self._path_desk_in)
@@ -534,11 +543,11 @@ class CNPotPy:
 
         # fix locale (mostly for GUI?)
         locale.setlocale(locale.LC_ALL, "")
-        locale.bindtextdomain(self._domain, self._path_locale)
+        locale.bindtextdomain(self._str_domain, self._path_locale)
 
         # get a translation object
         translation = gettext.translation(
-            self._domain, self._path_locale, fallback=True
+            self._str_domain, self._path_locale, fallback=True
         )
 
         # return translation object's gettext method
@@ -571,10 +580,15 @@ class CNPotPy:
             raise OSError(self._S_ERR_NO_XGT) from e
 
         # fix up source_paths every time main is run
-        self._dict_files = self._get_dict_files()
+        self._dict_src_files = self._get_source_files()
 
         # fix up po list every time main is run
-        self._list_po = self._get_list_pos()
+        self._list_pos = self._get_po_files()
+
+        # debug
+        print("----- other -----")
+        F.pp(self._dict_src_files, label="self._dict_src_files")
+        F.pp(self._list_pos, label="self._list_pos")
 
         # make file structure on first run
         self._make_file_struct()
@@ -619,7 +633,7 @@ class CNPotPy:
         """
 
         # for each clang name / list of clang files
-        for clang_name, clang_files in self._dict_files.items():
+        for clang_name, clang_files in self._dict_src_files.items():
 
             # sanity check (None or empty)
             if not clang_files:
@@ -639,10 +653,10 @@ class CNPotPy:
                 # make path into quoted string
                 f'"{str(self._path_pot)}"',  # output
                 clang_name,  # language
-                self._tag,  # --add-comments
-                self._domain,  # --package-name
-                self._version,  # --package-version
-                self._email,  # --msgid-bugs-address
+                self._str_tag,  # --add-comments
+                self._str_domain,  # --package-name
+                self._str_version,  # --package-version
+                self._str_email,  # --msgid-bugs-address
                 str_clang_files,  # list of quoted files to scan
             )
 
@@ -675,14 +689,14 @@ class CNPotPy:
         """
 
         # sanity check (None or empty)
-        if not self._list_po:
+        if not self._list_pos:
             return
 
         # quote erthin
         q_path_pot = f'"{str(self._path_pot)}"'
 
         # for each wlang in the po folder
-        for file_po in self._list_po:
+        for file_po in self._list_pos:
 
             # quote erthin
             q_file_po = f'"{str(file_po)}"'
@@ -712,11 +726,11 @@ class CNPotPy:
         self._path_locale.mkdir(parents=True, exist_ok=True)
 
         # sanity check
-        if not self._list_po:
+        if not self._list_pos:
             return
 
         # for each wlang
-        for file_po in self._list_po:
+        for file_po in self._list_pos:
 
             # get .mo dir (output)
             dir_mo = self._path_locale / file_po.stem / self._S_DIR_LC
@@ -761,7 +775,7 @@ class CNPotPy:
         # ----------------------------------------------------------------------
 
         # write the LINGUAS file
-        list_po_lang = [item.stem for item in self._list_po]
+        list_po_lang = [item.stem for item in self._list_pos]
 
         # make all entries into one long space separated string
         str_linguas = " ".join(list_po_lang)
@@ -793,7 +807,7 @@ class CNPotPy:
     # --------------------------------------------------------------------------
     # Scan the source_paths list for files with certain extensions
     # --------------------------------------------------------------------------
-    def _get_dict_files(self) -> dict[str, list[Path]]:
+    def _get_source_files(self) -> dict[str, list[Path]]:
         """
         Scan the source_paths list for files with certain extensions.
 
@@ -836,18 +850,6 @@ class CNPotPy:
 
             # for each item in source_paths
             for src in self._list_sources:
-
-                # TODO: do we need this?
-                # # sanity check (we may have source_paths that don't exist yet)
-                # if not src.exists():
-
-                #     # warn, but do not fail
-                #     F.printc(
-                #         self._S_WARN_NO_SRC.format(src),
-                #         fg=F.C_FG_YELLOW,
-                #         bold=True,
-                #     )
-                #     continue
 
                 # src is dir
                 if src.is_dir():
@@ -893,7 +895,7 @@ class CNPotPy:
     # --------------------------------------------------------------------------
     # Fix the list of po files by re-scanning the po dir
     # --------------------------------------------------------------------------
-    def _get_list_pos(self) -> list[Path]:
+    def _get_po_files(self) -> list[Path]:
         """
         Fix the list of po files by re-scanning the po dir.
 
@@ -1066,21 +1068,21 @@ class CNPotPy:
 
         # replace SOME DESCRIPTIVE TITLE.
         str_pattern = self._R_TITLE_SCH
-        str_rep = self._R_TITLE_REP.format(self._domain)
+        str_rep = self._R_TITLE_REP.format(self._str_domain)
         text = re.sub(str_pattern, str_rep, text)
 
         # replace copyright holder
-        if self._author:
+        if self._str_author:
             str_pattern = self._R_COPY_SCH
             year = date.today().year
-            str_rep = self._R_COPY_REP.format(year, self._author)
+            str_rep = self._R_COPY_REP.format(year, self._str_author)
             text = re.sub(str_pattern, str_rep, text)
 
         # replace first author email
-        if self._email:
+        if self._str_email:
             str_pattern = self._R_AUTH_SCH
             year = date.today().year
-            str_rep = self._R_AUTH_REP.format(self._email, year)
+            str_rep = self._R_AUTH_REP.format(self._str_email, year)
             text = re.sub(str_pattern, str_rep, text)
 
         # make all locations relative to project dir
@@ -1106,72 +1108,87 @@ if __name__ == "__main__":
     # get path to test folder so we can test in-situ
     DIR_START = Path(__file__).parents[1].resolve()  # "CNLib"
     PRJ_PATH = DIR_START / "tests/cnpot_test"
+    print(Path.cwd())
 
     # create an object
     try:
         potpy = CNPotPy(
             # ------------------------------------------------------------------
             # input
-
+            #
             # project_path (ALL OTHER REL PATHS REL TO THIS!!!)
             # NB: if you pass "" or ".", use cwd
             # if you pass a rel path, it is resolved against cwd
             # if it is abs, use as-is
+            # project_path=None,
             # project_path=Path(""),  # CNLib
             # project_path=Path("."),  # CNLib
             # project_path=Path("tests/cnpot_test"),
             # project_path=Path("tests/foo"),
             project_path=PRJ_PATH,
-
+            #
             # NB: to scan ALL of project_path, use default, or None, or []
             # source_paths=,
             # source_paths=None,
             # source_paths=[],
-            # source_paths=[PRJ_PATH, Path("src/python/source.py")],
             # source_paths=[Path("src/python/source.py")],
+            # source_paths=[Path("src/python/foo")],
             # source_paths=[PRJ_PATH],
-
+            #
             # clangs_dict=,
             # clangs_dict=None,
-            # clangs_dict={},  # or None or don't use
-            # clangs_dict={
-            #     "Foo": ["bar"]
-            # },
-
-            # ------------------------------------------------------------------
-
+            # clangs_dict={},
+            # clangs_dict={"Foo": ["bar"]},
             # ------------------------------------------------------------------
             # ------------------------------------------------------------------
             # output
             # i18n_path=,
             # i18n_path=None,
-            # i18n_path="",
-            # i18n_path="i18n2"  # rel to project_path
-            i18n_path=PRJ_PATH / "i18n2",  # abs or rel to project_path
-
+            # i18n_path=Path(""),
+            # i18n_path=Path("."),
+            # i18n_path=Path("i18n2"),  # rel to project_path
+            # i18n_path=PRJ_PATH / "i18n2",  # abs or rel to project_path
+            # ------------------------------------------------------------------
             # locale_name=,
-            # locale_name=None
+            # locale_name=None,
             # locale_name="",
-            locale_name="locale2",  # name of folder under i18n
-
+            # locale_name="locale2",  # name of folder under i18n
+            # ------------------------------------------------------------------
             # po_name=,
             # po_name=None,
             # po_name="",
-            po_name="po2",  # name of folder under i18n
-
+            # po_name="po2",  # name of folder under i18n
+            # ------------------------------------------------------------------
             # domain=,
             # domain=None,
             # domain="",
-            domain="cnlib2",
-
+            # domain="cnpot_test2",
+            # ------------------------------------------------------------------
             # ------------------------------------------------------------------
             # meta
-            # version="0.0.1",
-            # author="cyclopticnerve",
-            # email="cyclopticnerve@gmail.com",
+            # ------------------------------------------------------------------
+            # version=,
+            # version=None,
+            # version="",
+            # version="1.2.3",
+
+            # author=",
+            # author=None,
+            # author=",
+            # author="cyclopticnerve2",
+
+            # email=,
+            # email=None,
+            # email="",
+            # email="cyclopticnerve2@gmail.com",
+
             # NB: None = no comments, "" = all comments, "<tag>" = comments
             # that contain tag
+            # tag=,
+            # tag=None,
             # tag="",
+            # tag="i18n",
+            # tag="I18N",
 
             # ------------------------------------------------------------------
             # desktop stuff

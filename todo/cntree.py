@@ -712,7 +712,7 @@ if __name__ == "__main__":
     # invoked from the command line.
 
     a_start_dir = Path(__file__).parents[1].resolve()  #  / "CNLib"
-    a_token = " [ ]$NAME"  # what to replace $NAME with
+    A_TOKEN = " [ ]$NAME"  # what to replace $NAME with
 
     cntree = CNTree(
         a_start_dir,
@@ -726,9 +726,9 @@ if __name__ == "__main__":
             #     "docs",
             #     "site",
         ],
-        # token=a_token,
-        # dir_format=f"{a_token}/",
-        # file_format=f"{a_token}"
+        # token=A_TOKEN,
+        # dir_format=f"{A_TOKEN}/",
+        # file_format=f"{A_TOKEN}"
     )
     cntree.make_tree()
 
