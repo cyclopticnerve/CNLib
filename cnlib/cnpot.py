@@ -1108,7 +1108,6 @@ if __name__ == "__main__":
     # get path to test folder so we can test in-situ
     DIR_START = Path(__file__).parents[1].resolve()  # "CNLib"
     PRJ_PATH = DIR_START / "tests/cnpot_test"
-    print(Path.cwd())
 
     # create an object
     try:
@@ -1123,9 +1122,10 @@ if __name__ == "__main__":
             # project_path=None,
             # project_path=Path(""),  # CNLib
             # project_path=Path("."),  # CNLib
+            project_path=DIR_START,
             # project_path=Path("tests/cnpot_test"),
             # project_path=Path("tests/foo"),
-            project_path=PRJ_PATH,
+            # project_path=PRJ_PATH,
             #
             # NB: to scan ALL of project_path, use default, or None, or []
             # source_paths=,
