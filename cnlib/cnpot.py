@@ -1126,7 +1126,7 @@ if __name__ == "__main__":
             project_path=DIR_START,
             # project_path=Path("tests/cnpot_test"),
             # project_path=Path("tests/foo"),
-            project_path=DIR_START,
+            # project_path=DIR_START,
             # project_path=PRJ_PATH,
 
             # NB: to scan ALL of project_path, use default, or None, or []
