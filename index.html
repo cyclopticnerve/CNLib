@@ -14,7 +14,7 @@
       <script>
         // Current page data
         var mkdocs_page_name = "Home";
-        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_input_path = "README.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -72,33 +72,6 @@
     </ul>
                 </li>
               </ul>
-              <p class="caption"><span class="caption-text">API</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" >Cnlib</a>
-    <ul>
-                <li class="toctree-l2"><a class="reference internal" href="API/cnlib/cnformatter/">cnformatter.py</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="API/cnlib/cnfunctions/">cnfunctions.py</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="API/cnlib/cnpot/">cnpot.py</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="API/cnlib/cntree/">cntree.py</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="API/cnlib/cnvenv/">cnvenv.py</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" >Decorators</a>
-    <ul>
-                <li class="toctree-l3"><a class="reference internal" href="API/cnlib/decorators/cndebug/">cndebug.py</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="API/cnlib/decorators/cndecorator/">cndecorator.py</a>
-                </li>
-                <li class="toctree-l3"><a class="reference internal" href="API/cnlib/decorators/cndecorator_params/">cndecorator_params.py</a>
-                </li>
-    </ul>
-                </li>
-    </ul>
-                  </li>
-              </ul>
       </div>
     </div>
     </nav>
@@ -129,8 +102,6 @@
 <!-- Author  : cyclopticnerve                                 |   \____/   | -->
 <!-- License : WTFPLv2                                         \          /  -->
 <!----------------------------------------------------------------------------->
-
-<!-- TODO: needs work, esp. install/uninstall (sync w/ template -->
 
 <h1 id="cnlib"><img alt="Logo" src="images/cnlib.png" /> CNLib</h1>
 <h2 id="it-mostly-works-tm">"It mostly works" ™©®</h2>
@@ -168,37 +139,37 @@
 <li>
 <p>Download the <a href="https://github.com/cyclopticnerve/CNLib/releases/latest">latest
 release</a>
-(the <strong>'cnlib-\&lt;version&gt;.zip'</strong> file should work on all platforms).</p>
+(the <strong>'cnlib-&lt;version&gt;.zip'</strong> file should work on all platforms).</p>
 </li>
 <li>
 <p>Or you can clone the git repo to get the latest (and often broken) code from
    the main branch:</p>
 </li>
 </ol>
-<pre><code class="language-bash">user@host:~/Downloads$ git clone https://github.com/cyclopticnerve/CNLib
+<pre><code class="language-bash">git clone https://github.com/cyclopticnerve/CNLib
 </code></pre>
 <h2 id="installing">Installing</h2>
 <!-- __RM_PKG__ -->
-<p>There are also two ways to get CNLib into your project.<br>
-Run these commands from your project directory.</p>
+<p>There are also two ways to get CNLib into your project. Run these commands from
+your project directory.</p>
 <p>First make sure you have a venv and it is active:</p>
-<pre><code class="language-bash">user@host:~/MyProject$  python3 -m venv .venv
-user@host:~/MyProject$ . .venv/bin/activate
+<pre><code class="language-bash">python3 -m venv .venv
+. .venv/bin/activate
 </code></pre>
 <h3 id="manually">Manually</h3>
 <p>If you downloaded the zip file:</p>
-<pre><code class="language-bash">(venv) user@host:~/MyProject$ python3 -m pip install ~/Downloads/cnlib-&lt;version&gt;.zip
+<pre><code class="language-bash">python3 -m pip install /path/to/cnlib-&lt;version&gt;.zip
 </code></pre>
 <p>Or if you cloned the repo:</p>
-<pre><code class="language-bash">(venv) user@host:~/MyProject$ python3 -m pip install ~/Downloads/CNLib
+<pre><code class="language-bash">python3 -m pip install /path/to/CNLib
 </code></pre>
 <h3 id="automagically">Automagically</h3>
 <p>Add this line to your project's 'requirements.txt' file:</p>
 <pre><code class="language-bash">CNLib @ git+https://github.com/cyclopticnerve/CNLib@&lt;tag&gt;
 </code></pre>
-<p>where \&lt;tag&gt; is the tag you want, such as 'v0.0.1', etc.</p>
+<p>where &lt;tag&gt; is the tag you want, such as 'v0.0.1', etc.</p>
 <p>Then run:</p>
-<pre><code class="language-bash">(venv) user@host:~/MyProject$ python3 -m pip install -r requirements.txt
+<pre><code class="language-bash">python3 -m pip install -r requirements.txt
 </code></pre>
 <!-- __RM_PKG__ -->
 
@@ -207,15 +178,15 @@ user@host:~/MyProject$ . .venv/bin/activate
 <h2 id="uninstalling">Uninstalling</h2>
 <!-- __RM_PKG__ -->
 <p>In your project folder:</p>
-<pre><code class="language-bash">user@host:~/MyProject$ . .venv/bin/activate
-(venv) user@host:~/MyProject$ python3 -m pip uninstall cnlib
+<pre><code class="language-bash">. .venv/bin/activate
+python3 -m pip uninstall cnlib
 </code></pre>
 <!-- __RM_PKG__ -->
 
 <h2 id="documentation">Documentation</h2>
 <p>See the full <a href="https://cyclopticnerve.github.io/CNLib">documentation</a>.</p>
 <h2 id="developing">Developing</h2>
-<p>If you are developing this project, make sure you run the 'develop.py' script
+<p>If you are developing this project, make sure to run the 'develop.py' script
 first to create the proper virtual environment and install the requirements (if
 any).</p>
 <h2 id="notes">Notes</h2>
@@ -225,9 +196,6 @@ any).</p>
               
             </div>
           </div><footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="API/cnlib/cnformatter/" class="btn btn-neutral float-right" title="cnformatter.py">Next <span class="icon icon-circle-arrow-right"></span></a>
-    </div>
 
   <hr/>
 
@@ -250,8 +218,6 @@ any).</p>
     
     
     
-      <span><a href="API/cnlib/cnformatter/" style="color: #fcfcfc">Next &raquo;</a></span>
-    
   </span>
 </div>
     <script src="js/jquery-3.6.0.min.js"></script>
@@ -270,5 +236,5 @@ any).</p>
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-09-08 19:21:29.444863+00:00
+Build Date UTC : 2026-10-17 13:02:11.928628+00:00
 -->
