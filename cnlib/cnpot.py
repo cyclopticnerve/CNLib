@@ -392,6 +392,7 @@ class CNPotPy:
                     bold=True,
                 )
 
+        # TODO: need to ignore venv
         # store source_paths
         self._list_sources = tmp_src_paths
 
