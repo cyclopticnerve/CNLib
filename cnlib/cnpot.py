@@ -106,8 +106,6 @@ class CNPotPy:
     _S_CMD_MERGE_POS = "msgmerge --update --backup=none {} {}"
     # NB: format params are file_mo and file_po
     _S_CMD_MAKE_MOS = "msgfmt --output-file={} {}"
-    # NB: -d must contain LINGUAS file (it's already path to _path_po)
-    # NB: LINGUAS must contain paths to .po files, relative to dir_po (no ext)
     # NB: format params are path_desk_in, path_desk_out, path_po
     _S_CMD_DESK = "msgfmt --desktop --template={} --output-file={} -d {}"
 
