@@ -1,0 +1,36 @@
+# ------------------------------------------------------------------------------
+# Package :__PP_NAME_BIG__                                        /          \
+# Filename:                                                       |     ()     |
+# Date    : __PP_DATE__                                           |            |
+# Author  : __PP_AUTHOR__                                         |   \____/   |
+# License : __PP_LICENSE_NAME__                                    \          /
+# ------------------------------------------------------------------------------
+
+[build-system]
+requires = ["setuptools>=78.1.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Project Name"
+version = "0.0.0"
+description = "A Python project to foo a bar"
+authors = [{ name = "my.name", email = "my.name@example.com" }]
+readme = "README.md"
+license = { file = "LICENSE.txt" }
+classifiers = [
+    "License :: Other/Proprietary License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["python"]
+dependencies = []
+requires-python = ">=3.14"
+
+[project.urls]
+homepage = "https://github.com/my_name/my_repo"
+
+# [tool.setuptools]
+# packages = ["module", "module.submodule"]
+
+# -)

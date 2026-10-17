@@ -1,2 +1,0 @@
-# cnmkdocs.py
-::: cnlib.cnmkdocs

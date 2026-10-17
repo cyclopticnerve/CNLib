@@ -22,7 +22,17 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Tree",
+            "type": "shell",
+            "command": "tree --gitignore --noreport --dirsfirst -n -I tree.txt -o tree.txt",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
         }
+
     ]
 }
 // -)

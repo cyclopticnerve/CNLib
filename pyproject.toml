@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Project : CNLib                                                  /          \
+# Package :CNLib                                                  /          \
 # Filename: pyproject.toml                                        |     ()     |
 # Date    : 01/01/2026                                            |            |
 # Author  : cyclopticnerve                                        |   \____/   |
@@ -12,7 +12,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "CNLib"
-version = "1.5.1"
+version = "1.6.0"
 description = "A Python library containing useful functions and classes"
 authors = [{ name = "cyclopticnerve", email = "cyclopticnerve@gmail.com" }]
 readme = "README.md"
@@ -31,6 +31,6 @@ requires-python = ">=3.14"
 homepage = "https://github.com/cyclopticnerve/CNLib"
 
 [tool.setuptools]
-packages = ["cnlib", "cnlib.decorators"]
+packages = ["cnlib"]
 
 # -)

@@ -10,6 +10,12 @@
 
 ## "It mostly works" ™©®
 
+[![No-AI](images/no_ai.png)](https://notbyai.fyi/)<br>
+**No AI was used to generate this code.**<br>
+Maybe to answer some questions, but that's it.
+
+***
+
 [![License: WTFPLv2](https://img.shields.io/badge/License-WTFPL-brightgreen.svg)](http://www.wtfpl.net)
 
 <!-- __RM_SHORT_DESC__ -->
@@ -17,13 +23,14 @@ A Python library containing useful functions and classes
 <!-- __RM_SHORT_DESC__ -->
 
 <!-- __RM_VERSION__ -->
-Version 1.5.1
+Version 1.6.0
 <!-- __RM_VERSION__ -->
 
 <!-- __RM_SCREENSHOT__ -->
 <!-- __RM_SCREENSHOT__ -->
 
 ## Table of Contents
+
 - [Requirements](#requirements)
 - [Downloading](#downloading)
 - [Installing](#installing)
@@ -34,8 +41,10 @@ Version 1.5.1
 - [Notes](#notes)
 
 ## Requirements
+
 <!-- __RM_DEPS__ -->
 [Python 3.14+](https://python.org)
+[GNU gettext](https://www.gnu.org/software/gettext)
 <!-- __RM_DEPS__ -->
 
 ## Downloading
@@ -44,72 +53,80 @@ There are two ways to get the code:
 
 1. Download the [latest
 release](https://github.com/cyclopticnerve/CNLib/releases/latest)
-(the **'cnlib-\<version\>.zip'** file should work on all platforms).
+(the **'cnlib-<version\>.zip'** file should work on all platforms).
 
 2. Or you can clone the git repo to get the latest (and often broken) code from
    the main branch:
 ```bash
-user@host:~/Downloads$ git clone https://github.com/cyclopticnerve/CNLib
+git clone https://github.com/cyclopticnerve/CNLib
 ```
 
 ## Installing
+
 <!-- __RM_PKG__ -->
-There are also two ways to get CNLib into your project.<br>
-Run these commands from your project directory.
+There are also two ways to get CNLib into your project. Run these commands from
+your project directory.
 
 First make sure you have a venv and it is active:
 ```bash
-user@host:~/MyProject$  python3 -m venv .venv
-user@host:~/MyProject$ . .venv/bin/activate
+python3 -m venv .venv
+. .venv/bin/activate
 ```
 
 ### Manually
 
 If you downloaded the zip file:
 ```bash
-user@host:~/MyProject$ python3 -m pip install ~/Downloads/cnlib-<version>.zip
+python3 -m pip install /path/to/cnlib-<version>.zip
 ```
 
 Or if you cloned the repo:
 ```bash
-user@host:~/MyProject$ python3 -m pip install ~/Downloads/CNLib
+python3 -m pip install /path/to/CNLib
 ```
 
 ### Automagically
+
 Add this line to your project's 'requirements.txt' file:
 ```bash
 CNLib @ git+https://github.com/cyclopticnerve/CNLib@<tag>
 ```
-where \<tag\> is the tag you want, such as 'v0.0.1', etc.
+where <tag\> is the tag you want, such as 'v0.0.1', etc.
 
 Then run:
-```
-$ python3 -m pip install -r requirements.txt
+```bash
+python3 -m pip install -r requirements.txt
 ```
 <!-- __RM_PKG__ -->
 
 ## Usage
+
 Read the full [documentation](https://cyclopticnerve.github.io/CNLib).
 
 ## Uninstalling
+
 <!-- __RM_PKG__ -->
 In your project folder:
 ```bash
-user@host:~/MyProject$ . .venv/bin/activate
-user@host:~/MyProject$ python3 -m pip uninstall cnlib
+. .venv/bin/activate
+python3 -m pip uninstall cnlib
 ```
 <!-- __RM_PKG__ -->
 
 ## Documentation
+
 See the full [documentation](https://cyclopticnerve.github.io/CNLib).
 
 ## Developing
-If you are developing this project, make sure you run the 'develop.py' script
+
+If you are developing this project, make sure to run the 'develop.py' script
 first to create the proper virtual environment and install the requirements (if
 any).
 
 ## Notes
+
 10/10, no notes.
 
 -)
+
 <!-- -) -->

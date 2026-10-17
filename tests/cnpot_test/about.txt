@@ -1,0 +1,47 @@
+source
+------
+
+get underscore function
+put i18n strings in code
+
+----------------------------------------
+
+first run
+---------
+
+run i18n.py (create file structure and .pot)
+
+----------------------------------------
+
+add a new wlang
+---------------
+
+copy .pot to po dir and rename <lang>.po (i.e. es.po for Spanish)
+
+translate <lang>.po
+run i18n.py (updates .mo in locale/<lang>/LC_MESSAGES)
+
+test with "LANGUAGE=<lang> python3 source.py"
+
+----------------------------------------
+
+adding new strings
+------------------
+
+put i18n strings in code
+run i18n.py (updates .pot and all .po files)
+
+translate <lang>.po
+run i18n.py (updates .mo in locale/<lang>/LC_MESSAGES)
+
+test with "LANGUAGE=<lang> python3 source.py"
+
+----------------------------------------
+----------------------------------------
+
+first run/add wlang
+src.py -> xgettext -> base.pot -> <lang>.po -> msgfmt -> base.mo
+
+add new strings in src.py
+for each wlang
+    src.py -> xgettext -> base.pot -> msgmerge -> <lang>.po > msgfmt -> base.mo

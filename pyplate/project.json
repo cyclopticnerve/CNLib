@@ -1,7 +1,7 @@
 {
     "PUB_META": {
         "META_SHORT_DESC": "A Python library containing useful functions and classes",
-        "META_VERSION": "1.5.1",
+        "META_VERSION": "1.6.0",
         "META_KEYWORDS": [
             "python",
             "pyplate",
@@ -29,7 +29,10 @@
             "LICENSE.txt",
             "requirements.txt",
             "**/__pycache__",
-            "**/*.egg-info"
+            "**/*.egg-info",
+            "**/cndecorator.py",
+            "**/cndecorator_params.py",
+            "tree.txt"
         ],
         "SKIP_CONTENTS": [
             "**/*.png",
@@ -73,7 +76,7 @@
         "pyproject.toml": ""
     },
     "PUB_DOCS": {
-        "DOCS_THEME": "",
+        "DOCS_THEME": "readthedocs",
         "DOCS_USE_RM": true,
         "DOCS_MAKE_API": true,
         "DOCS_DIR_API": [

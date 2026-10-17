@@ -1,2 +1,0 @@
-# cntree.py
-::: cnlib.cntree

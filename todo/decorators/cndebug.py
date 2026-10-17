@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Project : CNLib                                                  /          \
+# Package :CNLib                                                  /          \
 # Filename: cndebug.py                                            |     ()     |
 # Date    : 08/25/2026                                            |            |
 # Author  : cyclopticnerve                                        |   \____/   |
@@ -22,6 +22,8 @@ from cnlib import cnfunctions as F
 # Public functions
 # ------------------------------------------------------------------------------
 
+G_TAB = 0
+
 
 # ------------------------------------------------------------------------------
 # Print the enter/result/exit messages
@@ -33,11 +35,15 @@ def debug(func):
 
     # NB: at the end of the day, this is what gets run
     def wrapper(*args, **kwargs):
-        F.printd(f"debug enter: {func.__name__}")
+        global G_TAB
+        indent_str = G_TAB * "    "
+        G_TAB += 1
+        F.printd(f"{indent_str}debug enter: {func.__name__}")
         res = func(*args, **kwargs)
         # NB: F.pf returns a formatted string, BUT DOES NOT PRINT
-        F.printd(f"debug result: {F.pf(res)}")
-        F.printd(f"debug exit: {func.__name__}")
+        F.printd(f"{indent_str}debug result: {F.pf(res)}")
+        F.printd(f"{indent_str}debug exit: {func.__name__}")
+        G_TAB -= 1
         return res
 
     return wrapper

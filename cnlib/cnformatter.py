@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Project : CNLib                                                  /          \
+# Package :CNLib                                                  /          \
 # Filename: cnformatter.py                                        |     ()     |
 # Date    : 03/22/2024                                            |            |
 # Author  : cyclopticnerve                                        |   \____/   |
