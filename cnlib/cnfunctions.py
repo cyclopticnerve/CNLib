@@ -218,17 +218,17 @@ def pascal_case(a_str):
 # ------------------------------------------------------------------------------
 # Pretty print a dict
 # ------------------------------------------------------------------------------
-def dpretty(dict_print, indent_size=4, indent_level=0, label=None):
+def dpretty(dict_print, label=None, indent_size=4, indent_level=0):
     """
     Pretty print a dict
 
     Args:
         dict_print: The dictionary to print
+        label: The string to use as a label (default: None)
         indent_size: The number of spaces to use for each indent level
         (default: 4)
         indent_level: The number of indent levels to use for this part of the
         print process (default: 0)
-        label: The string to use as a label (default: None)
 
     Returns:
         The formatted string to print
@@ -273,9 +273,9 @@ def dpretty(dict_print, indent_size=4, indent_level=0, label=None):
             ret = (
                 lpretty(
                     v,
+                    label=None,
                     indent_size=indent_size,
                     indent_level=indent_level + 1,
-                    label=None,
                 )
                 + "\n"
             )
@@ -320,17 +320,17 @@ def dpretty(dict_print, indent_size=4, indent_level=0, label=None):
 # ------------------------------------------------------------------------------
 # Pretty print a list
 # ------------------------------------------------------------------------------
-def lpretty(list_print, indent_size=4, indent_level=0, label=None):
+def lpretty(list_print, label=None, indent_size=4, indent_level=0):
     """
     Pretty print a list
 
     Args:
         list_print: The list to print
+        label: The string to use as a label (default: None)
         indent_size: The number of spaces to use for each indent level
         (default: 4)
         indent_level: The number of indent levels to use for this part of the
         print process (default: 0)
-        label: The string to use as a label (default: None)
 
     Returns:
         The formatted string to print
@@ -417,15 +417,15 @@ def lpretty(list_print, indent_size=4, indent_level=0, label=None):
 # ------------------------------------------------------------------------------
 # Pretty format a list or dictionary (or a scalar)
 # ------------------------------------------------------------------------------
-def pf(obj, indent_size=4, label=None):
+def pf(obj, label=None, indent_size=4):
     """
     Pretty format a dictionary or list (or a scalar)
 
     Args:
         obj: The dictionary, list, scalar to print
+        label: The string to use as a label (default: None)
         indent_size: The number of spaces to use for each indent level
         (default: 4)
-        label: The string to use as a label (default: None)
 
     Returns:
         The object formatted for printing
@@ -444,9 +444,9 @@ def pf(obj, indent_size=4, label=None):
 
     # call different pretty functions depending on the object type
     if isinstance(obj, dict):
-        result = dpretty(obj, indent_size, 0, label)
+        result = dpretty(obj, label, indent_size, 0)
     elif isinstance(obj, list):
-        result = lpretty(obj, indent_size, 0, label)
+        result = lpretty(obj, label, indent_size, 0)
     else:
         # raise OSError(S_ERR_NOT_DICT_OR_LIST)
         result = str(obj)
@@ -458,15 +458,15 @@ def pf(obj, indent_size=4, label=None):
 # ------------------------------------------------------------------------------
 # Pretty print a list or dictionary
 # ------------------------------------------------------------------------------
-def pp(obj, indent_size=4, label=None):
+def pp(obj, label=None, indent_size=4):
     """
     Pretty print a dictionary or list
 
     Args:
         obj: The dictionary or list to print
+        label: The string to use as a label (default: None)
         indent_size: The number of spaces to use for each indent level
         (default: 4)
-        label: The string to use as a label (default: None)
 
     Returns:
         The object formatted for printing
@@ -481,7 +481,7 @@ def pp(obj, indent_size=4, label=None):
     """
 
     # run params through pf to get a string
-    res = pf(obj, indent_size, label)
+    res = pf(obj, label, indent_size)
 
     # print the result
     print(res)

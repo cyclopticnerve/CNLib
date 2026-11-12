@@ -1,0 +1,8 @@
+new project
+    1. src_code : write code using step 1
+    2. extract  : strings to pot using step 2 -> domain.pot
+    3. init     : create a po for Spanish using step 3 -> es.po
+    4. update   : to make sure es.po has all strings in domain.pot
+    5. translate: strings in es.po, copy/paste/replace...
+    6. compile  : es.po to domain.mo in proper dir
+    7. run      : LANGUAGE=es python3 s1_source.py -> display strs in Spanish

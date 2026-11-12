@@ -23,7 +23,7 @@ If you want to know why the imports look the way they do (AND WORK!!!), see:
 from cnlib import cnfunctions as F
 
 # NB: imports are relative to the dir with the "pyproject.toml" file
-from tests.cnpot_test.helpers.i18n import potpy
+from tests.old.cnpot_test.helpers.i18n import potpy
 
 print("running run.py with import")
 

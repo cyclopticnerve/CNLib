@@ -85,7 +85,7 @@ potpy = None
 
 # create singleton CNPotPy
 try:
-    potpy = cnpot.CNPotPy(
+    potpy = cnpot.CNPot(
         # start searching from here
         # path must be absolute
         project_path=_P_DIR_PRJ,
@@ -142,13 +142,13 @@ except ValueError as e:
 # ------------------------------------------------------------------------------
 
 # get alias to underscore function
-_ = str
-if potpy:
-    _ = potpy.underscore()
+# _ = str
+# if potpy:
+#     _ = potpy.underscore()
 
 # test for empty translation
-string = _("")
-"""string = _(" ")"""
+# string = _("")
+# """string = _(" ")"""
 
 # ------------------------------------------------------------------------------
 # Code to run when called from command line
@@ -164,7 +164,7 @@ if __name__ == "__main__":
     # do the thing
     if potpy:
         try:
-        # "That's all, folks!" -- Mel Blanc
+            # "That's all, folks!" -- Mel Blanc
             potpy.main()
 
         # main raises OSError if xgt not found

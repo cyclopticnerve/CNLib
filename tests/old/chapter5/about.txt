@@ -1,0 +1,37 @@
+file structure
+--------------
+
+chapter5
+ + src
+   - source.py
+
+-------------------------------------------
+
+source.py
+---------
+
+# This assumes that the current working directory is "MyProject"
+
+import gettext
+from pathlib import Path
+
+# get a translation object
+tr = gettext.translation("MyProject", Path("i18n/locale"), fallback=True)
+
+# return translation object's gettext method
+_ = tr.gettext
+
+print(_("Hello World!"))
+
+
+MyProject
+ + i18n
+   + locale
+     + es
+       + LC_MESSAGES
+         - MyProject.mo
+   + po
+     - es.po
+   MyProject.pot
+ + src
+   - source.py

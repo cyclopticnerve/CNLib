@@ -1,6 +1,20 @@
 
 FIXME develop.py??? it is +x
 
+TODO: self install may not fix rel imports in production
+TODO: add --verbose and --version opts
+--verbose print output of each cmd
+TODO: add hidden --debug arg
+
+TODO: make a doc explaining cmd line steps
+extract, init, merge, format
+
+TODO: i18n'ed format strings are bad (or at least need numbered args)
+to allow translator to change order
+https://www.gnu.org/software/gettext/manual/html_node/No-custom-format-directives.html
+msgid = f"{0} is Hello, {1} is world"
+TODO: scan all clangs it knows, then scan clangs it doesn't know?
+
 TODO: test all modules with F.B_DEGUG = True
 TODO: harden all params with typing and path is abs/rel
 TODO: what is cnformatter's use?

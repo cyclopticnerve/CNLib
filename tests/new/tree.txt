@@ -1,0 +1,7 @@
+MyProject
+├── src
+│   ├── helpers
+│   │   ├── helper.py
+│   └── python
+│       └── source.py
+└──

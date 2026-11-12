@@ -1,0 +1,48 @@
+file structure
+--------------
+
+chapter 4
+MyProject
+ + src
+   - source.py
+
+-------------------------------------------
+
+source.py
+---------
+
+# This assumes that the current working directory is "MyProject"
+
+import gettext
+from pathlib import Path
+
+# get a translation object
+tr = gettext.translation("MyProject", Path("i18n/locale"), fallback=True)
+
+# return translation object's gettext method
+_ = tr.gettext
+
+print(_("Hello World!"))
+
+
+MyProject
+ + i18n
+   + locale
+     + es
+       + LC_MESSAGES
+         - MyProject.mo
+   + po
+     - es.po
+   MyProject.pot
+ + src
+   - source.py
+
+
+find marked string:
+r"(^|\s*)_\(\s*[\"\'](.+?)[\"\']\s*\)|#.*"
+any match with group 2 is string = group 2 is msgid
+https://regex101.com/r/jP1Dda/5
+
+find marked strin g in xml:
+r"<property.*(translatable=\"yes\").*(context=\".*\").*(comments=\".*\">)\s*(.*)\s</property>"gs
+https://regex101.com/r/Aldgay/1
