@@ -100,16 +100,16 @@ class CNPot:
         "--force-po "
         # sort entries by file
         "--sort-by-file "
-        # TODO: test this
-        "--copyright-holder= "
         # fix license string
+        # NB: param is self._str_copyright
+        "--copyright-holder={} "
         # NB: param is self._str_domain
         "--package-name={} "
         # set version number
         # NB: param is self._str_version
         "--package-version={} "
         # set email address for bugs
-        # NB: param is self._str_email
+        # NB: param is self._str_bugs_email
         "--msgid-bugs-address={} "
         # path(s) to src files
         # NB: param is str_clang_files
@@ -187,14 +187,14 @@ class CNPot:
     # NB: format param is self._str_domain
     _R_TITLE_REP = r"# {} translation template"
     # copyright
-    # _R_COPY_SCH = (
-    #     r"(# Copyright \(C\) )(YEAR)( )(THE PACKAGE'S COPYRIGHT HOLDER)"
-    # )
-    # NB: format params are current year and author param
+    _R_COPY_SCH = (
+        r"(# Copyright \(C\) )(YEAR)( )(THE PACKAGE'S COPYRIGHT HOLDER)"
+    )
+    # NB: format params are current year and copyright param
     _R_COPY_REP = r"\g<1>{}\g<3>{}"
-    # author email
+    # first author
     _R_AUTH_SCH = r"(# FIRST AUTHOR )(<EMAIL@ADDRESS>)(, )(YEAR)"
-    # NB: format params are email param and current year
+    # NB: format params are first_author param and current year
     _R_AUTH_REP = r"\g<1>{}\g<3>{}"
     # wlang inside file
     _R_LANG_SCH = r"(\"Language: )(.*?)(\\n\")"
@@ -267,6 +267,7 @@ class CNPot:
     # --------------------------------------------------------------------------
     def __init__(
         # TODO: what params in common w msgfmt/etc
+        # TODO: copyright, first author, bugs
         self,
         # ----------------------------------------------------------------------
         # input
@@ -290,10 +291,12 @@ class CNPot:
         # meta
         # project version
         version: str | None = None,
-        # project author
-        author: str | None = None,
-        # project author email
-        email: str | None = None,
+        # copyright holder (usually author email)
+        copyright_str: str | None = None,
+        # bugs email (usually author email)
+        bugs_email: str | None = None,
+        # first author (usually author email)
+        first_author: str | None = None,
         # tag to stop regressive context search
         tag: CNPotTag | str | None = None,
         # ----------------------------------------------------------------------
@@ -341,10 +344,12 @@ class CNPot:
                 project_path.name)
             version: The version string to use in .pot/.po header. (default:
                 None, do not replace)
-            author: The author name to use in .pot/.po header. (default: None,
-                do not replace)
-            email: The email to use in .pot/.po header. (default: None, do not
-                replace)
+            copyright_str: name of copyright holder (usually author email).
+                    (default: None, do not replace)
+            bugs_email: email or website to report bugs (usually author email).
+                (default: None, do not replace)
+            first_author: The "first author" name to use in .pot/.po header
+                (usually author email). (default: None, do not replace)
             tag: The string that signifies a valid comment. If the value is
                 None, no comments are included. If the value is an empty string
                 (""), all comments above the string are included, until a
@@ -463,8 +468,9 @@ class CNPot:
 
         # just store args as props (none/empty/whatever)
         self._str_version = version
-        self._str_author = author
-        self._str_email = email
+        self._str_copyright = copyright_str
+        self._str_bugs_email = bugs_email
+        self._str_first_author = first_author
 
         # TODO: tags
         # tag == None or "" or 0, don't include -c in xgt cmd
@@ -532,8 +538,9 @@ class CNPot:
 
         print("----- meta -----")
         # print("self._str_version:", self._str_version)
-        # print("self._str_author:", self._str_author)
-        # print("self._str_email:", self._str_email)
+        # print("self._str_copyright:", self._str_copyright)
+        # print("self._str_bugs_email:", self._str_bugs_email)
+        # print("self._str_first_author:", self._str_first_author)
         print("self._opt_tag:", self._opt_tag)
 
         # print("----- desktop -----")
@@ -684,10 +691,10 @@ class CNPot:
                 f'"{str(self._path_pot)}"',  # output
                 clang_name,  # language
                 self._opt_tag,  # --add-comments
-                # self._str_email,  # --copyright-holder
+                self._str_copyright,  # --copyright-holder
                 self._str_domain,  # --package-name
                 self._str_version,  # --package-version
-                self._str_email,  # --msgid-bugs-address
+                self._str_bugs_email,  # --msgid-bugs-address
                 str_clang_files,  # list of quoted files to scan
             )
 
@@ -1132,18 +1139,19 @@ class CNPot:
         str_rep = self._R_TITLE_REP.format(self._str_domain)
         text = re.sub(str_pattern, str_rep, text)
 
+        # TODO: fixed in _S_CMD_XGETTEXT?
         # replace copyright holder
-        # if self._str_author:
+        # if self._str_copyright:
         #     str_pattern = self._R_COPY_SCH
         #     year = date.today().year
-        #     str_rep = self._R_COPY_REP.format(year, self._str_author)
+        #     str_rep = self._R_COPY_REP.format(year, self._str_copyright)
         #     text = re.sub(str_pattern, str_rep, text)
 
         # replace first author email
-        if self._str_email:
+        if self._str_first_author:
             str_pattern = self._R_AUTH_SCH
             year = date.today().year
-            str_rep = self._R_AUTH_REP.format(self._str_email, year)
+            str_rep = self._R_AUTH_REP.format(self._str_first_author, year)
             text = re.sub(str_pattern, str_rep, text)
 
         # make all locations relative to project dir

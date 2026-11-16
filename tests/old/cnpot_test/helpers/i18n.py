@@ -101,12 +101,15 @@ try:
         # version
         # default: None
         version="0.0.1",
-        # author
+        # copyright holder
+        # defualt: None
+        copyright_str="cyclopticnerve",
+        # bugs email (NOT translator)
         # default: None
-        author="cyclopticnerve",
-        # author's email (NOT translator)
+        bugs_email="cyclopticnerve@gmail.com",
+        # first author
         # default: None
-        email="cyclopticnerve@gmail.com",
+        first_author="cyclopticnerve@gmail.com",
         # the tag to stop regressive context/comment search
         # default: None
         tag="I18N",

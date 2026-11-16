@@ -6,7 +6,7 @@ from pathlib import Path
 
 # constants
 DOMAIN = "domain"
-PATH_I18N = Path(__file__).parents[2].absolute() / "i18n"
+PATH_I18N = Path(__file__).parents[2].resolve() / "i18n"
 PATH_LOCALE = PATH_I18N / "locale"
 
 # get gettext stuff
